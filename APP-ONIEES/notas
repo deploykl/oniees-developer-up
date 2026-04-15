@@ -2,3 +2,25 @@
 
 
         // \App\Http\Middleware\TrustHosts::class,
+
+
+
+DESACTIVAR FIREWALL
+netsh advfirewall set allprofiles state off  
+
+ACTIVAR
+FIREWALL
+netsh advfirewall set allprofiles state on
+
+PARA CORRER EN RED ES 
+        php artisan serve --host=0.0.0.0 --port=80
+
+
+PARA RED COMNANDOS :
+        VITE : pnpm run dev
+        LARAVEL : php artisan serve --host=0.0.0.0 --port=80
+
+EL .ENV MOD 
+        #APP_URL=http://localhost
+        #DEV LOCAL
+        APP_URL=http://172.27.0.150

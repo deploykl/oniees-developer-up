@@ -8,4 +8,11 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {   // ADD
+        host: '0.0.0.0',  // ADD
+        port: 5173,       // ADD
+        hmr: {              //ADD
+            host: '172.27.0.150',  // O tu IP local
+        },
+    },
 });
