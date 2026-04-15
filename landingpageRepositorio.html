@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Enlaces + Power BI · Dashboard Modal</title>
+  <!-- Tailwind CSS v3 + Font Awesome 6 + Google Fonts Inter -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2c3e66',
+            subtle: '#f8fafc',
+            card: '#ffffff',
+            borderLight: '#eef2f6',
+            textMuted: '#5b6e8c',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft': '0 8px 20px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.03)',
+            'card': '0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 2px 4px rgba(0,0,0,0.02)',
+            'hover': '0 20px 30px -12px rgba(0, 0, 0, 0.08)',
+            'modal': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Scroll suave y estilos modales */
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: #ffffff;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f4;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 8px;
+    }
+    .link-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
+    }
+    .link-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.08);
+      border-color: #e2e8f0;
+    }
+    .active-section {
+      background-color: #f1f5f9;
+      border-left: 3px solid #2c3e66;
+      font-weight: 500;
+    }
+    .sidebar-item {
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .sidebar-item:hover:not(.active-section) {
+      background-color: #f8fafc;
+      border-left: 3px solid #cbd5e1;
+    }
+    /* modal animación */
+    .modal-backdrop {
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      transition: opacity 0.2s ease;
+    }
+    .modal-container {
+      width: 95vw;
+      max-width: 95vw;
+      height: 95vh;
+      max-height: 95vh;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .powerbi-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #f3f2f0; /* color neutro para carga */
+    }
+    @media (max-width: 640px) {
+      .modal-container {
+        width: 95vw;
+        height: 90vh;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-gray-800 bg-white">
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <!-- HEADER principal -->
+    <div class="mb-12 border-b border-gray-100 pb-6">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-semibold tracking-tight text-[#1e2a44]">
+            <i class="fa-regular fa-folder-open text-[#2c3e66] mr-3"></i>
+            Repositorio de Enlaces
+          </h1>
+          <p class="text-textMuted mt-2 text-base max-w-2xl">
+            Colección curada de recursos digitales · infraestructura, equipamiento y establecimientos
+          </p>
+        </div>
+        <div class="text-sm text-textMuted flex items-center gap-2">
+          <button id="openPowerBiModalBtn" class="inline-flex items-center gap-2 px-4 py-2 bg-primary/5 hover:bg-primary/10 text-primary rounded-full transition-all text-sm font-medium border border-primary/20">
+            <i class="fa-regular fa-chart-line"></i>
+            <span>Ver Dashboard Power BI</span>
+            <i class="fa-regular fa-expand text-xs"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAYOUT: SIDEBAR + CONTENIDO PRINCIPAL -->
+    <div class="flex flex-col lg:flex-row gap-8">
+      
+      <!-- SIDEBAR: menú de subtítulos + imagen elegante -->
+      <aside class="lg:w-72 w-full flex-shrink-0">
+        <div class="sticky top-8 space-y-6">
+          <!-- Panel navegación minimal -->
+          <div class="bg-card rounded-2xl border border-borderLight shadow-soft overflow-hidden">
+            <div class="px-5 pt-5 pb-2 border-b border-gray-100 flex items-center gap-2">
+              <i class="fa-regular fa-compass text-primary text-lg"></i>
+              <h2 class="font-medium text-gray-700 text-sm uppercase tracking-wide">Navegación</h2>
+            </div>
+            <div class="py-2 px-2 flex flex-col">
+              <a href="#infraestructura" data-section="infraestructura" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 text-sm transition">
+                <i class="fa-regular fa-building w-5 text-primary/70"></i>
+                <span>Infraestructura</span>
+              </a>
+              <a href="#equipamiento" data-section="equipamiento" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 text-sm transition">
+                <i class="fa-regular fa-microchip w-5 text-primary/70"></i>
+                <span>Equipamiento</span>
+              </a>
+              <a href="#establecimientos" data-section="establecimientos" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 text-sm transition">
+                <i class="fa-regular fa-store w-5 text-primary/70"></i>
+                <span>Establecimientos</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- IMAGEN + menú lateral decorativo -->
+          <div class="rounded-2xl border border-borderLight bg-subtle/40 overflow-hidden shadow-soft transition-all hover:shadow-hover">
+            <div class="relative h-32 bg-gradient-to-br from-[#eef2ff] to-[#f9fafb] flex items-center justify-center">
+              <i class="fa-regular fa-chart-pie text-5xl text-primary/20 absolute"></i>
+              <div class="relative z-2 text-center">
+                <i class="fa-regular fa-panorama text-3xl text-primary/40"></i>
+              </div>
+            </div>
+            <div class="p-5 text-center">
+              <div class="flex justify-center mb-2">
+                <div class="bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-sm">
+                  <i class="fa-regular fa-link text-primary text-xl"></i>
+                </div>
+              </div>
+              <h3 class="font-medium text-gray-800">Power BI integrado</h3>
+              <p class="text-xs text-textMuted mt-1">Click en el botón superior o accede al dashboard</p>
+              <div class="mt-3 flex flex-wrap gap-1 justify-center">
+                <span class="inline-block w-2 h-2 rounded-full bg-primary/30"></span>
+                <span class="inline-block w-2 h-2 rounded-full bg-primary/50"></span>
+                <span class="inline-block w-2 h-2 rounded-full bg-primary/70"></span>
+              </div>
+            </div>
+          </div>
+          <div class="hidden lg:block text-center text-xs text-textMuted pt-4">
+            <i class="fa-regular fa-chart-line mr-1"></i> Dashboard interactivo
+          </div>
+        </div>
+      </aside>
+
+      <!-- CONTENIDO PRINCIPAL: SECCIONES DE ENLACES -->
+      <div class="flex-1 space-y-12 md:space-y-14">
+        
+        <!-- INFRAESTRUCTURA -->
+        <section id="infraestructura" class="scroll-mt-24">
+          <div class="flex items-center gap-3 mb-6 pb-1 border-b border-gray-100">
+            <div class="w-1 h-7 bg-primary rounded-full"></div>
+            <h2 class="text-2xl font-semibold tracking-tight text-gray-800">Infraestructura</h2>
+            <span class="text-xs font-normal bg-gray-100 px-2 py-0.5 rounded-full text-gray-600">3 recursos</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Cada enlace abre en modal (ventana emergente) con la URL correspondiente -->
+            <div data-url="https://app.powerbi.com/view?r=eyJrIjoiM2VlYmFjYzktYTZkNy00YjRjLTlmMjYtNGU2ZmYxYTEyNTM0IiwidCI6Ijc5MDVjMWZjLTkzM2MtNDUyYS04YjgzLWIyZTU2NDU1ZDE2YSIsImMiOjR9" class="link-card open-link-modal block bg-card rounded-xl border border-borderLight p-5 shadow-card hover:shadow-hover transition-all duration-200 cursor-pointer">
+              <div class="flex items-start justify-between">
+                <div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary/10 transition">
+                  <i class="fa-regular fa-hard-drive text-lg"></i>
+                </div>
+                <i class="fa-regular fa-arrow-up-right-from-square text-textMuted/50 text-sm"></i>
+              </div>
+              <h3 class="font-semibold text-gray-800 mt-4 text-base">Centro de Datos Regional</h3>
+              <p class="text-textMuted text-sm mt-1 line-clamp-2">Plataforma de servidores y redes de alta disponibilidad.</p>
+              <div class="mt-3 text-xs text-primary/70 truncate">infraestructura.gob/datacenter</div>
+            </div>
+            <div data-url="https://app.powerbi.com/view?r=eyJrIjoiYTgzYzEwNjItMzliMS00MmNkLWE2NTMtMjg1YzE1NzEyNDUyIiwidCI6Ijc5MDVjMWZjLTkzM2MtNDUyYS04YjgzLWIyZTU2NDU1ZDE2YSIsImMiOjR9" class="link-card open-link-modal block bg-card rounded-xl border border-borderLight p-5 shadow-card hover:shadow-hover transition cursor-pointer">
+              <div class="flex items-start justify-between">
+                <div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+                  <i class="fa-regular fa-hard-drive text-lg"></i>
+                </div>
+                <i class="fa-regular fa-arrow-up-right-from-square text-textMuted/50 text-sm"></i>
+              </div>
+              <h3 class="font-semibold text-gray-800 mt-4">Red de Fibra Óptica Nacional</h3>
+              <p class="text-textMuted text-sm mt-1">Cobertura metropolitana y nodos de conectividad.</p>
+              <div class="mt-3 text-xs text-primary/70 truncate">conectividad.gob/fibra</div>
+            </div>
+            <div data-url="https://app.powerbi.com/view?r=eyJrIjoiMjZlZjg0YWUtZjZkMS00OTRkLWIxNzYtNjY3OTJlODg3NmM0IiwidCI6Ijc5MDVjMWZjLTkzM2MtNDUyYS04YjgzLWIyZTU2NDU1ZDE2YSIsImMiOjR9" class="link-card open-link-modal block bg-card rounded-xl border border-borderLight p-5 shadow-card hover:shadow-hover transition cursor-pointer">
+              <div class="flex items-start justify-between">
+                <div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+                  <i class="fa-regular fa-hard-drive text-lg"></i>
+                </div>
+                <i class="fa-regular fa-arrow-up-right-from-square text-textMuted/50 text-sm"></i>
+              </div>
+              <h3 class="font-semibold text-gray-800 mt-4">Plataforma Cloud Institucional</h3>
+              <p class="text-textMuted text-sm mt-1">Infraestructura como servicio para entidades públicas.</p>
+              <div class="mt-3 text-xs text-primary/70 truncate">cloud.entidad.gob</div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- EQUIPAMIENTO -->
+        <section id="equipamiento" class="scroll-mt-24">
+          <div class="flex items-center gap-3 mb-6 pb-1 border-b border-gray-100">
+            <div class="w-1 h-7 bg-primary rounded-full"></div>
+            <h2 class="text-2xl font-semibold tracking-tight text-gray-800">Equipamiento</h2>
+            <span class="text-xs font-normal bg-gray-100 px-2 py-0.5 rounded-full text-gray-600">3 recursos</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div data-url="https://ejemplo.com/equipamiento/estaciones-trabajo" class="link-card open-link-modal block bg-card rounded-xl border border-borderLight p-5 shadow-card hover:shadow-hover transition cursor-pointer">
+              <div class="flex items-start justify-between">
+                <div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+                  <i class="fa-regular fa-hard-drive text-lg"></i>
+                </div>
+                <i class="fa-regular fa-arrow-up-right-from-square text-textMuted/50"></i>
+              </div>
+              <h3 class="font-semibold text-gray-800 mt-4">Estaciones de Trabajo Avanzadas</h3>
+              <p class="text-textMuted text-sm mt-1">Hardware para diseño, simulación y análisis de datos.</p>
+              <div class="mt-3 text-xs text-primary/70 truncate">equipamiento.tec/estaciones</div>
+            </div>
+            <div data-url="https://ejemplo.com/equipamiento/equipos-medicos" class="link-card open-link-modal block bg-card rounded-xl border border-borderLight p-5 shadow-card hover:shadow-hover transition cursor-pointer">
+              <div class="flex items-start justify-between">
+                <div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+                  <i class="fa-regular fa-hard-drive text-lg"></i>
+                </div>
+                <i class="fa-regular fa-arrow-up-right-from-square text-textMuted/50"></i>
+              </div>
+              <h3 class="font-semibold text-gray-800 mt-4">Equipos Médicos de Alta Precisión</h3>
+              <p class="text-textMuted text-sm mt-1">Tecnología para diagnóstico y laboratorios especializados.</p>
+              <div class="mt-3 text-xs text-primary/70 truncate">salud.equip/alta-tecnologia</div>
+            </div>
+            <div data-url="https://ejemplo.com/equipamiento/iot-gateways" class="link-card open-link-modal block bg-card rounded-xl border border-borderLight p-5 shadow-card hover:shadow-hover transition cursor-pointer">
+              <div class="flex items-start justify-between">
+                <div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+                  <i class="fa-regular fa-hard-drive text-lg"></i>
+                </div>
+                <i class="fa-regular fa-arrow-up-right-from-square text-textMuted/50"></i>
+              </div>
+              <h3 class="font-semibold text-gray-800 mt-4">Infraestructura de Red IoT</h3>
+              <p class="text-textMuted text-sm mt-1">Sensores y gateways para ciudades inteligentes.</p>
+              <div class="mt-3 text-xs text-primary/70 truncate">iot.innovacion.gob</div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ESTABLECIMIENTOS -->
+        <section id="establecimientos" class="scroll-mt-24">
+          <div class="flex items-center gap-3 mb-6 pb-1 border-b border-gray-100">
+            <div class="w-1 h-7 bg-primary rounded-full"></div>
+            <h2 class="text-2xl font-semibold tracking-tight text-gray-800">Establecimientos</h2>
+            <span class="text-xs font-normal bg-gray-100 px-2 py-0.5 rounded-full text-gray-600">3 recursos</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div data-url="https://ejemplo.com/establecimientos/centros-educativos" class="link-card open-link-modal block bg-card rounded-xl border border-borderLight p-5 shadow-card hover:shadow-hover transition cursor-pointer">
+              <div class="flex items-start justify-between">
+                <div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+                  <i class="fa-regular fa-hard-drive text-lg"></i>
+                </div>
+                <i class="fa-regular fa-arrow-up-right-from-square text-textMuted/50"></i>
+              </div>
+              <h3 class="font-semibold text-gray-800 mt-4">Centros Educativos Digitales</h3>
+              <p class="text-textMuted text-sm mt-1">Red de escuelas con conectividad y laboratorios de innovación.</p>
+              <div class="mt-3 text-xs text-primary/70 truncate">educacion.gob/centros-digitales</div>
+            </div>
+            <div data-url="https://ejemplo.com/establecimientos/hospitales-inteligentes" class="link-card open-link-modal block bg-card rounded-xl border border-borderLight p-5 shadow-card hover:shadow-hover transition cursor-pointer">
+              <div class="flex items-start justify-between">
+                <div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+                  <i class="fa-regular fa-hard-drive text-lg"></i>
+                </div>
+                <i class="fa-regular fa-arrow-up-right-from-square text-textMuted/50"></i>
+              </div>
+              <h3 class="font-semibold text-gray-800 mt-4">Hospitales Inteligentes</h3>
+              <p class="text-textMuted text-sm mt-1">Gestión integrada y equipos de última generación.</p>
+              <div class="mt-3 text-xs text-primary/70 truncate">hospitaldigital.salud</div>
+            </div>
+            <div data-url="https://ejemplo.com/establecimientos/sedes-administrativas" class="link-card open-link-modal block bg-card rounded-xl border border-borderLight p-5 shadow-card hover:shadow-hover transition cursor-pointer">
+              <div class="flex items-start justify-between">
+                <div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+                  <i class="fa-regular fa-hard-drive text-lg"></i>
+                </div>
+                <i class="fa-regular fa-arrow-up-right-from-square text-textMuted/50"></i>
+              </div>
+              <h3 class="font-semibold text-gray-800 mt-4">Sedes Administrativas</h3>
+              <p class="text-textMuted text-sm mt-1">Oficinas de atención ciudadana con tecnología moderna.</p>
+              <div class="mt-3 text-xs text-primary/70 truncate">atencion.gob/sedes</div>
+            </div>
+          </div>
+        </section>
+
+        <div class="pt-8 mt-6 border-t border-gray-100 text-center text-textMuted text-xs flex justify-center gap-4">
+          <span><i class="fa-regular fa-copyright mr-1"></i> Repositorio de enlaces</span>
+          <span><i class="fa-regular fa-arrow-pointer"></i> clic en tarjeta → abre modal</span>
+          <span><i class="fa-regular fa-chart-line"></i> Dashboard Power BI integrado</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL PARA POWER BI (90% ancho) + MODAL PARA ENLACES EXTERNOS -->
+  <div id="powerBiModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible transition-all duration-200" aria-hidden="true">
+    <div class="modal-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="modal-container relative bg-white rounded-2xl shadow-modal overflow-hidden flex flex-col">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white/95">
+        <div class="flex items-center gap-2">
+          <i class="fa-regular fa-chart-line text-primary text-xl"></i>
+          <h3 class="font-semibold text-gray-800">Dashboard Power BI · Análisis y métricas</h3>
+        </div>
+        <button id="closePowerBiModalBtn" class="text-gray-400 hover:text-gray-600 transition-all text-xl leading-none w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100">
+          <i class="fa-regular fa-xmark"></i>
+        </button>
+      </div>
+      <div class="flex-1 w-full bg-gray-50">
+        <iframe class="powerbi-iframe" src="https://app.powerbi.com/view?r=eyJrIjoiM2VlYmFjYzktYTZkNy00YjRjLTlmMjYtNGU2ZmYxYTEyNTM0IiwidCI6Ijc5MDVjMWZjLTkzM2MtNDUyYS04YjgzLWIyZTU2NDU1ZDE2YSIsImMiOjR9" title="Power BI Dashboard" allowfullscreen="true"></iframe>
+      </div>
+      <div class="px-6 py-3 bg-white/80 text-xs text-textMuted border-t border-gray-100 flex justify-between">
+        <span><i class="fa-regular fa-expand mr-1"></i> Visualización interactiva</span>
+        <span>Fuente: Power BI Embedded</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL GENÉRICO PARA ENLACES (también 90% width) -->
+  <div id="genericLinkModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible transition-all duration-200" aria-hidden="true">
+    <div class="modal-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="modal-container relative bg-white rounded-2xl shadow-modal overflow-hidden flex flex-col">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white/95">
+        <div class="flex items-center gap-2">
+          <i class="fa-regular fa-link text-primary text-xl"></i>
+          <h3 id="genericModalTitle" class="font-semibold text-gray-800">Enlace externo</h3>
+        </div>
+        <button id="closeGenericModalBtn" class="text-gray-400 hover:text-gray-600 transition-all text-xl leading-none w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100">
+          <i class="fa-regular fa-xmark"></i>
+        </button>
+      </div>
+      <div class="flex-1 w-full bg-white">
+        <iframe id="genericIframe" class="w-full h-full border-none" title="Contenido externo" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"></iframe>
+      </div>
+      <div class="px-6 py-3 bg-gray-50 text-xs text-textMuted border-t border-gray-100 flex justify-between">
+        <span><i class="fa-regular fa-arrow-up-right-from-square mr-1"></i> Contenido embebido</span>
+        <button id="openInNewTabBtn" class="text-primary hover:underline flex items-center gap-1"><i class="fa-regular fa-external-link"></i> Abrir en nueva pestaña</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ---------- ELEMENTOS MODAL POWER BI ----------
+      const powerBiModal = document.getElementById('powerBiModal');
+      const openPowerBtn = document.getElementById('openPowerBiModalBtn');
+      const closePowerBtn = document.getElementById('closePowerBiModalBtn');
+
+      // ---------- MODAL PARA ENLACES GENÉRICOS ----------
+      const genericModal = document.getElementById('genericLinkModal');
+      const genericIframe = document.getElementById('genericIframe');
+      const genericModalTitle = document.getElementById('genericModalTitle');
+      const closeGenericBtn = document.getElementById('closeGenericModalBtn');
+      const openInNewTabBtn = document.getElementById('openInNewTabBtn');
+      
+      let currentGenericUrl = '';
+
+      // Funciones auxiliares para modales
+      function openModal(modalElement) {
+        if (!modalElement) return;
+        modalElement.classList.remove('opacity-0', 'invisible');
+        modalElement.classList.add('opacity-100', 'visible');
+        modalElement.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal(modalElement) {
+        if (!modalElement) return;
+        modalElement.classList.remove('opacity-100', 'visible');
+        modalElement.classList.add('opacity-0', 'invisible');
+        modalElement.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        // Limpiar iframe para detener carga (mejor experiencia)
+        if (modalElement === genericModal && genericIframe) {
+          genericIframe.src = 'about:blank';
+        }
+      }
+
+      // Power BI modal events
+      if (openPowerBtn) {
+        openPowerBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openModal(powerBiModal);
+        });
+      }
+      if (closePowerBtn) {
+        closePowerBtn.addEventListener('click', () => closeModal(powerBiModal));
+      }
+      // Cerrar modal Power BI al hacer click en backdrop
+      powerBiModal?.addEventListener('click', (e) => {
+        if (e.target === powerBiModal || e.target.classList.contains('modal-backdrop')) {
+          closeModal(powerBiModal);
+        }
+      });
+
+      // ---------- MANEJO DE ENLACES DE LAS TARJETAS (MODAL 90%) ----------
+      const linkCards = document.querySelectorAll('.open-link-modal');
+      linkCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          // Evitar que si se hace clic en algún interior se propague mal
+          e.stopPropagation();
+          const url = card.getAttribute('data-url');
+          if (url && url !== '#') {
+            // Obtener título desde el h3 interno
+            const titleElem = card.querySelector('h3');
+            const cardTitle = titleElem ? titleElem.innerText : 'Enlace del repositorio';
+            genericModalTitle.innerText = cardTitle;
+            currentGenericUrl = url;
+            // Configurar iframe con la URL (se aplican políticas de seguridad, la mayoría de sitios permiten iframe)
+            genericIframe.src = url;
+            openModal(genericModal);
+          } else {
+            // Fallback: si no hay data-url, mostrar alerta
+            alert('Este enlace de demostración no tiene URL asignada. En un entorno real se configuraría correctamente.');
+          }
+        });
+      });
+
+      // Cerrar modal genérico desde botón
+      if (closeGenericBtn) {
+        closeGenericBtn.addEventListener('click', () => closeModal(genericModal));
+      }
+      // Cerrar con backdrop
+      genericModal?.addEventListener('click', (e) => {
+        if (e.target === genericModal || e.target.classList.contains('modal-backdrop')) {
+          closeModal(genericModal);
+        }
+      });
+      // Abrir en nueva pestaña
+      if (openInNewTabBtn) {
+        openInNewTabBtn.addEventListener('click', () => {
+          if (currentGenericUrl) {
+            window.open(currentGenericUrl, '_blank', 'noopener,noreferrer');
+          }
+        });
+      }
+
+      // Cerrar modales con tecla ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (powerBiModal && powerBiModal.classList.contains('visible')) {
+            closeModal(powerBiModal);
+          }
+          if (genericModal && genericModal.classList.contains('visible')) {
+            closeModal(genericModal);
+          }
+        }
+      });
+
+      // ---------- SIDEBAR ACTIVO POR SCROLL ----------
+      const sections = [
+        { id: 'infraestructura', link: document.querySelector('a[href="#infraestructura"]') },
+        { id: 'equipamiento', link: document.querySelector('a[href="#equipamiento"]') },
+        { id: 'establecimientos', link: document.querySelector('a[href="#establecimientos"]') }
+      ];
+      
+      function removeActiveClass() {
+        sections.forEach(section => {
+          if (section.link) {
+            section.link.classList.remove('active-section');
+            section.link.style.backgroundColor = '';
+            section.link.style.borderLeftColor = '';
+          }
+        });
+      }
+      
+      function setActiveFromScroll() {
+        const scrollPos = window.scrollY + 120;
+        let currentActiveId = null;
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const sectionElem = document.getElementById(sections[i].id);
+          if (sectionElem && scrollPos >= sectionElem.offsetTop) {
+            currentActiveId = sections[i].id;
+            break;
+          }
+        }
+        if (!currentActiveId && window.scrollY < 150) currentActiveId = 'infraestructura';
+        removeActiveClass();
+        if (currentActiveId) {
+          const activeSection = sections.find(s => s.id === currentActiveId);
+          if (activeSection && activeSection.link) {
+            activeSection.link.classList.add('active-section');
+            activeSection.link.style.backgroundColor = '#f1f5f9';
+            activeSection.link.style.borderLeft = '3px solid #2c3e66';
+          }
+        }
+      }
+      
+      window.addEventListener('load', setActiveFromScroll);
+      window.addEventListener('scroll', setActiveFromScroll);
+      
+      // Scroll suave al hacer clic en sidebar
+      const sidebarLinks = document.querySelectorAll('.sidebar-item');
+      sidebarLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            const yOffset = -20;
+            const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+            removeActiveClass();
+            this.classList.add('active-section');
+            this.style.backgroundColor = '#f1f5f9';
+            this.style.borderLeft = '3px solid #2c3e66';
+          }
+        });
+      });
+      
+      // Añadir estilos extra para consistencia
+      const style = document.createElement('style');
+      style.textContent = `
+        .sidebar-item.active-section {
+          background-color: #f1f5f9 !important;
+          border-left: 3px solid #2c3e66 !important;
+          font-weight: 500;
+        }
+        .sidebar-item {
+          border-left: 3px solid transparent;
+        }
+      `;
+      document.head.appendChild(style);
+    })();
+  </script>
+</body>
+</html>
