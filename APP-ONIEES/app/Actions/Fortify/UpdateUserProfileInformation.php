@@ -10,47 +10,40 @@ use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
-    /**
-     * Validate and update the given user's profile information.
-     *
-     * @param  array<string, mixed>  $input
-     */
     public function update(User $user, array $input): void
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
+            'lastname' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'cargo' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'photo' => ['nullable', 'mimes:jpg,jpeg,png,gif,webp', 'max:2048'],
         ])->validateWithBag('updateProfileInformation');
 
+        // Guardar la foto usando el método de Jetstream
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
         }
 
-        if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
-            $this->updateVerifiedUser($user, $input);
+        if ($input['email'] !== $user->email && $user instanceof MustVerifyEmail) {
+            $user->forceFill([
+                'name' => $input['name'],
+                'lastname' => $input['lastname'] ?? $user->lastname,
+                'phone' => $input['phone'] ?? $user->phone,
+                'cargo' => $input['cargo'] ?? $user->cargo,
+                'email' => $input['email'],
+                'email_verified_at' => null,
+            ])->save();
+            $user->sendEmailVerificationNotification();
         } else {
             $user->forceFill([
                 'name' => $input['name'],
+                'lastname' => $input['lastname'] ?? $user->lastname,
+                'phone' => $input['phone'] ?? $user->phone,
+                'cargo' => $input['cargo'] ?? $user->cargo,
                 'email' => $input['email'],
             ])->save();
         }
-    }
-
-    /**
-     * Update the given verified user's profile information.
-     *
-     * @param  array<string, string>  $input
-     */
-    protected function updateVerifiedUser(User $user, array $input): void
-    {
-        $user->forceFill([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'email_verified_at' => null,
-        ])->save();
-
-        $user->sendEmailVerificationNotification();
     }
 }

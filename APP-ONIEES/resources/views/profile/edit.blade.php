@@ -16,7 +16,7 @@
                     </a>
                 </div>
 
-                <!-- Información del perfil -->
+                <!-- Información del perfil (incluye foto) -->
                 <div class="mt-6">
                     @livewire('profile.update-profile-information-form')
                 </div>

@@ -13,12 +13,12 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Admin',
             'lastname' => 'Sistema',
-            'email' => 'admin@minsa.gob.pe',
+            'email' => 'angel1.lasl46@gmail.com',
             'password' => Hash::make('Starwar1'),
             'phone' => '999888777',
             'cargo' => 'Administrador',
             'tipo_rol' => 'admin',
-            'documento_identidad' => '12345678',
+            'documento_identidad' => '76921609',
         ]);
 
         User::create([

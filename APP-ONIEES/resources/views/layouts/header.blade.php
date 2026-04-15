@@ -49,11 +49,7 @@
                         <a href="{{ route('profile.edit') }}#password" class="dropdown-item">
                             <i class="fas fa-key"></i> Cambiar Contraseña
                         </a>
-                        @if(auth()->user()->hasTwoFactorEnabled())
-                            <a href="{{ route('two-factor.show') }}" class="dropdown-item">
-                                <i class="fas fa-shield-alt"></i> Autenticación 2FA
-                            </a>
-                        @endif
+                      
                         <div class="dropdown-divider"></div>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

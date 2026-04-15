@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,19 +12,11 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens;
-
-    /** @use HasFactory<UserFactory> */
     use HasFactory;
-
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'lastname',
@@ -44,14 +34,9 @@ class User extends Authenticatable
         'fecha_emision',
         'id_tipo_documento',
         'documento_identidad',
-        'profile_photo_path', // ← AGREGA ESTA LÍNEA
+        'profile_photo_path', // ✅ AGREGADO
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -59,20 +44,10 @@ class User extends Authenticatable
         'two_factor_secret',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array<int, string>
-     */
     protected $appends = [
         'profile_photo_url',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -81,19 +56,23 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * Get the user's full name.
-     */
     public function getFullNameAttribute(): string
     {
         return $this->name . ' ' . ($this->lastname ?? '');
     }
 
     /**
-     * Determine if two-factor authentication is enabled.
+     * Get the user's profile photo URL.
      */
-    public function hasTwoFactorEnabled(): bool
+    public function getProfilePhotoUrlAttribute()
     {
-        return ! is_null($this->two_factor_secret);
+        // Si tiene foto guardada en el storage
+        if ($this->profile_photo_path && file_exists(storage_path('app/public/' . $this->profile_photo_path))) {
+            return asset('storage/' . $this->profile_photo_path);
+        }
+        
+        // Si no tiene foto, mostrar avatar con iniciales
+        $name = urlencode($this->name . ' ' . ($this->lastname ?? ''));
+        return "https://ui-avatars.com/api/?background=1E3A5F&color=fff&size=128&name={$name}";
     }
 }
