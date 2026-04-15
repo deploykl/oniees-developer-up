@@ -44,6 +44,7 @@ class User extends Authenticatable
         'fecha_emision',
         'id_tipo_documento',
         'documento_identidad',
+        'profile_photo_path', // ← AGREGA ESTA LÍNEA
     ];
 
     /**
