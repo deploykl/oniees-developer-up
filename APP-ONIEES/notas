@@ -1,0 +1,4 @@
+1° crear proyecto composer create-project laravel/laravel oniees-developer-up
+
+
+        // \App\Http\Middleware\TrustHosts::class,
