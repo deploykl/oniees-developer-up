@@ -4,45 +4,86 @@
             <x-authentication-card-logo />
         </x-slot>
 
-        <x-validation-errors class="mb-4" />
-
-        @session('status')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ $value }}
-            </div>
-        @endsession
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+        <div class="space-y-6">
+            <!-- Título -->
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-gray-800">
+                    ¡Bienvenido!
+                </h2>
+                <p class="mt-2 text-sm text-gray-500">
+                    Inicia sesión para acceder a tu cuenta
+                </p>
             </div>
 
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
-            </div>
+            <!-- Mensaje de estado -->
+            @session('status')
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-check-circle text-green-500"></i>
+                        <span class="text-sm text-green-700">{{ $value }}</span>
+                    </div>
+                </div>
+            @endsession
 
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
+            <!-- Errores de validación -->
+            <x-validation-errors class="mb-4" />
 
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
+            <!-- Formulario -->
+            <form method="POST" action="{{ route('login') }}" class="space-y-5">
+                @csrf
 
-                <x-button class="ms-4">
-                    {{ __('Log in') }}
-                </x-button>
-            </div>
-        </form>
+                <!-- Campo Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                        <i class="fas fa-envelope text-gray-400 mr-1"></i> Correo Electrónico
+                    </label>
+                    <input id="email" 
+                        type="email" 
+                        name="email" 
+                        value="{{ old('email') }}"
+                        required 
+                        autofocus 
+                        autocomplete="username"
+                        placeholder="tu@email.com"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 outline-none">
+                </div>
+
+                <!-- Campo Contraseña -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                        <i class="fas fa-lock text-gray-400 mr-1"></i> Contraseña
+                    </label>
+                    <input id="password" 
+                        type="password" 
+                        name="password" 
+                        required 
+                        autocomplete="current-password"
+                        placeholder="••••••••"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 outline-none">
+                </div>
+
+                <!-- Recordarme y Olvidé contraseña -->
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" 
+                            name="remember" 
+                            id="remember_me" 
+                            value="1"
+                            {{ old('remember') ? 'checked' : '' }}
+                            class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        <span class="ml-2 text-sm text-gray-600">
+                            Recordarme
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Botón Iniciar Sesión -->
+                <button type="submit" 
+                    class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-2.5 px-4 rounded-lg transition duration-150 ease-in-out transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Iniciar Sesión
+                </button>
+            </form>
+        </div>
     </x-authentication-card>
 </x-guest-layout>
