@@ -1,7 +1,10 @@
 import './bootstrap';
 
-import Alpine from 'alpinejs';
+// No importes Alpine ni llames a Alpine.start()
+// Livewire lo gestiona por ti.
 
-window.Alpine = Alpine;
+import focus from '@alpinejs/focus';
 
-Alpine.start();
+document.addEventListener('livewire:init', () => {
+    window.Alpine.plugin(focus);
+});

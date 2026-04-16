@@ -1,98 +1,210 @@
 <x-action-section>
     <x-slot name="title">
-        {{ __('Browser Sessions') }}
+        <div class="flex items-center gap-2">
+            <i class="fas fa-globe text-blue-500"></i>
+            {{ __('Sesiones del navegador') }}
+        </div>
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Manage and log out your active sessions on other browsers and devices.') }}
+        {{ __('Administra y cierra sesiones activas en otros navegadores y dispositivos.') }}
     </x-slot>
 
     <x-slot name="content">
-        <div class="max-w-xl text-sm text-gray-600">
-            {{ __('If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.') }}
-        </div>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div class="max-w-xl text-sm text-gray-600 mb-4 flex items-start gap-2">
+                <i class="fas fa-info-circle text-blue-400 mt-0.5"></i>
+                <p>{{ __('Si es necesario, puedes cerrar todas tus otras sesiones de navegador en todos tus dispositivos. Algunas de tus sesiones recientes se enumeran a continuación; sin embargo, esta lista puede no ser exhaustiva. Si crees que tu cuenta se ha visto comprometida, también deberías actualizar tu contraseña.') }}
+                </p>
+            </div>
 
-        @if (count($this->sessions) > 0)
-            <div class="mt-5 space-y-6">
-                <!-- Other Browser Sessions -->
-                @foreach ($this->sessions as $session)
-                    <div class="flex items-center">
-                        <div>
-                            @if ($session->agent->isDesktop())
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 text-gray-500">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
-                                </svg>
-                            @else
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 text-gray-500">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
-                                </svg>
-                            @endif
-                        </div>
-
-                        <div class="ms-3">
-                            <div class="text-sm text-gray-600">
-                                {{ $session->agent->platform() ? $session->agent->platform() : __('Unknown') }} - {{ $session->agent->browser() ? $session->agent->browser() : __('Unknown') }}
+            @if (count($this->sessions) > 0)
+                <div class="mt-5 space-y-4">
+                    <!-- Otras Sesiones del Navegador -->
+                    @foreach ($this->sessions as $session)
+                        <div
+                            class="flex items-center p-4 bg-gray-50 rounded-xl border border-gray-100 hover:shadow-md transition-all duration-200">
+                            <div class="flex-shrink-0">
+                                @if ($session->agent->isDesktop())
+                                    <div
+                                        class="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-desktop text-blue-600 text-lg"></i>
+                                    </div>
+                                @else
+                                    <div
+                                        class="w-10 h-10 bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-mobile-alt text-green-600 text-lg"></i>
+                                    </div>
+                                @endif
                             </div>
 
-                            <div>
-                                <div class="text-xs text-gray-500">
-                                    {{ $session->ip_address }},
+                            <div class="ms-3 flex-1">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="text-sm font-semibold text-gray-800">
+                                        {{ $session->agent->platform() ? $session->agent->platform() : __('Desconocido') }}
+                                    </span>
+                                    <span class="text-gray-400">•</span>
+                                    <span class="text-sm text-gray-600">
+                                        {{ $session->agent->browser() ? $session->agent->browser() : __('Desconocido') }}
+                                    </span>
 
                                     @if ($session->is_current_device)
-                                        <span class="text-green-500 font-semibold">{{ __('This device') }}</span>
-                                    @else
-                                        {{ __('Last active') }} {{ $session->last_active }}
+                                        <span
+                                            class="ml-2 px-2 py-0.5 bg-green-100 text-green-700 text-xs font-semibold rounded-full flex items-center gap-1">
+                                            <i class="fas fa-check-circle text-xs"></i>
+                                            {{ __('Dispositivo actual') }}
+                                        </span>
                                     @endif
+                                </div>
+
+                                <div class="flex items-center gap-2 text-xs text-gray-500 mt-1">
+                                    <i class="fas fa-map-marker-alt text-gray-400 text-xs"></i>
+                                    <span>{{ $session->ip_address }}</span>
+                                    <span class="text-gray-300">|</span>
+                                    <i class="far fa-clock text-gray-400 text-xs"></i>
+                                    <span>
+                                        @if ($session->is_current_device)
+                                            {{ __('Activo ahora') }}
+                                        @else
+                                            {{ __('Última actividad') }}: {{ $session->last_active }}
+                                        @endif
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
+            @endif
+
+            <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
+                <div class="flex items-center gap-3">
+                    <x-button wire:click="confirmLogout" wire:loading.attr="disabled"
+                        class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        {{ __('Cerrar otras sesiones') }}
+                    </x-button>
+
+                    <x-action-message class="text-green-600" on="loggedOut">
+                        <div class="flex items-center gap-1">
+                            <i class="fas fa-check-circle"></i>
+                            <span>{{ __('¡Completado!') }}</span>
+                        </div>
+                    </x-action-message>
+                </div>
+
+                <div class="text-xs text-gray-400 flex items-center gap-1">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>{{ __('Sesiones seguras') }}</span>
+                </div>
             </div>
-        @endif
-
-        <div class="flex items-center mt-5">
-            <x-button wire:click="confirmLogout" wire:loading.attr="disabled">
-                {{ __('Log Out Other Browser Sessions') }}
-            </x-button>
-
-            <x-action-message class="ms-3" on="loggedOut">
-                {{ __('Done.') }}
-            </x-action-message>
         </div>
 
-        <!-- Log Out Other Devices Confirmation Modal -->
-        <x-dialog-modal wire:model.live="confirmingLogout">
-            <x-slot name="title">
-                {{ __('Log Out Other Browser Sessions') }}
-            </x-slot>
-
-            <x-slot name="content">
-                {{ __('Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.') }}
-
-                <div class="mt-4" x-data="{}" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
-                    <x-input type="password" class="mt-1 block w-3/4"
-                                autocomplete="current-password"
-                                placeholder="{{ __('Password') }}"
-                                x-ref="password"
-                                wire:model="password"
-                                wire:keydown.enter="logoutOtherBrowserSessions" />
-
-                    <x-input-error for="password" class="mt-2" />
+        <!-- MODAL MANUAL -->
+        @if ($confirmingLogout)
+            <div class="fixed inset-0 z-50 overflow-y-auto" x-data="{ open: true }" x-show="open" x-cloak>
+                <!-- Fondo oscuro -->
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
+                     x-show="open" 
+                     x-transition:enter="ease-out duration-300" 
+                     x-transition:enter-start="opacity-0" 
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="ease-in duration-200" 
+                     x-transition:leave-start="opacity-100" 
+                     x-transition:leave-end="opacity-0">
                 </div>
-            </x-slot>
+                
+                <!-- Modal -->
+                <div class="flex items-center justify-center min-h-screen px-4 text-center sm:p-0">
+                    <div class="relative bg-white rounded-lg shadow-xl max-w-md w-full mx-auto transform transition-all"
+                         x-show="open"
+                         x-transition:enter="ease-out duration-300"
+                         x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                         x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                         x-transition:leave="ease-in duration-200"
+                         x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        
+                        <!-- Cabecera -->
+                        <div class="p-6 border-b border-gray-100">
+                            <div class="flex items-center gap-2">
+                                <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-900">
+                                    {{ __('Cerrar otras sesiones') }}
+                                </h3>
+                            </div>
+                        </div>
 
-            <x-slot name="footer">
-                <x-secondary-button wire:click="$toggle('confirmingLogout')" wire:loading.attr="disabled">
-                    {{ __('Cancel') }}
-                </x-secondary-button>
+                        <!-- Contenido -->
+                        <div class="p-6 space-y-4">
+                            <!-- Advertencia -->
+                            <div class="flex items-start gap-3 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                                <i class="fas fa-shield-alt text-yellow-600 mt-0.5"></i>
+                                <div>
+                                    <p class="text-sm font-medium text-yellow-800">
+                                        {{ __('Confirmación de seguridad') }}
+                                    </p>
+                                    <p class="text-sm text-yellow-700 mt-1">
+                                        {{ __('Ingresa tu contraseña para confirmar que deseas cerrar sesión en todos tus otros navegadores y dispositivos.') }}
+                                    </p>
+                                </div>
+                            </div>
 
-                <x-button class="ms-3"
-                            wire:click="logoutOtherBrowserSessions"
-                            wire:loading.attr="disabled">
-                    {{ __('Log Out Other Browser Sessions') }}
-                </x-button>
-            </x-slot>
-        </x-dialog-modal>
+                            <!-- Campo de contraseña -->
+                            <div>
+                                <x-label for="modal_password" value="{{ __('Contraseña') }}" 
+                                    class="text-sm font-semibold text-gray-700 mb-2" />
+                                <div class="relative">
+                                    <input type="password" 
+                                           id="modal_password"
+                                           wire:model="password"
+                                           wire:keydown.enter="logoutOtherBrowserSessions"
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
+                                           placeholder="{{ __('Ingresa tu contraseña') }}"
+                                           autofocus>
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <i class="fas fa-lock text-gray-400"></i>
+                                    </div>
+                                </div>
+                                @error('password') 
+                                    <p class="mt-2 text-sm text-red-600 flex items-center gap-1">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        {{ $message }}
+                                    </p>
+                                @enderror
+                                <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                                    <i class="fas fa-info-circle"></i>
+                                    {{ __('Esta acción cerrará todas las sesiones excepto la actual.') }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Footer con botones -->
+                        <div class="flex justify-end gap-3 px-6 py-4 bg-gray-50 rounded-b-lg">
+                            <button type="button" 
+                                    wire:click="$set('confirmingLogout', false)"
+                                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all duration-200 flex items-center gap-2">
+                                <i class="fas fa-times"></i>
+                                {{ __('Cancelar') }}
+                            </button>
+                            
+                            <button type="button" 
+                                    wire:click="logoutOtherBrowserSessions"
+                                    wire:loading.attr="disabled"
+                                    class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-lg">
+                                <i class="fas fa-sign-out-alt"></i>
+                                {{ __('Cerrar otras sesiones') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estilos para x-cloak -->
+            <style>
+                [x-cloak] { display: none !important; }
+            </style>
+        @endif
     </x-slot>
 </x-action-section>
