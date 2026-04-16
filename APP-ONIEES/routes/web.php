@@ -2,16 +2,15 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Http\Middleware\TwoFactorAuthenticated;
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
-// CORREGIDO: Usar el middleware completo de Fortify
+// ✅ CORRECTO para Laravel 13/Jetstream - SIN middleware de 2FA manual
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified', TwoFactorAuthenticated::class])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
