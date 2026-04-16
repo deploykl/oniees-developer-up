@@ -11,8 +11,8 @@
     </x-slot>
 
     <x-slot name="content">
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                 @if ($this->enabled)
                     @if ($showingConfirmation)
                         <i class="fas fa-qrcode text-blue-500"></i>
@@ -27,7 +27,7 @@
                 @endif
             </h3>
 
-            <div class="mt-3 max-w-xl text-sm text-gray-600">
+            <div class="mt-3 max-w-xl text-sm text-gray-600 dark:text-gray-400">
                 <p class="flex items-start gap-2">
                     <i class="fas fa-info-circle text-blue-400 mt-0.5"></i>
                     {{ __('Cuando la autenticación de dos factores está activada, se te solicitará un token seguro y aleatorio durante la autenticación. Puedes obtener este token desde la aplicación de autenticación de tu teléfono.') }}
@@ -36,7 +36,7 @@
 
             @if ($this->enabled)
                 @if ($showingQrCode)
-                    <div class="mt-4 max-w-xl text-sm text-gray-600">
+                    <div class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-400">
                         <p class="font-semibold flex items-center gap-2">
                             <i class="fas fa-mobile-alt text-blue-500"></i>
                             @if ($showingConfirmation)
@@ -47,23 +47,23 @@
                         </p>
                     </div>
 
-                    <div class="mt-4 p-4 bg-white rounded-xl shadow-md inline-block border border-gray-200">
+                    <div class="mt-4 p-4 bg-white dark:bg-gray-900 rounded-xl shadow-md inline-block border border-gray-200 dark:border-gray-700">
                         {!! $this->user->twoFactorQrCodeSvg() !!}
                     </div>
 
                     <div class="mt-4 max-w-xl">
-                        <p class="font-semibold text-sm text-gray-700 flex items-center gap-2">
+                        <p class="font-semibold text-sm text-gray-700 dark:text-gray-300 flex items-center gap-2">
                             <i class="fas fa-key text-gray-500"></i>
                             {{ __('Clave de Configuración') }}:
-                            <code class="bg-gray-100 px-2 py-1 rounded text-xs font-mono">{{ decrypt($this->user->two_factor_secret) }}</code>
+                            <code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs font-mono text-gray-800 dark:text-gray-200">{{ decrypt($this->user->two_factor_secret) }}</code>
                         </p>
                     </div>
 
                     @if ($showingConfirmation)
                         <div class="mt-4">
-                            <x-label for="code" value="{{ __('Código de Verificación') }}" />
+                            <x-label for="code" value="{{ __('Código de Verificación') }}" class="text-gray-700 dark:text-gray-300" />
                             <div class="relative mt-1">
-                                <x-input id="code" type="text" name="code" class="block w-1/2 pr-10"
+                                <x-input id="code" type="text" name="code" class="block w-full sm:w-1/2 pr-10 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                     inputmode="numeric" autofocus autocomplete="one-time-code" wire:model="code"
                                     wire:keydown.enter="confirmTwoFactorAuthentication" placeholder="000000" />
                                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                             <x-input-error for="code" class="mt-2" />
-                            <p class="text-xs text-gray-500 mt-1">
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                 <i class="fas fa-clock"></i> Ingresa el código de 6 dígitos de tu aplicación
                             </p>
                         </div>
@@ -80,29 +80,34 @@
 
                 @if ($showingRecoveryCodes)
                     <div class="mt-4">
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg">
+                        <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-4 rounded-lg">
                             <div class="flex items-start gap-3">
-                                <i class="fas fa-exclamation-triangle text-yellow-600 mt-0.5"></i>
+                                <i class="fas fa-exclamation-triangle text-yellow-600 dark:text-yellow-500 mt-0.5"></i>
                                 <div>
-                                    <p class="font-semibold text-sm text-yellow-800">
+                                    <p class="font-semibold text-sm text-yellow-800 dark:text-yellow-300">
                                         {{ __('Guarda estos códigos de recuperación en un lugar seguro.') }}
                                     </p>
-                                    <p class="text-sm text-yellow-700 mt-1">
+                                    <p class="text-sm text-yellow-700 dark:text-yellow-400 mt-1">
                                         {{ __('Pueden usarse para recuperar el acceso a tu cuenta si pierdes tu dispositivo.') }}
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="grid gap-2 max-w-xl mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                            <div class="grid grid-cols-2 gap-2 font-mono text-sm">
+                        <div class="grid gap-2 max-w-xl mt-4 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-700">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-sm">
                                 @foreach (json_decode(decrypt($this->user->two_factor_recovery_codes), true) as $code)
-                                    <div class="bg-white p-2 rounded border border-gray-200 text-center text-gray-700">
+                                    <div class="bg-white dark:bg-gray-800 p-2 rounded border border-gray-200 dark:border-gray-700 text-center text-gray-700 dark:text-gray-300">
+                                        <i class="fas fa-key text-gray-400 mr-1"></i>
                                         {{ $code }}
                                     </div>
                                 @endforeach
                             </div>
                         </div>
+                        
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-3 text-center">
+                            <i class="fas fa-info-circle"></i> Cada código de recuperación solo se puede usar una vez
+                        </p>
                     </div>
                 @endif
             @endif
@@ -112,7 +117,7 @@
                     {{-- Botón Activar --}}
                     <x-confirms-password wire:then="enableTwoFactorAuthentication">
                         <x-button type="button" wire:loading.attr="disabled"
-                            class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800">
+                            class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out transform hover:scale-[1.02]">
                             <i class="fas fa-shield-alt mr-2"></i>
                             {{ __('Activar 2FA') }}
                         </x-button>
@@ -121,14 +126,14 @@
                     {{-- Botones cuando ya está activado o en proceso --}}
                     @if ($showingRecoveryCodes)
                         <x-confirms-password wire:then="regenerateRecoveryCodes">
-                            <x-secondary-button class="flex items-center gap-2">
+                            <x-secondary-button class="flex items-center gap-2 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
                                 <i class="fas fa-sync-alt"></i>
                                 {{ __('Regenerar Códigos') }}
                             </x-secondary-button>
                         </x-confirms-password>
                     @elseif ($showingConfirmation)
                         <x-confirms-password wire:then="confirmTwoFactorAuthentication">
-                            <x-button type="button" class="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+                            <x-button type="button" class="bg-green-600 hover:bg-green-700 flex items-center gap-2 text-white font-semibold py-2 px-4 rounded-lg transition duration-150"
                                 wire:loading.attr="disabled">
                                 <i class="fas fa-check-circle"></i>
                                 {{ __('Confirmar') }}
@@ -136,29 +141,39 @@
                         </x-confirms-password>
                     @else
                         <x-confirms-password wire:then="showRecoveryCodes">
-                            <x-secondary-button class="flex items-center gap-2">
+                            <x-secondary-button class="flex items-center gap-2 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
                                 <i class="fas fa-code"></i>
-                                {{ __('Mostrar Códigos') }}
+                                {{ __('Mostrar Códigos de Recuperación') }}
                             </x-secondary-button>
                         </x-confirms-password>
                     @endif
 
                     @if ($showingConfirmation)
                         <x-confirms-password wire:then="disableTwoFactorAuthentication">
-                            <x-secondary-button wire:loading.attr="disabled">
+                            <x-secondary-button wire:loading.attr="disabled" class="dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+                                <i class="fas fa-times mr-1"></i>
                                 {{ __('Cancelar') }}
                             </x-secondary-button>
                         </x-confirms-password>
                     @else
                         <x-confirms-password wire:then="disableTwoFactorAuthentication">
-                            <x-danger-button wire:loading.attr="disabled" class="flex items-center gap-2">
+                            <x-danger-button wire:loading.attr="disabled" class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150">
                                 <i class="fas fa-trash-alt"></i>
-                                {{ __('Desactivar') }}
+                                {{ __('Desactivar 2FA') }}
                             </x-danger-button>
                         </x-confirms-password>
                     @endif
                 @endif
             </div>
+            
+            @if ($this->enabled && !$showingConfirmation && !$showingRecoveryCodes)
+                <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                        <i class="fas fa-check-circle text-green-500"></i>
+                        {{ __('2FA activado - Tu cuenta está protegida con autenticación de dos factores') }}
+                    </p>
+                </div>
+            @endif
         </div>
     </x-slot>
 </x-action-section>

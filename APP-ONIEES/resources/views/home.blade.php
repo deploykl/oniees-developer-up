@@ -17,7 +17,7 @@
         </h1>
         
         <!-- Icono central elegante -->
-        <div style="width: 100%; max-width: 200px; margin: 0 auto 16px;">
+        <div style="width: 100%; max-width: 300px; margin: 0 auto 16px;">
             <img src="{{ asset('img/icons/observatorio-icono.png') }}" alt="Observatorio" style="width: 100%; opacity: 0.9;" onerror="this.style.display='none'">
         </div>
         
