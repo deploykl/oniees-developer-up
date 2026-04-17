@@ -40,23 +40,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Debug (temporal)
-Route::get('/debug-2fa', function () {
-    $user = auth()->user();
-    if ($user) {
-        dd([
-            'user_id' => $user->id,
-            'email' => $user->email,
-            'two_factor_confirmed_at' => $user->two_factor_confirmed_at,
-            'has_two_factor_secret' => !is_null($user->two_factor_secret),
-            'two_factor_enabled' => $user->two_factor_confirmed_at !== null,
-            'session_2fa_user' => session('2fa:user:id'),
-            'is_authenticated' => auth()->check(),
-        ]);
-    }
-    return 'No logged in';
-})->middleware(['auth']);
-
 Route::get('/debug-session', function () {
     dd(session()->all());
 });
