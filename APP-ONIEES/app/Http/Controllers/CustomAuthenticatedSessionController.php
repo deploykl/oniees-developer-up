@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider;
 
 class CustomAuthenticatedSessionController extends Controller
 {
@@ -23,16 +24,19 @@ class CustomAuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-        // Verificar si tiene 2FA habilitado (usando la columna que existe)
-        if ($user->two_factor_secret && $user->two_factor_recovery_codes) {
+        // Verificar si tiene 2FA habilitado
+        if ($user->two_factor_secret) {
             // Guardar remember me si está marcado
             if ($request->boolean('remember')) {
                 session(['2fa:remember' => true]);
             }
             
+            // Guardar el ID del usuario en sesión antes de cerrar sesión
+            session(['2fa:user:id' => $user->id]);
+            session(['2fa:user:email' => $user->email]);
+            
             // Cerrar sesión parcialmente
             Auth::logout();
-            session(['2fa:user:id' => $user->id]);
             
             return redirect()->route('two-factor.challenge');
         }
