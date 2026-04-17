@@ -8,13 +8,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('img/favicon1.png') }}">
-    <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon1.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('img/favicon1.png') }}">
+
+    
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
