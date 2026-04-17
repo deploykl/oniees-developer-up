@@ -10,7 +10,10 @@ class TwoFactorChallengeController extends Controller
 {
     public function show()
     {
-        if (!session('2fa:user:id')) {
+        // Verificar si hay un usuario en sesión para 2FA
+        $userId = session('login.id');
+        
+        if (!$userId && !session('2fa:user:id')) {
             return redirect()->route('login');
         }
         
@@ -24,7 +27,9 @@ class TwoFactorChallengeController extends Controller
             'recovery_code' => 'nullable|string',
         ]);
         
-        $userId = session('2fa:user:id');
+        // Obtener el ID del usuario (desde sesión de login o 2FA)
+        $userId = session('login.id') ?? session('2fa:user:id');
+        
         if (!$userId) {
             return redirect()->route('login');
         }
@@ -35,43 +40,49 @@ class TwoFactorChallengeController extends Controller
             return redirect()->route('login');
         }
         
-        // Verificar si es código de recuperación
+        // Verificar código de recuperación
         if ($request->filled('recovery_code')) {
             $recoveryCodes = json_decode(decrypt($user->two_factor_recovery_codes), true);
             
-            // Buscar el código de recuperación
             $index = array_search($request->recovery_code, $recoveryCodes);
             
             if ($index !== false) {
-                // Eliminar el código usado
                 unset($recoveryCodes[$index]);
                 $user->two_factor_recovery_codes = encrypt(json_encode(array_values($recoveryCodes)));
                 $user->save();
                 
-                // Autenticar al usuario
-                Auth::login($user, session('2fa:remember', false));
-                session()->forget(['2fa:user:id', '2fa:remember']);
+                Auth::login($user, $request->session()->get('remember', false));
+                $request->session()->forget(['login.id', '2fa:user:id', 'remember']);
                 
                 return redirect()->intended('/dashboard');
             }
             
-            return back()->withErrors(['recovery_code' => 'El código de recuperación es inválido.']);
+            return back()->withErrors(['recovery_code' => 'Código de recuperación inválido.']);
         }
         
-        // Verificar código normal de 2FA
+        // Verificar código 2FA normal
         if ($request->filled('code')) {
             $provider = app(TwoFactorAuthenticationProvider::class);
             $secret = decrypt($user->two_factor_secret);
+            
+            // Verificar el código con tolerancia de tiempo
             $valid = $provider->verify($secret, $request->code);
             
-            if (!$valid) {
-                return back()->withErrors(['code' => 'El código de autenticación es inválido.']);
+            if ($valid) {
+                // Confirmar 2FA si no está confirmado
+                if (is_null($user->two_factor_confirmed_at)) {
+                    $user->forceFill([
+                        'two_factor_confirmed_at' => now(),
+                    ])->save();
+                }
+                
+                Auth::login($user, $request->session()->get('remember', false));
+                $request->session()->forget(['login.id', '2fa:user:id', 'remember']);
+                
+                return redirect()->intended('/dashboard');
             }
             
-            Auth::login($user, session('2fa:remember', false));
-            session()->forget(['2fa:user:id', '2fa:remember']);
-            
-            return redirect()->intended('/dashboard');
+            return back()->withErrors(['code' => 'El código de verificación es inválido.']);
         }
         
         return back()->withErrors(['code' => 'Por favor ingresa un código de verificación.']);
