@@ -24,3 +24,8 @@ EL .ENV MOD
         #APP_URL=http://localhost
         #DEV LOCAL
         APP_URL=http://172.27.0.150
+
+# CREAR MODELOS ORM 
+ en terminal  php artisan make:model Regiones -m  
+
+# DE AHI EDITAR EL MIGRATE
