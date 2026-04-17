@@ -111,23 +111,57 @@ use App\Http\Controllers\Registro\MCMController;
 use App\Http\Controllers\Registro\WebPageController;
 
 
+// ============================================
+// RUTAS PROTEGIDAS (REQUIEREN AUTENTICACIÓN)
+// ============================================
+//prefix para la ruta 
+Route::middleware(['auth'])->prefix('admin')->group(function () {
 
-/*USUARIOS*/
-//Route::get('/users', [UsersController::class, 'index'])->name('users-index');
-//Route::get('/users/list', [UsersController::class, 'list'])->name('users-list');
-//Route::post('/users/save', [UsersController::class, 'save'])->name('users-save');
-//Route::get('/users/add', [UsersController::class, 'add'])->name('users-add');
-//Route::get('/users/edit/{id?}', [UsersController::class, 'edit'])->name('users-edit');
-//Route::post('/users/update', [UsersController::class, 'update'])->name('users-update');
-//Route::post('/users/update-passwors', [UsersController::class, 'update_password'])->name('users-update-password');
-//Route::post('/users/delete', [UsersController::class, 'delete'])->name('users-delete');
-//Route::post('/users/reset-password', [UsersController::class, 'resetPassword'])->name('users-reset-password');
-//Route::post('/users/export', [UsersController::class, 'export'])->name('users-export');
-//Route::get('/users/edit/{id}/permission', [UsersController::class, 'permission'])->name('users-edit-permission');
-//Route::post('/users/edit/permission', [UsersController::class, 'updatePermission'])->name('users-update-permission');
-//Route::post('/users/permission', [UsersController::class, 'permissionRolUser'])->name('users-permission');
-//Route::get('/users/update-permission', [UsersController::class, 'uPermission'])->name('update-permission');
-//Route::post('/users/listado-red', [UsersController::class, 'listado_red'])->name('users-listado-red');
-//Route::post('/users/listado-microred', [UsersController::class, 'listado_microred'])->name('users-listado-microred');
-//Route::post('/users/listado-establecimiento', [UsersController::class, 'listado_establecimiento'])->name('users-listado-establecimiento');
-//Route::post('/usuarios/{id}/deshabilitar-2fa', [UsersController::class, 'deshabilitar2FA'])->name('usuarios.deshabilitar2fa');
+    /* USUARIOS */
+    Route::get('/users', [UsersController::class, 'index'])
+        ->name('users-index')
+        ->middleware('can:Usuarios - Inicio');
+    
+    Route::get('/users/list', [UsersController::class, 'list'])
+        ->name('users-list')
+        ->middleware('can:Usuarios - Inicio');
+    
+    Route::post('/users/save', [UsersController::class, 'save'])
+        ->name('users-save')
+        ->middleware('can:Usuarios - Crear');
+    
+    Route::get('/users/add', [UsersController::class, 'add'])
+        ->name('users-add')
+        ->middleware('can:Usuarios - Crear');
+    
+    Route::get('/users/edit/{id?}', [UsersController::class, 'edit'])
+        ->name('users-edit')
+        ->middleware('can:Usuarios - Editar');
+    
+    Route::post('/users/update', [UsersController::class, 'update'])
+        ->name('users-update')
+        ->middleware('can:Usuarios - Editar');
+    
+    Route::post('/users/delete', [UsersController::class, 'delete'])
+        ->name('users-delete')
+        ->middleware('can:Usuarios - Eliminar');
+    
+    Route::post('/users/reset-password', [UsersController::class, 'resetPassword'])
+        ->name('users-reset-password')
+        ->middleware('can:Usuarios - Resetear Clave');
+    
+    Route::get('/users/edit/{id}/permission', [UsersController::class, 'permission'])
+        ->name('users-edit-permission')
+        ->middleware('can:Usuarios - Editar Permisos');
+    
+    Route::post('/users/edit/permission', [UsersController::class, 'updatePermission'])
+        ->name('users-update-permission')
+        ->middleware('can:Usuarios - Editar Permisos');
+    
+    // Estas rutas no requieren permisos específicos
+    Route::post('/users/listado-red', [UsersController::class, 'listado_red'])->name('users-listado-red');
+    Route::post('/users/listado-microred', [UsersController::class, 'listado_microred'])->name('users-listado-microred');
+    Route::post('/users/listado-establecimiento', [UsersController::class, 'listado_establecimiento'])->name('users-listado-establecimiento');
+    Route::post('/usuarios/{id}/deshabilitar-2fa', [UsersController::class, 'deshabilitar2FA'])->name('usuarios.deshabilitar2fa');
+
+});
