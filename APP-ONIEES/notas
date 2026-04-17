@@ -29,3 +29,10 @@ EL .ENV MOD
  en terminal  php artisan make:model Regiones -m  
 
 # DE AHI EDITAR EL MIGRATE
+
+
+
+ELIMINAR REGLAS
+# Eliminar reglas
+netsh advfirewall firewall delete rule name="Laravel Server"
+netsh advfirewall firewall delete rule name="Vite Dev Server"
