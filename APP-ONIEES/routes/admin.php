@@ -164,4 +164,21 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('/users/listado-establecimiento', [UsersController::class, 'listado_establecimiento'])->name('users-listado-establecimiento');
     Route::post('/usuarios/{id}/deshabilitar-2fa', [UsersController::class, 'deshabilitar2FA'])->name('usuarios.deshabilitar2fa');
 
+    Route::get('/debug-permissions', function () {
+    $user = auth()->user();
+    if (!$user) {
+        return 'No hay usuario autenticado';
+    }
+    
+    return [
+        'user_id' => $user->id,
+        'user_email' => $user->email,
+        'tipo_rol' => $user->tipo_rol,
+        'has_role_admin' => $user->hasRole('admin'),
+        'direct_permissions' => $user->getDirectPermissions()->pluck('name'),
+        'all_permissions' => $user->getAllPermissions()->pluck('name'),
+        'can_users_index' => $user->can('Usuarios - Inicio'),
+        'can_view_users' => $user->can('Usuarios - Inicio'),
+    ];
+})->middleware(['auth']);
 });

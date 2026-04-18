@@ -36,3 +36,6 @@ ELIMINAR REGLAS
 # Eliminar reglas
 netsh advfirewall firewall delete rule name="Laravel Server"
 netsh advfirewall firewall delete rule name="Vite Dev Server"
+
+
+BLADE ES MAS MODERNO

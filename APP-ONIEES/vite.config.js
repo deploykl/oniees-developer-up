@@ -13,7 +13,8 @@ export default defineConfig({
         port: 5173,
         strictPort: true,  // Fuerza usar este puerto
         hmr: {     // ADD
-            host: '172.27.0.150',  // Tu IP local (NO localhost)
+            host: '127.0.0.1',  // Tu IP local (NO localhost)
+            //host: '172.27.0.150',  // Tu IP local (NO localhost)
             port: 5173,   //ADD
         },
         cors: true,  // Habilita CORS para otras PCs

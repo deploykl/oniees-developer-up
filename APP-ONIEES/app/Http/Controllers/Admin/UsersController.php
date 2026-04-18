@@ -28,8 +28,9 @@ class UsersController extends Controller
     // ============================================
     
     public function index() {
-        return view('admin.users.index');
-    }
+    $users = User::all();
+    return view('admin.users.index', compact('users'));
+}
     
     public function edit($id) {
         if ($id == null) {
