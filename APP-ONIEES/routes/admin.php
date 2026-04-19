@@ -159,9 +159,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         ->middleware('can:Usuarios - Editar Permisos');
     
     // Estas rutas no requieren permisos específicos
-    Route::post('/users/listado-red', [UsersController::class, 'listado_red'])->name('users-listado-red');
-    Route::post('/users/listado-microred', [UsersController::class, 'listado_microred'])->name('users-listado-microred');
-    Route::post('/users/listado-establecimiento', [UsersController::class, 'listado_establecimiento'])->name('users-listado-establecimiento');
+    Route::get('/users/listado-red', [UsersController::class, 'listado_red'])->name('users-listado-red');
+Route::get('/users/listado-microred', [UsersController::class, 'listado_microred'])->name('users-listado-microred');
+Route::get('/users/listado-establecimiento', [UsersController::class, 'listado_establecimiento'])->name('users-listado-establecimiento');
     Route::post('/usuarios/{id}/deshabilitar-2fa', [UsersController::class, 'deshabilitar2FA'])->name('usuarios.deshabilitar2fa');
 
     Route::get('/debug-permissions', function () {

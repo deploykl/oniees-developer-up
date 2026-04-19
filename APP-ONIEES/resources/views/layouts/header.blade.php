@@ -1,11 +1,17 @@
-<header style="position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(6, 182, 212, 0.15); padding: 12px 32px;">
+<header style="position: sticky; top: 0; z-index: 20; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(6, 182, 212, 0.15); padding: 12px 32px;">
     <div style="max-width: 1400px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
-        <!-- Logo con efecto glass -->
+        
+        <!-- Logo con efecto glass - SOLO en home y login -->
+        @if(request()->is('/') || request()->routeIs('login'))
         <a href="{{ url('/') }}" style="display: flex; align-items: center; text-decoration: none; background: rgba(255,255,255,0.5); padding: 6px 16px 6px 12px; border-radius: 60px; backdrop-filter: blur(4px); border: 1px solid rgba(6,182,212,0.2); transition: all 0.3s ease;">
             <img src="{{ asset('img/logo-minsa.png') }}" alt="MINSA Logo"
                 style="height: 42px; width: auto; max-width: 170px; object-fit: contain;"
                 onerror="this.style.display='none'">
         </a>
+        @else
+        <!-- Espacio vacío cuando no hay logo para mantener el layout -->
+        <div style="width: 170px;"></div>
+        @endif
 
         <!-- Navegación con glassmorphism -->
         <nav style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">

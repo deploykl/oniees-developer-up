@@ -28,7 +28,6 @@
                                     @endif
                                     <option value="2">Diresa/Geresa/Diris</option>
                                 </select>
-                                <div class="text-red-500 text-sm mt-1 hidden">Seleccione el Tipo de Usuario</div>
                             </div>
 
                             <div>
@@ -157,25 +156,22 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Red</label>
-                                <select id="red" name="red"
-                                    class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                                    <option value="">Seleccione</option>
+                                <select id="red" name="red" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                                    <option value="">Seleccione una Red</option>
                                 </select>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">MicroRed</label>
-                                <select id="microred" name="microred"
-                                    class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                                    <option value="">Seleccione</option>
+                                <select id="microred" name="microred" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                                    <option value="">Primero seleccione una Red</option>
                                 </select>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Establecimiento</label>
-                                <select id="idestablecimiento" name="idestablecimiento"
-                                    class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                                    <option value="">Seleccione</option>
+                                <select id="idestablecimiento" name="idestablecimiento" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                                    <option value="">Primero seleccione una MicroRed</option>
                                 </select>
                             </div>
                         </div>
@@ -216,73 +212,167 @@
         </div>
     </div>
 
-<script>
-    function RequiredDiris() {
-        const tipoRol = document.getElementById("idtiporol").value;
-        const tipoUsuario = document.getElementById("idtipousuario");
-        const labelTipoUsuario = document.querySelector("label[for='idtipousuario']");
+    <script>
+        function RequiredDiris() {
+            const tipoRol = document.getElementById("idtiporol").value;
+            const tipoUsuario = document.getElementById("idtipousuario");
+            const labelTipoUsuario = document.querySelector("label[for='idtipousuario']");
 
-        if (tipoRol == 1) {
-            tipoUsuario.removeAttribute("required");
-            labelTipoUsuario.innerHTML = 'Tipo Usuario';
-        } else {
-            tipoUsuario.setAttribute("required", "required");
-            labelTipoUsuario.innerHTML = 'Tipo Usuario <span class="text-red-500">*</span>';
-        }
-    }
-
-    function CambiarTipo(input) {
-        var tipo = $("#" + input).prop("type");
-        $("#" + input).prop("type", (tipo == "text" ? "password" : "text"));
-    }
-
-    function PasswordValidate() {
-        var pswd = $("#password").val();
-        var result = true;
-
-        $("#pswd_info").show();
-
-        if (pswd.length < 8) {
-            $('#length').removeClass('text-green-600').addClass('text-red-600');
-            result = false;
-        } else {
-            $('#length').removeClass('text-red-600').addClass('text-green-600');
+            if (tipoRol == 1) {
+                tipoUsuario.removeAttribute("required");
+                labelTipoUsuario.innerHTML = 'Tipo Usuario';
+            } else {
+                tipoUsuario.setAttribute("required", "required");
+                labelTipoUsuario.innerHTML = 'Tipo Usuario <span class="text-red-500">*</span>';
+            }
         }
 
-        if (!!pswd.match(/[A-z]/)) {
-            $('#letter').removeClass('text-red-600').addClass('text-green-600');
-        } else {
-            $('#letter').removeClass('text-green-600').addClass('text-red-600');
-            result = false;
+        function CambiarTipo(input) {
+            var tipo = $("#" + input).prop("type");
+            $("#" + input).prop("type", (tipo == "text" ? "password" : "text"));
         }
 
-        if (!!pswd.match(/[A-Z]/)) {
-            $('#capital').removeClass('text-red-600').addClass('text-green-600');
-        } else {
-            $('#capital').removeClass('text-green-600').addClass('text-red-600');
-            result = false;
+        function PasswordValidate() {
+            var pswd = $("#password").val();
+            var result = true;
+
+            $("#pswd_info").show();
+
+            if (pswd.length < 8) {
+                $('#length').removeClass('text-green-600').addClass('text-red-600');
+                result = false;
+            } else {
+                $('#length').removeClass('text-red-600').addClass('text-green-600');
+            }
+
+            if (!!pswd.match(/[A-z]/)) {
+                $('#letter').removeClass('text-red-600').addClass('text-green-600');
+            } else {
+                $('#letter').removeClass('text-green-600').addClass('text-red-600');
+                result = false;
+            }
+
+            if (!!pswd.match(/[A-Z]/)) {
+                $('#capital').removeClass('text-red-600').addClass('text-green-600');
+            } else {
+                $('#capital').removeClass('text-green-600').addClass('text-red-600');
+                result = false;
+            }
+
+            if (!!pswd.match(/\d/)) {
+                $('#number').removeClass('text-red-600').addClass('text-green-600');
+            } else {
+                $('#number').removeClass('text-green-600').addClass('text-red-600');
+                result = false;
+            }
+
+            if (result) {
+                $("#pswd_info").hide();
+            }
+            return result;
         }
 
-        if (!!pswd.match(/\d/)) {
-            $('#number').removeClass('text-red-600').addClass('text-green-600');
-        } else {
-            $('#number').removeClass('text-green-600').addClass('text-red-600');
-            result = false;
-        }
+        // Validar contraseña antes de enviar
+        $('#FormUserCreate').on('submit', function(e) {
+            if (!PasswordValidate()) {
+                e.preventDefault();
+                Swal.fire('Error', 'La contraseña no cumple los requisitos', 'error');
+            }
+        });
 
-        if (result) {
-            $("#pswd_info").hide();
-        }
-        return result;
-    }
+        // ========== SELECTS PARA RED, MICRORED Y ESTABLECIMIENTO ==========
+        $(document).ready(function() {
+            // Configurar CSRF token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
-    // ✅ SOLO validar, NO prevenir el envío
-    $('#FormUserCreate').on('submit', function(e) {
-        if (!PasswordValidate()) {
-            e.preventDefault();
-            Swal.fire('Error', 'La contraseña no cumple los requisitos', 'error');
-        }
-        // Si la contraseña es válida, NO hacer nada, el formulario se envía normalmente
-    });
-</script>
+            // Cargar Redes
+            function cargarRedes() {
+                $.ajax({
+                    url: "{{ route('users-listado-red') }}",
+                    type: "GET",
+                    data: { search: "", iddiresa: "0" },
+                    success: function(response) {
+                        var $select = $('#red');
+                        $select.empty();
+                        $select.append('<option value="">Seleccione una Red</option>');
+                        
+                        if (response.results && response.results.length > 0) {
+                            $.each(response.results, function(i, item) {
+                                $select.append('<option value="' + item.id + '">' + item.text + '</option>');
+                            });
+                        }
+                    },
+                    error: function() {
+                        $('#red').html('<option value="">Error al cargar redes</option>');
+                    }
+                });
+            }
+
+            // Cargar MicroRedes
+            $('#red').on('change', function() {
+                var nombre_red = $(this).val();
+                
+                if (nombre_red) {
+                    $.ajax({
+                        url: "{{ route('users-listado-microred') }}",
+                        type: "GET",
+                        data: { search: "", iddiresa: "0", nombre_red: nombre_red },
+                        success: function(response) {
+                            var $select = $('#microred');
+                            $select.empty();
+                            $select.append('<option value="">Seleccione una MicroRed</option>');
+                            
+                            if (response.results && response.results.length > 0) {
+                                $.each(response.results, function(i, item) {
+                                    $select.append('<option value="' + item.id + '">' + item.text + '</option>');
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    $('#microred').html('<option value="">Primero seleccione una Red</option>');
+                    $('#idestablecimiento').html('<option value="">Primero seleccione una MicroRed</option>');
+                }
+            });
+
+            // Cargar Establecimientos
+            $('#microred').on('change', function() {
+                var nombre_red = $('#red').val();
+                var nombre_microred = $(this).val();
+                
+                if (nombre_microred) {
+                    $.ajax({
+                        url: "{{ route('users-listado-establecimiento') }}",
+                        type: "GET",
+                        data: { 
+                            search: "", 
+                            iddiresa: "0", 
+                            nombre_red: nombre_red, 
+                            nombre_microred: nombre_microred 
+                        },
+                        success: function(response) {
+                            var $select = $('#idestablecimiento');
+                            $select.empty();
+                            $select.append('<option value="">Seleccione un Establecimiento</option>');
+                            
+                            if (response.results && response.results.length > 0) {
+                                $.each(response.results, function(i, item) {
+                                    $select.append('<option value="' + item.id + '">' + item.text + '</option>');
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    $('#idestablecimiento').html('<option value="">Primero seleccione una MicroRed</option>');
+                }
+            });
+
+            // Inicializar
+            cargarRedes();
+        });
+    </script>
 </x-app-layout>

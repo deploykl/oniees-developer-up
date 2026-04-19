@@ -741,96 +741,118 @@ public function delete(Request $request)
 
         return $response;
     }
-
-    public function listado_red(Request $request)
-    {
-        try {
-            $iddiresa = $request->input('iddiresa') != null ? trim($request->input('iddiresa')) : "0";
-            $search = $request->input('search') != null ? trim($request->input('search')) : "";
-            if ($iddiresa != "0" && strlen($iddiresa) > 0) {
-                $diresas = explode(",", $iddiresa);
-                $listado = DB::table('establishment')->select('nombre_red as nombre', 'nombre_red as id')
-                    ->where('nombre_red', 'LIKE', '%' . $search . '%')->whereIn('iddiresa', $diresas)
-                    ->groupBy('nombre_red')->take(100)->get();
-            } else {
-                $listado = DB::table('establishment')->where('nombre_red', 'LIKE', '%' . $search . '%')
-                    ->select('nombre_red as nombre', 'nombre_red as id')->groupBy('nombre_red')->take(100)->get();
-            }
-            return [
-                'status' => "OK",
-                'data' => $listado
-            ];
-        } catch (\Exception $e) {
-            return [
-                'mensaje' => $e->getMessage(),
-                'status' => "ERROR"
-            ];
+public function listado_red(Request $request)
+{
+    try {
+        $search = $request->input('search', '');
+        $iddiresa = $request->input('iddiresa', '0');
+        
+        $query = DB::table('establishment')
+            ->select('nombre_red as id', 'nombre_red as text')
+            ->whereNotNull('nombre_red')
+            ->where('nombre_red', '!=', '')
+            ->groupBy('nombre_red');
+        
+        if ($search != '') {
+            $query->where('nombre_red', 'LIKE', "%{$search}%");
         }
-    }
-
-    public function listado_microred(Request $request)
-    {
-        try {
-            $iddiresa = $request->input('iddiresa') != null ? trim($request->input('iddiresa')) : "0";
-            $nombre_red = $request->input('nombre_red') != null ? trim($request->input('nombre_red')) : "%";
-            $search = $request->input('search') != null ? trim($request->input('search')) : "";
-            if ($iddiresa != "0" && strlen($iddiresa) > 0) {
-                $diresas = explode(",", $iddiresa);
-                $listado = DB::table('establishment')->whereIn('iddiresa', $diresas)
-                    ->where('nombre_red', 'LIKE', $nombre_red)
-                    ->where('nombre_microred', 'LIKE', '%' . $search . '%')
-                    ->select('nombre_microred as nombre', 'nombre_microred as id')
-                    ->groupBy('nombre_microred')->take(100)->get();
-            } else {
-                $listado = DB::table('establishment')
-                    ->where('nombre_red', 'LIKE', $nombre_red)
-                    ->where('nombre_microred', 'LIKE', '%' . $search . '%')
-                    ->select('nombre_microred as nombre', 'nombre_microred as id')
-                    ->groupBy('nombre_microred')->take(100)->get();
-            }
-            return [
-                'status' => "OK",
-                'data' => $listado
-            ];
-        } catch (\Exception $e) {
-            return [
-                'mensaje' => $e->getMessage(),
-                'status' => "ERROR"
-            ];
+        
+        if ($iddiresa != '0' && $iddiresa != null) {
+            $diresas = explode(',', $iddiresa);
+            $query->whereIn('iddiresa', $diresas);
         }
+        
+        $resultados = $query->limit(100)->get();
+        
+        return response()->json([
+            'results' => $resultados,
+            'pagination' => ['more' => false]
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['results' => [], 'error' => $e->getMessage()]);
     }
+}
 
-    public function listado_establecimiento(Request $request)
-    {
-        try {
-            $where = "";
-            if ($request->input('iddiresa') != null && $request->input('iddiresa') != "0") {
-                $where .= " AND iddiresa in (" . trim($request->input('iddiresa')) . ")";
-            }
-            if ($request->input('nombre_red') != null) {
-                $where .= " AND nombre_red = '" . trim($request->input('nombre_red')) . "'";
-            }
-            if ($request->input('nombre_microred') != null) {
-                $where .= " AND nombre_microred = '" . trim($request->input('nombre_microred')) . "'";
-            }
-            if ($request->input('search') != null) {
-                $where .= " AND (nombre_eess LIKE '%" . trim($request->input('search')) . "%' OR codigo LIKE '%" . trim($request->input('search')) . "%')";
-            }
-            if (strlen($where) > 0) {
-                $where = substr($where, 4, strlen($where));
-                $listado = DB::table('establishment')->whereRaw($where)->select(DB::raw("CONCAT(codigo, ' - ' , nombre_eess) as nombre"), 'id')->take(100)->get();
-            } else {
-                $listado = DB::table('establishment')->select(DB::raw("CONCAT(codigo, ' - ' , nombre_eess) as nombre"), 'id')->take(100)->get();
-            }
-            return [
-                'status' => "OK",
-                'data' => $listado
-            ];
-        } catch (\Exception $e) {
-            return [
-                'mensaje' => $e->getMessage(),
-                'status' => "ERROR"
-            ];
+public function listado_microred(Request $request)
+{
+    try {
+        $search = $request->input('search', '');
+        $iddiresa = $request->input('iddiresa', '0');
+        $nombre_red = $request->input('nombre_red', '');
+        
+        $query = DB::table('establishment')
+            ->select('nombre_microred as id', 'nombre_microred as text')
+            ->whereNotNull('nombre_microred')
+            ->where('nombre_microred', '!=', '')
+            ->groupBy('nombre_microred');
+        
+        if ($search != '') {
+            $query->where('nombre_microred', 'LIKE', "%{$search}%");
         }
+        
+        if ($iddiresa != '0' && $iddiresa != null) {
+            $diresas = explode(',', $iddiresa);
+            $query->whereIn('iddiresa', $diresas);
+        }
+        
+        if ($nombre_red != '') {
+            $query->where('nombre_red', $nombre_red);
+        }
+        
+        $resultados = $query->limit(100)->get();
+        
+        return response()->json([
+            'results' => $resultados,
+            'pagination' => ['more' => false]
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['results' => [], 'error' => $e->getMessage()]);
     }
+}
+
+public function listado_establecimiento(Request $request)
+{
+    try {
+        $search = $request->input('search', '');
+        $iddiresa = $request->input('iddiresa', '0');
+        $nombre_red = $request->input('nombre_red', '');
+        $nombre_microred = $request->input('nombre_microred', '');
+        
+        $query = DB::table('establishment')
+            ->select('id', DB::raw("CONCAT(codigo, ' - ', nombre_eess) as text"))
+            ->whereNotNull('nombre_eess');
+        
+        if ($search != '') {
+            $query->where(function($q) use ($search) {
+                $q->where('nombre_eess', 'LIKE', "%{$search}%")
+                  ->orWhere('codigo', 'LIKE', "%{$search}%");
+            });
+        }
+        
+        if ($iddiresa != '0' && $iddiresa != null) {
+            $diresas = explode(',', $iddiresa);
+            $query->whereIn('iddiresa', $diresas);
+        }
+        
+        if ($nombre_red != '') {
+            $query->where('nombre_red', $nombre_red);
+        }
+        
+        if ($nombre_microred != '') {
+            $query->where('nombre_microred', $nombre_microred);
+        }
+        
+        $resultados = $query->limit(100)->get();
+        
+        return response()->json([
+            'results' => $resultados,
+            'pagination' => ['more' => false]
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['results' => [], 'error' => $e->getMessage()]);
+    }
+}
+    
+
+
 }
