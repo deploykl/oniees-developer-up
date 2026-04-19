@@ -757,7 +757,8 @@ public function listado_red(Request $request)
             $query->where('nombre_red', 'LIKE', "%{$search}%");
         }
         
-        if ($iddiresa != '0' && $iddiresa != null) {
+        // Filtrar por DIRIS seleccionada
+        if ($iddiresa != '0' && $iddiresa != null && $iddiresa != '') {
             $diresas = explode(',', $iddiresa);
             $query->whereIn('iddiresa', $diresas);
         }
