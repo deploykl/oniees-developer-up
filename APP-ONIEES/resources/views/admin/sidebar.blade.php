@@ -1,7 +1,10 @@
 <!-- Sidebar Glassmorphism -->
-<div x-data="{ sidebarOpen: true, activeMenu: null }" 
-     :class="sidebarOpen ? 'w-64' : 'w-20'" 
-     class="fixed left-0 top-0 h-full bg-white/80 backdrop-blur-xl border-r border-blue-100/30 shadow-xl z-50 transition-all duration-300 overflow-hidden">
+<div x-data="{
+    sidebarOpen: true,
+    activeMenu: null
+}" 
+:class="sidebarOpen ? 'w-64' : 'w-20'"
+class="h-full bg-white/95 backdrop-blur-xl border-r border-blue-100/30 shadow-2xl transition-all duration-300 overflow-hidden flex flex-col">
     
     <!-- Logo Sidebar -->
     <div class="flex items-center justify-between p-4 border-b border-blue-100/30">

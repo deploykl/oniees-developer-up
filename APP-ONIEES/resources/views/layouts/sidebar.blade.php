@@ -1,15 +1,17 @@
-<!-- Sidebar Glassmorphism con validación de roles y persistencia -->
+<!-- Sidebar Glassmorphism con store global -->
 <div x-data="{
-    sidebarOpen: localStorage.getItem('sidebarOpen') !== 'false',
-    activeMenu: null,
+    get sidebarOpen() { return $store.sidebar.open },
     init() {
-        this.$watch('sidebarOpen', value => {
-            localStorage.setItem('sidebarOpen', value);
-            // Disparar evento para actualizar el contenido principal
-            window.dispatchEvent(new CustomEvent('sidebar-toggled', { detail: { open: value } }));
-        });
+        // Inicializar estados de menús desde localStorage
+        if (!localStorage.getItem('menu_siga')) localStorage.setItem('menu_siga', false);
+        if (!localStorage.getItem('menu_formularios')) localStorage.setItem('menu_formularios', false);
+        if (!localStorage.getItem('menu_reportes')) localStorage.setItem('menu_reportes', false);
+        if (!localStorage.getItem('menu_tableros')) localStorage.setItem('menu_tableros', false);
+        if (!localStorage.getItem('menu_monitoreo')) localStorage.setItem('menu_monitoreo', false);
+        if (!localStorage.getItem('menu_registros')) localStorage.setItem('menu_registros', false);
+        if (!localStorage.getItem('menu_ipress')) localStorage.setItem('menu_ipress', false);
     }
-}" x-init="init()" 
+}" 
 :class="sidebarOpen ? 'w-64' : 'w-20'"
 class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-blue-100/30 shadow-2xl z-[200] transition-all duration-300 overflow-hidden flex flex-col">
 
@@ -28,14 +30,14 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
                 <i class="fas fa-hospital-user text-teal-600 text-lg"></i>
             </a>
         </div>
-        <button @click="sidebarOpen = !sidebarOpen"
+        <button @click="$store.sidebar.toggle()"
             class="p-2 rounded-lg hover:bg-blue-50 transition text-gray-500 flex-shrink-0">
             <i :class="sidebarOpen ? 'fas fa-chevron-left' : 'fas fa-chevron-right'" class="text-sm"></i>
         </button>
     </div>
 
-    <!-- Menú de Navegación - Scrollable -->
-    <nav class="p-3 space-y-1 overflow-y-auto flex-1">
+    <!-- Menú de Navegación -->
+    <nav class="p-3 space-y-1 overflow-y-auto flex-1" style="overflow-y: auto;">
 
         <!-- Dashboard -->
         <a href="{{ route('dashboard') }}"
@@ -57,7 +59,8 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
             </a>
 
             <!-- SIGA -->
-            <div x-data="{ open: localStorage.getItem('menu_siga') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_siga', value))">
+            <div x-data="{ open: localStorage.getItem('menu_siga') === 'true' }" 
+                 x-init="$watch('open', value => localStorage.setItem('menu_siga', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -82,7 +85,8 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
             </div>
 
             <!-- Formularios -->
-            <div x-data="{ open: localStorage.getItem('menu_formularios') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_formularios', value))">
+            <div x-data="{ open: localStorage.getItem('menu_formularios') === 'true' }" 
+                 x-init="$watch('open', value => localStorage.setItem('menu_formularios', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -112,7 +116,8 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
             </div>
 
             <!-- Reportes -->
-            <div x-data="{ open: localStorage.getItem('menu_reportes') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_reportes', value))">
+            <div x-data="{ open: localStorage.getItem('menu_reportes') === 'true' }" 
+                 x-init="$watch('open', value => localStorage.setItem('menu_reportes', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -137,7 +142,8 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
             </div>
 
             <!-- Tableros -->
-            <div x-data="{ open: localStorage.getItem('menu_tableros') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_tableros', value))">
+            <div x-data="{ open: localStorage.getItem('menu_tableros') === 'true' }" 
+                 x-init="$watch('open', value => localStorage.setItem('menu_tableros', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -153,7 +159,7 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
                         <i class="fas fa-chalkboard w-4"></i>
                         <span>Gerencial</span>
                     </a>
-                    <a href="#"
+                    <a href="#)"
                         class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-500 hover:bg-blue-50/50 hover:text-blue-500 transition">
                         <i class="fas fa-chalkboard-user w-4"></i>
                         <span>Ejecutivo</span>
@@ -164,7 +170,8 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
 
         <!-- ==================== SUPERVISOR ==================== -->
         @hasrole('Supervisor')
-            <div x-data="{ open: localStorage.getItem('menu_monitoreo') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_monitoreo', value))">
+            <div x-data="{ open: localStorage.getItem('menu_monitoreo') === 'true' }" 
+                 x-init="$watch('open', value => localStorage.setItem('menu_monitoreo', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -196,7 +203,8 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
 
         <!-- ==================== REGISTRADOR ==================== -->
         @hasrole('Registrador')
-            <div x-data="{ open: localStorage.getItem('menu_registros') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_registros', value))">
+            <div x-data="{ open: localStorage.getItem('menu_registros') === 'true' }" 
+                 x-init="$watch('open', value => localStorage.setItem('menu_registros', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -228,7 +236,8 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
 
         <!-- ==================== IPRESS ==================== -->
         @hasrole('Ipress')
-            <div x-data="{ open: localStorage.getItem('menu_ipress') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_ipress', value))">
+            <div x-data="{ open: localStorage.getItem('menu_ipress') === 'true' }" 
+                 x-init="$watch('open', value => localStorage.setItem('menu_ipress', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -268,7 +277,7 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
         @endrole
     </nav>
 
-    <!-- Footer Sidebar - Información del usuario y logout -->
+    <!-- Footer Sidebar -->
     <div class="border-t border-blue-100/30 bg-white/50 flex-shrink-0">
         <!-- Información del usuario -->
         <div class="p-4">
