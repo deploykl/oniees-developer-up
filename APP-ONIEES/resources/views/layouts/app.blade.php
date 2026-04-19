@@ -47,6 +47,9 @@
         @include('layouts.footer')
     </div>
 
+    <!-- Sonner Toaster - Notificaciones -->
+    @livewire('sonner-toaster')
+
     @livewireScripts
 </body>
 

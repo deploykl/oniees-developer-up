@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles; // ← AGREGAR ESTA LÍNEA
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -17,27 +17,35 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use HasRoles; // ← AGREGAR ESTA LÍNEA
+    use HasRoles;
 
-    protected $fillable = [
-        'name',
-        'lastname',
-        'phone',
-        'region_id',
-        'nombre_region',
-        'red',
-        'microred',
-        'establecimiento',
-        'cargo',
-        'email',
-        'password',
-        'tipo_rol',
-        'nombre_eess',
-        'fecha_emision',
-        'id_tipo_documento',
-        'documento_identidad',
-        'profile_photo_path', // ✅ AGREGADO
-    ];
+protected $fillable = [
+    'name',
+    'lastname',
+    'phone',
+    'region_id',
+    'nombre_region',
+    'red',
+    'microred',
+    'establecimiento',
+    'cargo',
+    'email',
+    'password',
+    'nombre_eess',
+    'fecha_emision',
+    'id_tipo_documento',
+    'documento_identidad',
+    'profile_photo_path',
+    'idtipousuario',
+    'idtiporol',
+    'tipo_rol',
+    'unidad_funcional',
+    'iddiresa',           // ← AGREGAR
+    'user_created',       // ← AGREGAR
+    'user_updated',       // ← AGREGAR
+    'idestablecimiento_user', // ← AGREGAR
+    'state_id',
+];
 
     protected $hidden = [
         'password',
@@ -48,6 +56,7 @@ class User extends Authenticatable
 
     protected $appends = [
         'profile_photo_url',
+        'tipo_usuario_nombre', // ← AGREGADO: para mostrar nombre del tipo
     ];
 
     protected function casts(): array
@@ -76,5 +85,55 @@ class User extends Authenticatable
         // Si no tiene foto, mostrar avatar con iniciales
         $name = urlencode($this->name . ' ' . ($this->lastname ?? ''));
         return "https://ui-avatars.com/api/?background=1E3A5F&color=fff&size=128&name={$name}";
+    }
+
+    /**
+     * RELACIÓN: Un usuario pertenece a un tipo de usuario
+     */
+    public function tipoUsuario()
+    {
+        return $this->belongsTo(TipoUsuario::class, 'idtipousuario');
+    }
+
+    /**
+     * HELPER: Obtener el nombre del tipo de usuario
+     */
+    public function getTipoUsuarioNombreAttribute()
+    {
+        return $this->tipoUsuario?->nombre ?? 'Sin asignar';
+    }
+
+    /**
+     * HELPER: Obtener el color del badge para el tipo de usuario
+     */
+    public function getTipoUsuarioBadgeColorAttribute()
+    {
+        $colors = [
+            'red' => 'bg-red-100 text-red-800',
+            'blue' => 'bg-blue-100 text-blue-800',
+            'green' => 'bg-green-100 text-green-800',
+            'purple' => 'bg-purple-100 text-purple-800',
+            'yellow' => 'bg-yellow-100 text-yellow-800',
+            'gray' => 'bg-gray-100 text-gray-800',
+        ];
+        
+        $color = $this->tipoUsuario?->color ?? 'gray';
+        return $colors[$color] ?? $colors['gray'];
+    }
+
+    /**
+     * HELPER: Verificar si el usuario es de un tipo específico
+     */
+    public function isTipoUsuario($nombre)
+    {
+        return $this->tipoUsuario?->nombre === $nombre;
+    }
+
+    /**
+     * SCOPE: Filtrar por tipo de usuario
+     */
+    public function scopeWhereTipoUsuario($query, $tipoId)
+    {
+        return $query->where('idtipousuario', $tipoId);
     }
 }

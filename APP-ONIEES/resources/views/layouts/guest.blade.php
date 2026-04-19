@@ -39,6 +39,9 @@
         {{ $slot }}
     </div>
 
+    <!-- Sonner Toaster - Notificaciones -->
+    @livewire('sonner-toaster')
+
     @livewireScripts
 </body>
 

@@ -31,8 +31,12 @@ class CustomAuthenticatedSessionController extends Controller
                 return redirect()->route('two-factor.challenge');
             }
 
-            // Si no tiene 2FA, proceder normalmente
-            return redirect()->intended('/dashboard');
+            // ✅ AGREGAR TOAST DE BIENVENIDA AQUÍ
+            $userName = $user->name . ' ' . ($user->lastname ?? '');
+            
+            return redirect()->intended('/dashboard')
+                ->with('toast_message', "¡Bienvenido {$userName}!")
+                ->with('toast_type', 'success');
         }
 
         throw ValidationException::withMessages([

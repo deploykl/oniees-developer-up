@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Regions;
+use App\Models\Regiones;
 use App\Models\Diresas;
 use App\Models\Establishment;
 use App\Models\TipoUsuario;
@@ -23,16 +23,14 @@ use GuzzleHttp\Client;
 
 class UsersController extends Controller
 {
-    // ============================================
-    // CONSTRUCTOR ELIMINADO - Los middlewares se definen en routes/admin.php
-    // ============================================
-    
-    public function index() {
-    $users = User::all();
-    return view('admin.users.index', compact('users'));
-}
-    
-    public function edit($id) {
+    public function index()
+    {
+        $users = User::all();
+        return view('admin.users.index', compact('users'));
+    }
+
+    public function edit($id)
+    {
         if ($id == null) {
             return "NO EXISTE EL USUARIO";
         }
@@ -48,134 +46,139 @@ class UsersController extends Controller
         $tipos = TipoUsuario::all();
         $diresas = DB::table('diresa')->get();
         $tipodocumentos = TipoDocumento::all();
-        
-        return view('admin.users.edit', [ 
-            'tipos' => $tipos, 
-            'user' => $user, 
-            'diresas' => $diresas, 
+
+        return view('admin.users.edit', [
+            'tipos' => $tipos,
+            'user' => $user,
+            'diresas' => $diresas,
             'tipodocumentos' => $tipodocumentos
         ]);
     }
-    
-    public function add() {
+
+    public function add()
+    {
         $user = new User();
         $tipos = TipoUsuario::all();
         $diresas = DB::table('diresa')->get();
         $tipodocumentos = TipoDocumento::all();
-        
-        return view('admin.users.create', [ 
-            'tipos' => $tipos, 
-            'user' => $user, 
-            'diresas' => $diresas, 
+
+        return view('admin.users.create', [
+            'tipos' => $tipos,
+            'user' => $user,
+            'diresas' => $diresas,
             'tipodocumentos' => $tipodocumentos
         ]);
     }
-    
-    public function list(){
+
+    public function list()
+    {
         $users = User::all();
         return [
             "data" => $users
         ];
     }
-    
-    public function registerIndex() {
+
+    public function registerIndex()
+    {
         return view('auth.register-index');
     }
-    
-    public function registerMinsa() {
+
+    public function registerMinsa()
+    {
         return view('auth.register-minsa');
     }
-    
-    public function export(Request $request){
+
+    public function export(Request $request)
+    {
         $search = $request->input('search');
         $iddiresa = $request->input('iddiresa') != null && strlen($request->input('iddiresa')) > 0 ? intval($request->input('iddiresa')) : 0;
         return (new UsersExport($search ?? "", $iddiresa))->download('users.xlsx');
     }
-    
+
     public function deshabilitar2FA($id)
     {
         $usuario = User::findOrFail($id);
-    
+
         if ($usuario->two_factor_secret) {
             $usuario->forceFill([
                 'two_factor_secret' => null,
                 'two_factor_recovery_codes' => null,
             ])->save();
         }
-    
+
         return response()->json(['success' => true, 'message' => 'Autenticación 2FA deshabilitada']);
     }
-    
-    public function update_password(Request $request) {
+
+    public function update_password(Request $request)
+    {
         try {
             $user = User::find($request->input('id'));
             if ($user == null) {
                 throw new \Exception('No se encuentra el usuario');
-            } 
-            if ($request->input('password') != $request->input('password-repeat')) {
-                 throw new \Exception("Las claves son distintas en las dos cajas.");
             }
-            
+            if ($request->input('password') != $request->input('password-repeat')) {
+                throw new \Exception("Las claves son distintas en las dos cajas.");
+            }
+
             $user->password = bcrypt($request->input('password'));
-            
+
             $validator = \Validator::make($request->all(), [
                 'password'  => ['required', 'string', new Password],
             ]);
-            
-            if ($validator->fails())
-            {
+
+            if ($validator->fails()) {
                 $json_error = json_decode($validator->errors(), true);
                 $error = implode($json_error["password"]);
                 $error = str_replace("The password must be at least 8 characters.", "La clave debe tener al menos 8 caracteres.", $error);
                 throw new \Exception($error);
             }
-            
-            $user->save();   
-            
+
+            $user->save();
+
             if (env('MAIL_ACTIVE') == true) {
                 $mailable = new UserResetPassword('Notificacion de cambio de clave', env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_ADDRESS'), $user->email, $request->input('password'));
                 Mail::to($user->email)->send($mailable);
             }
-            
-            return [
-                'mensaje' => "Se cambio la clave del Usuario",
-                'status' => "OK"
-            ];
-        }catch(\Exception $e){
-            return [
-                'mensaje' => $e->getMessage(),
-                'status' => "ERROR"
-            ];
+
+            return redirect()->route('users-index')
+                ->with('toast_message', 'Contraseña actualizada correctamente')
+                ->with('toast_type', 'success');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('toast_message', $e->getMessage())
+                ->with('toast_type', 'error');
         }
     }
-    
-    public function delete(Request $request) {
+
+public function delete(Request $request)
+{
+    try {
+        $user = User::find($request->input('id'));
+        if ($user == null) {
+            throw new \Exception('No se encuentra el usuario');
+        }
+
+        $user->delete();
+        return response()->json([
+            'mensaje' => 'Se eliminó el Usuario',
+            'status' => 'OK'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'mensaje' => $e->getMessage(),
+            'status' => 'ERROR'
+        ]);
+    }
+}
+
+    public function resetPassword(Request $request)
+    {
         try {
             $user = User::find($request->input('id'));
             if ($user == null) {
                 throw new \Exception('No se encuentra el usuario');
             }
-            
-            $user->delete();
-            return [
-                'mensaje' => "Se elimino el Usuario",
-                'status' => "OK"
-            ];
-        }catch(\Exception $e){
-            return [
-                'mensaje' => $e->getMessage(),
-                'status' => "ERROR"
-            ];
-        }
-    }
-    
-    public function resetPassword(Request $request) {
-        try {
-            $user = User::find($request->input('id'));
-            if ($user == null) {
-                throw new \Exception('No se encuentra el usuario');
-            }
-            
+
             if (env('MAIL_ACTIVE') == true) {
                 $status = RPassword::sendResetLink(
                     $request->only('email')
@@ -183,41 +186,39 @@ class UsersController extends Controller
             } else {
                 throw new \Exception('No esta activo el servicio Mail');
             }
-            
-            return [
-                'mensaje' => "Se envio email al Usuario",
-                'status' => "OK",
-                'result' => $status
-            ];
-        }catch(\Exception $e){
-            return [
-                'mensaje' => $e->getMessage(),
-                'status' => "ERROR"
-            ];
+
+            return redirect()->back()
+                ->with('toast_message', 'Email de recuperación enviado')
+                ->with('toast_type', 'success');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('toast_message', $e->getMessage())
+                ->with('toast_type', 'error');
         }
     }
-    
-    public function save(Request $request) {
+
+    public function save(Request $request)
+    {
         try {
             $user = new User();
-            
+
             if (!$request->input('email')) {
                 throw new \Exception('El email es obligatorio');
             }
-            
+
             $usersemail = User::where('email', '=', $request->input('email'));
             if ($usersemail->count() > 0) {
                 throw new \Exception('El email ya esta registrado');
             }
-            
+
             if (!$request->input('idtiporol')) {
                 throw new \Exception('Seleccione el Rol del Usuario');
             }
-            
+
             if (!$request->input('idtipousuario') && $request->input('idtiporol') != "1") {
                 throw new \Exception('Seleccione el Tipo de Usuario');
             }
-            
+
             $user->fecha_emision = $request->input('fecha_emision');
             $user->id_tipo_documento = $request->input('id_tipo_documento');
             $user->documento_identidad = $request->input('documento_identidad');
@@ -227,61 +228,60 @@ class UsersController extends Controller
             $user->idtiporol = $request->input('idtiporol');
             $user->tipo_rol = $user->idtiporol;
             $user->idtipousuario = $request->input('idtipousuario');
+            
             $validator = \Validator::make($request->all(), [
-                'email'    => 'email',
+                'email' => 'email',
             ]);
-            if ($validator->fails())
-            {
+            if ($validator->fails()) {
                 $json_error = json_decode($validator->errors(), true);
                 $error = implode($json_error["email"]);
                 throw new \Exception($error);
             }
+            
             $user->phone = $request->input('phone');
             $validator = \Validator::make($request->all(), [
-                'phone'    => 'min:9|max:9',
+                'phone' => 'min:9|max:9',
             ]);
-            if ($validator->fails())
-            {
+            if ($validator->fails()) {
                 $json_error = json_decode($validator->errors(), true);
                 $error = str_replace("movil registrador", "celular del registrador", implode($json_error["phone"]));
                 throw new \Exception($error);
             } else if (substr($user->phone, 0, 1) != "9") {
                 throw new \Exception("El campo movil celular del registrador debe de comenzar con 9");
             }
+            
             $user->cargo = $request->input('cargo');
             $user->unidad_funcional = "-";
-            
+
             if ($request->input('iddiresa') != null) {
                 $diresas_selected = $request->input('iddiresa');
                 $diresas_regiones = Diresas::whereIn('id', $diresas_selected)->get();
                 if ($diresas_regiones->count() == 0 && $user->tipo_rol != "1") {
                     throw new \Exception('Seleccione una Diresa');
                 }
-                
+
                 if ($diresas_regiones->count() > 1) {
-                    foreach($diresas_regiones as $row)
-                    {
+                    foreach ($diresas_regiones as $row) {
                         if ($row['multiple'] == 0) {
                             throw new \Exception('No se pueden crear el usuario con esas diresas en conjunto');
                             break;
                         }
                     }
                 }
-                    
+
                 $explode_regiones = [];
-                foreach($diresas_regiones as $row)
-                {
+                foreach ($diresas_regiones as $row) {
                     $explode_regiones[] = $row['idregion'];
                 }
-                
+
                 if ($diresas_regiones->count() > 0) {
                     $user->iddiresa = implode(",", $diresas_selected);
                     $user->region_id = implode(",", $explode_regiones);
-                    
-                    $regiones = Regions::select('nombre')->whereIn('id', $explode_regiones)->get();
-                    
+
+                    $regiones = Regiones::select('nombre')->whereIn('id', $explode_regiones)->get();
+
                     $user->nombre_region = "";
-                    if ($regiones->count() > 0) { 
+                    if ($regiones->count() > 0) {
                         $region = $regiones->first();
                         $user->nombre_region = $regiones->count() == 1 ? $region->nombre : "VARIAS REGIONES";
                     }
@@ -295,13 +295,13 @@ class UsersController extends Controller
                 $user->region_id = 0;
                 $user->nombre_region = "";
             }
-            
+
             $red = $request->input('red') != null ? trim($request->input('red')) : "";
             $user->red = $red;
-            
+
             $microred = $request->input('microred') != null ? trim($request->input('microred')) : "";
             $user->microred = $microred;
-            
+
             $idestablecimiento = $request->input('idestablecimiento') != null ? trim($request->input('idestablecimiento')) : "0";
             $establecimiento = new Establishment();
             if ($idestablecimiento != "0" && strlen($idestablecimiento) > 0) {
@@ -310,87 +310,84 @@ class UsersController extends Controller
                     throw new \Exception('El establecimiento no existe.');
                 }
                 $user->idestablecimiento_user = $establecimiento->id;
-                $user->nombre_eess = $establecimiento->codigo." - ".$establecimiento->nombre_eess;
+                $user->nombre_eess = $establecimiento->codigo . " - " . $establecimiento->nombre_eess;
                 if ($user->tipo_rol == 2) {
                     $user->tipo_rol = 3;
                 }
             }
-            
+
             $user->password = bcrypt($request->input('password'));
-            
+
             $validator = \Validator::make($request->all(), [
-                'password'  => ['required', 'string', new Password],
+                'password' => ['required', 'string', new Password],
             ]);
-            if ($validator->fails())
-            {
+            if ($validator->fails()) {
                 $json_error = json_decode($validator->errors(), true);
                 $error = implode($json_error["password"]);
                 $error = str_replace("The password must be at least 8 characters.", "La clave debe tener al menos 8 caracteres.", $error);
                 throw new \Exception($error);
             }
-                
+
             $user->state_id = $request->input('state_id');
             $user->user_created = Auth::user()->id;
             $user->save();
-            
+
             if ($user->state_id == 2) {
-                $permisos = DB::select("SELECT p.name FROM role_has_permissions rp INNER JOIN permissions p ON p.id=rp.permission_id WHERE rp.role_id=".$user->tipo_rol);
-    
-                $AddPermissions = []; 
+                $permisos = DB::select("SELECT p.name FROM role_has_permissions rp INNER JOIN permissions p ON p.id=rp.permission_id WHERE rp.role_id=" . $user->tipo_rol);
+
+                $AddPermissions = [];
                 for ($x = 0; $x < count($permisos); $x++) {
                     $AddPermissions[] = $permisos[$x]->name;
                 }
-                
+
                 if ($establecimiento != null && $establecimiento->id_institucion == 1) {
                     $permisos_essalud = DB::select("SELECT p.name FROM permissions p WHERE p.name LIKE 'ESSALUD%'");
                     for ($x = 0; $x < count($permisos_essalud); $x++) {
                         $AddPermissions[] = $permisos_essalud[$x]->name;
                     }
                 }
-                
+
                 $user->givePermissionTo($AddPermissions);
             }
-            
+
             if (env('MAIL_ACTIVE') == true) {
                 $mailable = new UserResetPassword('Notificacion de registro de usuario', env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_ADDRESS'), $user->email, $request->input('password'));
-                
                 Mail::to($user->email)->send($mailable);
             }
-            
-            return [
-                'mensaje' => "Se creo Correctamente",
-                'status' => "OK",
-                'id' => $user->id
-            ];
-        }catch(\Exception $e){
-            return [
-                'mensaje' => $e->getMessage(),
-                'status' => "ERROR"
-            ];
+
+            return redirect()->route('users-index')
+                ->with('toast_message', 'Usuario creado correctamente')
+                ->with('toast_type', 'success');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('toast_message', $e->getMessage())
+                ->with('toast_type', 'error')
+                ->withInput();
         }
     }
-    
-    public function update(Request $request) {
+
+    public function update(Request $request)
+    {
         try {
             $user = User::find($request->input('id'));
             if ($user == null) {
                 throw new \Exception('No se encuentra el usuario');
             }
-            
+
             if (Auth::user()->idtiporol != 1 && $user->idtiporol == 1) {
                 throw new \Exception('No puede editar un Usuario de su mismo Rol o Superior');
             }
-            
+
             if (!$request->input('idtiporol')) {
                 throw new \Exception('Seleccione el Rol del Usuario');
             }
-            
+
             if (!$request->input('idtipousuario') && $request->input('idtiporol') != "1") {
                 throw new \Exception('Seleccione el Tipo de Usuario');
             }
-            
+
             $tipo_rol = $user->tipo_rol;
-            
+
             $user->fecha_emision = $request->input('fecha_emision');
             $user->id_tipo_documento = $request->input('id_tipo_documento');
             $user->documento_identidad = $request->input('documento_identidad');
@@ -400,54 +397,52 @@ class UsersController extends Controller
             $user->idtiporol = $request->input('idtiporol');
             $user->tipo_rol = $user->idtiporol;
             $user->idtipousuario = $request->input('idtipousuario');
+            
             $validator = \Validator::make($request->all(), [
-                'email'    => 'email',
+                'email' => 'email',
             ]);
-            if ($validator->fails())
-            {
+            if ($validator->fails()) {
                 $json_error = json_decode($validator->errors(), true);
                 $error = implode($json_error["email"]);
                 throw new \Exception($error);
             }
-            
+
             $user->phone = $request->input('phone');
             $validator = \Validator::make($request->all(), [
-                'phone'    => 'min:9|max:9',
+                'phone' => 'min:9|max:9',
             ]);
-            if ($validator->fails())
-            {
+            if ($validator->fails()) {
                 $json_error = json_decode($validator->errors(), true);
                 $error = str_replace("movil registrador", "celular del registrador", implode($json_error["phone"]));
                 throw new \Exception($error);
             } else if (substr($user->phone, 0, 1) != "9") {
                 throw new \Exception("El campo movil celular del registrador debe de comenzar con 9");
             }
-            
+
             $user->cargo = $request->input('cargo');
             $user->unidad_funcional = "-";
-            
+
             if ($request->input('iddiresa') != null) {
                 $diresas_selected = $request->input('iddiresa');
-                
+
                 $diresas_regiones = Diresas::whereIn('id', $diresas_selected)->pluck('idregion');
                 if ($diresas_regiones->count() == 0 && $user->tipo_rol != "1") {
                     throw new \Exception('Seleccione una Diresa');
                 }
-                
+
                 $explode_regiones = [];
-                foreach($diresas_regiones as $row)
-                {
+                foreach ($diresas_regiones as $row) {
                     $explode_regiones[] = $row;
                 }
-                
+
                 if ($diresas_regiones->count() > 0) {
                     $user->iddiresa = implode(",", $diresas_selected);
                     $user->region_id = implode(",", $explode_regiones);
-                    
-                    $regiones = Regions::select('nombre')->whereIn('id', $explode_regiones)->get();
-                    
+
+                    $regiones = Regiones::select('nombre')->whereIn('id', $explode_regiones)->get();
+
                     $user->nombre_region = "";
-                    if ($regiones->count() > 0) { 
+                    if ($regiones->count() > 0) {
                         $region = $regiones->first();
                         $user->nombre_region = $regiones->count() == 1 ? $region->nombre : "VARIAS REGIONES";
                     }
@@ -461,13 +456,13 @@ class UsersController extends Controller
                 $user->region_id = 0;
                 $user->nombre_region = "";
             }
-            
+
             $red = $request->input('red') != null ? trim($request->input('red')) : "";
             $user->red = $red;
-            
+
             $microred = $request->input('microred') != null ? trim($request->input('microred')) : "";
             $user->microred = $microred;
-            
+
             $idestablecimiento = $request->input('idestablecimiento') != null ? trim($request->input('idestablecimiento')) : "0";
             $establecimiento = new Establishment();
             if ($idestablecimiento != "0" && strlen($idestablecimiento) > 0) {
@@ -476,33 +471,30 @@ class UsersController extends Controller
                     throw new \Exception('El establecimiento no existe.');
                 }
                 $user->idestablecimiento_user = $establecimiento->id;
-                $user->nombre_eess = $establecimiento->codigo." - ".$establecimiento->nombre_eess;
+                $user->nombre_eess = $establecimiento->codigo . " - " . $establecimiento->nombre_eess;
                 if ($user->tipo_rol == 2) {
                     $user->tipo_rol = 3;
                 }
             } else {
                 $user->idestablecimiento_user = null;
             }
-            
+
             $user->user_updated = Auth::user()->id;
             $user->save();
-            
+
             if ($user->state_id == 2 && $user->tipo_rol != $tipo_rol) {
                 $permisos_essalud = DB::select("SELECT p.name FROM permissions p WHERE p.name LIKE 'ESSALUD%'");
                 //ELIMINAR PERMISOS ANTERIORES
-                $permisosRemove = DB::select("SELECT p.name FROM role_has_permissions rp INNER JOIN permissions p ON p.id=rp.permission_id WHERE rp.role_id=".$tipo_rol);
-                $RemovePermissions = []; 
+                $permisosRemove = DB::select("SELECT p.name FROM role_has_permissions rp INNER JOIN permissions p ON p.id=rp.permission_id WHERE rp.role_id=" . $tipo_rol);
+                $RemovePermissions = [];
                 for ($x = 0; $x < count($permisosRemove); $x++) {
                     $RemovePermissions[] = $permisosRemove[$x]->name;
                 }
-                for ($x = 0; $x < count($permisos_essalud); $x++) {
-                    $AddPermissions[] = $permisos_essalud[$x]->name;
-                }
                 $user->revokePermissionTo($RemovePermissions);
-                
+
                 //ASIGNAR PERMISOS NUEVOS
-                $permisosAdd = DB::select("SELECT p.name FROM role_has_permissions rp INNER JOIN permissions p ON p.id=rp.permission_id WHERE rp.role_id=".$user->tipo_rol);
-                $AddPermissions = []; 
+                $permisosAdd = DB::select("SELECT p.name FROM role_has_permissions rp INNER JOIN permissions p ON p.id=rp.permission_id WHERE rp.role_id=" . $user->tipo_rol);
+                $AddPermissions = [];
                 for ($x = 0; $x < count($permisosAdd); $x++) {
                     $AddPermissions[] = $permisosAdd[$x]->name;
                 }
@@ -513,44 +505,44 @@ class UsersController extends Controller
                 }
                 $user->givePermissionTo($AddPermissions);
             }
-            
-            return [
-                'mensaje' => "Se guardo Correctamente",
-                'status' => "OK",
-            ];
-        }catch(\Exception $e){
-            return [
-                'mensaje' => $e->getMessage(),
-                'status' => "ERROR"
-            ];
+
+            return redirect()->route('users-index')
+                ->with('toast_message', 'Usuario actualizado correctamente')
+                ->with('toast_type', 'success');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('toast_message', $e->getMessage())
+                ->with('toast_type', 'error')
+                ->withInput();
         }
     }
-    
-    public function permissionRolUser() {
+
+    public function permissionRolUser()
+    {
         try {
             $users = User::all();
             $permisos_essalud = DB::select("SELECT p.name FROM permissions p WHERE p.name LIKE 'ESSALUD%'");
-            $permisosConfigurador = DB::select("SELECT p.name FROM role_has_permissions rp INNER JOIN permissions p ON p.id=rp.permission_id WHERE rp.role_id=".env('ID_ROL_CONFIGURADOR', 0));
-            
-            foreach($users as &$user) {
+            $permisosConfigurador = DB::select("SELECT p.name FROM role_has_permissions rp INNER JOIN permissions p ON p.id=rp.permission_id WHERE rp.role_id=" . env('ID_ROL_CONFIGURADOR', 0));
+
+            foreach ($users as &$user) {
                 $user->syncRoles([]);
                 $user->syncPermissions([]);
-                
-                $AddPermissions = []; 
-                    
-                $permisos = DB::select("SELECT p.name FROM role_has_permissions rp INNER JOIN permissions p ON p.id=rp.permission_id WHERE rp.role_id=".$user->tipo_rol);
+
+                $AddPermissions = [];
+
+                $permisos = DB::select("SELECT p.name FROM role_has_permissions rp INNER JOIN permissions p ON p.id=rp.permission_id WHERE rp.role_id=" . $user->tipo_rol);
                 if (count($permisos) > 0) {
                     for ($x = 0; $x < count($permisos); $x++) {
                         $AddPermissions[] = $permisos[$x]->name;
                     }
                 }
-                
+
                 if ($user->configurador == 1) {
                     for ($x = 0; $x < count($permisosConfigurador); $x++) {
                         $AddPermissions[] = $permisosConfigurador[$x]->name;
                     }
                 }
-                
+
                 if ($user->idtipousuario == 2) {
                     for ($x = 0; $x < count($permisos_essalud); $x++) {
                         $AddPermissions[] = $permisos_essalud[$x]->name;
@@ -565,30 +557,32 @@ class UsersController extends Controller
                         }
                     }
                 }
-                
+
                 if (count($AddPermissions) > 0) {
                     $user->givePermissionTo($AddPermissions);
                 }
             }
-            return "OK";
-        } catch(\Exception $e){
-            return [
-                'mensaje' => $e->getMessage(),
-                'status' => "ERROR"
-            ];
+            return redirect()->route('users-index')
+                ->with('toast_message', 'Permisos actualizados correctamente')
+                ->with('toast_type', 'success');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('toast_message', $e->getMessage())
+                ->with('toast_type', 'error');
         }
     }
-    
-    public function permission($id) {
+
+    public function permission($id)
+    {
         try {
             $user = User::find($id);
             $Permissions = DB::select('SELECT id, name, guard_name, module FROM permissions');
-            
+
             $PermissionsUser = [];
-            foreach($user->getAllPermissions() as &$Permission) {
+            foreach ($user->getAllPermissions() as &$Permission) {
                 $PermissionsUser[] = $Permission["id"];
             }
-            
+
             $permisos = [];
             foreach ($Permissions as &$Permission) {
                 $active = in_array($Permission->id, $PermissionsUser);
@@ -600,39 +594,40 @@ class UsersController extends Controller
                     'active' => $active
                 ];
             }
-            
+
             if ($user->state_id != 2) {
                 $user->state_id = 2;
                 $user->save();
             }
-            
+
             return view('admin.users.permisions', [
                 'permissions' => $permisos,
                 'user_id' => $id
             ]);
-        }catch(\Exception $e){
-            return [
-                'mensaje' => $e->getMessage(),
-                'status' => "ERROR"
-            ];
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('toast_message', $e->getMessage())
+                ->with('toast_type', 'error');
         }
     }
-    
-    public function updatePermission(Request $request) {
+
+    public function updatePermission(Request $request)
+    {
         try {
             $user = User::find($request->input('id'));
             if ($user == null) {
                 throw new \Exception('No se encuentra el usuario');
             }
-         
+
             if (Auth::user()->tipo_rol != 1 && $user->tipo_rol == 1) {
                 throw new \Exception('No puede editar un Usuario de su mismo Rol o Superior');
             }
-            
-            $AddPermissions = []; $RemovePermissions = [];
+
+            $AddPermissions = [];
+            $RemovePermissions = [];
             if ($request->input('total') > 0) {
                 for ($x = 0; $x < $request->input('total'); $x++) {
-                    $permiso = explode("||", $request->input('permission'.$x));
+                    $permiso = explode("||", $request->input('permission' . $x));
                     if ($permiso[1] == "true") {
                         $AddPermissions[] = $permiso[0];
                     } else {
@@ -640,75 +635,75 @@ class UsersController extends Controller
                     }
                 }
             }
-            
+
             if (count($AddPermissions) > 0) {
                 $user->givePermissionTo($AddPermissions);
             }
-            
+
             if (count($RemovePermissions) > 0) {
                 $user->revokePermissionTo($RemovePermissions);
             }
-            
-            return [
-                'mensaje' => "Se guardo Correctamente",
-                'status' => "OK",
-                'AddPermissions' => $AddPermissions,
-                'RemovePermissions' => $RemovePermissions
-            ];
-        } catch (\Exception $e){
-            return [
-                'mensaje' => $e->getMessage(),
-                'status' => "ERROR"
-            ];
+
+            return redirect()->back()
+                ->with('toast_message', 'Permisos actualizados correctamente')
+                ->with('toast_type', 'success');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('toast_message', $e->getMessage())
+                ->with('toast_type', 'error');
         }
     }
-    
-    function uPermission() {
+
+    function uPermission()
+    {
         $users = User::all();
         foreach ($users as &$user) {
             $user->revokePermissionTo(Permission::all());
         }
-        
+
         foreach ($users as &$user) {
-            $permisos = DB::select("SELECT p.name FROM role_has_permissions rp INNER JOIN permissions p ON p.id=rp.permission_id WHERE rp.role_id=".$user->tipo_rol);
+            $permisos = DB::select("SELECT p.name FROM role_has_permissions rp INNER JOIN permissions p ON p.id=rp.permission_id WHERE rp.role_id=" . $user->tipo_rol);
             if (count($permisos) > 0) {
-                $AddPermissions = []; 
+                $AddPermissions = [];
                 for ($x = 0; $x < count($permisos); $x++) {
                     $AddPermissions[] = $permisos[$x]->name;
                 }
                 $user->givePermissionTo($AddPermissions);
             }
         }
-        return "OK";
+        return redirect()->route('users-index')
+            ->with('toast_message', 'Permisos sincronizados correctamente')
+            ->with('toast_type', 'success');
     }
-    
-    public function createPermision() {
+
+    public function createPermision()
+    {
         $role = Role::find(1);
-        
+
         $permission1 = Permission::create(['name' => 'SIGA - Inicio']);
         $role->givePermissionTo($permission1);
-        
+
         $permission2 = Permission::create(['name' => 'SIGA GORE - Inicio']);
         $role->givePermissionTo($permission2);
-        
+
         $permission3 = Permission::create(['name' => 'SIGA - Centro Quirurgico - Inicio']);
         $role->givePermissionTo($permission3);
-        
+
         $permission4 = Permission::create(['name' => 'SIGA - Hospitalizacion Inicio']);
         $role->givePermissionTo($permission4);
-        
+
         $permission5 = Permission::create(['name' => 'SIGA - Cuidados Intensivos - Inicio']);
         $role->givePermissionTo($permission5);
-        
+
         $permission6 = Permission::create(['name' => 'SIGA - Patologia Clinica - Inicio']);
         $role->givePermissionTo($permission6);
-        
+
         $permission7 = Permission::create(['name' => 'SIGA - Centro Obstetrico - Inicio']);
         $role->givePermissionTo($permission7);
-        
+
         $permission8 = Permission::create(['name' => 'SIGA - Emergencia - Inicio']);
         $role->givePermissionTo($permission8);
-        
+
         $permission9 = Permission::create(['name' => 'SIGA - Consulta Externa - Inicio']);
         $role->givePermissionTo($permission9);
 
@@ -721,15 +716,18 @@ class UsersController extends Controller
         $permission12 = Permission::create(['name' => 'SIGA - Buscar Equipos - Inicio']);
         $role->givePermissionTo($permission12);
 
-        return "OK";
+        return redirect()->back()
+            ->with('toast_message', 'Permisos creados correctamente')
+            ->with('toast_type', 'success');
     }
-    
-    public function test() {
+
+    public function test()
+    {
         $client = new Client([
             'verify' => false,
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
-                'Autorization' => 'Basic '.env('APP_EETT_P_AUTORIZATION')
+                'Autorization' => 'Basic ' . env('APP_EETT_P_AUTORIZATION')
             ],
         ]);
         $response = $client->request('POST', env('APP_URL_P_TOKEN'), [
@@ -740,36 +738,38 @@ class UsersController extends Controller
             ]
         ]);
         $response = $response->getBody()->getContents();
-        
+
         return $response;
     }
-    
-    public function listado_red(Request $request) {
+
+    public function listado_red(Request $request)
+    {
         try {
             $iddiresa = $request->input('iddiresa') != null ? trim($request->input('iddiresa')) : "0";
             $search = $request->input('search') != null ? trim($request->input('search')) : "";
             if ($iddiresa != "0" && strlen($iddiresa) > 0) {
                 $diresas = explode(",", $iddiresa);
                 $listado = DB::table('establishment')->select('nombre_red as nombre', 'nombre_red as id')
-                    ->where('nombre_red', 'LIKE', '%'.$search.'%')->whereIn('iddiresa', $diresas)
+                    ->where('nombre_red', 'LIKE', '%' . $search . '%')->whereIn('iddiresa', $diresas)
                     ->groupBy('nombre_red')->take(100)->get();
             } else {
-                $listado = DB::table('establishment')->where('nombre_red', 'LIKE', '%'.$search.'%')
+                $listado = DB::table('establishment')->where('nombre_red', 'LIKE', '%' . $search . '%')
                     ->select('nombre_red as nombre', 'nombre_red as id')->groupBy('nombre_red')->take(100)->get();
             }
             return [
                 'status' => "OK",
                 'data' => $listado
             ];
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'mensaje' => $e->getMessage(),
                 'status' => "ERROR"
             ];
         }
     }
-    
-    public function listado_microred(Request $request) {
+
+    public function listado_microred(Request $request)
+    {
         try {
             $iddiresa = $request->input('iddiresa') != null ? trim($request->input('iddiresa')) : "0";
             $nombre_red = $request->input('nombre_red') != null ? trim($request->input('nombre_red')) : "%";
@@ -778,13 +778,13 @@ class UsersController extends Controller
                 $diresas = explode(",", $iddiresa);
                 $listado = DB::table('establishment')->whereIn('iddiresa', $diresas)
                     ->where('nombre_red', 'LIKE', $nombre_red)
-                    ->where('nombre_microred', 'LIKE', '%'.$search.'%')
+                    ->where('nombre_microred', 'LIKE', '%' . $search . '%')
                     ->select('nombre_microred as nombre', 'nombre_microred as id')
                     ->groupBy('nombre_microred')->take(100)->get();
             } else {
                 $listado = DB::table('establishment')
                     ->where('nombre_red', 'LIKE', $nombre_red)
-                    ->where('nombre_microred', 'LIKE', '%'.$search.'%')
+                    ->where('nombre_microred', 'LIKE', '%' . $search . '%')
                     ->select('nombre_microred as nombre', 'nombre_microred as id')
                     ->groupBy('nombre_microred')->take(100)->get();
             }
@@ -792,28 +792,29 @@ class UsersController extends Controller
                 'status' => "OK",
                 'data' => $listado
             ];
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'mensaje' => $e->getMessage(),
                 'status' => "ERROR"
             ];
         }
     }
-    
-    public function listado_establecimiento(Request $request) {
+
+    public function listado_establecimiento(Request $request)
+    {
         try {
             $where = "";
             if ($request->input('iddiresa') != null && $request->input('iddiresa') != "0") {
-                $where .= " AND iddiresa in (".trim($request->input('iddiresa')).")";
+                $where .= " AND iddiresa in (" . trim($request->input('iddiresa')) . ")";
             }
             if ($request->input('nombre_red') != null) {
-                $where .= " AND nombre_red = '".trim($request->input('nombre_red'))."'";
+                $where .= " AND nombre_red = '" . trim($request->input('nombre_red')) . "'";
             }
             if ($request->input('nombre_microred') != null) {
-                $where .= " AND nombre_microred = '".trim($request->input('nombre_microred'))."'";
+                $where .= " AND nombre_microred = '" . trim($request->input('nombre_microred')) . "'";
             }
             if ($request->input('search') != null) {
-                $where .= " AND (nombre_eess LIKE '%".trim($request->input('search'))."%' OR codigo LIKE '%".trim($request->input('search'))."%')";
+                $where .= " AND (nombre_eess LIKE '%" . trim($request->input('search')) . "%' OR codigo LIKE '%" . trim($request->input('search')) . "%')";
             }
             if (strlen($where) > 0) {
                 $where = substr($where, 4, strlen($where));
@@ -825,7 +826,7 @@ class UsersController extends Controller
                 'status' => "OK",
                 'data' => $listado
             ];
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'mensaje' => $e->getMessage(),
                 'status' => "ERROR"
