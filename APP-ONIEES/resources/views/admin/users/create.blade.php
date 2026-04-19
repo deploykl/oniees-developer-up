@@ -135,7 +135,7 @@
                             </div>
                         </div>
 
-                        <!-- Fila 4: Cargo, DIRIS -->
+                        <!-- Fila 4: Cargo, DIRIS con Alpine.js -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div class="space-y-1">
                                 <label class="block text-sm font-medium text-gray-700">
@@ -150,14 +150,55 @@
                                 <label class="block text-sm font-medium text-gray-700">
                                     DIRIS <span class="text-red-500">*</span>
                                 </label>
-                                <select id="iddiresa" name="iddiresa"
-                                    class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-white/50 hover:bg-white"
-                                    required>
-                                    <option value="">Seleccione una DIRIS</option>
-                                    @foreach ($diresas as $diresa)
-                                        <option value="{{ $diresa->id }}">{{ $diresa->nombre }}</option>
-                                    @endforeach
-                                </select>
+                                <div x-data="{ 
+                                    selected: [], 
+                                    open: false,
+                                    toggleOption(value) {
+                                        if (this.selected.includes(value)) {
+                                            this.selected = this.selected.filter(v => v !== value);
+                                        } else {
+                                            this.selected.push(value);
+                                        }
+                                        this.updateRedes();
+                                    },
+                                    updateRedes() {
+                                        // Actualizar el input hidden y recargar redes
+                                        const ids = this.selected.join(',');
+                                        if (typeof cargarRedes === 'function') {
+                                            cargarRedes(ids);
+                                        }
+                                    }
+                                }" class="relative">
+                                    <!-- Select personalizado -->
+                                    <div @click="open = !open" 
+                                         class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-white/50 hover:bg-white cursor-pointer flex justify-between items-center">
+                                        <span x-text="selected.length > 0 ? selected.length + ' DIRIS seleccionada(s)' : 'Seleccione DIRIS'"
+                                              class="text-gray-700"></span>
+                                        <i class="fas fa-chevron-down text-gray-400 transition-transform" :class="{'rotate-180': open}"></i>
+                                    </div>
+                                    
+                                    <!-- Dropdown con opciones -->
+                                    <div x-show="open" @click.away="open = false"
+                                         class="absolute z-10 mt-1 w-full bg-white rounded-xl border border-gray-200 shadow-lg max-h-60 overflow-y-auto">
+                                        <div class="p-2">
+                                            @foreach ($diresas as $diresa)
+                                                <label class="flex items-center gap-3 p-2 hover:bg-blue-50 rounded-lg cursor-pointer">
+                                                    <input type="checkbox" 
+                                                           :checked="selected.includes('{{ $diresa->id }}')"
+                                                           @change="toggleOption('{{ $diresa->id }}')"
+                                                           class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                                    <span class="text-sm text-gray-700">{{ $diresa->nombre }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Inputs hidden para enviar los valores -->
+                                    <template x-for="id in selected" :key="id">
+                                        <input type="hidden" name="iddiresa[]" :value="id">
+                                    </template>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">Seleccione una o más DIRIS</p>
                             </div>
                         </div>
 
@@ -239,19 +280,20 @@
     </div>
 
     <script>
-        // Validación de email
-        function validateEmail(email) {
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return regex.test(email);
+        function RequiredDiris() {
+            const tipoRol = document.getElementById("idtiporol").value;
+            const tipoUsuario = document.getElementById("idtipousuario");
+            const labelTipoUsuario = document.querySelector("label[for='idtipousuario']");
+
+            if (tipoRol == 1) {
+                tipoUsuario.removeAttribute("required");
+                labelTipoUsuario.innerHTML = 'Tipo Usuario';
+            } else {
+                tipoUsuario.setAttribute("required", "required");
+                labelTipoUsuario.innerHTML = 'Tipo Usuario <span class="text-red-500">*</span>';
+            }
         }
 
-        // Validación de celular
-        function validatePhone(phone) {
-            const regex = /^9\d{8}$/;
-            return regex.test(phone);
-        }
-
-        // Mostrar/ocultar contraseña
         function togglePassword() {
             const passwordInput = document.getElementById('password');
             const icon = document.getElementById('togglePasswordIcon');
@@ -267,23 +309,14 @@
             }
         }
 
-        function RequiredDiris() {
-            const tipoRol = document.getElementById("idtiporol").value;
-            const tipoUsuario = document.getElementById("idtipousuario");
-            const labelTipoUsuario = document.querySelector("label[for='idtipousuario']");
-
-            if (tipoRol == 1) {
-                tipoUsuario.removeAttribute("required");
-                labelTipoUsuario.innerHTML = 'Tipo Usuario';
-            } else {
-                tipoUsuario.setAttribute("required", "required");
-                labelTipoUsuario.innerHTML = 'Tipo Usuario <span class="text-red-500">*</span>';
-            }
+        function validateEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
         }
 
-        function CambiarTipo(input) {
-            var tipo = $("#" + input).prop("type");
-            $("#" + input).prop("type", (tipo == "text" ? "password" : "text"));
+        function validatePhone(phone) {
+            const regex = /^9\d{8}$/;
+            return regex.test(phone);
         }
 
         function PasswordValidate() {
@@ -396,6 +429,36 @@
         });
 
         // ========== SELECTS PARA RED, MICRORED Y ESTABLECIMIENTO ==========
+        function cargarRedes(iddiresaValue) {
+            if (!iddiresaValue) {
+                var selected = [];
+                document.querySelectorAll('input[name="iddiresa[]"]').forEach(function(input) {
+                    if (input.value) selected.push(input.value);
+                });
+                iddiresaValue = selected.join(',') || "0";
+            }
+
+            $.ajax({
+                url: "{{ route('users-listado-red') }}",
+                type: "GET",
+                data: { search: "", iddiresa: iddiresaValue },
+                success: function(response) {
+                    var $select = $('#red');
+                    $select.empty();
+                    $select.append('<option value="">Seleccione una Red</option>');
+
+                    if (response.results && response.results.length > 0) {
+                        $.each(response.results, function(i, item) {
+                            $select.append('<option value="' + item.id + '">' + item.text + '</option>');
+                        });
+                    }
+                },
+                error: function() {
+                    $('#red').html('<option value="">Error al cargar redes</option>');
+                }
+            });
+        }
+
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
@@ -403,37 +466,7 @@
                 }
             });
 
-            // Cuando cambia DIRIS, recargar redes
-            $('#iddiresa').on('change', function() {
-                cargarRedes();
-                $('#microred').html('<option value="">Primero seleccione una Red</option>');
-                $('#idestablecimiento').html('<option value="">Primero seleccione una MicroRed</option>');
-            });
-
-            function cargarRedes() {
-                var iddiresaValue = $("#iddiresa").val() || "0";
-
-                $.ajax({
-                    url: "{{ route('users-listado-red') }}",
-                    type: "GET",
-                    data: { search: "", iddiresa: iddiresaValue },
-                    success: function(response) {
-                        var $select = $('#red');
-                        $select.empty();
-                        $select.append('<option value="">Seleccione una Red</option>');
-
-                        if (response.results && response.results.length > 0) {
-                            $.each(response.results, function(i, item) {
-                                $select.append('<option value="' + item.id + '">' + item.text + '</option>');
-                            });
-                        }
-                    },
-                    error: function() {
-                        $('#red').html('<option value="">Error al cargar redes</option>');
-                    }
-                });
-            }
-
+            // Cargar MicroRedes
             $('#red').on('change', function() {
                 var nombre_red = $(this).val();
 
@@ -460,6 +493,7 @@
                 }
             });
 
+            // Cargar Establecimientos
             $('#microred').on('change', function() {
                 var nombre_red = $('#red').val();
                 var nombre_microred = $(this).val();
@@ -490,8 +524,6 @@
                     $('#idestablecimiento').html('<option value="">Primero seleccione una MicroRed</option>');
                 }
             });
-
-            cargarRedes();
         });
     </script>
 </x-app-layout>

@@ -23,11 +23,12 @@ use GuzzleHttp\Client;
 
 class UsersController extends Controller
 {
-    public function index()
-    {
-        $users = User::all();
-        return view('admin.users.index', compact('users'));
-    }
+ public function index()
+{
+    $users = User::all();
+    $diresas = DB::table('diresa')->get(); // ← AGREGAR ESTA LÍNEA
+    return view('admin.users.index', compact('users', 'diresas'));
+}
 
     public function edit($id)
     {

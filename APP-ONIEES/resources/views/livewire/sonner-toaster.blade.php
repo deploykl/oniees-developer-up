@@ -8,7 +8,7 @@
             x-transition:leave="transform ease-in duration-200 transition"
             x-transition:leave-start="translate-y-0 opacity-100 scale-100"
             x-transition:leave-end="translate-y-[-20px] opacity-0 scale-95"
-            class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] w-[380px] rounded-xl shadow-2xl overflow-hidden"
+            class="fixed top-5 left-1/2 -translate-x-1/2 z-[1000] w-[380px] rounded-xl shadow-2xl overflow-hidden"
             :class="{
                 'bg-gradient-to-r from-emerald-500 to-emerald-600': toast.type === 'success',
                 'bg-gradient-to-r from-rose-500 to-rose-600': toast.type === 'error',

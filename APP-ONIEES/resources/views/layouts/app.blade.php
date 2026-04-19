@@ -20,10 +20,10 @@
     <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('img/favicon.png') }}">
     
-    <!-- jQuery (necesario para Select2 y otros) -->
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
-    <!-- Alpine.js para el sidebar -->
+    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <!-- Select2 CSS -->
@@ -36,12 +36,11 @@
     @livewireStyles
     
     <style>
-        /* Estilos para el sidebar y layout */
+        /* Estilos globales */
         .sidebar-transition {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* Scrollbar personalizado */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -60,6 +59,33 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+        
+        /* Contenido principal - el margen se ajusta dinámicamente */
+        .main-content {
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .main-content.sidebar-open {
+            margin-left: 16rem; /* w-64 = 256px = 16rem */
+        }
+        
+        .main-content.sidebar-closed {
+            margin-left: 5rem; /* w-20 = 80px = 5rem */
+        }
+        
+        /* Cuando no hay sidebar */
+        .main-content.no-sidebar {
+            margin-left: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content.sidebar-open {
+                margin-left: 0;
+            }
+            .main-content.sidebar-closed {
+                margin-left: 0;
+            }
+        }
     </style>
 </head>
 
@@ -71,12 +97,19 @@
         @endphp
 
         @if($mostrarSidebar)
-            <!-- Usuario autenticado en ruta CON sidebar -->
-            <div class="flex min-h-screen bg-gray-50">
+            <!-- Layout con sidebar -->
+            <div x-data="{ sidebarOpen: localStorage.getItem('sidebarOpen') !== 'false' }" 
+                 x-init="$watch('sidebarOpen', value => localStorage.setItem('sidebarOpen', value))"
+                 class="min-h-screen bg-gray-50">
+                
+                <!-- Sidebar -->
                 @include('layouts.sidebar')
                 
-                <div class="flex-1">
-                    <!-- Header con z-index menor que el sidebar -->
+                <!-- Contenido principal con margen dinámico -->
+                <div class="main-content transition-all duration-300"
+                     :class="sidebarOpen ? 'sidebar-open' : 'sidebar-closed'">
+                    
+                    <!-- Header -->
                     <div style="position: relative; z-index: 150;">
                         @include('layouts.header')
                     </div>
@@ -97,7 +130,7 @@
                 </div>
             </div>
         @else
-            <!-- Usuario autenticado en ruta SIN sidebar (login, home, etc.) -->
+            <!-- Layout sin sidebar -->
             <div>
                 @include('layouts.header')
                 
@@ -117,7 +150,7 @@
             </div>
         @endif
     @else
-        <!-- Usuario no autenticado - layout sin sidebar -->
+        <!-- Usuario no autenticado -->
         <div>
             @include('layouts.header')
             
@@ -140,21 +173,34 @@
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <!-- Sonner Toaster - Notificaciones -->
+    <!-- Sonner Toaster -->
     @livewire('sonner-toaster')
 
     @livewireScripts
     
     <script>
-        // Sincronizar el estado del sidebar entre componentes
         document.addEventListener('alpine:init', () => {
             Alpine.store('sidebar', {
-                open: true,
+                open: localStorage.getItem('sidebarOpen') !== 'false',
                 toggle() {
                     this.open = !this.open;
+                    localStorage.setItem('sidebarOpen', this.open);
                 }
             });
         });
+           // Escuchar cambios en el sidebar para ajustar el contenido principal
+    window.addEventListener('sidebar-toggled', function(e) {
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+            if (e.detail.open) {
+                mainContent.classList.remove('sidebar-closed');
+                mainContent.classList.add('sidebar-open');
+            } else {
+                mainContent.classList.remove('sidebar-open');
+                mainContent.classList.add('sidebar-closed');
+            }
+        }
+    });
     </script>
 </body>
 
