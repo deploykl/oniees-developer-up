@@ -89,7 +89,7 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
                  x-init="$watch('open', value => localStorage.setItem('menu_formularios', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
-                    <div class="flex items-center gap-3">
+                    <div class="sidebarOpenflex items-center gap-3">
                         <i class="fas fa-file-alt w-5 text-lg"></i>
                         <span x-show="sidebarOpen" class="text-sm font-medium">Formularios</span>
                     </div>

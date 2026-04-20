@@ -133,10 +133,10 @@
             
             <!-- Botón flotante para móvil -->
             <button x-show="isMobile && !sidebarOpen"
-                    @click="$store.sidebar.setOpen(true)"
-                    class="fixed left-4 top-20 z-50 p-2.5 bg-white rounded-xl shadow-lg text-gray-600 hover:bg-blue-50 transition md:hidden">
-                <i class="fas fa-bars text-xl"></i>
-            </button>
+        @click="$store.sidebar.setOpen(true)"
+        class="fixed left-4 top-3 z-[999] p-2.5 bg-white rounded-xl shadow-lg text-gray-600 hover:bg-blue-50 transition md:hidden">
+    <i class="fas fa-bars text-xl"></i>
+</button>
             
             <!-- Contenido principal -->
             <div class="transition-all duration-300 min-h-screen flex flex-col"
