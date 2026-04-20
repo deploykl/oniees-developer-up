@@ -43,7 +43,8 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html,
+        body {
             height: 100%;
             margin: 0;
             padding: 0;
@@ -101,56 +102,79 @@
 </head>
 
 <body>
-@auth
-    @php
-        $rutasSinSidebar = ['login', 'home', 'register', 'password.request', 'password.reset'];
-        $mostrarSidebar = !in_array(request()->route()?->getName(), $rutasSinSidebar) && !request()->is('/');
-    @endphp
+    @auth
+        @php
+            $rutasSinSidebar = ['login', 'home', 'register', 'password.request', 'password.reset'];
+            $mostrarSidebar = !in_array(request()->route()?->getName(), $rutasSinSidebar) && !request()->is('/');
+        @endphp
 
-    @if($mostrarSidebar)
-        <!-- Layout con sidebar -->
-        <div x-data="{
-            get sidebarOpen() { return $store.sidebar.open },
-            get isMobile() { return $store.sidebar.isMobile }
-        }" 
-        class="min-h-screen bg-gray-50">
-            
-            <!-- Overlay para móvil -->
-            <div class="fixed inset-0 bg-black/50 z-[199] transition-opacity duration-300 md:hidden"
-                 :class="{ 'opacity-100 visible': isMobile && sidebarOpen, 'opacity-0 invisible': !(isMobile && sidebarOpen) }"
-                 @click="$store.sidebar.setOpen(false)"></div>
-            
-            <!-- Sidebar -->
-            <div class="fixed left-0 top-0 h-full z-[200] transition-all duration-300"
-                 :class="{
-                     'w-64': sidebarOpen,
-                     'w-20': !sidebarOpen,
-                     'translate-x-0': !isMobile || sidebarOpen,
-                     '-translate-x-full': isMobile && !sidebarOpen
-                 }">
-                @include('layouts.sidebar')
-            </div>
-            
-            <!-- Botón flotante para móvil -->
-            <button x-show="isMobile && !sidebarOpen"
-        @click="$store.sidebar.setOpen(true)"
-        class="fixed left-4 top-3 z-[999] p-2.5 bg-white rounded-xl shadow-lg text-gray-600 hover:bg-blue-50 transition md:hidden">
-    <i class="fas fa-bars text-xl"></i>
-</button>
-            
-            <!-- Contenido principal -->
-            <div class="transition-all duration-300 min-h-screen flex flex-col"
-                 :style="{
-                     marginLeft: !isMobile ? (sidebarOpen ? '16rem' : '5rem') : '0',
-                     width: !isMobile ? (sidebarOpen ? 'calc(100% - 16rem)' : 'calc(100% - 5rem)') : '100%'
-                 }">
-                
-                <!-- Header -->
-                <div class="flex-shrink-0" style="position: relative; z-index: 150;">
-                    @include('layouts.header')
+        @if ($mostrarSidebar)
+            <!-- Layout con sidebar -->
+            <div x-data="{
+                get sidebarOpen() { return $store.sidebar.open },
+                get isMobile() { return $store.sidebar.isMobile }
+            }" class="min-h-screen bg-gray-50">
+
+                <!-- Overlay para móvil -->
+                <div class="fixed inset-0 bg-black/50 z-[199] transition-opacity duration-300 md:hidden"
+                    :class="{ 'opacity-100 visible': isMobile && sidebarOpen, 'opacity-0 invisible': !(isMobile &&
+                        sidebarOpen) }"
+                    @click="$store.sidebar.setOpen(false)"></div>
+
+                <!-- Sidebar -->
+                <div class="fixed left-0 top-0 h-full z-[200] transition-all duration-300"
+                    :class="{
+                        'w-64': sidebarOpen,
+                        'w-20': !sidebarOpen,
+                        'translate-x-0': !isMobile || sidebarOpen,
+                        '-translate-x-full': isMobile && !sidebarOpen
+                    }">
+                    @include('layouts.sidebar')
                 </div>
-                
-                <!-- Header opcional -->
+
+                <!-- Botón flotante para móvil -->
+                <button x-show="isMobile && !sidebarOpen" @click="$store.sidebar.setOpen(true)"
+                    class="fixed left-4 top-3 z-[999] p-2.5 bg-white rounded-xl shadow-lg text-gray-600 hover:bg-blue-50 transition md:hidden">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+
+                <!-- Contenido principal -->
+                <div class="transition-all duration-300 min-h-screen flex flex-col"
+                    :style="{
+                        marginLeft: !isMobile ? (sidebarOpen ? '16rem' : '5rem') : '0',
+                        width: !isMobile ? (sidebarOpen ? 'calc(100% - 16rem)' : 'calc(100% - 5rem)') : '100%'
+                    }">
+
+                    <!-- Header -->
+                    <div class="flex-shrink-0" style="position: relative; z-index: 150;">
+                        @include('layouts.header')
+                    </div>
+
+                    <!-- Header opcional -->
+                    @if (isset($header))
+                        <header class="bg-white shadow flex-shrink-0">
+                            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                                {{ $header }}
+                            </div>
+                        </header>
+                    @endif
+
+                    <!-- Main content -->
+                    <main class="flex-1 p-6">
+                        {{ $slot }}
+                    </main>
+
+                    <!-- Footer -->
+                    <footer class="flex-shrink-0">
+                        @include('layouts.footer')
+                    </footer>
+                </div>
+            </div>
+        @else
+            <!-- Layout sin sidebar -->
+            <div class="min-h-screen flex flex-col">
+                @include('layouts.header')
+
                 @if (isset($header))
                     <header class="bg-white shadow flex-shrink-0">
                         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -159,22 +183,20 @@
                     </header>
                 @endif
 
-                <!-- Main content -->
-                <main class="flex-1 p-6">
+                <main class="flex-1">
                     {{ $slot }}
                 </main>
 
-                <!-- Footer -->
                 <footer class="flex-shrink-0">
                     @include('layouts.footer')
                 </footer>
             </div>
-        </div>
+        @endif
     @else
-        <!-- Layout sin sidebar -->
+        <!-- Usuario no autenticado -->
         <div class="min-h-screen flex flex-col">
             @include('layouts.header')
-            
+
             @if (isset($header))
                 <header class="bg-white shadow flex-shrink-0">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -191,29 +213,7 @@
                 @include('layouts.footer')
             </footer>
         </div>
-    @endif
-@else
-    <!-- Usuario no autenticado -->
-    <div class="min-h-screen flex flex-col">
-        @include('layouts.header')
-        
-        @if (isset($header))
-            <header class="bg-white shadow flex-shrink-0">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
-
-        <main class="flex-1">
-            {{ $slot }}
-        </main>
-
-        <footer class="flex-shrink-0">
-            @include('layouts.footer')
-        </footer>
-    </div>
-@endauth
+    @endauth
 
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -229,7 +229,7 @@
             Alpine.store('sidebar', {
                 open: localStorage.getItem('sidebarOpen') !== 'false',
                 isMobile: window.innerWidth <= 768,
-                
+
                 init() {
                     // Si es móvil y está abierto, cerrar
                     if (this.isMobile && this.open) {
@@ -237,28 +237,32 @@
                         localStorage.setItem('sidebarOpen', false);
                     }
                 },
-                
+
                 toggle() {
                     this.open = !this.open;
                     localStorage.setItem('sidebarOpen', this.open);
                     // Disparar evento para notificar cambios
-                    window.dispatchEvent(new CustomEvent('sidebar-state-change', { 
-                        detail: { open: this.open } 
+                    window.dispatchEvent(new CustomEvent('sidebar-state-change', {
+                        detail: {
+                            open: this.open
+                        }
                     }));
                 },
-                
+
                 setOpen(value) {
                     this.open = value;
                     localStorage.setItem('sidebarOpen', value);
-                    window.dispatchEvent(new CustomEvent('sidebar-state-change', { 
-                        detail: { open: value } 
+                    window.dispatchEvent(new CustomEvent('sidebar-state-change', {
+                        detail: {
+                            open: value
+                        }
                     }));
                 },
-                
+
                 checkMobile() {
                     const wasMobile = this.isMobile;
                     this.isMobile = window.innerWidth <= 768;
-                    
+
                     // Si cambia de móvil a desktop y estaba cerrado, abrir
                     if (wasMobile && !this.isMobile && !this.open) {
                         this.setOpen(true);
@@ -269,7 +273,7 @@
                     }
                 }
             });
-            
+
             // Escuchar resize
             window.addEventListener('resize', () => {
                 Alpine.store('sidebar').checkMobile();
