@@ -142,7 +142,7 @@
         <div class="form-header">
             @can('Tablero Gerencial - Inicio')       
                 <a class="stepIndicator" href="{{ route('tablero-gerencial-index') }}">
-                    <img src="{{ asset('img/icons/gerencial.png') }}" style="width: 45px; margin: auto;" />
+                    <img src="{{ asset('img/favicon.png') }}" style="width: 45px; margin: auto;" />
                     Gerencial
                 </a>
             @endcan

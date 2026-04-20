@@ -40,10 +40,10 @@ protected $fillable = [
     'idtiporol',
     'tipo_rol',
     'unidad_funcional',
-    'iddiresa',           // ← AGREGAR
-    'user_created',       // ← AGREGAR
-    'user_updated',       // ← AGREGAR
-    'idestablecimiento_user', // ← AGREGAR
+    'iddiresa',           
+    'user_created',      
+    'user_updated',       
+    'idestablecimiento_user', 
     'state_id',
 ];
 
