@@ -168,7 +168,7 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
             </div>
         @endhasrole
 
-        <!-- ==================== SUPERVISOR ==================== -->
+        <!-- ==================== SUPERVISOR  ==================== -->
         @hasrole('Supervisor')
             <div x-data="{ open: localStorage.getItem('menu_monitoreo') === 'true' }" 
                  x-init="$watch('open', value => localStorage.setItem('menu_monitoreo', value))">
