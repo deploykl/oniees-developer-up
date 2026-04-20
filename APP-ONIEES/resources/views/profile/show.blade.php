@@ -36,7 +36,8 @@
             @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
                 <x-section-border />
 
-                <div class="mt-10 sm:mt-0">
+                <!-- Eliminar cuenta -->
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     @livewire('profile.delete-user-form')
                 </div>
             @endif
