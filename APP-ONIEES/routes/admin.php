@@ -183,5 +183,18 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     })->middleware(['auth']);
 
     Route::get('/tablero-gerencial', [TableroGerencialController::class, 'index'])->name('tablero-gerencial-index');
-
+   // Agregar estas rutas para el tablero gerencial
+    Route::get('/tablero-gerencial', [TableroGerencialController::class, 'index'])->name('tablero-gerencial-index');
+    Route::post('/busqueda-codigo-margesi-tablero', [TableroGerencialController::class, 'busquedaCodigoMargesi'])->name('busqueda-codigo-margesi-tablero');
+    Route::post('/tablero-gerencial-list-group', [TableroGerencialController::class, 'listgroup'])->name('tablero-gerencial-list-group');
+    Route::post('/tabla-general-detalle-estado', [TableroGerencialController::class, 'tabla_general_detalle_estado'])->name('tabla-general-detalle-estado');
+    Route::post('/tabla-general-detalle-pagination', [TableroGerencialController::class, 'tabla_general_detalle_pagination'])->name('tabla-general-detalle-pagination');
+    Route::get('/establecimiento-search/{codigo}', [TableroGerencialController::class, 'establecimientoSearch'])->name('establecimiento-search');
+    Route::get('/tabla-general-personal-tipo/{tipo}/{idregion}/{cod_ogei}', [TableroGerencialController::class, 'tabla_gereral_personal_tipo'])->name('tabla-general-personal-tipo');
+    Route::post('/encode-tablero-gerencial', [TableroGerencialController::class, 'encode_tablero_gerencial'])->name('encode-tablero-gerencial');
+    Route::get('/tabla-general-detalle-export/{where}', [TableroGerencialController::class, 'tabla_general_detalle_export'])->name('tabla-general-detalle-export');
+    Route::post('/encode-recursos-humanos', [TableroGerencialController::class, 'encode_recursos_humanos'])->name('encode-recursos-humanos');
+    Route::get('/tabla-general-personal-tipo-export/{tipo}/{where}', [TableroGerencialController::class, 'tabla_gereral_personal_tipo_export'])->name('tabla-general-personal-tipo-export');
+    // Ruta para guest (sin login)
+    Route::post('/busqueda-codigo-margesi-tablero-guest', [TableroGerencialController::class, 'busquedaCodigoMargesiGuest'])->name('busqueda-codigo-margesi-tablero-guest');
 });
