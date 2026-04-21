@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Regiones;
+use App\Models\Region;  // ← Cambiado de Regiones a Region
 use App\Models\Diresas;
 use App\Models\Establishment;
 use App\Models\TipoUsuario;
@@ -23,12 +23,12 @@ use GuzzleHttp\Client;
 
 class UsersController extends Controller
 {
- public function index()
-{
-    $users = User::all();
-    $diresas = DB::table('diresa')->get(); // ← AGREGAR ESTA LÍNEA
-    return view('admin.users.index', compact('users', 'diresas'));
-}
+    public function index()
+    {
+        $users = User::all();
+        $diresas = DB::table('diresa')->get();
+        return view('admin.users.index', compact('users', 'diresas'));
+    }
 
     public function edit($id)
     {
@@ -151,26 +151,26 @@ class UsersController extends Controller
         }
     }
 
-public function delete(Request $request)
-{
-    try {
-        $user = User::find($request->input('id'));
-        if ($user == null) {
-            throw new \Exception('No se encuentra el usuario');
-        }
+    public function delete(Request $request)
+    {
+        try {
+            $user = User::find($request->input('id'));
+            if ($user == null) {
+                throw new \Exception('No se encuentra el usuario');
+            }
 
-        $user->delete();
-        return response()->json([
-            'mensaje' => 'Se eliminó el Usuario',
-            'status' => 'OK'
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'mensaje' => $e->getMessage(),
-            'status' => 'ERROR'
-        ]);
+            $user->delete();
+            return response()->json([
+                'mensaje' => 'Se eliminó el Usuario',
+                'status' => 'OK'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'mensaje' => $e->getMessage(),
+                'status' => 'ERROR'
+            ]);
+        }
     }
-}
 
     public function resetPassword(Request $request)
     {
@@ -279,7 +279,8 @@ public function delete(Request $request)
                     $user->iddiresa = implode(",", $diresas_selected);
                     $user->region_id = implode(",", $explode_regiones);
 
-                    $regiones = Regiones::select('nombre')->whereIn('id', $explode_regiones)->get();
+                    // ← Cambiado de Regiones a Region
+                    $regiones = Region::select('nombre')->whereIn('id', $explode_regiones)->get();
 
                     $user->nombre_region = "";
                     if ($regiones->count() > 0) {
@@ -440,7 +441,8 @@ public function delete(Request $request)
                     $user->iddiresa = implode(",", $diresas_selected);
                     $user->region_id = implode(",", $explode_regiones);
 
-                    $regiones = Regiones::select('nombre')->whereIn('id', $explode_regiones)->get();
+                    // ← Cambiado de Regiones a Region
+                    $regiones = Region::select('nombre')->whereIn('id', $explode_regiones)->get();
 
                     $user->nombre_region = "";
                     if ($regiones->count() > 0) {
@@ -742,119 +744,117 @@ public function delete(Request $request)
 
         return $response;
     }
-public function listado_red(Request $request)
-{
-    try {
-        $search = $request->input('search', '');
-        $iddiresa = $request->input('iddiresa', '0');
-        
-        $query = DB::table('establishment')
-            ->select('nombre_red as id', 'nombre_red as text')
-            ->whereNotNull('nombre_red')
-            ->where('nombre_red', '!=', '')
-            ->groupBy('nombre_red');
-        
-        if ($search != '') {
-            $query->where('nombre_red', 'LIKE', "%{$search}%");
-        }
-        
-        // Filtrar por DIRIS seleccionada
-        if ($iddiresa != '0' && $iddiresa != null && $iddiresa != '') {
-            $diresas = explode(',', $iddiresa);
-            $query->whereIn('iddiresa', $diresas);
-        }
-        
-        $resultados = $query->limit(100)->get();
-        
-        return response()->json([
-            'results' => $resultados,
-            'pagination' => ['more' => false]
-        ]);
-    } catch (\Exception $e) {
-        return response()->json(['results' => [], 'error' => $e->getMessage()]);
-    }
-}
-
-public function listado_microred(Request $request)
-{
-    try {
-        $search = $request->input('search', '');
-        $iddiresa = $request->input('iddiresa', '0');
-        $nombre_red = $request->input('nombre_red', '');
-        
-        $query = DB::table('establishment')
-            ->select('nombre_microred as id', 'nombre_microred as text')
-            ->whereNotNull('nombre_microred')
-            ->where('nombre_microred', '!=', '')
-            ->groupBy('nombre_microred');
-        
-        if ($search != '') {
-            $query->where('nombre_microred', 'LIKE', "%{$search}%");
-        }
-        
-        if ($iddiresa != '0' && $iddiresa != null) {
-            $diresas = explode(',', $iddiresa);
-            $query->whereIn('iddiresa', $diresas);
-        }
-        
-        if ($nombre_red != '') {
-            $query->where('nombre_red', $nombre_red);
-        }
-        
-        $resultados = $query->limit(100)->get();
-        
-        return response()->json([
-            'results' => $resultados,
-            'pagination' => ['more' => false]
-        ]);
-    } catch (\Exception $e) {
-        return response()->json(['results' => [], 'error' => $e->getMessage()]);
-    }
-}
-
-public function listado_establecimiento(Request $request)
-{
-    try {
-        $search = $request->input('search', '');
-        $iddiresa = $request->input('iddiresa', '0');
-        $nombre_red = $request->input('nombre_red', '');
-        $nombre_microred = $request->input('nombre_microred', '');
-        
-        $query = DB::table('establishment')
-            ->select('id', DB::raw("CONCAT(codigo, ' - ', nombre_eess) as text"))
-            ->whereNotNull('nombre_eess');
-        
-        if ($search != '') {
-            $query->where(function($q) use ($search) {
-                $q->where('nombre_eess', 'LIKE', "%{$search}%")
-                  ->orWhere('codigo', 'LIKE', "%{$search}%");
-            });
-        }
-        
-        if ($iddiresa != '0' && $iddiresa != null) {
-            $diresas = explode(',', $iddiresa);
-            $query->whereIn('iddiresa', $diresas);
-        }
-        
-        if ($nombre_red != '') {
-            $query->where('nombre_red', $nombre_red);
-        }
-        
-        if ($nombre_microred != '') {
-            $query->where('nombre_microred', $nombre_microred);
-        }
-        
-        $resultados = $query->limit(100)->get();
-        
-        return response()->json([
-            'results' => $resultados,
-            'pagination' => ['more' => false]
-        ]);
-    } catch (\Exception $e) {
-        return response()->json(['results' => [], 'error' => $e->getMessage()]);
-    }
-}
     
+    public function listado_red(Request $request)
+    {
+        try {
+            $search = $request->input('search', '');
+            $iddiresa = $request->input('iddiresa', '0');
+            
+            $query = DB::table('establishment')
+                ->select('nombre_red as id', 'nombre_red as text')
+                ->whereNotNull('nombre_red')
+                ->where('nombre_red', '!=', '')
+                ->groupBy('nombre_red');
+            
+            if ($search != '') {
+                $query->where('nombre_red', 'LIKE', "%{$search}%");
+            }
+            
+            // Filtrar por DIRIS seleccionada
+            if ($iddiresa != '0' && $iddiresa != null && $iddiresa != '') {
+                $diresas = explode(',', $iddiresa);
+                $query->whereIn('iddiresa', $diresas);
+            }
+            
+            $resultados = $query->limit(100)->get();
+            
+            return response()->json([
+                'results' => $resultados,
+                'pagination' => ['more' => false]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['results' => [], 'error' => $e->getMessage()]);
+        }
+    }
 
+    public function listado_microred(Request $request)
+    {
+        try {
+            $search = $request->input('search', '');
+            $iddiresa = $request->input('iddiresa', '0');
+            $nombre_red = $request->input('nombre_red', '');
+            
+            $query = DB::table('establishment')
+                ->select('nombre_microred as id', 'nombre_microred as text')
+                ->whereNotNull('nombre_microred')
+                ->where('nombre_microred', '!=', '')
+                ->groupBy('nombre_microred');
+            
+            if ($search != '') {
+                $query->where('nombre_microred', 'LIKE', "%{$search}%");
+            }
+            
+            if ($iddiresa != '0' && $iddiresa != null) {
+                $diresas = explode(',', $iddiresa);
+                $query->whereIn('iddiresa', $diresas);
+            }
+            
+            if ($nombre_red != '') {
+                $query->where('nombre_red', $nombre_red);
+            }
+            
+            $resultados = $query->limit(100)->get();
+            
+            return response()->json([
+                'results' => $resultados,
+                'pagination' => ['more' => false]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['results' => [], 'error' => $e->getMessage()]);
+        }
+    }
 
+    public function listado_establecimiento(Request $request)
+    {
+        try {
+            $search = $request->input('search', '');
+            $iddiresa = $request->input('iddiresa', '0');
+            $nombre_red = $request->input('nombre_red', '');
+            $nombre_microred = $request->input('nombre_microred', '');
+            
+            $query = DB::table('establishment')
+                ->select('id', DB::raw("CONCAT(codigo, ' - ', nombre_eess) as text"))
+                ->whereNotNull('nombre_eess');
+            
+            if ($search != '') {
+                $query->where(function($q) use ($search) {
+                    $q->where('nombre_eess', 'LIKE', "%{$search}%")
+                      ->orWhere('codigo', 'LIKE', "%{$search}%");
+                });
+            }
+            
+            if ($iddiresa != '0' && $iddiresa != null) {
+                $diresas = explode(',', $iddiresa);
+                $query->whereIn('iddiresa', $diresas);
+            }
+            
+            if ($nombre_red != '') {
+                $query->where('nombre_red', $nombre_red);
+            }
+            
+            if ($nombre_microred != '') {
+                $query->where('nombre_microred', $nombre_microred);
+            }
+            
+            $resultados = $query->limit(100)->get();
+            
+            return response()->json([
+                'results' => $resultados,
+                'pagination' => ['more' => false]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['results' => [], 'error' => $e->getMessage()]);
+        }
+    }
 }
