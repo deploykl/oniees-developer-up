@@ -183,7 +183,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     })->middleware(['auth']);
 
     Route::get('/tablero-gerencial', [TableroGerencialController::class, 'index'])->name('tablero-gerencial-index');
-   // Agregar estas rutas para el tablero gerencial
+    // Agregar estas rutas para el tablero gerencial
     Route::get('/tablero-gerencial', [TableroGerencialController::class, 'index'])->name('tablero-gerencial-index');
     Route::post('/busqueda-codigo-margesi-tablero', [TableroGerencialController::class, 'busquedaCodigoMargesi'])->name('busqueda-codigo-margesi-tablero');
     Route::post('/tablero-gerencial-list-group', [TableroGerencialController::class, 'listgroup'])->name('tablero-gerencial-list-group');
@@ -197,4 +197,14 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/tabla-general-personal-tipo-export/{tipo}/{where}', [TableroGerencialController::class, 'tabla_gereral_personal_tipo_export'])->name('tabla-general-personal-tipo-export');
     // Ruta para guest (sin login)
     Route::post('/busqueda-codigo-margesi-tablero-guest', [TableroGerencialController::class, 'busquedaCodigoMargesiGuest'])->name('busqueda-codigo-margesi-tablero-guest');
+
+    Route::get('/formato-0/{codigo?}', [FormatController::class, 'index'])->name('formato-0');
+    Route::post('/formato-0/save', [FormatController::class, 'save'])->name('format-0-save');
+    Route::get('/formato-0/search/{codigo?}', [FormatController::class, 'search'])->name('format-0-search');
+
+    /*FORMATO I*/
+    Route::get('/formato-I/{codigo?}', [FormatIController::class, 'index'])->name('formato-i');
+    Route::get('/formato-I-test/{codigo?}', [FormatIController::class, 'test'])->name('formato-i-test');
+    Route::post('/formato-I/save', [FormatIController::class, 'save'])->name('format-i-save');
+    Route::get('/formato-I/search/{codigo?}', [FormatIController::class, 'search'])->name('format-i-search');
 });

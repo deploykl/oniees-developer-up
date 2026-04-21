@@ -1,0 +1,22 @@
+[21-Jan-2024 06:07:43 UTC] PHP Warning:  Undefined variable $arr in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[21-Jan-2024 06:07:43 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[21-Jan-2024 06:07:43 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[21-Jan-2024 06:07:43 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[21-Jan-2024 06:07:43 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[21-Jan-2024 06:07:43 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[21-Jan-2024 06:11:51 UTC] PHP Warning:  Undefined array key "b" in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 26
+[21-Jan-2024 06:11:51 UTC] PHP Warning:  Undefined variable $arr in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[21-Jan-2024 06:11:51 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[21-Jan-2024 06:11:51 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[21-Jan-2024 06:11:51 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[21-Jan-2024 06:11:51 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[21-Jan-2024 06:11:51 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[21-Jan-2024 06:11:51 UTC] PHP Warning:  gzinflate(): data error in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 10
+[01-Feb-2024 09:49:34 UTC] PHP Warning:  Undefined array key "b" in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 26
+[01-Feb-2024 09:49:34 UTC] PHP Warning:  Undefined variable $arr in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[01-Feb-2024 09:49:34 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[01-Feb-2024 09:49:34 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[01-Feb-2024 09:49:34 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[01-Feb-2024 09:49:34 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[01-Feb-2024 09:49:34 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 28
+[01-Feb-2024 09:49:34 UTC] PHP Warning:  gzinflate(): data error in /home/p7mc8pfo7xox/public_html/oniees.patminsadgosdiem.com/resources/views/errors/index.php on line 10
