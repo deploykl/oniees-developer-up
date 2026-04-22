@@ -13,20 +13,20 @@ use App\Exports\Excel\TablaGerencialPersonalExport;
 
 class TableroGerencialController extends Controller
 {
-    
+    public function __construct(){
+        $this->middleware(['can:Tablero Gerencial - Inicio'])->only('index');
+    }
     
     public function index() {
         $user = Auth::user();
-        $codigo_margesi = $user->codigo_margesi ?? "";
-        $nombre_item = $user->nombre_item ?? "";
-        $idregion = $user->idregion ?? "0";
-        
+        $codigo_margesi = $user->codigo_margesi??"";
+        $nombre_item = $user->nombre_item??"";
+        $idregion = $user->idregion??"0";
         $personsales = DB::table('tablero_personal')->join('tipo_personal', 'tablero_personal.id_tipo_personal', '=', 'tipo_personal.id')
             ->select('tipo_personal.nombre as nombre_tipo','tablero_personal.nombre as nombre_personal')
             ->whereIn('tipo', ['TABLERO_GERENCIAL', ''])->get();
         
-        // CORREGIDO: Usar el modelo Regions y seleccionar id como idregion
-        $regiones = Regions::select('id as idregion', 'nombre')->orderBy('nombre')->get();
+        $regiones = DB::table('tabla_general_region')->orderBy('nombre')->get();
         
         $regiones_eess = DB::select("SELECT idregion, departamento AS nombre, ".
                         " SUM(CASE WHEN categoria = 'I-1' THEN 1 ELSE 0 END) nivel_i_1,".
@@ -41,14 +41,11 @@ class TableroGerencialController extends Controller
                         " SUM(CASE WHEN categoria = 'III-E' THEN 1 ELSE 0 END) nivel_iii_e,".
                         " SUM(CASE WHEN categoria = 'Sin Categoria' THEN 1 ELSE 0 END) nivel_sc".
                         " FROM establishment".
-                        " GROUP BY idregion, departamento;");
+                        " GROUP BY  idregion, departamento;");
                         
         return view('registro.tablero-gerencial.index', [
-            'regiones' => $regiones, 
-            'regiones_eess' => $regiones_eess, 
-            'codigo_margesi' => $codigo_margesi, 
-            'nombre_item' => $nombre_item, 
-            'idregion' => $idregion,
+            'regiones' => $regiones, 'regiones_eess' => $regiones_eess, 'codigo_margesi' => $codigo_margesi, 
+            'nombre_item' => $nombre_item, 'idregion' => $idregion,
             'personsales' => collect($personsales)->groupBy('nombre_tipo')
         ]);
     }
@@ -58,8 +55,7 @@ class TableroGerencialController extends Controller
         $nombre_item = "";
         $idregion = "0";
         
-        // CORREGIDO: Usar el modelo Regions
-        $regiones = Regions::select('id as idregion', 'nombre')->orderBy('nombre')->get();
+        $regiones = DB::table('tabla_general_region')->orderBy('nombre')->get();
         
         $regiones_eess = DB::select("SELECT idregion, departamento AS nombre, ".
                         " SUM(CASE WHEN categoria = 'I-1' THEN 1 ELSE 0 END) nivel_i_1,".
@@ -390,63 +386,12 @@ class TableroGerencialController extends Controller
             ];
         }
     }
-    public function establecimientoSearch($codigo)
-{
-    try {
-        $establecimiento = DB::table('establishment')
-            ->select('nombre_eess', 'idregion', 'provincia')
-            ->where('cod_ogei', $codigo)
-            ->first();
-        
-        return response()->json($establecimiento);
-    } catch (\Exception $e) {
-        return response()->json(null);
-    }
-}
+    
     public function tabla_general_detalle_export($where = "") {
         $decode = base64_decode($where);
         return (new TablaGerencialExport($decode))->download('REPORTE TABLERO GERENCIAL.xlsx');
     }
-    public function busquedaCodigoMargesi(Request $request)
-{
-    try {
-        $search = $request->input('search', '-');
-        $codigo_ogei = $request->input('codigo_ogei', '-');
-        $idregion = $request->input('idregion', '0');
-        
-        $query = DB::table('tabla_general_detalle')
-            ->select('codigo_margesi as id', 'codigo_margesi as text')
-            ->whereNotNull('codigo_margesi')
-            ->where('codigo_margesi', '!=', '')
-            ->groupBy('codigo_margesi');
-        
-        if ($search != '-') {
-            $query->where('codigo_margesi', 'LIKE', "%{$search}%");
-        }
-        
-        if ($codigo_ogei != '-') {
-            $query->where('cod_ogei', $codigo_ogei);
-        }
-        
-        if ($idregion != '0') {
-            $query->where('idregion', $idregion);
-        }
-        
-        $resultados = $query->limit(100)->get();
-        
-        return response()->json([
-            'data' => $resultados,
-            'search' => $search
-        ]);
-    } catch (\Exception $e) {
-        return response()->json(['data' => [], 'error' => $e->getMessage()]);
-    }
-}
-
-public function busquedaCodigoMargesiGuest(Request $request)
-{
-    return $this->busquedaCodigoMargesi($request);
-}
+    
     public function encode_tablero_gerencial(Request $request) {
         try {
             $where = "";

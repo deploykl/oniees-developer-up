@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Region;  // ← Cambiado de Regiones a Region
+use App\Models\Regions;  // ← Cambiado de Regiones a Region
 use App\Models\Diresas;
 use App\Models\Establishment;
 use App\Models\TipoUsuario;
@@ -280,7 +280,7 @@ class UsersController extends Controller
                     $user->region_id = implode(",", $explode_regiones);
 
                     // ← Cambiado de Regiones a Region
-                    $regiones = Region::select('nombre')->whereIn('id', $explode_regiones)->get();
+                    $regiones = Regions::select('nombre')->whereIn('id', $explode_regiones)->get();
 
                     $user->nombre_region = "";
                     if ($regiones->count() > 0) {

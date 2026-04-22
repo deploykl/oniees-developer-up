@@ -207,4 +207,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/formato-I-test/{codigo?}', [FormatIController::class, 'test'])->name('formato-i-test');
     Route::post('/formato-I/save', [FormatIController::class, 'save'])->name('format-i-save');
     Route::get('/formato-I/search/{codigo?}', [FormatIController::class, 'search'])->name('format-i-search');
+    Route::middleware('cors')->get('/reniec/searchDni/{fechaEmision?}/{nroDocumento?}', [ReniecController::class, 'searchDni'])->name("searchDni");
+    Route::middleware('cors')->get('/reniec/dni/{nroDocumento?}', [ReniecController::class, 'search_dni'])->name("search-dni");
+    Route::middleware('cors')->get('/reniec/searchRUC/{nroDocumento?}', [ReniecController::class, 'searchRUC'])->name("searchRUC");
+    Route::get('/provincias-region/{idregion?}', [ProvincesController::class, 'list'])->name('provincias-region');
+    Route::get('/distritos-provincia/{province_id?}', [DistrictsController::class, 'list'])->name('distritos-provincia');
 });

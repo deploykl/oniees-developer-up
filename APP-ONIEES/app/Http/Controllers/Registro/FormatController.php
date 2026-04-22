@@ -29,6 +29,8 @@ use App\Models\ModulosCompletados;
 
 class FormatController extends Controller
 {
+   
+    
     public function index() {
         try {
             $user = Auth::user();
