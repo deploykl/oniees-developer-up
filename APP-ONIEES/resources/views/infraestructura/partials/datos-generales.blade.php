@@ -253,71 +253,70 @@
         </div>
     </div>
     <h1>3. INDICE SEGURIDAD HOSPITALARIA</h1>
-    <!-- ÍNDICE DE SEGURIDAD HOSPITALARIA -->
-    <!-- ÍNDICE DE SEGURIDAD HOSPITALARIA -->
-    <div class="border-b border-gray-200 pb-4">
-        <h3 class="text-md font-semibold text-gray-700 mb-3">🛡️ ÍNDICE DE SEGURIDAD HOSPITALARIA</h3>
+<h1>3. INDICE SEGURIDAD HOSPITALARIA</h1>
+<div class="border-b border-gray-200 pb-4">
+    <h3 class="text-md font-semibold text-gray-700 mb-3">🛡️ ÍNDICE DE SEGURIDAD HOSPITALARIA</h3>
 
-        <div class="space-y-4">
-            <!-- Pregunta 1: Documento -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                    ¿CUENTO CON EL DOCUMENTO DE ÍNDICE DE SEGURIDAD HOSPITALARIA?
+    <div class="space-y-4">
+        <!-- Pregunta 1: Documento -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿CUENTO CON EL DOCUMENTO DE ÍNDICE DE SEGURIDAD HOSPITALARIA?
+            </label>
+            <div class="flex gap-6">
+                <label class="inline-flex items-center">
+                    <input type="radio" name="tiene_documento_seguridad" value="1"
+                        class="form-radio text-blue-500"
+                        {{ ($format->seguridad_hospitalaria ?? '') == 'SI' ? 'checked' : '' }}
+                        onclick="document.getElementById('resultado_seguridad_div').style.display = 'block'">
+                    <span class="ml-2 text-sm text-gray-700">SI</span>
                 </label>
-                <div class="flex gap-6">
-                    <label class="inline-flex items-center">
-                        <input type="radio" name="tiene_documento_seguridad" value="1"
-                            class="form-radio text-blue-500"
-                            {{ ($format->seguridad_hospitalaria ?? '') == 'SI' ? 'checked' : '' }}
-                            onclick="document.getElementById('resultado_seguridad_div').style.display = 'block'">
-                        <span class="ml-2 text-sm text-gray-700">SI</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" name="tiene_documento_seguridad" value="0"
-                            class="form-radio text-blue-500"
-                            {{ ($format->seguridad_hospitalaria ?? '') == 'NO' ? 'checked' : '' }}
-                            onclick="document.getElementById('resultado_seguridad_div').style.display = 'none'">
-                        <span class="ml-2 text-sm text-gray-700">NO</span>
-                    </label>
-                </div>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="tiene_documento_seguridad" value="0"
+                        class="form-radio text-blue-500"
+                        {{ ($format->seguridad_hospitalaria ?? '') == 'NO' ? 'checked' : '' }}
+                        onclick="document.getElementById('resultado_seguridad_div').style.display = 'none'">
+                    <span class="ml-2 text-sm text-gray-700">NO</span>
+                </label>
             </div>
+        </div>
 
-            <!-- Resultado (visible solo si tiene documento) -->
-            <div id="resultado_seguridad_div"
-                style="{{ ($format->seguridad_hospitalaria ?? '') == '1' ? 'display:block' : 'display:none' }}">
+        <!-- Resultado (visible solo si tiene documento = SI) -->
+        <div id="resultado_seguridad_div"
+            style="{{ ($format->seguridad_hospitalaria ?? '') == 'SI' ? 'display:block' : 'display:none' }}">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                    <div>
-                        <label class="text-sm font-medium text-gray-700">
-                            ¿CUÁL FUE EL RESULTADO? (*)
-                        </label>
-                        <select name="resultado_seguridad" class="w-full p-2 border rounded-lg">
-                            <option value="">Seleccione</option>
-                            <option value="CATEGORIA A"
-                                {{ ($format->seguridad_resultado ?? '') == 'CATEGORIA A' ? 'selected' : '' }}>
-                                CATEGORIA A
-                            </option>
-                            <option value="CATEGORIA B"
-                                {{ ($format->seguridad_resultado ?? '') == 'CATEGORIA B' ? 'selected' : '' }}>
-                                CATEGORIA B
-                            </option>
-                            <option value="CATEGORIA C"
-                                {{ ($format->seguridad_resultado ?? '') == 'CATEGORIA C' ? 'selected' : '' }}>
-                                CATEGORIA C
-                            </option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-sm font-medium text-gray-700">
-                            ¿EN QUÉ FECHA SE REALIZÓ EL ÚLTIMO ÍNDICE DE SEGURIDAD HOSPITALARIA? (*)
-                        </label>
-                        <input type="date" name="anio_seguridad" class="w-full p-2 border rounded-lg"
-                            value="{{ $format->seguridad_fecha ?? '' ? date('Y-m-d', strtotime($format->seguridad_fecha)) : '' }}">
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                <div>
+                    <label class="text-sm font-medium text-gray-700">
+                        ¿CUÁL FUE EL RESULTADO? (*)
+                    </label>
+                    <select name="resultado_seguridad" class="w-full p-2 border rounded-lg">
+                        <option value="">Seleccione</option>
+                        <option value="CATEGORIA A"
+                            {{ ($format->seguridad_resultado ?? '') == 'CATEGORIA A' ? 'selected' : '' }}>
+                            CATEGORIA A
+                        </option>
+                        <option value="CATEGORIA B"
+                            {{ ($format->seguridad_resultado ?? '') == 'CATEGORIA B' ? 'selected' : '' }}>
+                            CATEGORIA B
+                        </option>
+                        <option value="CATEGORIA C"
+                            {{ ($format->seguridad_resultado ?? '') == 'CATEGORIA C' ? 'selected' : '' }}>
+                            CATEGORIA C
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-700">
+                        ¿EN QUÉ FECHA SE REALIZÓ EL ÚLTIMO ÍNDICE DE SEGURIDAD HOSPITALARIA? (*)
+                    </label>
+                    <input type="date" name="anio_seguridad" class="w-full p-2 border rounded-lg"
+                        value="{{ $format->seguridad_fecha ?? '' ? date('Y-m-d', strtotime($format->seguridad_fecha)) : '' }}">
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <h1>4. CONDICIÓN DE PATRIMONIO CULTURAL</h1>
     <div class="border-b border-gray-200 pb-4">

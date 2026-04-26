@@ -204,48 +204,51 @@
     </div>
 
     <script>
-        function progressSidebar() {
-            return {
-                sections: {
-                    'datos-generales': { completed: 0, total: 19, percent: 0 },
-                    'infraestructura': { completed: 0, total: 15, percent: 0 },
-                    'servicios-basicos': { completed: 0, total: 10, percent: 0 }
-                },
-                totalProgress: 0,
-                initProgress() {
-                    this.calculateProgress();
-                    setInterval(() => this.calculateProgress(), 1000);
-                },
-                calculateProgress() {
-                    let totalCompleted = 0;
-                    let totalFields = 0;
-                    for (let key in this.sections) {
-                        const section = document.getElementById(key + '-section');
-                        if (section) {
-                            const inputs = section.querySelectorAll('input, select, textarea');
-                            let filled = 0;
-                            inputs.forEach(input => {
-                                if (input.value && input.value.trim() !== '') filled++;
-                            });
-                            this.sections[key].completed = filled;
-                            this.sections[key].percent = Math.round((filled / this.sections[key].total) * 100);
-                            totalCompleted += filled;
-                            totalFields += this.sections[key].total;
-                        }
-                    }
-                    this.totalProgress = totalFields > 0 ? Math.round((totalCompleted / totalFields) * 100) : 0;
-                },
-                scrollToSection(sectionId) {
-                    if (sectionId === 'infraestructura-tab') {
-                        document.querySelector('[x-on\\:click="activeTab = \'infraestructura\'"]')?.click();
-                    } else if (sectionId === 'servicios-basicos-tab') {
-                        document.querySelector('[x-on\\:click="activeTab = \'servicios-basicos\'"]')?.click();
-                    } else {
-                        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-                    }
+       function progressSidebar() {
+    return {
+        sections: {
+            'datos-generales': { completed: 0, total: 50, percent: 0 }, // ← Cambia a 48 o más
+            'infraestructura': { completed: 0, total: 15, percent: 0 },
+            'servicios-basicos': { completed: 0, total: 10, percent: 0 }
+        },
+        totalProgress: 0,
+        initProgress() {
+            this.calculateProgress();
+            setInterval(() => this.calculateProgress(), 1000);
+        },
+        calculateProgress() {
+            let totalCompleted = 0;
+            let totalFields = 0;
+            for (let key in this.sections) {
+                const section = document.getElementById(key + '-section');
+                if (section) {
+                    const inputs = section.querySelectorAll('input, select, textarea');
+                    let filled = 0;
+                    inputs.forEach(input => {
+                        // Solo contar campos que no sean readonly?
+                        if (input.value && input.value.trim() !== '') filled++;
+                    });
+                    this.sections[key].completed = filled;
+                    this.sections[key].percent = Math.min(Math.round((filled / this.sections[key].total) * 100), 100);
+                    totalCompleted += filled;
+                    totalFields += this.sections[key].total;
                 }
             }
+            // Limitar el progreso total a máximo 100%
+            let rawProgress = totalFields > 0 ? Math.round((totalCompleted / totalFields) * 100) : 0;
+            this.totalProgress = Math.min(rawProgress, 100);
+        },
+        scrollToSection(sectionId) {
+            if (sectionId === 'infraestructura-tab') {
+                document.querySelector('[x-on\\:click="activeTab = \'infraestructura\'"]')?.click();
+            } else if (sectionId === 'servicios-basicos-tab') {
+                document.querySelector('[x-on\\:click="activeTab = \'servicios-basicos\'"]')?.click();
+            } else {
+                document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+            }
         }
+    }
+}
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
