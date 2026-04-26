@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,15 +35,13 @@
     @livewireStyles
 
     <style>
-        /* Estilos globales */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html,
-        body {
+        html, body {
             height: 100%;
             margin: 0;
             padding: 0;
@@ -78,14 +75,12 @@
             background: #94a3b8;
         }
 
-        /* Transiciones suaves */
         .transition-all {
             transition-property: all;
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
             transition-duration: 300ms;
         }
 
-        /* Flex utilities */
         .flex-1 {
             flex: 1 1 0%;
             min-height: 0;
@@ -115,13 +110,10 @@
                 get isMobile() { return $store.sidebar.isMobile }
             }" class="min-h-screen bg-gray-50">
 
-                <!-- Overlay para móvil -->
                 <div class="fixed inset-0 bg-black/50 z-[199] transition-opacity duration-300 md:hidden"
-                    :class="{ 'opacity-100 visible': isMobile && sidebarOpen, 'opacity-0 invisible': !(isMobile &&
-                        sidebarOpen) }"
+                    :class="{ 'opacity-100 visible': isMobile && sidebarOpen, 'opacity-0 invisible': !(isMobile && sidebarOpen) }"
                     @click="$store.sidebar.setOpen(false)"></div>
 
-                <!-- Sidebar -->
                 <div class="fixed left-0 top-0 h-full z-[200] transition-all duration-300"
                     :class="{
                         'w-64': sidebarOpen,
@@ -132,25 +124,21 @@
                     @include('layouts.sidebar')
                 </div>
 
-                <!-- Botón flotante para móvil -->
                 <button x-show="isMobile && !sidebarOpen" @click="$store.sidebar.setOpen(true)"
                     class="fixed left-4 top-3 z-[999] p-2.5 bg-white rounded-xl shadow-lg text-gray-600 hover:bg-blue-50 transition md:hidden">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
 
-                <!-- Contenido principal -->
                 <div class="transition-all duration-300 min-h-screen flex flex-col"
                     :style="{
                         marginLeft: !isMobile ? (sidebarOpen ? '16rem' : '5rem') : '0',
                         width: !isMobile ? (sidebarOpen ? 'calc(100% - 16rem)' : 'calc(100% - 5rem)') : '100%'
                     }">
 
-                    <!-- Header -->
                     <div class="flex-shrink-0" style="position: relative; z-index: 150;">
                         @include('layouts.header')
                     </div>
 
-                    <!-- Header opcional -->
                     @if (isset($header))
                         <header class="bg-white shadow flex-shrink-0">
                             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -159,19 +147,17 @@
                         </header>
                     @endif
 
-                    <!-- Main content -->
                     <main class="flex-1 p-6">
                         {{ $slot }}
                     </main>
 
-                    <!-- Footer -->
                     <footer class="flex-shrink-0">
                         @include('layouts.footer')
                     </footer>
                 </div>
             </div>
         @else
-            <!-- Layout sin sidebar -->
+            <!-- Layout sin sidebar (usuario autenticado pero sin sidebar) -->
             <div class="min-h-screen flex flex-col">
                 @include('layouts.header')
 
@@ -193,45 +179,40 @@
             </div>
         @endif
     @else
-        <!-- Usuario no autenticado -->
+        <!-- Usuario no autenticado (PÚBLICO) - AHORA CON HEADER Y FOOTER -->
         <div class="min-h-screen flex flex-col">
-            @include('layouts.header')
-
-            @if (isset($header))
-                <header class="bg-white shadow flex-shrink-0">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
+            <!-- Fondo GIF solo para login/register -->
+            @if(request()->routeIs('login') || request()->routeIs('register'))
+            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+                <img src="{{ asset('img/gif/city.gif') }}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.3;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3);"></div>
+            </div>
             @endif
-
-            <main class="flex-1">
+            
+            <!-- HEADER para usuarios no autenticados -->
+            @include('layouts.header')
+            
+            <!-- Contenido principal -->
+            <main class="flex-1" style="position: relative; z-index: 1;">
                 {{ $slot }}
             </main>
-
-            <footer class="flex-shrink-0">
-                @include('layouts.footer')
-            </footer>
+            
+            <!-- FOOTER para usuarios no autenticados -->
+            @include('layouts.footer')
         </div>
     @endauth
 
-    <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    <!-- Sonner Toaster -->
     @livewire('sonner-toaster')
-
     @livewireScripts
 
     <script>
-        // Store global para el sidebar
         document.addEventListener('alpine:init', () => {
             Alpine.store('sidebar', {
                 open: localStorage.getItem('sidebarOpen') !== 'false',
                 isMobile: window.innerWidth <= 768,
 
                 init() {
-                    // Si es móvil y está abierto, cerrar
                     if (this.isMobile && this.open) {
                         this.open = false;
                         localStorage.setItem('sidebarOpen', false);
@@ -241,11 +222,8 @@
                 toggle() {
                     this.open = !this.open;
                     localStorage.setItem('sidebarOpen', this.open);
-                    // Disparar evento para notificar cambios
                     window.dispatchEvent(new CustomEvent('sidebar-state-change', {
-                        detail: {
-                            open: this.open
-                        }
+                        detail: { open: this.open }
                     }));
                 },
 
@@ -253,9 +231,7 @@
                     this.open = value;
                     localStorage.setItem('sidebarOpen', value);
                     window.dispatchEvent(new CustomEvent('sidebar-state-change', {
-                        detail: {
-                            open: value
-                        }
+                        detail: { open: value }
                     }));
                 },
 
@@ -263,23 +239,19 @@
                     const wasMobile = this.isMobile;
                     this.isMobile = window.innerWidth <= 768;
 
-                    // Si cambia de móvil a desktop y estaba cerrado, abrir
                     if (wasMobile && !this.isMobile && !this.open) {
                         this.setOpen(true);
                     }
-                    // Si cambia de desktop a móvil y estaba abierto, cerrar
                     if (!wasMobile && this.isMobile && this.open) {
                         this.setOpen(false);
                     }
                 }
             });
 
-            // Escuchar resize
             window.addEventListener('resize', () => {
                 Alpine.store('sidebar').checkMobile();
             });
         });
     </script>
 </body>
-
 </html>

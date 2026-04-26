@@ -442,7 +442,7 @@ class UsersController extends Controller
                     $user->region_id = implode(",", $explode_regiones);
 
                     // ← Cambiado de Regiones a Region
-                    $regiones = Region::select('nombre')->whereIn('id', $explode_regiones)->get();
+                    $regiones = Regions::select('nombre')->whereIn('id', $explode_regiones)->get();
 
                     $user->nombre_region = "";
                     if ($regiones->count() > 0) {
@@ -857,4 +857,8 @@ class UsersController extends Controller
             return response()->json(['results' => [], 'error' => $e->getMessage()]);
         }
     }
+
+
+
+    
 }

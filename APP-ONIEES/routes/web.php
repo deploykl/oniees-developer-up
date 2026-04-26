@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 // Cargar rutas de auth (Fortify)
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
+require __DIR__.'/infraestructura.php';
 
 // Rutas públicas
 Route::get('/', function () {

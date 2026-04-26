@@ -136,4 +136,33 @@ protected $fillable = [
     {
         return $query->where('idtipousuario', $tipoId);
     }
+
+    // En app/Models/User.php - Agrega este método
+
+/**
+ * RELACIÓN: Un usuario pertenece a un establecimiento
+ */
+public function establecimiento()
+{
+    return $this->belongsTo(Establishment::class, 'idestablecimiento_user', 'id');
+}
+
+/**
+ * HELPER: Verificar si el usuario tiene un establecimiento asignado
+ */
+public function hasEstablecimiento()
+{
+    return $this->idestablecimiento_user && $this->idestablecimiento_user > 0;
+}
+
+/**
+ * HELPER: Obtener el código RENIPRESS del establecimiento asignado
+ */
+public function getRenipressAttribute()
+{
+    if ($this->establecimiento) {
+        return $this->establecimiento->codigo;
+    }
+    return null;
+}
 }
