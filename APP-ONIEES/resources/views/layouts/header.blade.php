@@ -1,25 +1,40 @@
 <header style="position: sticky; top: 0; z-index: 20; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(6, 182, 212, 0.15); padding: 12px 32px;">
     <div style="max-width: 1400px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
         
-        <!-- Logo con efecto glass - SOLO en home y login -->
-        @if(request()->is('/') || request()->routeIs('login'))
+       <!-- Logo con efecto glass - OCULTO PARA ADMIN -->
+@auth
+    @if(!auth()->user()->hasRole('Admin'))
         <a href="{{ url('/') }}" style="display: flex; align-items: center; text-decoration: none; background: rgba(255,255,255,0.5); padding: 6px 16px 6px 12px; border-radius: 60px; backdrop-filter: blur(4px); border: 1px solid rgba(6,182,212,0.2); transition: all 0.3s ease;">
             <img src="{{ asset('img/logo-minsa.png') }}" alt="MINSA Logo"
                 style="height: 42px; width: auto; max-width: 170px; object-fit: contain;"
                 onerror="this.style.display='none'">
         </a>
-        @else
-        <!-- Espacio vacío cuando no hay logo para mantener el layout -->
+    @else
+        <!-- Admin: espacio vacío para mantener el layout -->
         <div style="width: 170px;"></div>
-        @endif
+    @endif
+@else
+    <!-- Usuarios no autenticados ven el logo -->
+    <a href="{{ url('/') }}" style="display: flex; align-items: center; text-decoration: none; background: rgba(255,255,255,0.5); padding: 6px 16px 6px 12px; border-radius: 60px; backdrop-filter: blur(4px); border: 1px solid rgba(6,182,212,0.2); transition: all 0.3s ease;">
+        <img src="{{ asset('img/logo-minsa.png') }}" alt="MINSA Logo"
+            style="height: 42px; width: auto; max-width: 170px; object-fit: contain;"
+            onerror="this.style.display='none'">
+    </a>
+@endauth
 
-        <!-- Navegación con glassmorphism -->
+        <!-- Navegación GLOBAL para TODOS los usuarios autenticados -->
         <nav style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
             @auth
-                <a href="{{ route('dashboard') }}" class="nav-link-glass">
+                <!-- DASHBOARD - Visible para todos -->
+                <a href="{{ route('dashboard') }}" class="nav-link-glass {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <i class="fas fa-chart-line"></i> Dashboard
                 </a>
                 
+                <!-- INFRAESTRUCTURA - Visible para todos -->
+                <a href="{{ route('infraestructura.edit') }}" class="nav-link-glass {{ request()->routeIs('infraestructura.*') ? 'active' : '' }}">
+                    <i class="fas fa-building"></i> Infraestructura
+                </a>
+
                 <!-- Dropdown del usuario con estilo glass -->
                 <div class="user-dropdown-glass">
                     <button class="user-menu-btn-glass" onclick="toggleDropdownGlass()">
@@ -43,9 +58,14 @@
                             <div class="dropdown-user-info-glass">
                                 <strong>{{ auth()->user()->name }} {{ auth()->user()->lastname ?? '' }}</strong>
                                 <span class="dropdown-user-email-glass">{{ auth()->user()->email }}</span>
-                                @if(auth()->user()->cargo)
-                                    <span class="dropdown-user-role-glass">{{ auth()->user()->cargo }}</span>
-                                @endif
+                                <span class="dropdown-user-role-glass">
+                                    @hasrole('Admin') Administrador
+                                    @elseif(auth()->user()->hasRole('Supervisor')) Supervisor
+                                    @elseif(auth()->user()->hasRole('Registrador')) Registrador
+                                    @elseif(auth()->user()->hasRole('Ipress')) IPRESS
+                                    @else Sin rol asignado
+                                    @endhasrole
+                                </span>
                             </div>
                         </div>
                         <div class="dropdown-divider-glass"></div>
@@ -107,6 +127,17 @@
     }
 
     .nav-link-glass:hover i {
+        color: white;
+    }
+
+    /* Estado activo */
+    .nav-link-glass.active {
+        background: linear-gradient(135deg, #1E3A5F, #0F2F47);
+        color: white;
+        border-color: transparent;
+    }
+
+    .nav-link-glass.active i {
         color: white;
     }
 

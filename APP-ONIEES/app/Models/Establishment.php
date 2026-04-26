@@ -32,7 +32,7 @@ class Establishment extends Model
         'nombre_eess',
         'clasificacion',
         'tipo',
-        'nivel_atencion',  // ← AGREGAR ESTA LÍNEA
+        'nivel_atencion',
         'iddiresa',
         'idregion',
         'region',
@@ -78,15 +78,21 @@ class Establishment extends Model
         'titulo_a_favor',
         'observacion',
         'antiguedad_anios',
+        'state_id',
+        'user_created',
+        'user_updated',
+        'inicio_funcionamiento',
+        'fecha_registro',
+        'ultima_recategorizacion',
+        'categoria_inicial',
+        'resolucion_categoria',
         'numero_camas',
         'autoridad_sanitaria',
         'propietario_ruc',
         'propietario_razon_social',
         'situacion_estado',
         'situacion_condicion',
-        'state_id',
-        'user_created',
-        'user_updated',
+        'referencia',
     ];
 
     // Campos que deberían ser tratados como fechas
@@ -95,14 +101,12 @@ class Establishment extends Model
         'updated_at',
     ];
 
-    /**
-     * Relaciones (si existen)
-     */
 
-    // Por ejemplo, relación con la tabla `format`
-    public function formats()
+
+    // Relación con la tabla `format` (uno a uno) - NUEVA
+    public function format()
     {
-        return $this->hasMany(Format::class, 'id_establecimiento');
+        return $this->hasOne(Format::class, 'id_establecimiento');
     }
 
     /**

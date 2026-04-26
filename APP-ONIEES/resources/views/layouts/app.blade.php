@@ -93,6 +93,16 @@
         .min-h-screen {
             min-height: 100vh;
         }
+
+        /* Breadcrumb styles */
+        .breadcrumb-item {
+            display: inline-flex;
+            align-items: center;
+        }
+        .breadcrumb-separator {
+            margin: 0 0.5rem;
+            color: #9ca3af;
+        }
     </style>
 </head>
 
@@ -101,10 +111,17 @@
         @php
             $rutasSinSidebar = ['login', 'home', 'register', 'password.request', 'password.reset'];
             $mostrarSidebar = !in_array(request()->route()?->getName(), $rutasSinSidebar) && !request()->is('/');
+            
+            // SOLO LOS ADMIN VEN EL SIDEBAR COMPLETO
+            $esAdmin = Auth::user()->hasRole('Admin');
+            $mostrarSidebarCompleto = $mostrarSidebar && $esAdmin;
+            
+            // Usuarios normales NO ven el sidebar izquierdo
+            $mostrarSidebarLateral = $mostrarSidebarCompleto;
         @endphp
 
-        @if ($mostrarSidebar)
-            <!-- Layout con sidebar -->
+        @if ($mostrarSidebarLateral)
+            <!-- Layout con sidebar SOLO PARA ADMIN -->
             <div x-data="{
                 get sidebarOpen() { return $store.sidebar.open },
                 get isMobile() { return $store.sidebar.isMobile }
@@ -141,8 +158,14 @@
 
                     @if (isset($header))
                         <header class="bg-white shadow flex-shrink-0">
-                            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                                {{ $header }}
+                            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        {{ $header }}
+                                    </div>
+                                    <!-- Breadcrumbs -->
+                                    @include('layouts.breadcrumbs')
+                                </div>
                             </div>
                         </header>
                     @endif
@@ -157,19 +180,25 @@
                 </div>
             </div>
         @else
-            <!-- Layout sin sidebar (usuario autenticado pero sin sidebar) -->
+            <!-- Layout sin sidebar para usuarios normales (Registrador, Supervisor, Ipress) -->
             <div class="min-h-screen flex flex-col">
                 @include('layouts.header')
 
                 @if (isset($header))
-                    <header class="bg-white shadow flex-shrink-0">
-                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
+                    <header class="bg-white shadow flex-shrink-0 border-b">
+                        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                            <div class="flex justify-between items-center flex-wrap gap-3">
+                                <div>
+                                    {{ $header }}
+                                </div>
+                                <!-- Breadcrumbs para usuarios normales -->
+                                @include('layouts.breadcrumbs')
+                            </div>
                         </div>
                     </header>
                 @endif
 
-                <main class="flex-1">
+                <main class="flex-1 p-6">
                     {{ $slot }}
                 </main>
 
@@ -179,9 +208,8 @@
             </div>
         @endif
     @else
-        <!-- Usuario no autenticado (PÚBLICO) - AHORA CON HEADER Y FOOTER -->
+        <!-- Usuario no autenticado (PÚBLICO) -->
         <div class="min-h-screen flex flex-col">
-            <!-- Fondo GIF solo para login/register -->
             @if(request()->routeIs('login') || request()->routeIs('register'))
             <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
                 <img src="{{ asset('img/gif/city.gif') }}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.3;">
@@ -189,15 +217,12 @@
             </div>
             @endif
             
-            <!-- HEADER para usuarios no autenticados -->
             @include('layouts.header')
             
-            <!-- Contenido principal -->
             <main class="flex-1" style="position: relative; z-index: 1;">
                 {{ $slot }}
             </main>
             
-            <!-- FOOTER para usuarios no autenticados -->
             @include('layouts.footer')
         </div>
     @endauth

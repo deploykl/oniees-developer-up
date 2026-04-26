@@ -1,285 +1,260 @@
 <x-app-layout>
-    <x-slot name="title">Infraestructura - Datos Generales</x-slot>
+    <x-slot name="title">Infraestructura - Sistema IPRESS</x-slot>
 
-    <div class="container mx-auto px-4 py-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
-                    <h4 class="text-white text-xl font-bold">1. DATOS GENERALES DEL ESTABLECIMIENTO DE SALUD</h4>
+    <style>
+        .two-column-layout {
+            display: flex;
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .right-sidebar {
+            width: 320px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 20px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+        /* Pestañas */
+        .tab-button {
+            transition: all 0.2s ease;
+        }
+        .tab-button.active {
+            background: linear-gradient(135deg, #1e40af, #1e3a5f);
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+            .two-column-layout {
+                flex-direction: column;
+            }
+            .right-sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+            }
+        }
+        /* Botón guardar flotante */
+        .save-button-fixed {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+        @media (max-width: 768px) {
+            .save-button-fixed {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+
+    <div class="two-column-layout">
+        
+        <!-- CONTENIDO PRINCIPAL CON PESTAÑAS -->
+        <div class="main-content">
+            <!-- Selector de establecimiento (solo si es necesario) -->
+            @if(isset($showSelector) && $showSelector)
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg mb-4">
+                <h5 class="font-bold mb-2">🔍 Buscar establecimiento</h5>
+                <div class="flex gap-3">
+                    <input type="text" id="buscar_codigo" class="flex-1 px-3 py-2 border rounded-lg" placeholder="Código RENIPRESS">
+                    <button type="button" id="btn_buscar" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Buscar</button>
                 </div>
-                <div class="p-6">
+                <div id="resultado_busqueda" class="mt-3"></div>
+            </div>
+            @endif
 
-                    @if (session('success'))
-                        <div class="mb-4 px-4 py-3 bg-green-100 border-l-4 border-green-500 text-green-700 rounded">
-                            {{ session('success') }}
+            <!-- PESTAÑAS -->
+            <!-- PESTAÑAS - Agrega x-data aquí -->
+<div x-data="{ activeTab: localStorage.getItem('activeTab') || 'datos-generales' }" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="border-b border-gray-200">
+        <nav class="flex -mb-px">
+            <button @click="activeTab = 'datos-generales'" 
+                :class="{ 'border-blue-500 text-blue-600': activeTab === 'datos-generales', 'border-transparent text-gray-500': activeTab !== 'datos-generales' }"
+                class="px-6 py-3 text-sm font-medium border-b-2 transition-colors">
+                <i class="fas fa-building mr-2"></i> Datos Generales
+            </button>
+            <button @click="activeTab = 'infraestructura'" 
+                :class="{ 'border-teal-500 text-teal-600': activeTab === 'infraestructura', 'border-transparent text-gray-500': activeTab !== 'infraestructura' }"
+                class="px-6 py-3 text-sm font-medium border-b-2 transition-colors">
+                <i class="fas fa-hard-hat mr-2"></i> Infraestructura
+            </button>
+            <button @click="activeTab = 'servicios-basicos'" 
+                :class="{ 'border-cyan-500 text-cyan-600': activeTab === 'servicios-basicos', 'border-transparent text-gray-500': activeTab !== 'servicios-basicos' }"
+                class="px-6 py-3 text-sm font-medium border-b-2 transition-colors">
+                <i class="fas fa-water mr-2"></i> Servicios Básicos
+            </button>
+        </nav>
+    </div>
+
+    <form method="POST" action="{{ route('infraestructura.save') }}" id="mainForm">
+        @csrf
+        <input type="hidden" name="id_establecimiento" value="{{ $establecimiento->id ?? '' }}">
+
+        <!-- TAB 1 -->
+        <div x-show="activeTab === 'datos-generales'" class="p-6">
+            @include('infraestructura.partials.datos-generales')
+        </div>
+
+        <!-- TAB 2 -->
+        <div x-show="activeTab === 'infraestructura'" class="p-6" style="display: none;">
+            @include('infraestructura.partials.infraestructura')
+        </div>
+
+        <!-- TAB 3 -->
+        <div x-show="activeTab === 'servicios-basicos'" class="p-6" style="display: none;">
+            @include('infraestructura.partials.servicios-basicos')
+        </div>
+
+        <!-- Botones -->
+        <div class="border-t border-gray-200 p-4 bg-gray-50 flex justify-end gap-3">
+            <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                <i class="fas fa-save mr-2"></i> Guardar
+            </button>
+        </div>
+    </form>
+</div>
+        </div>
+
+        <!-- SIDEBAR DERECHO DE PROGRESO -->
+        <div class="right-sidebar" x-data="progressSidebar()" x-init="initProgress()">
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden sticky top-20">
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-4">
+                    <h2 class="text-sm font-bold text-white">📊 Progreso del Formulario</h2>
+                    <p class="text-xs text-blue-100 truncate mt-1">{{ $establecimiento->nombre_eess ?? 'Sin establecimiento' }}</p>
+                </div>
+
+                <!-- Progreso Total -->
+                <div class="p-4 bg-gray-50 border-b">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span class="text-gray-600">Completado</span>
+                        <span class="font-bold text-blue-600" x-text="totalProgress + '%'"></span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-gradient-to-r from-blue-500 to-teal-500 h-2 rounded-full transition-all duration-500" :style="{ width: totalProgress + '%' }"></div>
+                    </div>
+                </div>
+
+                <!-- Lista de secciones -->
+                <div class="divide-y divide-gray-100">
+                    <div class="p-3 hover:bg-gray-50 cursor-pointer" @click="scrollToSection('datos-generales')">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-building text-blue-500 text-sm"></i>
+                                <span class="text-sm font-medium">Datos Generales</span>
+                            </div>
+                            <span class="text-xs" :class="sections['datos-generales'].percent === 100 ? 'text-green-600 font-bold' : 'text-gray-500'" x-text="sections['datos-generales'].percent + '%'"></span>
                         </div>
-                    @endif
-
-                    @if (session('error'))
-                        <div class="mb-4 px-4 py-3 bg-red-100 border-l-4 border-red-500 text-red-700 rounded">
-                            {{ session('error') }}
+                        <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                            <div class="bg-blue-500 h-1 rounded-full transition-all" :style="{ width: sections['datos-generales'].percent + '%' }"></div>
                         </div>
-                    @endif
-
-                    <!-- SELECTOR DE ESTABLECIMIENTO -->
-                    @if (isset($showSelector) && $showSelector)
-                        <div class="mb-4 px-4 py-3 bg-blue-100 border-l-4 border-blue-500 text-blue-700 rounded">
-                            <h5 class="font-bold mb-2"><i class="fas fa-search"></i> Buscar establecimiento</h5>
-                            <p class="mb-3">Ingrese el código RENIPRESS del establecimiento que desea
-                                consultar/editar.</p>
-
-                            <div class="flex flex-col md:flex-row gap-3">
-                                <div class="flex-1">
-                                    <input type="text" id="buscar_codigo"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        placeholder="Ejemplo: 00003253" value="{{ $codigoBuscar ?? '' }}">
-                                </div>
-                                <div>
-                                    <button type="button" id="btn_buscar"
-                                        class="w-full md:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                                        <i class="fas fa-search"></i> Buscar
-                                    </button>
-                                </div>
+                    </div>
+                    <div class="p-3 hover:bg-gray-50 cursor-pointer" @click="scrollToSection('infraestructura-tab')">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-hard-hat text-teal-500 text-sm"></i>
+                                <span class="text-sm font-medium">Infraestructura</span>
                             </div>
-
-                            <div id="resultado_busqueda" class="mt-3"></div>
+                            <span class="text-xs" :class="sections['infraestructura'].percent === 100 ? 'text-green-600 font-bold' : 'text-gray-500'" x-text="sections['infraestructura'].percent + '%'"></span>
                         </div>
-                    @else
-                        <!-- FORMULARIO DE DATOS GENERALES -->
-                        <form method="POST" action="{{ route('infraestructura.save') }}">
-                            @csrf
-
-                            <input type="hidden" name="id_establecimiento" value="{{ $establecimiento->id ?? '' }}">
-
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">CÓDIGO IPRESS
-                                        (*)</label>
-                                    <input type="text"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        name="codigo_ipress" value="{{ $establecimiento->codigo ?? '' }}">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">NOMBRE DEL EESS
-                                        (*)</label>
-                                    <input type="text"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        name="nombre_eess" value="{{ $establecimiento->nombre_eess ?? '' }}">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">INSTITUCIÓN (*)</label>
-                                    <input type="text"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        name="institucion"
-                                        value="{{ $establecimiento->institucion ?? 'GOBIERNO REGIONAL' }}">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">REGIÓN</label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="region" value="{{ $establecimiento->region ?? '' }}">
-                                </div>
+                        <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                            <div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['infraestructura'].percent + '%' }"></div>
+                        </div>
+                    </div>
+                    <div class="p-3 hover:bg-gray-50 cursor-pointer" @click="scrollToSection('servicios-basicos-tab')">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-water text-cyan-500 text-sm"></i>
+                                <span class="text-sm font-medium">Servicios Básicos</span>
                             </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">PROVINCIA</label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="provincia" value="{{ $establecimiento->provincia ?? '' }}">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">DISTRITO</label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="distrito" value="{{ $establecimiento->distrito ?? '' }}">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">RED</label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="red" value="{{ $establecimiento->nombre_red ?? '' }}">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">MICRORED</label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="microred" value="{{ $establecimiento->nombre_microred ?? '' }}">
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-4">
-                                <!-- NIVEL DE ATENCIÓN - 2 columnas (angosto) -->
-                                <div class="md:col-span-2">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">NIVEL DE
-                                        ATENCIÓN</label>
-                                    <select name="nivel_atencion"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        <option value="">Seleccione</option>
-                                        <option value="I"
-                                            {{ ($establecimiento->nivel_atencion ?? '') == 'I' ? 'selected' : '' }}>I
-                                        </option>
-                                        <option value="II"
-                                            {{ ($establecimiento->nivel_atencion ?? '') == 'II' ? 'selected' : '' }}>II
-                                        </option>
-                                        <option value="III"
-                                            {{ ($establecimiento->nivel_atencion ?? '') == 'III' ? 'selected' : '' }}>
-                                            III</option>
-                                        <option value="Sin Categoría"
-                                            {{ ($establecimiento->nivel_atencion ?? '') == 'Sin Categoría' ? 'selected' : '' }}>
-                                            Sin Categoría</option>
-                                    </select>
-                                </div>
-
-                                <!-- CATEGORÍA - 2 columnas (angosto) -->
-                                <div class="md:col-span-2">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">CATEGORÍA</label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="categoria" value="{{ $establecimiento->categoria ?? '' }}">
-                                </div>
-
-                                <!-- RESOLUCIÓN DE CATEGORÍA - 3 columnas -->
-                                <div class="md:col-span-3">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">RESOLUCIÓN DE
-                                        CATEGORÍA</label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="resolucion_categoria"
-                                        value="{{ $establecimiento->resolucion_categoria ?? '' }}">
-                                </div>
-
-                                <!-- CLASIFICACIÓN - 3 columnas -->
-                                <div class="md:col-span-5">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">CLASIFICACIÓN</label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="clasificacion" value="{{ $establecimiento->clasificacion ?? '' }}">
-                                </div>
-                                <div class="md:col-span-5">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">TIPO</label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="tipo" value="{{ $establecimiento->tipo ?? '' }}">
-                                </div>
-
-                                <div class="md:col-span-5">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">COD UE </label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="codigo_ue" value="{{ $establecimiento->codigo_ue ?? '' }}">
-                                </div>
-                                <div class="md:col-span-5">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">UNIDAD EJECUTORA</label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="unidad_ejecutora" value="{{ $establecimiento->unidad_ejecutora ?? '' }}">
-                                </div>
-
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">TELÉFONO</label>
-                                        <input type="text"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg" name="telefono"
-                                            value="{{ $establecimiento->telefono ?? '' }}">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">NÚMERO DE
-                                            CAMAS</label>
-                                        <input type="number"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                            name="numero_camas" value="{{ $establecimiento->numero_camas ?? '' }}">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">DIRECTOR MÉDICO</label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="director_medico" value="{{ $establecimiento->director_medico ?? '' }}">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">HORARIO</label>
-                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                        name="horario" value="{{ $establecimiento->horario ?? '' }}">
-                                </div>
-                            </div>
-
-                            @if (Auth::user() && !Auth::user()->idestablecimiento_user)
-                                <div class="mb-4">
-                                    <label class="flex items-center">
-                                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600"
-                                            name="asignar_a_mi" value="1">
-                                        <span class="ml-2 text-sm text-gray-700">Asignar este establecimiento a mi
-                                            usuario (para futuros accesos)</span>
-                                    </label>
-                                </div>
-                            @endif
-
-                            <div class="flex justify-center gap-3 mt-6">
-                                <button type="submit"
-                                    class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                                    <i class="fas fa-save"></i> GUARDAR
-                                </button>
-                                <a href="{{ route('infraestructura.edit') }}"
-                                    class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition">
-                                    <i class="fas fa-eraser"></i> LIMPIAR
-                                </a>
-                            </div>
-                        </form>
-                    @endif
+                            <span class="text-xs" :class="sections['servicios-basicos'].percent === 100 ? 'text-green-600 font-bold' : 'text-gray-500'" x-text="sections['servicios-basicos'].percent + '%'"></span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                            <div class="bg-cyan-500 h-1 rounded-full transition-all" :style="{ width: sections['servicios-basicos'].percent + '%' }"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- BOTÓN GUARDAR FLOTANTE (opcional) -->
+    <div class="save-button-fixed">
+        <button type="submit" form="mainForm" class="px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-full shadow-lg hover:from-green-700 hover:to-green-800 transition flex items-center gap-2">
+            <i class="fas fa-save"></i> Guardar
+        </button>
+    </div>
+
+    <script>
+        function progressSidebar() {
+            return {
+                sections: {
+                    'datos-generales': { completed: 0, total: 19, percent: 0 },
+                    'infraestructura': { completed: 0, total: 15, percent: 0 },
+                    'servicios-basicos': { completed: 0, total: 10, percent: 0 }
+                },
+                totalProgress: 0,
+                initProgress() {
+                    this.calculateProgress();
+                    setInterval(() => this.calculateProgress(), 1000);
+                },
+                calculateProgress() {
+                    let totalCompleted = 0;
+                    let totalFields = 0;
+                    for (let key in this.sections) {
+                        const section = document.getElementById(key + '-section');
+                        if (section) {
+                            const inputs = section.querySelectorAll('input, select, textarea');
+                            let filled = 0;
+                            inputs.forEach(input => {
+                                if (input.value && input.value.trim() !== '') filled++;
+                            });
+                            this.sections[key].completed = filled;
+                            this.sections[key].percent = Math.round((filled / this.sections[key].total) * 100);
+                            totalCompleted += filled;
+                            totalFields += this.sections[key].total;
+                        }
+                    }
+                    this.totalProgress = totalFields > 0 ? Math.round((totalCompleted / totalFields) * 100) : 0;
+                },
+                scrollToSection(sectionId) {
+                    if (sectionId === 'infraestructura-tab') {
+                        document.querySelector('[x-on\\:click="activeTab = \'infraestructura\'"]')?.click();
+                    } else if (sectionId === 'servicios-basicos-tab') {
+                        document.querySelector('[x-on\\:click="activeTab = \'servicios-basicos\'"]')?.click();
+                    } else {
+                        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            }
+        }
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#btn_buscar').on('click', function() {
-                var codigo = $('#buscar_codigo').val();
-
-                if (!codigo) {
-                    alert('Ingrese un código RENIPRESS');
-                    return;
-                }
-
-                window.location.href = '{{ route('infraestructura.edit') }}?codigo=' + codigo;
+            $('#btn_buscar')?.on('click', function() {
+                let codigo = $('#buscar_codigo').val();
+                if (codigo) window.location.href = '{{ route('infraestructura.edit') }}?codigo=' + codigo;
             });
-
-            var urlParams = new URLSearchParams(window.location.search);
-            var codigoParam = urlParams.get('codigo');
-
-            if (codigoParam && {{ isset($showSelector) && $showSelector ? 'true' : 'false' }}) {
-                $.ajax({
-                    url: '{{ url('/infraestructura/buscar') }}/' + codigoParam,
-                    type: 'GET',
-                    success: function(response) {
-                        var html =
-                            '<div class="mt-3 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded">';
-                        html +=
-                            '<h5 class="font-bold"><i class="fas fa-check-circle"></i> Establecimiento encontrado</h5>';
-                        html += '<p class="mt-2"><strong>Código:</strong> ' + response.codigo + '<br>';
-                        html += '<strong>Nombre:</strong> ' + response.nombre + '<br>';
-                        html += '<strong>Región:</strong> ' + (response.region || '-') + '<br>';
-                        html += '<strong>Provincia:</strong> ' + (response.provincia || '-') + '<br>';
-                        html += '<strong>Distrito:</strong> ' + (response.distrito || '-') + '</p>';
-                        html +=
-                            '<button type="button" id="seleccionar_establecimiento" class="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Seleccionar este establecimiento</button>';
-                        html += '</div>';
-                        $('#resultado_busqueda').html(html);
-
-                        $('#seleccionar_establecimiento').on('click', function() {
-                            window.location.href =
-                                '{{ route('infraestructura.edit') }}?cargar=' + response.id;
-                        });
-                    },
-                    error: function(xhr) {
-                        var errorMsg = 'Error al buscar';
-                        if (xhr.responseJSON && xhr.responseJSON.error) {
-                            errorMsg = xhr.responseJSON.error;
-                        }
-                        $('#resultado_busqueda').html(
-                            '<div class="mt-3 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded">' +
-                            errorMsg + '</div>');
-                    }
-                });
-            }
         });
     </script>
 </x-app-layout>

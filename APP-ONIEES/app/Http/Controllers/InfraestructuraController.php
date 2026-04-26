@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Establishment;
-use App\Models\FormatI;
+use App\Models\Format;
+use App\Models\Profesion;
+use App\Models\CondicionProfesional;
+use App\Models\RegimenLaboral;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Models\NivelesAtencion; // ← Agregar este import
+use App\Models\NivelesAtencion;
+use App\Models\TipoDocumento;
 
 class InfraestructuraController extends Controller
 {
@@ -21,20 +25,21 @@ class InfraestructuraController extends Controller
         $showSelector = false;
         $codigoBuscar = null;
 
-        // Obtener todos los niveles de atención para el select
+        // Cargar datos para los selects
         $nivelesAtencion = NivelesAtencion::orderBy('nombre')->get();
+        $profesiones = Profesion::orderBy('nombre')->get();
+        $condiciones = CondicionProfesional::orderBy('nombre')->get();
+        $regimenes = RegimenLaboral::orderBy('nombre')->get();
+        $tiposDocumento = TipoDocumento::all(); // ← Agrega esto
 
-        // Si hay un código en la URL para buscar
         if ($request->get('codigo')) {
             $codigoBuscar = $request->get('codigo');
             $establecimiento = Establishment::where('codigo', $codigoBuscar)->first();
-
             if ($establecimiento) {
                 session(['establecimiento_temp_id' => $establecimiento->id]);
             }
         }
 
-        // Si hay un ID para cargar directamente
         if ($request->get('cargar')) {
             $establecimiento = Establishment::find($request->get('cargar'));
             if ($establecimiento) {
@@ -42,27 +47,32 @@ class InfraestructuraController extends Controller
             }
         }
 
-        // Verificar si hay establecimiento en sesión temporal
         if (!$establecimiento && session('establecimiento_temp_id')) {
             $establecimiento = Establishment::find(session('establecimiento_temp_id'));
         }
 
-        // Si el usuario tiene establecimiento asignado, usarlo
         if (!$establecimiento && $user->idestablecimiento_user) {
             $establecimiento = Establishment::find($user->idestablecimiento_user);
         }
 
-        // Si aún no hay establecimiento, mostrar selector
         if (!$establecimiento) {
             $showSelector = true;
         }
 
+        // Cargar el format usando la relación
+        $format = $establecimiento ? $establecimiento->format : null;
+
         return view('infraestructura.index', [
             'establecimiento' => $establecimiento,
+            'format' => $format,
             'showSelector' => $showSelector,
             'user' => $user,
             'codigoBuscar' => $codigoBuscar,
-            'nivelesAtencion' => $nivelesAtencion, // ← Pasar los niveles a la vista
+            'nivelesAtencion' => $nivelesAtencion,
+            'profesiones' => $profesiones,
+            'condiciones' => $condiciones,
+            'regimenes' => $regimenes,
+            'tiposDocumento' => $tiposDocumento,
         ]);
     }
 
@@ -98,10 +108,11 @@ class InfraestructuraController extends Controller
     {
         try {
             /** @var \App\Models\User $user */
-
             $user = Auth::user();
 
-            // Buscar el establecimiento por ID
+            // =============================================
+            // 1. GUARDAR EN TABLA establishment
+            // =============================================
             $establecimiento = Establishment::find($request->id_establecimiento);
 
             if (!$establecimiento) {
@@ -111,10 +122,10 @@ class InfraestructuraController extends Controller
                 $establecimiento->user_updated = $user->id;
             }
 
-            // Actualizar datos generales
+            // Datos generales
             $establecimiento->codigo = $request->codigo_ipress;
-            $establecimiento->institucion = $request->institucion;
             $establecimiento->nombre_eess = $request->nombre_eess;
+            $establecimiento->institucion = $request->institucion;
             $establecimiento->region = $request->region;
             $establecimiento->provincia = $request->provincia;
             $establecimiento->distrito = $request->distrito;
@@ -122,24 +133,87 @@ class InfraestructuraController extends Controller
             $establecimiento->nombre_microred = $request->microred;
             $establecimiento->nivel_atencion = $request->nivel_atencion;
             $establecimiento->categoria = $request->categoria;
+            $establecimiento->resolucion_categoria = $request->resolucion_categoria;
+            $establecimiento->clasificacion = $request->clasificacion;
+            $establecimiento->tipo = $request->tipo;
+            $establecimiento->codigo_ue = $request->codigo_ue;
+            $establecimiento->unidad_ejecutora = $request->unidad_ejecutora;
             $establecimiento->direccion = $request->direccion;
             $establecimiento->telefono = $request->telefono;
-            $establecimiento->numero_camas = $request->numero_camas;
             $establecimiento->director_medico = $request->director_medico;
             $establecimiento->horario = $request->horario;
 
+            // Fechas y clasificación
+            $establecimiento->inicio_funcionamiento = $request->inicio_funcionamiento;
+            $establecimiento->fecha_registro = $request->fecha_registro;
+            $establecimiento->ultima_recategorizacion = $request->ultima_recategorizacion;
+            $establecimiento->antiguedad_anios = $request->antiguedad;
+            $establecimiento->categoria_inicial = $request->categoria_inicial;
+            $establecimiento->quintil = $request->quintil;
+            $establecimiento->pcm_zona = $request->pcm_zona;
+            $establecimiento->frontera = $request->frontera;
+
+            // Datos adicionales
+            $establecimiento->numero_camas = $request->numero_camas;
+            $establecimiento->autoridad_sanitaria = $request->autoridad_sanitaria;
+            $establecimiento->propietario_ruc = $request->propietario_ruc;
+            $establecimiento->propietario_razon_social = $request->propietario_razon_social;
+            $establecimiento->situacion_estado = $request->situacion_estado;
+            $establecimiento->situacion_condicion = $request->situacion_condicion;
+
+            // Ubicación y coordenadas
+            $establecimiento->referencia = $request->referencia;
+            $establecimiento->cota = $request->cota;
+            $establecimiento->coordenada_utm_norte = $request->coord_utm_norte;
+            $establecimiento->coordenada_utm_este = $request->coord_utm_este;
+
             $establecimiento->save();
 
-            // Limpiar sesión temporal
+            // =============================================
+            // 2. GUARDAR EN TABLA format
+            // =============================================
+            $format = Format::where('id_establecimiento', $establecimiento->id)->first();
+
+            if (!$format) {
+                $format = new Format();
+                $format->id_establecimiento = $establecimiento->id;
+                $format->user_id = $user->id;
+            }
+
+            // Índice de Seguridad Hospitalaria
+            $format->seguridad_hospitalaria = $request->tiene_documento_seguridad;
+            $format->seguridad_resultado = $request->resultado_seguridad;
+            $format->seguridad_fecha = $request->anio_seguridad;
+
+            // Patrimonio Cultural
+            $format->patrimonio_cultural = $request->patrimonio_cultural == '1' ? 'SI' : 'NO';
+            $format->fecha_emision = $request->fecha_patrimonio;
+            $format->numero_documento = $request->num_resolucion_patrimonio;
+
+            // Datos del Director / Administrador (usando format, no establishment)
+            $format->tipo_documento_registrador = $request->director_tipo_documento;
+            $format->doc_entidad_registrador = $request->director_dni;
+            $format->nombre_registrador = $request->director_nombres;
+            $format->profesion_registrador = $request->director_profesion;
+            $format->cargo_registrador = $request->director_cargo;
+            $format->email_registrador = $request->director_email;
+            $format->movil_registrador = $request->director_celular;
+            $format->id_condicion_profesional = $request->director_condicion_laboral;
+            $format->id_regimen_laboral = $request->director_regimen_laboral;
+
+            $format->save();
+
+            // =============================================
+            // 3. LIMPIAR SESIÓN Y REDIRIGIR
+            // =============================================
             session()->forget('establecimiento_temp_id');
 
-            // Si el usuario no tenía establecimiento asignado y quiere asignarlo
             if (!$user->idestablecimiento_user && $request->has('asignar_a_mi')) {
                 $user->idestablecimiento_user = $establecimiento->id;
                 $user->save();
             }
 
-            return redirect()->route('infraestructura.edit')
+            return redirect()->route('infraestructura.edit', ['cargar' => $establecimiento->id])
                 ->with('success', 'Datos guardados correctamente');
         } catch (\Exception $e) {
             return redirect()->back()
