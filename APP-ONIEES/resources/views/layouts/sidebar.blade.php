@@ -11,22 +11,23 @@
         if (!localStorage.getItem('menu_registros')) localStorage.setItem('menu_registros', false);
         if (!localStorage.getItem('menu_ipress')) localStorage.setItem('menu_ipress', false);
     }
-}" 
-:class="sidebarOpen ? 'w-64' : 'w-20'"
-class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-blue-100/30 shadow-2xl z-[200] transition-all duration-300 overflow-hidden flex flex-col">
+}" :class="sidebarOpen ? 'w-64' : 'w-20'"
+    class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-blue-100/30 shadow-2xl z-[200] transition-all duration-300 overflow-hidden flex flex-col">
 
     <!-- Logo Sidebar -->
     <div class="flex items-center justify-between p-4 border-b border-blue-100/30 flex-shrink-0">
         <div x-show="sidebarOpen" class="flex items-center gap-2">
             <a href="{{ url('/') }}" class="flex items-center gap-2 text-decoration-none">
-                <div class="flex items-center gap-2 bg-white/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-blue-100/30">
+                <div
+                    class="flex items-center gap-2 bg-white/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-blue-100/30">
                     <img src="{{ asset('img/logo-minsa.png') }}" alt="MINSA Logo"
                         style="height: 32px; width: auto; max-width: 120px; object-fit: contain;">
                 </div>
             </a>
         </div>
         <div x-show="!sidebarOpen" class="flex justify-center w-full">
-            <a href="{{ url('/') }}" class="flex items-center justify-center bg-white/50 backdrop-blur-sm p-2 rounded-full border border-blue-100/30">
+            <a href="{{ url('/') }}"
+                class="flex items-center justify-center bg-white/50 backdrop-blur-sm p-2 rounded-full border border-blue-100/30">
                 <i class="fas fa-hospital-user text-teal-600 text-lg"></i>
             </a>
         </div>
@@ -42,12 +43,21 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
         <!-- Dashboard -->
         <a href="{{ route('dashboard') }}"
             class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group"
-            :class="window.location.pathname === '/dashboard' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-blue-50/50 hover:text-blue-500'">
+            :class="window.location.pathname === '/dashboard' ? 'bg-blue-50 text-blue-600' :
+                'text-gray-600 hover:bg-blue-50/50 hover:text-blue-500'">
             <i class="fas fa-chart-line w-5 text-lg"></i>
             <span x-show="sidebarOpen" class="text-sm font-medium">Dashboard</span>
             <span x-show="!sidebarOpen" class="hidden">Dashboard</span>
         </a>
 
+        <a href="{{ route('infraestructura.edit') }}"
+            class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group"
+            :class="window.location.pathname === '/infraestructura/index' ? 'bg-blue-50 text-blue-600' :
+                'text-gray-600 hover:bg-blue-50/50 hover:text-blue-500'">
+            <i class="fas fa-building w-5 text-lg"></i>
+            <span x-show="sidebarOpen" class="text-sm font-medium">Infraestructura</span>
+            <span x-show="!sidebarOpen" class="hidden">Infraestructura</span>
+        </a>
         <!-- ==================== ADMIN ==================== -->
         @hasrole('Admin')
             <!-- Usuarios -->
@@ -59,8 +69,7 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
             </a>
 
             <!-- SIGA -->
-            <div x-data="{ open: localStorage.getItem('menu_siga') === 'true' }" 
-                 x-init="$watch('open', value => localStorage.setItem('menu_siga', value))">
+            <div x-data="{ open: localStorage.getItem('menu_siga') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_siga', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -85,8 +94,7 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
             </div>
 
             <!-- Formularios -->
-            <div x-data="{ open: localStorage.getItem('menu_formularios') === 'true' }" 
-                 x-init="$watch('open', value => localStorage.setItem('menu_formularios', value))">
+            <div x-data="{ open: localStorage.getItem('menu_formularios') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_formularios', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="sidebarOpenflex items-center gap-3">
@@ -116,8 +124,7 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
             </div>
 
             <!-- Reportes -->
-            <div x-data="{ open: localStorage.getItem('menu_reportes') === 'true' }" 
-                 x-init="$watch('open', value => localStorage.setItem('menu_reportes', value))">
+            <div x-data="{ open: localStorage.getItem('menu_reportes') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_reportes', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -142,8 +149,7 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
             </div>
 
             <!-- Tableros -->
-            <div x-data="{ open: localStorage.getItem('menu_tableros') === 'true' }" 
-                 x-init="$watch('open', value => localStorage.setItem('menu_tableros', value))">
+            <div x-data="{ open: localStorage.getItem('menu_tableros') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_tableros', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -170,8 +176,7 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
 
         <!-- ==================== SUPERVISOR  ==================== -->
         @hasrole('Supervisor')
-            <div x-data="{ open: localStorage.getItem('menu_monitoreo') === 'true' }" 
-                 x-init="$watch('open', value => localStorage.setItem('menu_monitoreo', value))">
+            <div x-data="{ open: localStorage.getItem('menu_monitoreo') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_monitoreo', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -203,8 +208,7 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
 
         <!-- ==================== REGISTRADOR ==================== -->
         @hasrole('Registrador')
-            <div x-data="{ open: localStorage.getItem('menu_registros') === 'true' }" 
-                 x-init="$watch('open', value => localStorage.setItem('menu_registros', value))">
+            <div x-data="{ open: localStorage.getItem('menu_registros') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_registros', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -236,8 +240,7 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
 
         <!-- ==================== IPRESS ==================== -->
         @hasrole('Ipress')
-            <div x-data="{ open: localStorage.getItem('menu_ipress') === 'true' }" 
-                 x-init="$watch('open', value => localStorage.setItem('menu_ipress', value))">
+            <div x-data="{ open: localStorage.getItem('menu_ipress') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_ipress', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
                     <div class="flex items-center gap-3">
@@ -282,13 +285,15 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
         <!-- Información del usuario -->
         <div class="p-4">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center flex-shrink-0 shadow-md">
+                <div
+                    class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center flex-shrink-0 shadow-md">
                     <i class="fas fa-user text-white text-sm"></i>
                 </div>
                 <div x-show="sidebarOpen" class="overflow-hidden flex-1">
                     <p class="text-sm font-semibold text-gray-800 truncate">{{ Auth::user()->name ?? 'Usuario' }}</p>
                     <p class="text-xs text-gray-500 truncate">{{ Auth::user()->email ?? '' }}</p>
-                    <span class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                    <span
+                        class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
                         <i class="fas fa-shield-alt text-xs"></i>
                         @hasrole('Admin')
                             Administrador
@@ -300,67 +305,67 @@ class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-bl
                             IPRESS
                         @else
                             Sin rol
-                        @endif
-                    </span>
+                            @endif
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Botón de Cerrar Sesión -->
-        <div class="p-3 pt-0 pb-4">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit"
-                    class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-red-600 hover:bg-red-50 hover:text-red-700 group">
-                    <i class="fas fa-sign-out-alt w-5 text-lg"></i>
-                    <span x-show="sidebarOpen" class="text-sm font-medium">Cerrar Sesión</span>
-                    <span x-show="!sidebarOpen" class="hidden">Cerrar Sesión</span>
-                </button>
-            </form>
+            <!-- Botón de Cerrar Sesión -->
+            <div class="p-3 pt-0 pb-4">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit"
+                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-red-600 hover:bg-red-50 hover:text-red-700 group">
+                        <i class="fas fa-sign-out-alt w-5 text-lg"></i>
+                        <span x-show="sidebarOpen" class="text-sm font-medium">Cerrar Sesión</span>
+                        <span x-show="!sidebarOpen" class="hidden">Cerrar Sesión</span>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-<style>
-    .menu-item {
-        position: relative;
-        overflow: hidden;
-    }
+    <style>
+        .menu-item {
+            position: relative;
+            overflow: hidden;
+        }
 
-    .menu-item::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 3px;
-        height: 0;
-        background: linear-gradient(135deg, #0E7C9E, #1E3A5F);
-        border-radius: 3px;
-        transition: height 0.3s ease;
-    }
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0;
+            background: linear-gradient(135deg, #0E7C9E, #1E3A5F);
+            border-radius: 3px;
+            transition: height 0.3s ease;
+        }
 
-    .menu-item:hover::before,
-    .menu-item.active::before {
-        height: 70%;
-    }
+        .menu-item:hover::before,
+        .menu-item.active::before {
+            height: 70%;
+        }
 
-    /* Scrollbar personalizado */
-    nav::-webkit-scrollbar {
-        width: 4px;
-    }
+        /* Scrollbar personalizado */
+        nav::-webkit-scrollbar {
+            width: 4px;
+        }
 
-    nav::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 10px;
-    }
+        nav::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
 
-    nav::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 10px;
-    }
+        nav::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
 
-    nav::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
-    }
-</style>
+        nav::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
