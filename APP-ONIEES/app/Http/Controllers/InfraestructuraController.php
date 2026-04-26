@@ -20,20 +20,20 @@ class InfraestructuraController extends Controller
         $establecimiento = null;
         $showSelector = false;
         $codigoBuscar = null;
-        
+
         // Obtener todos los niveles de atención para el select
         $nivelesAtencion = NivelesAtencion::orderBy('nombre')->get();
-        
+
         // Si hay un código en la URL para buscar
         if ($request->get('codigo')) {
             $codigoBuscar = $request->get('codigo');
             $establecimiento = Establishment::where('codigo', $codigoBuscar)->first();
-            
+
             if ($establecimiento) {
                 session(['establecimiento_temp_id' => $establecimiento->id]);
             }
         }
-        
+
         // Si hay un ID para cargar directamente
         if ($request->get('cargar')) {
             $establecimiento = Establishment::find($request->get('cargar'));
@@ -41,22 +41,22 @@ class InfraestructuraController extends Controller
                 session(['establecimiento_temp_id' => $establecimiento->id]);
             }
         }
-        
+
         // Verificar si hay establecimiento en sesión temporal
         if (!$establecimiento && session('establecimiento_temp_id')) {
             $establecimiento = Establishment::find(session('establecimiento_temp_id'));
         }
-        
+
         // Si el usuario tiene establecimiento asignado, usarlo
         if (!$establecimiento && $user->idestablecimiento_user) {
             $establecimiento = Establishment::find($user->idestablecimiento_user);
         }
-        
+
         // Si aún no hay establecimiento, mostrar selector
         if (!$establecimiento) {
             $showSelector = true;
         }
-        
+
         return view('infraestructura.index', [
             'establecimiento' => $establecimiento,
             'showSelector' => $showSelector,
@@ -65,18 +65,18 @@ class InfraestructuraController extends Controller
             'nivelesAtencion' => $nivelesAtencion, // ← Pasar los niveles a la vista
         ]);
     }
-    
+
     /**
      * Buscar establecimiento por código (AJAX)
      */
     public function buscarEstablecimiento($codigo)
     {
         $establecimiento = Establishment::where('codigo', $codigo)->first();
-        
+
         if (!$establecimiento) {
             return response()->json(['error' => 'Establecimiento no encontrado'], 404);
         }
-        
+
         return response()->json([
             'id' => $establecimiento->id,
             'codigo' => $establecimiento->codigo,
@@ -90,25 +90,27 @@ class InfraestructuraController extends Controller
             'telefono' => $establecimiento->telefono,
         ]);
     }
-    
+
     /**
      * Guardar datos generales del establecimiento
      */
     public function save(Request $request)
     {
         try {
+            /** @var \App\Models\User $user */
+
             $user = Auth::user();
-            
+
             // Buscar el establecimiento por ID
             $establecimiento = Establishment::find($request->id_establecimiento);
-            
+
             if (!$establecimiento) {
                 $establecimiento = new Establishment();
                 $establecimiento->user_created = $user->id;
             } else {
                 $establecimiento->user_updated = $user->id;
             }
-            
+
             // Actualizar datos generales
             $establecimiento->codigo = $request->codigo_ipress;
             $establecimiento->institucion = $request->institucion;
@@ -125,21 +127,20 @@ class InfraestructuraController extends Controller
             $establecimiento->numero_camas = $request->numero_camas;
             $establecimiento->director_medico = $request->director_medico;
             $establecimiento->horario = $request->horario;
-            
+
             $establecimiento->save();
-            
+
             // Limpiar sesión temporal
             session()->forget('establecimiento_temp_id');
-            
+
             // Si el usuario no tenía establecimiento asignado y quiere asignarlo
             if (!$user->idestablecimiento_user && $request->has('asignar_a_mi')) {
                 $user->idestablecimiento_user = $establecimiento->id;
                 $user->save();
             }
-            
+
             return redirect()->route('infraestructura.edit')
                 ->with('success', 'Datos guardados correctamente');
-                
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'Error: ' . $e->getMessage())
