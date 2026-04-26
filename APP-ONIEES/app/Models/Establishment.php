@@ -32,6 +32,7 @@ class Establishment extends Model
         'nombre_eess',
         'clasificacion',
         'tipo',
+        'nivel_atencion',  // ← AGREGAR ESTA LÍNEA
         'iddiresa',
         'idregion',
         'region',

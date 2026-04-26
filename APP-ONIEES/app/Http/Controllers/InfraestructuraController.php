@@ -7,6 +7,7 @@ use App\Models\FormatI;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\NivelesAtencion; // ← Agregar este import
 
 class InfraestructuraController extends Controller
 {
@@ -19,6 +20,9 @@ class InfraestructuraController extends Controller
         $establecimiento = null;
         $showSelector = false;
         $codigoBuscar = null;
+        
+        // Obtener todos los niveles de atención para el select
+        $nivelesAtencion = NivelesAtencion::orderBy('nombre')->get();
         
         // Si hay un código en la URL para buscar
         if ($request->get('codigo')) {
@@ -53,12 +57,12 @@ class InfraestructuraController extends Controller
             $showSelector = true;
         }
         
-        // USAR index.blade.php en lugar de edit.blade.php
         return view('infraestructura.index', [
             'establecimiento' => $establecimiento,
             'showSelector' => $showSelector,
             'user' => $user,
-            'codigoBuscar' => $codigoBuscar
+            'codigoBuscar' => $codigoBuscar,
+            'nivelesAtencion' => $nivelesAtencion, // ← Pasar los niveles a la vista
         ]);
     }
     
