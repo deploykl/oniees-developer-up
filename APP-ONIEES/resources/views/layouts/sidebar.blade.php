@@ -10,6 +10,7 @@
         if (!localStorage.getItem('menu_monitoreo')) localStorage.setItem('menu_monitoreo', false);
         if (!localStorage.getItem('menu_registros')) localStorage.setItem('menu_registros', false);
         if (!localStorage.getItem('menu_ipress')) localStorage.setItem('menu_ipress', false);
+        if (!localStorage.getItem('menu_repositorio')) localStorage.setItem('menu_repositorio', false);
     }
 }" :class="sidebarOpen ? 'w-64' : 'w-20'"
     class="fixed left-0 top-0 h-full bg-white/95 backdrop-blur-xl border-r border-blue-100/30 shadow-2xl z-[200] transition-all duration-300 overflow-hidden flex flex-col">
@@ -50,6 +51,7 @@
             <span x-show="!sidebarOpen" class="hidden">Dashboard</span>
         </a>
 
+        <!-- Infraestructura -->
         <a href="{{ route('infraestructura.edit') }}"
             class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group"
             :class="window.location.pathname === '/infraestructura/index' ? 'bg-blue-50 text-blue-600' :
@@ -58,6 +60,31 @@
             <span x-show="sidebarOpen" class="text-sm font-medium">Infraestructura</span>
             <span x-show="!sidebarOpen" class="hidden">Infraestructura</span>
         </a>
+
+        <!-- ==================== REPOSITORIO ==================== -->
+        @hasrole('Admin')
+            <div x-data="{ open: localStorage.getItem('menu_repositorio') === 'true' }">
+                <button @click="open = !open"
+                    class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-folder-open w-5 text-lg"></i>
+                        <span x-show="sidebarOpen" class="text-sm font-medium">Repositorio</span>
+                    </div>
+                    <i x-show="sidebarOpen" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas text-xs"></i>
+                </button>
+                <div x-show="open && sidebarOpen" x-collapse class="ml-9 mt-1 space-y-1">
+                    <a href="{{ route('repositorio.index') }}" target="_blank"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm">
+                        <i class="fas fa-eye w-4"></i> Ver Repositorio
+                    </a>
+                    <a href="{{ route('admin.repositorio.categories') }}"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm">
+                        <i class="fas fa-tags w-4"></i> Categorías
+                    </a>
+                </div>
+            </div>
+        @endhasrole
+
         <!-- ==================== ADMIN ==================== -->
         @hasrole('Admin')
             <!-- Usuarios -->
@@ -97,7 +124,7 @@
             <div x-data="{ open: localStorage.getItem('menu_formularios') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_formularios', value))">
                 <button @click="open = !open"
                     class="menu-item w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-blue-50/50 hover:text-blue-500">
-                    <div class="sidebarOpenflex items-center gap-3">
+                    <div class="flex items-center gap-3">
                         <i class="fas fa-file-alt w-5 text-lg"></i>
                         <span x-show="sidebarOpen" class="text-sm font-medium">Formularios</span>
                     </div>
@@ -165,7 +192,7 @@
                         <i class="fas fa-chalkboard w-4"></i>
                         <span>Gerencial</span>
                     </a>
-                    <a href="#)"
+                    <a href="#"
                         class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-500 hover:bg-blue-50/50 hover:text-blue-500 transition">
                         <i class="fas fa-chalkboard-user w-4"></i>
                         <span>Ejecutivo</span>
@@ -174,7 +201,7 @@
             </div>
         @endhasrole
 
-        <!-- ==================== SUPERVISOR  ==================== -->
+        <!-- ==================== SUPERVISOR ==================== -->
         @hasrole('Supervisor')
             <div x-data="{ open: localStorage.getItem('menu_monitoreo') === 'true' }" x-init="$watch('open', value => localStorage.setItem('menu_monitoreo', value))">
                 <button @click="open = !open"
