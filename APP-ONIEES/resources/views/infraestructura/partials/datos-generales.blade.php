@@ -531,10 +531,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Botones de acción -->
-    <div class="form-actions">
-        <button type="reset" class="btn-secondary"><i class="fas fa-eraser"></i> Limpiar</button>
-        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Guardar Cambios</button>
-    </div>
 </div>

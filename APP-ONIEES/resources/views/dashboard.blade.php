@@ -369,33 +369,6 @@
                 @endcan
             </div>
         </div>
-
-        <!-- Sección 3: SALA QUIRÚRGICA -->
-        <div class="section-card">
-            <div class="section-header">
-                <h2><i class="fas fa-scalpel"></i> Sala Quirúrgica</h2>
-                <p>Centros Quirúrgicos y Obstétricos</p>
-            </div>
-            <div class="cards-grid">
-                @can(['UPSS Centro Quirurgico - Inicio', 'UPSS Centro Obstetrico - Inicio'])
-                    <div class="multi-card">
-                        <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
-                            <i class="fas fa-hospital" style="color: #0e7c9e;"></i>
-                            <h3 style="margin: 0; font-size: 0.85rem; font-weight: 600;">UPSS</h3>
-                        </div>
-                        <div class="links">
-                            @can('UPSS Centro Quirurgico - Inicio')
-                                <a href="{{ route('formato-upss-quirurgico') }}"><i class="fas fa-chevron-right"></i> Centro Quirúrgico</a>
-                            @endcan
-                            @can('UPSS Centro Obstetrico - Inicio')
-                                <a href="{{ route('formato-upss-obstetrico') }}"><i class="fas fa-chevron-right"></i> Centro Obstétrico</a>
-                            @endcan
-                        </div>
-                    </div>
-                @endcan
-            </div>
-        </div>
-
         <!-- Sección 4: OTROS MÓDULOS -->
         <div class="section-card">
             <div class="section-header">

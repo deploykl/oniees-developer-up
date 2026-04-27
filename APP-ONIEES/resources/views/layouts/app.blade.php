@@ -13,6 +13,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <!-- Fonts - Importar fuentes locales -->
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
@@ -48,7 +50,7 @@
         }
 
         body {
-            font-family: 'Open Sans', sans-serif;
+        font-family: 'Aptos', 'Open Sans', sans-serif;
             overflow-x: hidden;
         }
 

@@ -105,18 +105,51 @@
 
         <!-- CONTENIDO PRINCIPAL CON PESTAÑAS -->
         <div class="main-content">
-            @if (isset($showSelector) && $showSelector)
-                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg mb-4">
-                    <h5 class="font-bold mb-2">🔍 Buscar establecimiento</h5>
-                    <div class="flex gap-3">
-                        <input type="text" id="buscar_codigo" class="flex-1 px-3 py-2 border rounded-lg"
-                            placeholder="Código RENIPRESS">
-                        <button type="button" id="btn_buscar"
-                            class="px-4 py-2 bg-blue-600 text-white rounded-lg">Buscar</button>
+            <!-- Buscador de establecimientos - SOLO PARA ADMIN -->
+            @hasrole('Admin')
+                @if (isset($showSelector) && $showSelector)
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg mb-4">
+                        <h5 class="font-bold mb-2">🔍 Buscar establecimiento</h5>
+                        <div class="flex gap-3">
+                            <input type="text" id="buscar_codigo" class="flex-1 px-3 py-2 border rounded-lg"
+                                placeholder="Código RENIPRESS">
+                            <button type="button" id="btn_buscar"
+                                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Buscar</button>
+                        </div>
+                        <div id="resultado_busqueda" class="mt-3"></div>
                     </div>
-                    <div id="resultado_busqueda" class="mt-3"></div>
-                </div>
-            @endif
+                @else
+                    <!-- Botón para buscar otro establecimiento (si ya hay uno seleccionado) -->
+                    <div x-data="{ showSearch: false }" class="mb-4">
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg mb-4">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h5 class="font-bold mb-1">🏥 Establecimiento actual:
+                                        {{ $establecimiento->nombre_eess ?? 'Sin nombre' }}</h5>
+                                    <p class="text-sm text-gray-600">Código: {{ $establecimiento->codigo ?? 'N/A' }}</p>
+                                </div>
+                                <button @click="showSearch = !showSearch"
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
+                                    <i class="fas fa-search"></i>
+                                    <span>Buscar otro establecimiento</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div x-show="showSearch" x-collapse
+                            class="mt-3 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-lg">
+                            <h5 class="font-bold mb-2">🔍 Buscar otro establecimiento</h5>
+                            <div class="flex gap-3">
+                                <input type="text" id="buscar_codigo_2" class="flex-1 px-3 py-2 border rounded-lg"
+                                    placeholder="Código RENIPRESS">
+                                <button type="button" id="btn_buscar_2"
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Buscar</button>
+                            </div>
+                            <div id="resultado_busqueda_2" class="mt-3"></div>
+                        </div>
+                    </div>
+                @endif
+            @endhasrole
 
             <div x-data="{ activeTab: localStorage.getItem('activeTab') || 'datos-generales' }" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div class="border-b border-gray-200">
@@ -155,11 +188,6 @@
                         @include('infraestructura.partials.servicios-basicos')
                     </div>
 
-                    <div class="border-t border-gray-200 p-4 bg-gray-50 flex justify-end gap-3">
-                        <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                            <i class="fas fa-save mr-2"></i> Guardar
-                        </button>
-                    </div>
                 </form>
             </div>
         </div>
@@ -375,16 +403,21 @@
                         <span class="font-bold text-orange-600" x-text="(100 - totalProgress) + '%'"></span>
                     </div>
                 </div>
+
+                <!-- Botón Guardar Cambios -->
+                <div class="p-4 border-t border-gray-200 bg-white">
+                    <button type="submit" form="mainForm"
+                        class="w-full px-4 py-3 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
+                        style="background: linear-gradient(135deg, #0E7C9E, #0a637f);">
+                        <i class="fas fa-save text-sm"></i>
+                        <span>Guardar Cambios</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="save-button-fixed">
-        <button type="submit" form="mainForm"
-            class="px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-full shadow-lg hover:from-green-700 hover:to-green-800 transition flex items-center gap-2">
-            <i class="fas fa-save"></i> Guardar
-        </button>
-    </div>
+
 
     <script>
         function progressSidebar() {
@@ -480,9 +513,61 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Función para buscar establecimiento
+            function buscarEstablecimiento(codigo, resultadoDiv, redirectUrl) {
+                if (!codigo) {
+                    $('#' + resultadoDiv).html('<div class="text-red-600 text-sm">❌ Ingrese un código</div>');
+                    return;
+                }
+
+                // Mostrar loading
+                $('#' + resultadoDiv).html(
+                    '<div class="text-center py-2"><i class="fas fa-spinner fa-spin"></i> Buscando...</div>');
+
+                // Hacer la búsqueda vía AJAX
+                $.ajax({
+                    url: '/infraestructura/buscar/' + codigo,
+                    method: 'GET',
+                    success: function(response) {
+                        if (response.id) {
+                            // Redirigir al establecimiento encontrado
+                            window.location.href = redirectUrl + '?cargar=' + response.id;
+                        } else {
+                            $('#' + resultadoDiv).html(
+                                '<div class="text-red-600 text-sm">❌ Establecimiento no encontrado</div>'
+                            );
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMsg = xhr.responseJSON?.error || 'Error al buscar el establecimiento';
+                        $('#' + resultadoDiv).html('<div class="text-red-600 text-sm">❌ ' + errorMsg +
+                            '</div>');
+                    }
+                });
+            }
+
+            // Buscador inicial (cuando no hay establecimiento)
             $('#btn_buscar')?.on('click', function() {
                 let codigo = $('#buscar_codigo').val();
-                if (codigo) window.location.href = '{{ route('infraestructura.edit') }}?codigo=' + codigo;
+                buscarEstablecimiento(codigo, 'resultado_busqueda', '{{ route('infraestructura.edit') }}');
+            });
+
+            // Buscador secundario (cuando ya hay establecimiento)
+            $('#btn_buscar_2')?.on('click', function() {
+                let codigo = $('#buscar_codigo_2').val();
+                buscarEstablecimiento(codigo, 'resultado_busqueda_2',
+                    '{{ route('infraestructura.edit') }}');
+            });
+
+            // Permitir buscar con Enter en ambos campos
+            $('#buscar_codigo, #buscar_codigo_2').on('keypress', function(e) {
+                if (e.which === 13) {
+                    if (this.id === 'buscar_codigo') {
+                        $('#btn_buscar').click();
+                    } else {
+                        $('#btn_buscar_2').click();
+                    }
+                }
             });
         });
     </script>

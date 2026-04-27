@@ -100,7 +100,17 @@ class InfraestructuraController extends Controller
             'telefono' => $establecimiento->telefono,
         ]);
     }
+    /**
+     * Resetear la selección del establecimiento
+     */
+    public function resetEstablecimiento()
+    {
+        // Limpiar la sesión
+        session()->forget('establecimiento_temp_id');
 
+        // Redirigir al formulario sin establecimiento
+        return redirect()->route('infraestructura.edit');
+    }
     /**
      * Guardar datos generales del establecimiento
      */

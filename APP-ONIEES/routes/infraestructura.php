@@ -9,4 +9,6 @@ Route::middleware(['auth'])->prefix('infraestructura')->group(function () {
     Route::post('/save', [InfraestructuraController::class, 'save'])->name('infraestructura.save');
     Route::get('/buscar/{codigo}', [InfraestructuraController::class, 'buscarEstablecimiento'])->name('infraestructura.buscar');
     Route::get('/establecimiento/{codigo}', [InfraestructuraController::class, 'getEstablecimientoByCodigo'])->name('api.establecimiento.codigo');
+    Route::get('/infraestructura/reset', [InfraestructuraController::class, 'resetEstablecimiento'])
+    ->name('infraestructura.reset');
 });
