@@ -10,116 +10,121 @@ use Illuminate\Support\Facades\Storage;
 
 class ResourceController extends Controller
 {
-   public function index(Subcategory $subcategory)
-{
-    $resources = $subcategory->resources()->orderBy('order')->get();
-    return view('admin.repositorio.resources', compact('subcategory', 'resources'));
-}
-
-    public function create(Subcategory $subcategory)
+    public function index(Subcategory $subcategory)
     {
-        return view('admin.resources.create', compact('subcategory'));
+        $resources = $subcategory->resources()->orderBy('order')->get();
+        return view('admin.repositorio.resources', compact('subcategory', 'resources'));
     }
 
-    public function store(Request $request, Subcategory $subcategory)
+    public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'type' => 'required|in:powerbi,file,link',
-            'url' => 'required_if:type,powerbi,link|nullable|url',
-            'file' => 'required_if:type,file|nullable|file|max:20480', // max 20MB
-        ]);
+        try {
+            
+            $request->validate([
+                'subcategory_id' => 'required|exists:subcategories,id',
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'type' => 'required|in:powerbi,link,file',
+                'url' => 'required_if:type,powerbi,link|nullable|url',
+                'file' => 'required_if:type,file|nullable|file|max:10240', // 10MB
+            ]);
 
-        $data = [
-            'subcategory_id' => $subcategory->id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'type' => $request->type,
-            'url' => $request->url,
-            'order' => $request->order ?? 0,
-            'is_active' => $request->has('is_active'),
-        ];
+            $data = [
+                'subcategory_id' => $request->subcategory_id,
+                'title' => $request->title,
+                'description' => $request->description,
+                'type' => $request->type,
+                'url' => $request->type !== 'file' ? $request->url : null,
+                'order' => 0,
+                'is_active' => true,
+            ];
 
-        // Subir archivo si es tipo file
-        if ($request->type === 'file' && $request->hasFile('file')) {
-            $file = $request->file('file');
-            $path = $file->store('resources', 'public');
-            $data['file_path'] = $path;
-            $data['file_name'] = $file->getClientOriginalName();
-            $data['file_size'] = $this->formatFileSize($file->getSize());
+            if ($request->type === 'file' && $request->hasFile('file')) {
+                $file = $request->file('file');
+                $originalName = $file->getClientOriginalName();
+                $fileName = pathinfo($originalName, PATHINFO_FILENAME) . '_' . time() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('resources', $fileName, 'public');
+                
+                $data['file_path'] = $path;
+                $data['file_name'] = $originalName;
+                $data['file_size'] = $this->formatFileSize($file->getSize());
+            }
+
+            Resource::create($data);
+            return response()->json(['success' => true]);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
-
-        Resource::create($data);
-
-        return redirect()->route('admin.subcategories.resources.index', $subcategory)
-            ->with('success', 'Recurso creado exitosamente');
     }
 
-    public function edit(Subcategory $subcategory, Resource $resource)
+    public function update(Request $request, Resource $resource)
     {
-        return view('admin.resources.edit', compact('subcategory', 'resource'));
-    }
+        try {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'type' => 'required|in:powerbi,link,file',
+                'url' => 'required_if:type,powerbi,link|nullable|url',
+                'file' => 'nullable|file|max:10240', // 10MB
+            ]);
 
-    public function update(Request $request, Subcategory $subcategory, Resource $resource)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'type' => 'required|in:powerbi,file,link',
-            'url' => 'required_if:type,powerbi,link|nullable|url',
-            'file' => 'nullable|file|max:20480',
-        ]);
+            $data = [
+                'title' => $request->title,
+                'description' => $request->description,
+                'type' => $request->type,
+                'url' => $request->type !== 'file' ? $request->url : null,
+            ];
 
-        $data = [
-            'title' => $request->title,
-            'description' => $request->description,
-            'type' => $request->type,
-            'url' => $request->type !== 'file' ? $request->url : null,
-            'order' => $request->order ?? 0,
-            'is_active' => $request->has('is_active'),
-        ];
-
-        // Manejar archivo
-        if ($request->type === 'file') {
-            if ($request->hasFile('file')) {
-                // Eliminar archivo anterior
+            if ($request->type === 'file') {
+                if ($request->hasFile('file')) {
+                    if ($resource->file_path) {
+                        Storage::disk('public')->delete($resource->file_path);
+                    }
+                    
+                    $file = $request->file('file');
+                    $originalName = $file->getClientOriginalName();
+                    $fileName = pathinfo($originalName, PATHINFO_FILENAME) . '_' . time() . '.' . $file->getClientOriginalExtension();
+                    $path = $file->storeAs('resources', $fileName, 'public');
+                    
+                    $data['file_path'] = $path;
+                    $data['file_name'] = $originalName;
+                    $data['file_size'] = $this->formatFileSize($file->getSize());
+                } else {
+                    $data['file_path'] = $resource->file_path;
+                    $data['file_name'] = $resource->file_name;
+                    $data['file_size'] = $resource->file_size;
+                }
+            } else {
                 if ($resource->file_path) {
                     Storage::disk('public')->delete($resource->file_path);
                 }
-                
-                $file = $request->file('file');
-                $path = $file->store('resources', 'public');
-                $data['file_path'] = $path;
-                $data['file_name'] = $file->getClientOriginalName();
-                $data['file_size'] = $this->formatFileSize($file->getSize());
+                $data['file_path'] = null;
+                $data['file_name'] = null;
+                $data['file_size'] = null;
             }
-        } else {
-            // Si cambia a powerbi o link, eliminar archivo si existía
+
+            $resource->update($data);
+            return response()->json(['success' => true]);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function destroy(Resource $resource)
+    {
+        try {
             if ($resource->file_path) {
                 Storage::disk('public')->delete($resource->file_path);
             }
-            $data['file_path'] = null;
-            $data['file_name'] = null;
-            $data['file_size'] = null;
+            $resource->delete();
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
-
-        $resource->update($data);
-
-        return redirect()->route('admin.subcategories.resources.index', $subcategory)
-            ->with('success', 'Recurso actualizado');
-    }
-
-    public function destroy(Subcategory $subcategory, Resource $resource)
-    {
-        if ($resource->file_path) {
-            Storage::disk('public')->delete($resource->file_path);
-        }
-        
-        $resource->delete();
-        
-        return redirect()->route('admin.subcategories.resources.index', $subcategory)
-            ->with('success', 'Recurso eliminado');
     }
 
     private function formatFileSize($bytes)
