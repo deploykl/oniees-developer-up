@@ -86,7 +86,7 @@
                     <div class="grid grid-cols-2 gap-3 md:gap-4">
                         
                         <!-- Tarjeta 1 -->
-                        <a href="#" class="group relative">
+                        <a href="/repositorio" class="group relative">
                             <div class="absolute -inset-0.5 bg-gradient-to-br from-[#0E7C9E] to-[#0EA5E9] rounded-xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
                             <div class="relative bg-white rounded-xl p-4 text-center shadow-md border border-[#0E7C9E]/15 hover:border-[#0E7C9E]/30 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
                                 <div class="w-12 h-12 mx-auto mb-2 rounded-lg bg-gradient-to-br from-[#0E7C9E]/15 to-[#0EA5E9]/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-[#0E7C9E]/10">
