@@ -181,7 +181,7 @@ class InfraestructuraController extends Controller
             }
 
             // Índice de Seguridad Hospitalaria
-            $format->seguridad_hospitalaria = $request->tiene_documento_seguridad;
+            $format->seguridad_hospitalaria = $request->tiene_documento_seguridad == '1' ? 'SI' : 'NO';
             $format->seguridad_resultado = $request->resultado_seguridad;
             $format->seguridad_fecha = $request->anio_seguridad;
 
