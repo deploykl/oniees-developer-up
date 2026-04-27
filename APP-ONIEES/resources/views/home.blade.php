@@ -3,223 +3,182 @@
         {{ config('app.name') }}
     </x-slot>
 
-    <div class="relative bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-x-clip flex items-center mt-10">
-        <div class="max-w-7xl mx-auto w-full relative z-10">
-            
-            <!-- Título centrado arriba -->
-            <div class="text-center mb-5">
-                <div class="inline-flex items-center gap-3 bg-white/70 backdrop-blur-sm px-5 py-2 rounded-full border border-slate-200/60 shadow-sm mb-8">
-                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-                    <i class="fas fa-microchip text-slate-500 text-sm"></i>
-                    <span class="text-sm font-medium text-slate-600 tracking-wide">DIEM · innovación continua</span>
-                </div>
-                
-                <h1 class="text-slate-800 text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
-                    DIRECCIÓN DE EQUIPAMIENTO Y MANTENIMIENTO
-                    <span class="bg-gradient-to-r from-slate-700 to-slate-500 bg-clip-text text-transparent text-4xl md:text-5xl lg:text-6xl font-extrabold ml-2">DIEM</span>
-                </h1>
-            </div>
-            
-            <!-- Dos columnas -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-                
-                <!-- COLUMNA IZQUIERDA -->
-                <div class="text-center lg:text-left">
-                    <!-- Icono GRANDE con efecto sutil -->
-                    <div class="relative w-64 h-64 md:w-80 md:h-80 mx-auto lg:mx-0 mb-8">
-                        <div class="absolute -inset-3 rounded-full border border-slate-200/40 animate-[spin_20s_linear_infinite]"></div>
-                        <div class="w-full h-full bg-white/60 backdrop-blur-sm rounded-full flex items-center justify-center border border-slate-200/50 shadow-lg transition-all duration-500 hover:shadow-xl hover:shadow-slate-200/50">
-                            <img src="{{ asset('img/icons/observatorio-icono.png') }}" alt="Observatorio" class="w-3/4 transition-transform duration-500 hover:scale-105" onerror="this.style.display='none'">
-                        </div>
-                    </div>
-                    
-                    <!-- Subtítulos -->
-                    <div class="mb-6">
-                        <div class="relative inline-block">
-                            <span class="text-2xl md:text-3xl font-semibold text-slate-700">OBSERVATORIO NACIONAL</span>
-                            <div class="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-slate-400 to-slate-300"></div>
-                        </div>
-                    </div>
-                    
-                    <p class="text-slate-500 text-sm md:text-base flex items-center justify-center lg:justify-start gap-3 flex-wrap mt-4">
-                        <i class="fas fa-chart-line text-slate-400"></i>
-                        <span>Infraestructura y equipamiento de establecimientos de salud</span>
-                        <i class="fas fa-database text-slate-400"></i>
-                    </p>
-                    
-                </div>
-                
-                <!-- COLUMNA DERECHA: Imágenes GRID 2x2 con efectos sutiles -->
-                <div class="relative">
-                    <div class="grid grid-cols-2 gap-8 md:gap-10 max-w-md mx-auto">
-                        
-                        <!-- Dashboard -->
-                        <div class="group text-center">
-                            <div class="relative mb-3">
-                                <div class="absolute inset-0 rounded-full bg-slate-100 scale-0 group-hover:scale-100 transition-transform duration-500"></div>
-                                <img src="{{ asset('img/icons/dashboard-1.png') }}" alt="dashboard" 
-                                    class="w-32 h-32 md:w-36 md:h-36 rounded-full object-cover bg-white shadow-md border-2 border-white transition-all duration-400 group-hover:scale-105 group-hover:shadow-lg group-hover:border-slate-300 mx-auto"
-                                    onerror="this.style.display='none'">
-                            </div>
-                            <span class="text-sm font-medium text-slate-500 group-hover:text-slate-700 transition-colors">Dashboard</span>
-                        </div>
-                        
-                        <!-- Métricas -->
-                        <div class="group text-center">
-                            <div class="relative mb-3">
-                                <div class="absolute inset-0 rounded-full bg-slate-100 scale-0 group-hover:scale-100 transition-transform duration-500"></div>
-                                <img src="{{ asset('img/icons/dashboard-2.png') }}" alt="métrica" 
-                                    class="w-32 h-32 md:w-36 md:h-36 rounded-full object-cover bg-white shadow-md border-2 border-white transition-all duration-400 group-hover:scale-105 group-hover:shadow-lg group-hover:border-slate-300 mx-auto"
-                                    onerror="this.style.display='none'">
-                            </div>
-                            <span class="text-sm font-medium text-slate-500 group-hover:text-slate-700 transition-colors">Métricas</span>
-                        </div>
-                        
-                        <!-- Infraestructura -->
-                        <div class="group text-center">
-                            <div class="relative mb-3">
-                                <div class="absolute inset-0 rounded-full bg-slate-100 scale-0 group-hover:scale-100 transition-transform duration-500"></div>
-                                <img src="{{ asset('img/icons/dashboard-3.png') }}" alt="infraestructura" 
-                                    class="w-32 h-32 md:w-36 md:h-36 rounded-full object-cover bg-white shadow-md border-2 border-white transition-all duration-400 group-hover:scale-105 group-hover:shadow-lg group-hover:border-slate-300 mx-auto"
-                                    onerror="this.style.display='none'">
-                            </div>
-                            <span class="text-sm font-medium text-slate-500 group-hover:text-slate-700 transition-colors">Infraestructura</span>
-                        </div>
-                        
-                        <!-- Equipamiento -->
-                        <div class="group text-center">
-                            <div class="relative mb-3">
-                                <div class="absolute inset-0 rounded-full bg-slate-100 scale-0 group-hover:scale-100 transition-transform duration-500"></div>
-                                <img src="{{ asset('img/icons/dashboard-4.png') }}" alt="equipamiento" 
-                                    class="w-32 h-32 md:w-36 md:h-36 rounded-full object-cover bg-white shadow-md border-2 border-white transition-all duration-400 group-hover:scale-105 group-hover:shadow-lg group-hover:border-slate-300 mx-auto"
-                                    onerror="this.style.display='none'">
-                            </div>
-                            <span class="text-sm font-medium text-slate-500 group-hover:text-slate-700 transition-colors">Equipamiento</span>
-                        </div>
-                        
-                    </div>
-                </div>
-                
-            </div>
+    <div class="relative overflow-hidden ">
+        <!-- Fondo decorativo -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#0E7C9E]/5 rounded-full blur-3xl"></div>
+            <svg class="absolute inset-0 w-full h-full opacity-[0.02]" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="0.5" />
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
         </div>
-        
-        <!-- Partículas decorativas sutiles -->
-        <div class="absolute inset-0 pointer-events-none overflow-hidden">
-            <div class="absolute w-1 h-1 bg-slate-300 rounded-full opacity-30 animate-float-slow" style="left: 5%; top: 15%; animation-duration: 14s;"></div>
-            <div class="absolute w-1.5 h-1.5 bg-slate-400 rounded-full opacity-20 animate-float-slow" style="left: 15%; top: 75%; animation-duration: 10s; animation-delay: 2s;"></div>
-            <div class="absolute w-1 h-1 bg-slate-300 rounded-full opacity-30 animate-float-slow" style="left: 88%; top: 10%; animation-duration: 16s; animation-delay: 1s;"></div>
-            <div class="absolute w-0.5 h-0.5 bg-slate-400 rounded-full opacity-20 animate-float-slow" style="left: 92%; top: 80%; animation-duration: 11s; animation-delay: 3s;"></div>
-            <div class="absolute w-1 h-1 bg-slate-300 rounded-full opacity-30 animate-float-slow" style="left: 40%; top: 85%; animation-duration: 13s; animation-delay: 0.5s;"></div>
-            <div class="absolute w-1.5 h-1.5 bg-slate-400 rounded-full opacity-20 animate-float-slow" style="left: 75%; top: 55%; animation-duration: 15s; animation-delay: 4s;"></div>
+
+        <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
+
+            <!-- Header compacto -->
+            <div class="text-center mb-8 md:mb-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-[#0E7C9E]/20 shadow-sm mb-3 animate-fade-in-up">
+                    <span class="relative flex h-1.5 w-1.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                    </span>
+                    <i class="fas fa-microchip text-[#0E7C9E] text-xs"></i>
+                    <span class="text-xs font-medium text-slate-600 tracking-wide">DIEM · INNOVACIÓN CONTINUA</span>
+                </div>
+
+                <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight animate-fade-in-up" style="animation-delay: 0.1s">
+                    <span class="text-slate-800">DIRECCIÓN DE</span>
+                    <span class="bg-gradient-to-r from-[#0E7C9E] to-[#0EA5E9] bg-clip-text text-transparent block mt-1">
+                        EQUIPAMIENTO Y MANTENIMIENTO
+                    </span>
+                </h1>
+
+                <p class="text-slate-500 mt-3 max-w-2xl mx-auto animate-fade-in-up text-sm" style="animation-delay: 0.2s">
+                    <i class="fas fa-chart-line mr-1 text-[#0E7C9E]"></i>
+                    Infraestructura y equipamiento de establecimientos de salud
+                    <i class="fas fa-database ml-1 text-[#0E7C9E]"></i>
+                </p>
+            </div>
+
+            <!-- Dos columnas compactas -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+
+                <!-- COLUMNA IZQUIERDA - Observatorio -->
+                <div class="relative animate-fade-in-left" style="animation-delay: 0.3s">
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-[#0E7C9E]/30 via-[#0EA5E9]/30 to-emerald-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition duration-700"></div>
+                        
+                        <div class="relative bg-white/60 backdrop-blur-sm rounded-2xl p-5 md:p-6 border border-[#0E7C9E]/20 shadow-lg">
+                            
+                            <!-- Icono del OJO más compacto -->
+                            <div class="relative w-32 h-32 md:w-44 md:h-44 mx-auto mb-4">
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-[#0E7C9E]/20 to-emerald-100 animate-pulse-slow"></div>
+                                <div class="absolute inset-1.5 rounded-full bg-white shadow-inner"></div>
+                                <div class="absolute inset-0 rounded-full flex items-center justify-center">
+                                    <div class="relative w-28 h-28 md:w-36 md:h-36">
+                                        <img src="{{ asset('img/icons/observatorio-icono.png') }}" alt="Observatorio"
+                                            class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
+                                            onerror="this.style.display='none'">
+                                    </div>
+                                </div>
+                                <div class="absolute -inset-2 rounded-full border border-[#0E7C9E]/40 animate-spin-slow"></div>
+                                <div class="absolute -inset-4 rounded-full border border-emerald-200/60 animate-spin-slow-reverse"></div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <h2 class="text-xl md:text-2xl font-bold text-slate-800 mb-1">OBSERVATORIO NACIONAL</h2>
+                                <div class="w-12 h-0.5 bg-gradient-to-r from-[#0E7C9E] to-emerald-500 mx-auto mb-3 rounded-full"></div>
+                                <p class="text-slate-600 text-xs leading-relaxed">
+                                    Monitoreo y análisis de infraestructura hospitalaria, equipamiento médico y mantenimiento de establecimientos de salud.
+                                </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUMNA DERECHA - Grid compacto con bordes visibles -->
+                <div class="relative animate-fade-in-right" style="animation-delay: 0.4s">
+                    <div class="grid grid-cols-2 gap-3 md:gap-4">
+                        
+                        <!-- Tarjeta 1 -->
+                        <a href="#" class="group relative">
+                            <div class="absolute -inset-0.5 bg-gradient-to-br from-[#0E7C9E] to-[#0EA5E9] rounded-xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                            <div class="relative bg-white rounded-xl p-4 text-center shadow-md border border-[#0E7C9E]/15 hover:border-[#0E7C9E]/30 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+                                <div class="w-12 h-12 mx-auto mb-2 rounded-lg bg-gradient-to-br from-[#0E7C9E]/15 to-[#0EA5E9]/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-[#0E7C9E]/10">
+                                    <i class="fas fa-folder-open text-xl text-[#0E7C9E] group-hover:text-[#0EA5E9]"></i>
+                                </div>
+                                <h3 class="font-semibold text-sm text-slate-700 group-hover:text-[#0E7C9E] transition-colors">Repositorio</h3>
+                                <p class="text-xs text-slate-400 mt-1">Documentos técnicos</p>
+                            </div>
+                        </a>
+
+                        <!-- Tarjeta 2 -->
+                        <a href="#" class="group relative">
+                            <div class="absolute -inset-0.5 bg-gradient-to-br from-[#0E7C9E] to-[#0EA5E9] rounded-xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                            <div class="relative bg-white rounded-xl p-4 text-center shadow-md border border-[#0E7C9E]/15 hover:border-[#0E7C9E]/30 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+                                <div class="w-12 h-12 mx-auto mb-2 rounded-lg bg-gradient-to-br from-[#0E7C9E]/15 to-[#0EA5E9]/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-[#0E7C9E]/10">
+                                    <i class="fas fa-server text-xl text-[#0E7C9E] group-hover:text-[#0EA5E9]"></i>
+                                </div>
+                                <h3 class="font-semibold text-sm text-slate-700 group-hover:text-[#0E7C9E] transition-colors">Infraestructura</h3>
+                                <p class="text-xs text-slate-400 mt-1">Gestión de activos</p>
+                            </div>
+                        </a>
+
+                        <!-- Tarjeta 3 -->
+                        <a href="#" class="group relative">
+                            <div class="absolute -inset-0.5 bg-gradient-to-br from-[#0E7C9E] to-[#0EA5E9] rounded-xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                            <div class="relative bg-white rounded-xl p-4 text-center shadow-md border border-[#0E7C9E]/15 hover:border-[#0E7C9E]/30 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+                                <div class="w-12 h-12 mx-auto mb-2 rounded-lg bg-gradient-to-br from-[#0E7C9E]/15 to-[#0EA5E9]/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-[#0E7C9E]/10">
+                                    <i class="fas fa-microchip text-xl text-[#0E7C9E] group-hover:text-[#0EA5E9]"></i>
+                                </div>
+                                <h3 class="font-semibold text-sm text-slate-700 group-hover:text-[#0E7C9E] transition-colors">Equipamiento</h3>
+                                <p class="text-xs text-slate-400 mt-1">Tecnología médica</p>
+                            </div>
+                        </a>
+
+                        <!-- Tarjeta 4 -->
+                        <a href="#" class="group relative">
+                            <div class="absolute -inset-0.5 bg-gradient-to-br from-[#0E7C9E] to-[#0EA5E9] rounded-xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                            <div class="relative bg-white rounded-xl p-4 text-center shadow-md border border-[#0E7C9E]/15 hover:border-[#0E7C9E]/30 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+                                <div class="w-12 h-12 mx-auto mb-2 rounded-lg bg-gradient-to-br from-[#0E7C9E]/15 to-[#0EA5E9]/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-[#0E7C9E]/10">
+                                    <i class="fas fa-tools text-xl text-[#0E7C9E] group-hover:text-[#0EA5E9]"></i>
+                                </div>
+                                <h3 class="font-semibold text-sm text-slate-700 group-hover:text-[#0E7C9E] transition-colors">Mantenimiento</h3>
+                                <p class="text-xs text-slate-400 mt-1">Planificación</p>
+                            </div>
+                        </a>
+
+                    </div>
+                    
+                    <!-- Texto decorativo compacto -->
+                    <div class="text-center mt-4">
+                        <span class="inline-flex items-center gap-2 text-xs text-slate-400">
+                            <i class="fas fa-arrow-right text-[10px] text-[#0E7C9E]"></i>
+                            Gestión integral de activos hospitalarios
+                            <i class="fas fa-arrow-left text-[10px] text-[#0E7C9E]"></i>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
     <style>
-        /* Animaciones sutiles y elegantes */
-        @keyframes fade-scale {
-            0% {
-                opacity: 0;
-                transform: scale(0.92);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        @keyframes float-slow {
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
-            }
-            15% {
-                opacity: 0.4;
-            }
-            85% {
-                opacity: 0.2;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(30px);
-                opacity: 0;
-            }
+        @keyframes fade-in-left {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
-        
-        /* Aplicar animación de entrada a las imágenes */
-        .grid-cols-2 .group:nth-child(1) { animation: fade-scale 0.5s ease-out 0s backwards; }
-        .grid-cols-2 .group:nth-child(2) { animation: fade-scale 0.5s ease-out 0.1s backwards; }
-        .grid-cols-2 .group:nth-child(3) { animation: fade-scale 0.5s ease-out 0.2s backwards; }
-        .grid-cols-2 .group:nth-child(4) { animation: fade-scale 0.5s ease-out 0.3s backwards; }
-        
-        .animate-float-slow {
-            animation: float-slow 12s linear infinite;
+        @keyframes fade-in-right {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
-        
-        /* Efecto de transición más suave para las imágenes */
-        .group img {
-            transition-timing-function: cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-        
-        /* Scrollbar elegante */
-        ::-webkit-scrollbar {
-            width: 6px;
+        @keyframes spin-slow-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
         }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
         }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+        .animate-fade-in-up { animation: fade-in-up 0.5s ease-out forwards; opacity: 0; }
+        .animate-fade-in-left { animation: fade-in-left 0.5s ease-out forwards; opacity: 0; }
+        .animate-fade-in-right { animation: fade-in-right 0.5s ease-out forwards; opacity: 0; }
+        .animate-spin-slow { animation: spin-slow 12s linear infinite; }
+        .animate-spin-slow-reverse { animation: spin-slow-reverse 15s linear infinite; }
+        .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
     </style>
-
-    <script>
-        (function() {
-            // Fallback elegante para imágenes que no cargan
-            document.querySelectorAll('.grid-cols-2 img').forEach(img => {
-                img.addEventListener('error', function() {
-                    const parent = this.closest('.group');
-                    if (parent) {
-                        const placeholder = document.createElement('div');
-                        placeholder.className = 'w-32 h-32 md:w-36 md:h-36 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center shadow-md mx-auto';
-                        placeholder.innerHTML = '<i class="fas fa-image text-slate-300 text-2xl"></i>';
-                        this.parentNode.insertBefore(placeholder, this);
-                        this.remove();
-                    }
-                });
-            });
-            
-            // Efecto parallax suave y elegante en desktop
-            if (window.innerWidth > 1024) {
-                const rightColumn = document.querySelector('.lg\\:grid-cols-2 > div:last-child');
-                if (rightColumn) {
-                    rightColumn.addEventListener('mousemove', function(e) {
-                        const rect = this.getBoundingClientRect();
-                        const x = (e.clientX - rect.left) / rect.width - 0.5;
-                        const y = (e.clientY - rect.top) / rect.height - 0.5;
-                        
-                        const cards = this.querySelectorAll('.group');
-                        cards.forEach((card, idx) => {
-                            const speed = 8 + idx * 2;
-                            const moveX = x * speed;
-                            const moveY = y * speed;
-                            card.style.transform = `translate(${moveX}px, ${moveY}px)`;
-                        });
-                    });
-                    
-                    rightColumn.addEventListener('mouseleave', function() {
-                        const cards = this.querySelectorAll('.group');
-                        cards.forEach(card => {
-                            card.style.transform = '';
-                        });
-                    });
-                }
-            }
-        })();
-    </script>
 </x-app-layout>

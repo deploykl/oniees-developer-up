@@ -9,10 +9,12 @@
             margin: 0 auto;
             padding: 1rem;
         }
+
         .main-content {
             flex: 1;
             min-width: 0;
         }
+
         .right-sidebar {
             width: 320px;
             flex-shrink: 0;
@@ -21,234 +23,458 @@
             height: calc(100vh - 100px);
             overflow-y: auto;
         }
-        /* Pestañas */
+
         .tab-button {
             transition: all 0.2s ease;
         }
+
         .tab-button.active {
             background: linear-gradient(135deg, #1e40af, #1e3a5f);
             color: white;
         }
+
         .tab-content {
             display: none;
         }
+
         .tab-content.active {
             display: block;
             animation: fadeIn 0.3s ease;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         @media (max-width: 768px) {
             .two-column-layout {
                 flex-direction: column;
             }
+
             .right-sidebar {
                 width: 100%;
                 position: static;
                 height: auto;
             }
         }
-        /* Botón guardar flotante */
+
         .save-button-fixed {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
             z-index: 100;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
+
         @media (max-width: 768px) {
             .save-button-fixed {
                 bottom: 1rem;
                 right: 1rem;
             }
         }
+
+        /* Sidebar tabs */
+        .sidebar-tab {
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-tab.active {
+            border-bottom-width: 2px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        /* Para cada sección */
+        .sec-scroll-target {
+            scroll-margin-top: 100px;
+        }
     </style>
 
     <div class="two-column-layout">
-        
+
         <!-- CONTENIDO PRINCIPAL CON PESTAÑAS -->
         <div class="main-content">
-            <!-- Selector de establecimiento (solo si es necesario) -->
-            @if(isset($showSelector) && $showSelector)
-            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg mb-4">
-                <h5 class="font-bold mb-2">🔍 Buscar establecimiento</h5>
-                <div class="flex gap-3">
-                    <input type="text" id="buscar_codigo" class="flex-1 px-3 py-2 border rounded-lg" placeholder="Código RENIPRESS">
-                    <button type="button" id="btn_buscar" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Buscar</button>
+            @if (isset($showSelector) && $showSelector)
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg mb-4">
+                    <h5 class="font-bold mb-2">🔍 Buscar establecimiento</h5>
+                    <div class="flex gap-3">
+                        <input type="text" id="buscar_codigo" class="flex-1 px-3 py-2 border rounded-lg"
+                            placeholder="Código RENIPRESS">
+                        <button type="button" id="btn_buscar"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg">Buscar</button>
+                    </div>
+                    <div id="resultado_busqueda" class="mt-3"></div>
                 </div>
-                <div id="resultado_busqueda" class="mt-3"></div>
-            </div>
             @endif
 
-            <!-- PESTAÑAS -->
-            <!-- PESTAÑAS - Agrega x-data aquí -->
-<div x-data="{ activeTab: localStorage.getItem('activeTab') || 'datos-generales' }" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-    <div class="border-b border-gray-200">
-        <nav class="flex -mb-px">
-            <button @click="activeTab = 'datos-generales'" 
-                :class="{ 'border-blue-500 text-blue-600': activeTab === 'datos-generales', 'border-transparent text-gray-500': activeTab !== 'datos-generales' }"
-                class="px-6 py-3 text-sm font-medium border-b-2 transition-colors">
-                <i class="fas fa-building mr-2"></i> Datos Generales
-            </button>
-            <button @click="activeTab = 'infraestructura'" 
-                :class="{ 'border-teal-500 text-teal-600': activeTab === 'infraestructura', 'border-transparent text-gray-500': activeTab !== 'infraestructura' }"
-                class="px-6 py-3 text-sm font-medium border-b-2 transition-colors">
-                <i class="fas fa-hard-hat mr-2"></i> Infraestructura
-            </button>
-            <button @click="activeTab = 'servicios-basicos'" 
-                :class="{ 'border-cyan-500 text-cyan-600': activeTab === 'servicios-basicos', 'border-transparent text-gray-500': activeTab !== 'servicios-basicos' }"
-                class="px-6 py-3 text-sm font-medium border-b-2 transition-colors">
-                <i class="fas fa-water mr-2"></i> Servicios Básicos
-            </button>
-        </nav>
-    </div>
+            <div x-data="{ activeTab: localStorage.getItem('activeTab') || 'datos-generales' }" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="border-b border-gray-200">
+                    <nav class="flex -mb-px">
+                        <button @click="activeTab = 'datos-generales'"
+                            :class="{ 'border-blue-500 text-blue-600': activeTab === 'datos-generales', 'border-transparent text-gray-500': activeTab !== 'datos-generales' }"
+                            class="px-6 py-3 text-sm font-medium border-b-2 transition-colors">
+                            <i class="fas fa-building mr-2"></i> Datos Generales
+                        </button>
+                        <button @click="activeTab = 'infraestructura'"
+                            :class="{ 'border-teal-500 text-teal-600': activeTab === 'infraestructura', 'border-transparent text-gray-500': activeTab !== 'infraestructura' }"
+                            class="px-6 py-3 text-sm font-medium border-b-2 transition-colors">
+                            <i class="fas fa-hard-hat mr-2"></i> Infraestructura
+                        </button>
+                        <button @click="activeTab = 'servicios-basicos'"
+                            :class="{ 'border-cyan-500 text-cyan-600': activeTab === 'servicios-basicos', 'border-transparent text-gray-500': activeTab !== 'servicios-basicos' }"
+                            class="px-6 py-3 text-sm font-medium border-b-2 transition-colors">
+                            <i class="fas fa-water mr-2"></i> Servicios Básicos
+                        </button>
+                    </nav>
+                </div>
 
-    <form method="POST" action="{{ route('infraestructura.save') }}" id="mainForm">
-        @csrf
-        <input type="hidden" name="id_establecimiento" value="{{ $establecimiento->id ?? '' }}">
+                <form method="POST" action="{{ route('infraestructura.save') }}" id="mainForm">
+                    @csrf
+                    <input type="hidden" name="id_establecimiento" value="{{ $establecimiento->id ?? '' }}">
 
-        <!-- TAB 1 -->
-        <div x-show="activeTab === 'datos-generales'" class="p-6">
-            @include('infraestructura.partials.datos-generales')
+                    <div x-show="activeTab === 'datos-generales'" class="p-6">
+                        @include('infraestructura.partials.datos-generales')
+                    </div>
+
+                    <div x-show="activeTab === 'infraestructura'" class="p-6" style="display: none;">
+                        @include('infraestructura.partials.infraestructura')
+                    </div>
+
+                    <div x-show="activeTab === 'servicios-basicos'" class="p-6" style="display: none;">
+                        @include('infraestructura.partials.servicios-basicos')
+                    </div>
+
+                    <div class="border-t border-gray-200 p-4 bg-gray-50 flex justify-end gap-3">
+                        <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            <i class="fas fa-save mr-2"></i> Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
 
-        <!-- TAB 2 -->
-        <div x-show="activeTab === 'infraestructura'" class="p-6" style="display: none;">
-            @include('infraestructura.partials.infraestructura')
-        </div>
-
-        <!-- TAB 3 -->
-        <div x-show="activeTab === 'servicios-basicos'" class="p-6" style="display: none;">
-            @include('infraestructura.partials.servicios-basicos')
-        </div>
-
-        <!-- Botones -->
-        <div class="border-t border-gray-200 p-4 bg-gray-50 flex justify-end gap-3">
-            <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                <i class="fas fa-save mr-2"></i> Guardar
-            </button>
-        </div>
-    </form>
-</div>
-        </div>
-
-        <!-- SIDEBAR DERECHO DE PROGRESO -->
+        <!-- SIDEBAR DERECHO DE PROGRESO CON PESTAÑAS -->
         <div class="right-sidebar" x-data="progressSidebar()" x-init="initProgress()">
             <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden sticky top-20">
                 <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-4">
                     <h2 class="text-sm font-bold text-white">📊 Progreso del Formulario</h2>
-                    <p class="text-xs text-blue-100 truncate mt-1">{{ $establecimiento->nombre_eess ?? 'Sin establecimiento' }}</p>
+                    <p class="text-xs text-blue-100 truncate mt-1">
+                        {{ $establecimiento->nombre_eess ?? 'Sin establecimiento' }}</p>
                 </div>
 
-                <!-- Progreso Total -->
+                <!-- Progreso Total General -->
                 <div class="p-4 bg-gray-50 border-b">
                     <div class="flex justify-between text-sm mb-2">
-                        <span class="text-gray-600">Completado</span>
+                        <span class="text-gray-600">Progreso Total</span>
                         <span class="font-bold text-blue-600" x-text="totalProgress + '%'"></span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-gradient-to-r from-blue-500 to-teal-500 h-2 rounded-full transition-all duration-500" :style="{ width: totalProgress + '%' }"></div>
+                        <div class="bg-gradient-to-r from-blue-500 to-teal-500 h-2 rounded-full transition-all duration-500"
+                            :style="{ width: totalProgress + '%' }"></div>
                     </div>
                 </div>
 
-                <!-- Lista de secciones -->
-                <div class="divide-y divide-gray-100">
-                    <div class="p-3 hover:bg-gray-50 cursor-pointer" @click="scrollToSection('datos-generales')">
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-building text-blue-500 text-sm"></i>
-                                <span class="text-sm font-medium">Datos Generales</span>
+                <!-- PESTAÑAS DEL SIDEBAR -->
+                <div class="border-b border-gray-200">
+                    <div class="flex">
+                        <button @click="activeSidebarTab = 'datos-generales'"
+                            :class="activeSidebarTab === 'datos-generales' ? 'border-blue-500 text-blue-600 bg-blue-50' :
+                                'border-transparent text-gray-500 hover:text-gray-700'"
+                            class="flex-1 px-3 py-2 text-xs font-medium border-b-2 transition-colors sidebar-tab">
+                            <i class="fas fa-building mr-1"></i> Datos Grales
+                        </button>
+                        <button @click="activeSidebarTab = 'infraestructura'"
+                            :class="activeSidebarTab === 'infraestructura' ? 'border-teal-500 text-teal-600 bg-teal-50' :
+                                'border-transparent text-gray-500 hover:text-gray-700'"
+                            class="flex-1 px-3 py-2 text-xs font-medium border-b-2 transition-colors sidebar-tab">
+                            <i class="fas fa-hard-hat mr-1"></i> Infraestructura
+                        </button>
+                        <button @click="activeSidebarTab = 'servicios-basicos'"
+                            :class="activeSidebarTab === 'servicios-basicos' ? 'border-cyan-500 text-cyan-600 bg-cyan-50' :
+                                'border-transparent text-gray-500 hover:text-gray-700'"
+                            class="flex-1 px-3 py-2 text-xs font-medium border-b-2 transition-colors sidebar-tab">
+                            <i class="fas fa-water mr-1"></i> Servicios
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CONTENIDO DE PESTAÑAS DEL SIDEBAR -->
+                <div class="p-2">
+                    <!-- TAB DATOS GENERALES -->
+                    <div x-show="activeSidebarTab === 'datos-generales'" class="space-y-1">
+                        <div class="text-xs font-semibold text-gray-500 px-3 pt-2 pb-1">📋 SECCIONES</div>
+
+                        <div @click="scrollToSection('sec-datos-generales')"
+                            class="p-2 rounded-lg hover:bg-blue-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-hospital text-blue-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">Datos Generales</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-datos-generales'].percent === 100 ? 'text-green-600' :
+                                            'text-gray-500'"
+                                        x-text="sections['sec-datos-generales'].completed + '/' + sections['sec-datos-generales'].total"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + sections['sec-datos-generales'].percent + '%)'"></span></div>
                             </div>
-                            <span class="text-xs" :class="sections['datos-generales'].percent === 100 ? 'text-green-600 font-bold' : 'text-gray-500'" x-text="sections['datos-generales'].percent + '%'"></span>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-blue-500 h-1 rounded-full transition-all"
+                                    :style="{ width: sections['sec-datos-generales'].percent + '%' }"></div>
+                            </div>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
-                            <div class="bg-blue-500 h-1 rounded-full transition-all" :style="{ width: sections['datos-generales'].percent + '%' }"></div>
+
+                        <div @click="scrollToSection('sec-red-diresa')"
+                            class="p-2 rounded-lg hover:bg-blue-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-shield-alt text-teal-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">RED/DIRESA</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-red-diresa'].percent === 100 ? 'text-green-600' : 'text-gray-500'"
+                                        x-text="sections['sec-red-diresa'].completed + '/' + sections['sec-red-diresa'].total"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + sections['sec-red-diresa'].percent + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-teal-500 h-1 rounded-full transition-all"
+                                    :style="{ width: sections['sec-red-diresa'].percent + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div @click="scrollToSection('sec-datos-adicionales')"
+                            class="p-2 rounded-lg hover:bg-blue-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-database text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">Datos Adicionales</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-datos-adicionales'].percent === 100 ? 'text-green-600' :
+                                            'text-gray-500'"
+                                        x-text="sections['sec-datos-adicionales'].completed + '/' + sections['sec-datos-adicionales'].total"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + sections['sec-datos-adicionales'].percent + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: sections['sec-datos-adicionales'].percent + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div @click="scrollToSection('sec-localizacion')"
+                            class="p-2 rounded-lg hover:bg-blue-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-map-marked-alt text-blue-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">Localización</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-localizacion'].percent === 100 ? 'text-green-600' :
+                                            'text-gray-500'"
+                                        x-text="sections['sec-localizacion'].completed + '/' + sections['sec-localizacion'].total"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + sections['sec-localizacion'].percent + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-blue-500 h-1 rounded-full transition-all"
+                                    :style="{ width: sections['sec-localizacion'].percent + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div @click="scrollToSection('sec-seguridad')"
+                            class="p-2 rounded-lg hover:bg-blue-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-shield-virus text-red-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">Seguridad Hospitalaria</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-seguridad'].percent === 100 ? 'text-green-600' : 'text-gray-500'"
+                                        x-text="sections['sec-seguridad'].completed + '/' + sections['sec-seguridad'].total"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + sections['sec-seguridad'].percent + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-red-500 h-1 rounded-full transition-all"
+                                    :style="{ width: sections['sec-seguridad'].percent + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div @click="scrollToSection('sec-patrimonio')"
+                            class="p-2 rounded-lg hover:bg-blue-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-landmark text-purple-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">Patrimonio Cultural</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-patrimonio'].percent === 100 ? 'text-green-600' : 'text-gray-500'"
+                                        x-text="sections['sec-patrimonio'].completed + '/' + sections['sec-patrimonio'].total"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + sections['sec-patrimonio'].percent + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-purple-500 h-1 rounded-full transition-all"
+                                    :style="{ width: sections['sec-patrimonio'].percent + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div @click="scrollToSection('sec-director')"
+                            class="p-2 rounded-lg hover:bg-blue-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-user-tie text-gray-600 text-xs w-4"></i><span
+                                        class="text-xs font-medium">Director / Administrador</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-director'].percent === 100 ? 'text-green-600' : 'text-gray-500'"
+                                        x-text="sections['sec-director'].completed + '/' + sections['sec-director'].total"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + sections['sec-director'].percent + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-gray-500 h-1 rounded-full transition-all"
+                                    :style="{ width: sections['sec-director'].percent + '%' }"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="p-3 hover:bg-gray-50 cursor-pointer" @click="scrollToSection('infraestructura-tab')">
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-hard-hat text-teal-500 text-sm"></i>
-                                <span class="text-sm font-medium">Infraestructura</span>
-                            </div>
-                            <span class="text-xs" :class="sections['infraestructura'].percent === 100 ? 'text-green-600 font-bold' : 'text-gray-500'" x-text="sections['infraestructura'].percent + '%'"></span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
-                            <div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['infraestructura'].percent + '%' }"></div>
+
+                    <!-- TAB INFRAESTRUCTURA -->
+                    <div x-show="activeSidebarTab === 'infraestructura'" class="space-y-1">
+                        <div class="text-xs font-semibold text-gray-500 px-3 pt-2 pb-1">🏗️ SECCIONES</div>
+                        <div class="p-4 text-center text-gray-400 text-xs">
+                            <i class="fas fa-hard-hat text-2xl mb-2 block"></i>
+                            Módulo en construcción
                         </div>
                     </div>
-                    <div class="p-3 hover:bg-gray-50 cursor-pointer" @click="scrollToSection('servicios-basicos-tab')">
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-water text-cyan-500 text-sm"></i>
-                                <span class="text-sm font-medium">Servicios Básicos</span>
-                            </div>
-                            <span class="text-xs" :class="sections['servicios-basicos'].percent === 100 ? 'text-green-600 font-bold' : 'text-gray-500'" x-text="sections['servicios-basicos'].percent + '%'"></span>
+
+                    <!-- TAB SERVICIOS BÁSICOS -->
+                    <div x-show="activeSidebarTab === 'servicios-basicos'" class="space-y-1">
+                        <div class="text-xs font-semibold text-gray-500 px-3 pt-2 pb-1">💧 SECCIONES</div>
+                        <div class="p-4 text-center text-gray-400 text-xs">
+                            <i class="fas fa-water text-2xl mb-2 block"></i>
+                            Módulo en construcción
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
-                            <div class="bg-cyan-500 h-1 rounded-full transition-all" :style="{ width: sections['servicios-basicos'].percent + '%' }"></div>
-                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen rápido -->
+                <div class="border-t border-gray-200 p-3 bg-gray-50">
+                    <div class="flex justify-between text-xs mb-2">
+                        <span class="text-gray-600">✅ Completado:</span>
+                        <span class="font-bold text-green-600" x-text="totalProgress + '%'"></span>
+                    </div>
+                    <div class="flex justify-between text-xs">
+                        <span class="text-gray-600">📋 Pendiente:</span>
+                        <span class="font-bold text-orange-600" x-text="(100 - totalProgress) + '%'"></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- BOTÓN GUARDAR FLOTANTE (opcional) -->
     <div class="save-button-fixed">
-        <button type="submit" form="mainForm" class="px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-full shadow-lg hover:from-green-700 hover:to-green-800 transition flex items-center gap-2">
+        <button type="submit" form="mainForm"
+            class="px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-full shadow-lg hover:from-green-700 hover:to-green-800 transition flex items-center gap-2">
             <i class="fas fa-save"></i> Guardar
         </button>
     </div>
 
     <script>
-       function progressSidebar() {
-    return {
-        sections: {
-            'datos-generales': { completed: 0, total: 50, percent: 0 }, // ← Cambia a 48 o más
-            'infraestructura': { completed: 0, total: 15, percent: 0 },
-            'servicios-basicos': { completed: 0, total: 10, percent: 0 }
-        },
-        totalProgress: 0,
-        initProgress() {
-            this.calculateProgress();
-            setInterval(() => this.calculateProgress(), 1000);
-        },
-        calculateProgress() {
-            let totalCompleted = 0;
-            let totalFields = 0;
-            for (let key in this.sections) {
-                const section = document.getElementById(key + '-section');
-                if (section) {
-                    const inputs = section.querySelectorAll('input, select, textarea');
-                    let filled = 0;
-                    inputs.forEach(input => {
-                        // Solo contar campos que no sean readonly?
-                        if (input.value && input.value.trim() !== '') filled++;
+        function progressSidebar() {
+            return {
+                activeSidebarTab: localStorage.getItem('activeSidebarTab') || 'datos-generales',
+                sections: {
+                    'sec-datos-generales': {
+                        completed: 0,
+                        total: 18,
+                        percent: 0
+                    },
+                    'sec-red-diresa': {
+                        completed: 0,
+                        total: 8,
+                        percent: 0
+                    },
+                    'sec-datos-adicionales': {
+                        completed: 0,
+                        total: 6,
+                        percent: 0
+                    },
+                    'sec-localizacion': {
+                        completed: 0,
+                        total: 5,
+                        percent: 0
+                    },
+                    'sec-seguridad': {
+                        completed: 0,
+                        total: 3,
+                        percent: 0
+                    },
+                    'sec-patrimonio': {
+                        completed: 0,
+                        total: 3,
+                        percent: 0
+                    },
+                    'sec-director': {
+                        completed: 0,
+                        total: 9,
+                        percent: 0
+                    }
+                },
+                totalProgress: 0,
+                initProgress() {
+                    window.addEventListener('sectionProgress', (e) => {
+                        if (this.sections[e.detail.section]) {
+                            this.sections[e.detail.section].completed = e.detail.filled;
+                            this.sections[e.detail.section].percent = e.detail.percent;
+                            this.calculateTotal();
+                        }
                     });
-                    this.sections[key].completed = filled;
-                    this.sections[key].percent = Math.min(Math.round((filled / this.sections[key].total) * 100), 100);
-                    totalCompleted += filled;
-                    totalFields += this.sections[key].total;
+                    setTimeout(() => {
+                        this.calculateTotal();
+                        this.$watch('activeSidebarTab', val => localStorage.setItem('activeSidebarTab', val));
+                    }, 500);
+                },
+                calculateTotal() {
+                    let totalCompleted = 0;
+                    let totalFields = 0;
+                    for (let key in this.sections) {
+                        totalCompleted += this.sections[key].completed;
+                        totalFields += this.sections[key].total;
+                    }
+                    let rawProgress = totalFields > 0 ? Math.round((totalCompleted / totalFields) * 100) : 0;
+                    this.totalProgress = Math.min(rawProgress, 100);
+                },
+                scrollToSection(sectionId) {
+                    const element = document.getElementById(sectionId);
+                    if (element) {
+                        if (sectionId.startsWith('sec-')) {
+                            document.querySelector('[x-on\\:click="activeTab = \'datos-generales\'"]')?.click();
+                        }
+
+                        // Calcular offset para no tapar con el header
+                        const headerOffset = 90;
+                        const elementPosition = element.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+
+                        if (element.__x && element.__x.$data) {
+                            element.__x.$data.open = true;
+                        }
+                    }
                 }
-            }
-            // Limitar el progreso total a máximo 100%
-            let rawProgress = totalFields > 0 ? Math.round((totalCompleted / totalFields) * 100) : 0;
-            this.totalProgress = Math.min(rawProgress, 100);
-        },
-        scrollToSection(sectionId) {
-            if (sectionId === 'infraestructura-tab') {
-                document.querySelector('[x-on\\:click="activeTab = \'infraestructura\'"]')?.click();
-            } else if (sectionId === 'servicios-basicos-tab') {
-                document.querySelector('[x-on\\:click="activeTab = \'servicios-basicos\'"]')?.click();
-            } else {
-                document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-            }
+            };
         }
-    }
-}
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
