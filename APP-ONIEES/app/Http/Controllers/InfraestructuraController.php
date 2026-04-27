@@ -194,7 +194,7 @@ class InfraestructuraController extends Controller
             $format->tipo_documento_registrador = $request->director_tipo_documento;
             $format->doc_entidad_registrador = $request->director_dni;
             $format->nombre_registrador = $request->director_nombres;
-            $format->profesion_registrador = $request->director_profesion;
+            $format->id_profesion_registrador = $request->director_profesion;  // ← Esto guarda el ID numérico
             $format->cargo_registrador = $request->director_cargo;
             $format->email_registrador = $request->director_email;
             $format->movil_registrador = $request->director_celular;
