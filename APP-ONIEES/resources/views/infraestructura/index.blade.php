@@ -405,12 +405,13 @@
                 </div>
 
                 <!-- Botón Guardar Cambios -->
-                <div class="p-4 border-t border-gray-200 bg-white">
+                <div class="p-4 border-t border-gray-200 bg-white" x-data="{ saving: false }">
                     <button type="submit" form="mainForm"
+                        @click="saving = true; setTimeout(() => saving = false, 3000)"
                         class="w-full px-4 py-3 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
                         style="background: linear-gradient(135deg, #0E7C9E, #0a637f);">
-                        <i class="fas fa-save text-sm"></i>
-                        <span>Guardar Cambios</span>
+                        <i class="fas" :class="saving ? 'fa-spinner fa-spin' : 'fa-save'"></i>
+                        <span x-text="saving ? 'Guardando...' : 'Guardar Cambios'"></span>
                     </button>
                 </div>
             </div>
@@ -420,6 +421,36 @@
 
 
     <script>
+       // Notificaciones usando el sistema existente
+    document.addEventListener('DOMContentLoaded', function() {
+        // Usar el sistema de toast que ya tienes
+        setTimeout(() => {
+            @if(session('success'))
+                if (window.toast && window.toast.success) {
+                    window.toast.success("{{ session('success') }}", 4000);
+                }
+            @endif
+
+            @if(session('error'))
+                if (window.toast && window.toast.error) {
+                    window.toast.error("{{ session('error') }}", 5000);
+                }
+            @endif
+
+            @if(session('warning'))
+                if (window.toast && window.toast.warning) {
+                    window.toast.warning("{{ session('warning') }}", 4000);
+                }
+            @endif
+
+            @if(session('info'))
+                if (window.toast && window.toast.info) {
+                    window.toast.info("{{ session('info') }}", 4000);
+                }
+            @endif
+        }, 500); // Pequeño delay para asegurar que el toast esté listo
+    });
+
         function progressSidebar() {
             return {
                 activeSidebarTab: localStorage.getItem('activeSidebarTab') || 'datos-generales',

@@ -227,7 +227,8 @@ class InfraestructuraController extends Controller
                 ->with('success', 'Datos guardados correctamente');
         } catch (\Exception $e) {
             return redirect()->back()
-                ->with('error', 'Error: ' . $e->getMessage())
+                ->with('error', 'Error al guardar: ' . $e->getMessage())
+                
                 ->withInput();
         }
     }
