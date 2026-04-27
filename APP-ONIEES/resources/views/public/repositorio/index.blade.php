@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Repositorio DIEM - Recursos Digitales</title>
+    <title>Repositorio DIEM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -138,7 +138,7 @@
                         <i class="fas fa-folder-open text-white text-xl"></i>
                     </div>
                     <h1 class="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
-                        Repositorio DIEM
+                        Repositorio DIEM - OBSERVATORIO NACIONAL
                     </h1>
                 </div>
                 <p class="text-muted text-base ml-12">Infraestructura, equipamiento y establecimientos de salud</p>
@@ -155,7 +155,15 @@
             </div>
         </div>
     </div>
-
+<!-- Después del header-glass -->
+<div class="mb-6 flex items-center gap-2 text-sm text-muted">
+    <a href="{{ url('/') }}" class="hover:text-primary transition-colors flex items-center gap-1">
+        <i class="fas fa-home text-xs"></i>
+        <span>Inicio</span>
+    </a>
+    <i class="fas fa-chevron-right text-xs"></i>
+    <span class="text-primary font-medium">Repositorio de recursos</span>
+</div>
     <!-- LAYOUT: SIDEBAR + CONTENIDO -->
     <div class="flex flex-col lg:flex-row gap-8">
         
