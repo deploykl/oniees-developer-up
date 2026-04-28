@@ -31,7 +31,7 @@
                     Enlaces de interés
                 </div>
                 <div class="footer-links">
-                    <a href="#"><i class="fas fa-chart-line"></i> Repositorio</a>
+                    <a href="{{ route('repositorio.index') }}"><i class="fas fa-chart-line"></i> Repositorio</a>
                     <a href="#"><i class="fas fa-database"></i> Infraestructura</a>
                     <a href="#"><i class="fas fa-file-alt"></i> Equipamiento</a>
                     <a href="#"><i class="fas fa-headset"></i> Mantenimiento</a>
