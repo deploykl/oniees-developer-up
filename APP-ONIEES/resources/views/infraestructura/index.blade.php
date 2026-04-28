@@ -196,11 +196,11 @@
         <!-- SIDEBAR DERECHO DE PROGRESO CON PESTAÑAS -->
         <div class="right-sidebar" x-data="progressSidebar()" x-init="initProgress()">
             <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden sticky top-20">
-               <div class="bg-gradient-to-r from-[#0E7C9E] to-[#0a637f] p-4">
-    <h2 class="text-sm font-bold text-white">📊 Progreso del Formulario</h2>
-    <p class="text-xs text-blue-100 truncate mt-1">
-        {{ $establecimiento->nombre_eess ?? 'Sin establecimiento' }}</p>
-</div>
+                <div class="bg-gradient-to-r from-[#0E7C9E] to-[#0a637f] p-4">
+                    <h2 class="text-sm font-bold text-white">📊 Progreso del Formulario</h2>
+                    <p class="text-xs text-blue-100 truncate mt-1">
+                        {{ $establecimiento->nombre_eess ?? 'Sin establecimiento' }}</p>
+                </div>
 
                 <!-- Progreso Total General -->
                 <div class="p-4 bg-gray-50 border-b">
