@@ -129,7 +129,8 @@
                                     <p class="text-sm text-gray-600">Código: {{ $establecimiento->codigo ?? 'N/A' }}</p>
                                 </div>
                                 <button @click="showSearch = !showSearch"
-                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
+                                    class="px-4 py-2 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2"
+                                    style="background: linear-gradient(135deg, #0E7C9E, #0a637f);">
                                     <i class="fas fa-search"></i>
                                     <span>Buscar otro establecimiento</span>
                                 </button>
@@ -195,11 +196,11 @@
         <!-- SIDEBAR DERECHO DE PROGRESO CON PESTAÑAS -->
         <div class="right-sidebar" x-data="progressSidebar()" x-init="initProgress()">
             <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden sticky top-20">
-                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-4">
-                    <h2 class="text-sm font-bold text-white">📊 Progreso del Formulario</h2>
-                    <p class="text-xs text-blue-100 truncate mt-1">
-                        {{ $establecimiento->nombre_eess ?? 'Sin establecimiento' }}</p>
-                </div>
+               <div class="bg-gradient-to-r from-[#0E7C9E] to-[#0a637f] p-4">
+    <h2 class="text-sm font-bold text-white">📊 Progreso del Formulario</h2>
+    <p class="text-xs text-blue-100 truncate mt-1">
+        {{ $establecimiento->nombre_eess ?? 'Sin establecimiento' }}</p>
+</div>
 
                 <!-- Progreso Total General -->
                 <div class="p-4 bg-gray-50 border-b">
@@ -421,35 +422,35 @@
 
 
     <script>
-       // Notificaciones usando el sistema existente
-    document.addEventListener('DOMContentLoaded', function() {
-        // Usar el sistema de toast que ya tienes
-        setTimeout(() => {
-            @if(session('success'))
-                if (window.toast && window.toast.success) {
-                    window.toast.success("{{ session('success') }}", 4000);
-                }
-            @endif
+        // Notificaciones usando el sistema existente
+        document.addEventListener('DOMContentLoaded', function() {
+            // Usar el sistema de toast que ya tienes
+            setTimeout(() => {
+                @if (session('success'))
+                    if (window.toast && window.toast.success) {
+                        window.toast.success("{{ session('success') }}", 4000);
+                    }
+                @endif
 
-            @if(session('error'))
-                if (window.toast && window.toast.error) {
-                    window.toast.error("{{ session('error') }}", 5000);
-                }
-            @endif
+                @if (session('error'))
+                    if (window.toast && window.toast.error) {
+                        window.toast.error("{{ session('error') }}", 5000);
+                    }
+                @endif
 
-            @if(session('warning'))
-                if (window.toast && window.toast.warning) {
-                    window.toast.warning("{{ session('warning') }}", 4000);
-                }
-            @endif
+                @if (session('warning'))
+                    if (window.toast && window.toast.warning) {
+                        window.toast.warning("{{ session('warning') }}", 4000);
+                    }
+                @endif
 
-            @if(session('info'))
-                if (window.toast && window.toast.info) {
-                    window.toast.info("{{ session('info') }}", 4000);
-                }
-            @endif
-        }, 500); // Pequeño delay para asegurar que el toast esté listo
-    });
+                @if (session('info'))
+                    if (window.toast && window.toast.info) {
+                        window.toast.info("{{ session('info') }}", 4000);
+                    }
+                @endif
+            }, 500); // Pequeño delay para asegurar que el toast esté listo
+        });
 
         function progressSidebar() {
             return {
