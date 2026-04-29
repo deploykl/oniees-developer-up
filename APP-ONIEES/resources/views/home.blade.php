@@ -24,7 +24,6 @@
             <!-- Header compacto -->
             <div class="text-center mb-8 md:mb-10">
 
-
                 <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight animate-fade-in-up"
                     style="animation-delay: 0.1s">
                     <span

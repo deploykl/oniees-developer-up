@@ -1,0 +1,9 @@
+# Crear .dockerignore
+echo public/storage > .dockerignore
+echo node_modules >> .dockerignore
+echo .git >> .dockerignore
+echo .env >> .dockerignore
+echo vendor >> .dockerignore
+echo storage/app >> .dockerignore
+echo storage/logs >> .dockerignore
+echo storage/framework >> .dockerignore
