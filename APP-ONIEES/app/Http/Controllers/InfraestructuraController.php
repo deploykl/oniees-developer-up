@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\NivelesAtencion;
 use App\Models\TipoDocumento;
+use App\Models\FormatI;
 
 class InfraestructuraController extends Controller
 {
@@ -24,6 +25,7 @@ class InfraestructuraController extends Controller
         $establecimiento = null;
         $showSelector = false;
         $codigoBuscar = null;
+        $infraestructura = null;
 
         // Cargar datos para los selects
         $nivelesAtencion = NivelesAtencion::orderBy('nombre')->get();
@@ -62,6 +64,40 @@ class InfraestructuraController extends Controller
         // Cargar el format usando la relación
         $format = $establecimiento ? $establecimiento->format : null;
 
+        if ($establecimiento) {
+            $infraestructura = FormatI::where('id_establecimiento', $establecimiento->id)->first();
+        }
+
+        // Preparar arrays para selects
+        $tiposMaterial = [
+            '' => 'Seleccione',
+            '1' => 'Adobe',
+            '2' => 'Ladrillo',
+            '3' => 'Concreto',
+            '4' => 'Madera',
+            '5' => 'Otro'
+        ];
+
+        $estadosAcabado = [
+            '' => 'Seleccione',
+            'B' => 'Bueno',
+            'R' => 'Regular',
+            'M' => 'Malo',
+        ];
+
+        $tiposPavimento = [
+            '' => 'Seleccione',
+            'C' => 'Concreto',
+            'A' => 'Asfalto',
+            'T' => 'Tierra',
+        ];
+
+        $opcionesSiNo = [
+            '' => 'Seleccione',
+            'SI' => 'Sí',
+            'NO' => 'No',
+        ];
+
         return view('infraestructura.index', [
             'establecimiento' => $establecimiento,
             'format' => $format,
@@ -73,6 +109,11 @@ class InfraestructuraController extends Controller
             'condiciones' => $condiciones,
             'regimenes' => $regimenes,
             'tiposDocumento' => $tiposDocumento,
+            'infraestructura' => $infraestructura,
+            'tiposMaterial' => $tiposMaterial,
+            'estadosAcabado' => $estadosAcabado,
+            'tiposPavimento' => $tiposPavimento,
+            'opcionesSiNo' => $opcionesSiNo,
         ]);
     }
 
@@ -228,8 +269,105 @@ class InfraestructuraController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'Error al guardar: ' . $e->getMessage())
-                
+
                 ->withInput();
         }
     }
+    /**
+ * Guardar datos de infraestructura
+ */
+public function saveInfraestructura(Request $request)
+{
+    try {
+        DB::beginTransaction();
+        
+        $user = Auth::user();
+        $establecimiento = Establishment::find($request->id_establecimiento);
+        
+        if (!$establecimiento) {
+            throw new \Exception('Establecimiento no encontrado');
+        }
+        
+        // Buscar o crear registro de infraestructura
+        $infraestructura = FormatI::where('id_establecimiento', $establecimiento->id)->first();
+        
+        if (!$infraestructura) {
+            $infraestructura = new FormatI();
+            $infraestructura->id_establecimiento = $establecimiento->id;
+            $infraestructura->user_id = $user->id;
+            $infraestructura->user_created = $user->id;
+            $infraestructura->codigo_ipre = $establecimiento->codigo;
+            $infraestructura->idregion = $establecimiento->idregion;
+        } else {
+            $infraestructura->user_updated = $user->id;
+        }
+        
+        // =============================================
+        // DATOS DEL TERRENO
+        // =============================================
+        $infraestructura->t_condicion_saneamiento = $request->t_condicion_saneamiento;
+        $infraestructura->t_area_terreno = $request->t_area_terreno;
+        $infraestructura->t_area_construida = $request->t_area_construida;
+        $infraestructura->t_area_estac = $request->t_area_estac;
+        $infraestructura->t_area_libre = $request->t_area_libre;
+        $infraestructura->t_estacionamiento = $request->t_estacionamiento;
+        $infraestructura->t_inspeccion = $request->t_inspeccion;
+        $infraestructura->t_inspeccion_estado = $request->t_inspeccion_estado;
+        $infraestructura->t_vulnerable = $request->t_vulnerable;
+        
+        // =============================================
+        // PLANOS TÉCNICOS
+        // =============================================
+        $infraestructura->pf_ubicacion = $request->has('pf_ubicacion') ? 'SI' : 'NO';
+        $infraestructura->pf_perimetro = $request->has('pf_perimetro') ? 'SI' : 'NO';
+        $infraestructura->pf_arquitectura = $request->has('pf_arquitectura') ? 'SI' : 'NO';
+        $infraestructura->pf_estructuras = $request->has('pf_estructuras') ? 'SI' : 'NO';
+        $infraestructura->pf_ins_sanitarias = $request->has('pf_ins_sanitarias') ? 'SI' : 'NO';
+        $infraestructura->pf_ins_electricas = $request->has('pf_ins_electricas') ? 'SI' : 'NO';
+        $infraestructura->pf_ins_mecanicas = $request->has('pf_ins_mecanicas') ? 'SI' : 'NO';
+        $infraestructura->pf_ins_comunic = $request->has('pf_ins_comunic') ? 'SI' : 'NO';
+        $infraestructura->pf_distribuicion = $request->has('pf_distribuicion') ? 'SI' : 'NO';
+        
+        // =============================================
+        // DATOS DEL EDIFICIO
+        // =============================================
+        $infraestructura->sonatos = $request->sonatos;
+        $infraestructura->pisos = $request->pisos;
+        $infraestructura->area = $request->area;
+        $infraestructura->material = $request->material;
+        $infraestructura->material_nombre = $request->material_nombre;
+        
+        // =============================================
+        // CERRAMIENTO PERIMETRAL
+        // =============================================
+        $infraestructura->cp_erco_perim = $request->cp_erco_perim;
+        $infraestructura->cp_material = $request->cp_material;
+        $infraestructura->cp_material_nombre = $request->cp_material_nombre;
+        $infraestructura->cp_estado = $request->cp_estado;
+        $infraestructura->estado_contencion = $request->estado_contencion;
+        $infraestructura->estado_taludes = $request->estado_taludes;
+        
+        // =============================================
+        // OBSERVACIONES Y EVALUACIÓN
+        // =============================================
+        $infraestructura->observacion = $request->observacion;
+        $infraestructura->fecha_evaluacion = $request->fecha_evaluacion;
+        $infraestructura->hora_inicio = $request->hora_inicio;
+        $infraestructura->hora_final = $request->hora_final;
+        $infraestructura->comentarios = $request->comentarios;
+        
+        $infraestructura->save();
+        
+        DB::commit();
+        
+        return redirect()->route('infraestructura.edit', ['cargar' => $establecimiento->id])
+            ->with('success', 'Datos de infraestructura guardados correctamente');
+            
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect()->back()
+            ->with('error', 'Error al guardar infraestructura: ' . $e->getMessage())
+            ->withInput();
+    }
+}
 }
