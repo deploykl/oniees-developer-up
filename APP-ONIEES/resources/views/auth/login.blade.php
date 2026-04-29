@@ -50,7 +50,7 @@
                                 required 
                                 autofocus 
                                 autocomplete="username"
-                                placeholder="tu@email.com"
+                                placeholder="ejemplo@email.com"
                                 class="w-full pl-4 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none bg-white/50 hover:bg-white">
                         </div>
                     </div>
