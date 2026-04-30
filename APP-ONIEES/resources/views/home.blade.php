@@ -28,10 +28,8 @@
                     style="animation-delay: 0.1s">
                     <span
                         class="bg-gradient-to-r from-[#0E7C9E] to-[#0EA5E9] bg-clip-text text-transparent block mt-1">DIRECCIÓN
-                        GENERAL</span>
-                    <span class="bg-gradient-to-r from-[#0E7C9E] to-[#0EA5E9] bg-clip-text text-transparent block mt-1">
-                        DE OPERACIONES EN SALUD
-                    </span>
+                        GENERAL DE OPERACIONES EN SALUD</span>
+                   
                 </h1>
 
                 <div class="relative flex items-center justify-center gap-3 my-3">
