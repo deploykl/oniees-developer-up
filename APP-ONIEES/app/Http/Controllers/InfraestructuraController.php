@@ -155,9 +155,14 @@ class InfraestructuraController extends Controller
     /**
      * Guardar datos generales del establecimiento
      */
+    /**
+     * Guardar datos generales del establecimiento e infraestructura
+     */
     public function save(Request $request)
     {
         try {
+            DB::beginTransaction();
+
             /** @var \App\Models\User $user */
             $user = Auth::user();
 
@@ -241,11 +246,11 @@ class InfraestructuraController extends Controller
             $format->fecha_emision = $request->fecha_patrimonio;
             $format->numero_documento = $request->num_resolucion_patrimonio;
 
-            // Datos del Director / Administrador (usando format, no establishment)
+            // Datos del Director / Administrador
             $format->tipo_documento_registrador = $request->director_tipo_documento;
             $format->doc_entidad_registrador = $request->director_dni;
             $format->nombre_registrador = $request->director_nombres;
-            $format->id_profesion_registrador = $request->director_profesion;  // ← Esto guarda el ID numérico
+            $format->id_profesion_registrador = $request->director_profesion;
             $format->cargo_registrador = $request->director_cargo;
             $format->email_registrador = $request->director_email;
             $format->movil_registrador = $request->director_celular;
@@ -255,8 +260,94 @@ class InfraestructuraController extends Controller
             $format->save();
 
             // =============================================
-            // 3. LIMPIAR SESIÓN Y REDIRIGIR
+            // 3. GUARDAR EN TABLA format_i (INFRAESTRUCTURA)
             // =============================================
+            $infraestructura = FormatI::where('id_establecimiento', $establecimiento->id)->first();
+
+            if (!$infraestructura) {
+                $infraestructura = new FormatI();
+                $infraestructura->id_establecimiento = $establecimiento->id;
+                $infraestructura->user_id = $user->id;
+                $infraestructura->user_created = $user->id;
+                $infraestructura->codigo_ipre = $establecimiento->codigo;
+                $infraestructura->idregion = $establecimiento->idregion;
+            } else {
+                $infraestructura->user_updated = $user->id;
+            }
+
+            // =============================================
+            // DATOS DEL TERRENO
+            // =============================================
+            $infraestructura->t_estado_saneado = $request->t_estado_saneado;
+            $infraestructura->t_condicion_saneamiento = $request->t_condicion_saneamiento;
+            $infraestructura->t_nro_contrato = $request->t_nro_contrato;
+            $infraestructura->t_titulo_a_favor = $request->t_titulo_a_favor;
+            $infraestructura->t_observacion = $request->t_observacion;
+            $infraestructura->t_area_terreno = $request->t_area_terreno;
+            $infraestructura->t_area_construida = $request->t_area_construida;
+            $infraestructura->t_area_estac = $request->t_area_estac;
+            $infraestructura->t_area_libre = $request->t_area_libre;
+            $infraestructura->t_estacionamiento = $request->t_estacionamiento;
+            $infraestructura->t_inspeccion = $request->t_inspeccion;
+            $infraestructura->t_inspeccion_estado = $request->t_inspeccion_estado;
+            $infraestructura->t_vulnerable = $request->t_vulnerable;
+
+            // =============================================
+            // PLANOS TÉCNICOS (FÍSICO - pf_)
+            // =============================================
+            $infraestructura->pf_ubicacion = $request->has('pf_ubicacion') ? 'SI' : 'NO';
+            $infraestructura->pf_perimetro = $request->has('pf_perimetro') ? 'SI' : 'NO';
+            $infraestructura->pf_arquitectura = $request->has('pf_arquitectura') ? 'SI' : 'NO';
+            $infraestructura->pf_estructuras = $request->has('pf_estructuras') ? 'SI' : 'NO';
+            $infraestructura->pf_ins_sanitarias = $request->has('pf_ins_sanitarias') ? 'SI' : 'NO';
+            $infraestructura->pf_ins_electricas = $request->has('pf_ins_electricas') ? 'SI' : 'NO';
+            $infraestructura->pf_ins_mecanicas = $request->has('pf_ins_mecanicas') ? 'SI' : 'NO';
+            $infraestructura->pf_ins_comunic = $request->has('pf_ins_comunic') ? 'SI' : 'NO';
+            $infraestructura->pf_distribuicion = $request->has('pf_distribuicion') ? 'SI' : 'NO';
+
+            // =============================================
+            // PLANOS TÉCNICOS (DIGITAL - pd_)
+            // =============================================
+            $infraestructura->pd_ubicacion = $request->has('pd_ubicacion') ? 'SI' : 'NO';
+            $infraestructura->pd_perimetro = $request->has('pd_perimetro') ? 'SI' : 'NO';
+            $infraestructura->pd_arquitectura = $request->has('pd_arquitectura') ? 'SI' : 'NO';
+            $infraestructura->pd_estructuras = $request->has('pd_estructuras') ? 'SI' : 'NO';
+            $infraestructura->pd_ins_sanitarias = $request->has('pd_ins_sanitarias') ? 'SI' : 'NO';
+            $infraestructura->pd_ins_electricas = $request->has('pd_ins_electricas') ? 'SI' : 'NO';
+            $infraestructura->pd_ins_mecanicas = $request->has('pd_ins_mecanicas') ? 'SI' : 'NO';
+            $infraestructura->pd_ins_comunic = $request->has('pd_ins_comunic') ? 'SI' : 'NO';
+            $infraestructura->pd_distribuicion = $request->has('pd_distribuicion') ? 'SI' : 'NO';
+
+            // =============================================
+            // DATOS DEL EDIFICIO
+            // =============================================
+            $infraestructura->sonatos = $request->sonatos;
+            $infraestructura->pisos = $request->pisos;
+            $infraestructura->area = $request->area;
+            $infraestructura->material = $request->material;
+            $infraestructura->material_nombre = $request->material_nombre;
+
+            // =============================================
+            // CERRAMIENTO PERIMETRAL
+            // =============================================
+            $infraestructura->cp_erco_perim = $request->cp_erco_perim;
+            $infraestructura->cp_material = $request->cp_material;
+            $infraestructura->cp_material_nombre = $request->cp_material_nombre;
+            $infraestructura->cp_estado = $request->cp_estado;
+
+            // =============================================
+            // FECHA DE EVALUACIÓN Y COMENTARIOS
+            // =============================================
+            $infraestructura->fecha_evaluacion = $request->fecha_evaluacion;
+            $infraestructura->hora_inicio = $request->hora_inicio;
+            $infraestructura->hora_final = $request->hora_final;
+            $infraestructura->comentarios = $request->comentarios;
+
+            $infraestructura->save();
+
+            DB::commit();
+
+            // Limpiar sesión
             session()->forget('establecimiento_temp_id');
 
             if (!$user->idestablecimiento_user && $request->has('asignar_a_mi')) {
@@ -265,109 +356,333 @@ class InfraestructuraController extends Controller
             }
 
             return redirect()->route('infraestructura.edit', ['cargar' => $establecimiento->id])
-                ->with('success', 'Datos guardados correctamente');
+                ->with('success', 'Todos los datos han sido guardados correctamente');
         } catch (\Exception $e) {
+            DB::rollBack();
             return redirect()->back()
                 ->with('error', 'Error al guardar: ' . $e->getMessage())
-
                 ->withInput();
         }
     }
     /**
- * Guardar datos de infraestructura
- */
-public function saveInfraestructura(Request $request)
-{
-    try {
-        DB::beginTransaction();
-        
-        $user = Auth::user();
-        $establecimiento = Establishment::find($request->id_establecimiento);
-        
-        if (!$establecimiento) {
-            throw new \Exception('Establecimiento no encontrado');
+     * Guardar datos de infraestructura
+     */
+    /**
+     * Guardar datos de infraestructura
+     */
+    public function saveInfraestructura(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $user = Auth::user();
+            $establecimiento = Establishment::find($request->id_establecimiento);
+
+            if (!$establecimiento) {
+                throw new \Exception('Establecimiento no encontrado');
+            }
+
+            // Buscar o crear registro de infraestructura
+            $infraestructura = FormatI::where('id_establecimiento', $establecimiento->id)->first();
+
+            if (!$infraestructura) {
+                $infraestructura = new FormatI();
+                $infraestructura->id_establecimiento = $establecimiento->id;
+                $infraestructura->user_id = $user->id;
+                $infraestructura->user_created = $user->id;
+                $infraestructura->codigo_ipre = $establecimiento->codigo;
+                $infraestructura->idregion = $establecimiento->idregion;
+            } else {
+                $infraestructura->user_updated = $user->id;
+            }
+
+            // =============================================
+            // DATOS DEL TERRENO (según tu SQL)
+            // =============================================
+            $infraestructura->t_estado_saneado = $request->t_estado_saneado;  // ← NUEVO
+            $infraestructura->t_condicion_saneamiento = $request->t_condicion_saneamiento;
+            $infraestructura->t_nro_contrato = $request->t_nro_contrato;  // ← NUEVO
+            $infraestructura->t_titulo_a_favor = $request->t_titulo_a_favor;  // ← NUEVO
+            $infraestructura->t_observacion = $request->t_observacion;  // ← NUEVO (observación del terreno)
+            $infraestructura->t_area_terreno = $request->t_area_terreno;
+            $infraestructura->t_area_construida = $request->t_area_construida;
+            $infraestructura->t_area_estac = $request->t_area_estac;
+            $infraestructura->t_area_libre = $request->t_area_libre;
+            $infraestructura->t_estacionamiento = $request->t_estacionamiento;
+            $infraestructura->t_inspeccion = $request->t_inspeccion;
+            $infraestructura->t_inspeccion_estado = $request->t_inspeccion_estado;
+            $infraestructura->t_vulnerable = $request->t_vulnerable;
+            $infraestructura->t_titular = $request->t_titular;
+            $infraestructura->t_titular_nombre = $request->t_titular_nombre;
+            $infraestructura->t_propio = $request->t_propio;
+            $infraestructura->t_saneado = $request->t_saneado;
+            $infraestructura->t_documento = $request->t_documento;
+            $infraestructura->t_nro_documento = $request->t_nro_documento;
+
+            // =============================================
+            // PLANOS TÉCNICOS (FÍSICO - pf_)
+            // =============================================
+            $infraestructura->pf_ubicacion = $request->has('pf_ubicacion') ? 'SI' : 'NO';
+            $infraestructura->pf_perimetro = $request->has('pf_perimetro') ? 'SI' : 'NO';
+            $infraestructura->pf_arquitectura = $request->has('pf_arquitectura') ? 'SI' : 'NO';
+            $infraestructura->pf_estructuras = $request->has('pf_estructuras') ? 'SI' : 'NO';
+            $infraestructura->pf_ins_sanitarias = $request->has('pf_ins_sanitarias') ? 'SI' : 'NO';
+            $infraestructura->pf_ins_electricas = $request->has('pf_ins_electricas') ? 'SI' : 'NO';
+            $infraestructura->pf_ins_mecanicas = $request->has('pf_ins_mecanicas') ? 'SI' : 'NO';
+            $infraestructura->pf_ins_comunic = $request->has('pf_ins_comunic') ? 'SI' : 'NO';
+            $infraestructura->pf_distribuicion = $request->has('pf_distribuicion') ? 'SI' : 'NO';
+
+            // =============================================
+            // PLANOS TÉCNICOS (DIGITAL - pd_)
+            // =============================================
+            $infraestructura->pd_ubicacion = $request->has('pd_ubicacion') ? 'SI' : 'NO';
+            $infraestructura->pd_perimetro = $request->has('pd_perimetro') ? 'SI' : 'NO';
+            $infraestructura->pd_arquitectura = $request->has('pd_arquitectura') ? 'SI' : 'NO';
+            $infraestructura->pd_estructuras = $request->has('pd_estructuras') ? 'SI' : 'NO';
+            $infraestructura->pd_ins_sanitarias = $request->has('pd_ins_sanitarias') ? 'SI' : 'NO';
+            $infraestructura->pd_ins_electricas = $request->has('pd_ins_electricas') ? 'SI' : 'NO';
+            $infraestructura->pd_ins_mecanicas = $request->has('pd_ins_mecanicas') ? 'SI' : 'NO';
+            $infraestructura->pd_ins_comunic = $request->has('pd_ins_comunic') ? 'SI' : 'NO';
+            $infraestructura->pd_distribuicion = $request->has('pd_distribuicion') ? 'SI' : 'NO';
+
+            // =============================================
+            // ACABADOS EXTERIORES (ae_)
+            // =============================================
+            $infraestructura->ae_pavimentos = $request->ae_pavimentos;
+            $infraestructura->ae_pavimentos_nombre = $request->ae_pavimentos_nombre;
+            $infraestructura->ae_pav_estado = $request->ae_pav_estado;
+            $infraestructura->ae_veredas = $request->ae_veredas;
+            $infraestructura->ae_veredas_nombre = $request->ae_veredas_nombre;
+            $infraestructura->ae_ver_estado = $request->ae_ver_estado;
+            $infraestructura->ae_zocalos = $request->ae_zocalos;
+            $infraestructura->ae_zocalos_nombre = $request->ae_zocalos_nombre;
+            $infraestructura->ae_zoc_estado = $request->ae_zoc_estado;
+            $infraestructura->ae_muros = $request->ae_muros;
+            $infraestructura->ae_muros_nombre = $request->ae_muros_nombre;
+            $infraestructura->ae_mur_estado = $request->ae_mur_estado;
+            $infraestructura->ae_techo = $request->ae_techo;
+            $infraestructura->ae_techo_nombre = $request->ae_techo_nombre;
+            $infraestructura->ae_tec_estado = $request->ae_tec_estado;
+            $infraestructura->ae_cobertura = $request->ae_cobertura;
+            $infraestructura->ae_cob_estado = $request->ae_cob_estado;
+            $infraestructura->ae_observaciones = $request->ae_observaciones;
+
+            // =============================================
+            // ACABADOS INTERIORES (ai_)
+            // =============================================
+            $infraestructura->ai_pavimento_i = $request->ai_pavimento_i;
+            $infraestructura->ai_pav_estado_i = $request->ai_pav_estado_i;
+            $infraestructura->ai_vereda_i = $request->ai_vereda_i;
+            $infraestructura->ai_ver_estado_i = $request->ai_ver_estado_i;
+            $infraestructura->ai_zocalos_i = $request->ai_zocalos_i;
+            $infraestructura->ai_zoc_estado_i = $request->ai_zoc_estado_i;
+            $infraestructura->ai_muros_i = $request->ai_muros_i;
+            $infraestructura->ai_mur_estado_i = $request->ai_mur_estado_i;
+            $infraestructura->ai_techo_i = $request->ai_techo_i;
+            $infraestructura->ai_tec_estado_i = $request->ai_tec_estado_i;
+            $infraestructura->ai_covertura_i = $request->ai_covertura_i;
+            $infraestructura->ai_cov_estado_i = $request->ai_cov_estado_i;
+            $infraestructura->ai_observacion_i = $request->ai_observacion_i;
+
+            $infraestructura->ai_pavimento_ii = $request->ai_pavimento_ii;
+            $infraestructura->ai_pav_estado_ii = $request->ai_pav_estado_ii;
+            $infraestructura->ai_vereda_ii = $request->ai_vereda_ii;
+            $infraestructura->ai_ver_estado_ii = $request->ai_ver_estado_ii;
+            $infraestructura->ai_zocalos_ii = $request->ai_zocalos_ii;
+            $infraestructura->ai_zoc_estado_ii = $request->ai_zoc_estado_ii;
+            $infraestructura->ai_muros_ii = $request->ai_muros_ii;
+            $infraestructura->ai_mur_estado_ii = $request->ai_mur_estado_ii;
+            $infraestructura->ai_techo_ii = $request->ai_techo_ii;
+            $infraestructura->ai_tec_estado_ii = $request->ai_tec_estado_ii;
+            $infraestructura->ai_covertura_ii = $request->ai_covertura_ii;
+            $infraestructura->ai_cov_estado_ii = $request->ai_cov_estado_ii;
+            $infraestructura->ai_observacion_ii = $request->ai_observacion_ii;
+
+            // =============================================
+            // DATOS DEL EDIFICIO
+            // =============================================
+            $infraestructura->edificacion = $request->edificacion;
+            $infraestructura->numeral = $request->numeral;
+            $infraestructura->sonatos = $request->sonatos;
+            $infraestructura->pisos = $request->pisos;
+            $infraestructura->area = $request->area;
+            $infraestructura->ubicacion = $request->ubicacion;
+            $infraestructura->material = $request->material;
+            $infraestructura->material_nombre = $request->material_nombre;
+
+            // =============================================
+            // EVALUACIÓN DE INFRAESTRUCTURA (Options A-N)
+            // =============================================
+            $infraestructura->infraestructura_option_a = $request->has('infraestructura_option_a') ? 1 : 0;
+            $infraestructura->infraestructura_valor_a = $request->infraestructura_valor_a;
+            $infraestructura->infraestructura_option_b = $request->has('infraestructura_option_b') ? 1 : 0;
+            $infraestructura->infraestructura_valor_b = $request->infraestructura_valor_b;
+            $infraestructura->infraestructura_option_c = $request->has('infraestructura_option_c') ? 1 : 0;
+            $infraestructura->infraestructura_valor_c = $request->infraestructura_valor_c;
+            $infraestructura->infraestructura_option_d = $request->has('infraestructura_option_d') ? 1 : 0;
+            $infraestructura->infraestructura_valor_d = $request->infraestructura_valor_d;
+            $infraestructura->infraestructura_option_e = $request->has('infraestructura_option_e') ? 1 : 0;
+            $infraestructura->infraestructura_valor_e = $request->infraestructura_valor_e;
+            $infraestructura->infraestructura_option_f = $request->has('infraestructura_option_f') ? 1 : 0;
+            $infraestructura->infraestructura_valor_f = $request->infraestructura_valor_f;
+            $infraestructura->infraestructura_option_g = $request->has('infraestructura_option_g') ? 1 : 0;
+            $infraestructura->infraestructura_valor_g = $request->infraestructura_valor_g;
+            $infraestructura->infraestructura_option_h = $request->has('infraestructura_option_h') ? 1 : 0;
+            $infraestructura->infraestructura_valor_h = $request->infraestructura_valor_h;
+            $infraestructura->infraestructura_option_i = $request->has('infraestructura_option_i') ? 1 : 0;
+            $infraestructura->infraestructura_valor_i = $request->infraestructura_valor_i;
+            $infraestructura->infraestructura_option_j = $request->has('infraestructura_option_j') ? 1 : 0;
+            $infraestructura->infraestructura_valor_j = $request->infraestructura_valor_j;
+            $infraestructura->infraestructura_option_k = $request->has('infraestructura_option_k') ? 1 : 0;
+            $infraestructura->infraestructura_valor_k = $request->infraestructura_valor_k;
+            $infraestructura->infraestructura_option_l = $request->has('infraestructura_option_l') ? 1 : 0;
+            $infraestructura->infraestructura_valor_l = $request->infraestructura_valor_l;
+            $infraestructura->infraestructura_option_m = $request->has('infraestructura_option_m') ? 1 : 0;
+            $infraestructura->infraestructura_valor_m = $request->infraestructura_valor_m;
+            $infraestructura->infraestructura_option_n = $request->has('infraestructura_option_n') ? 1 : 0;
+            $infraestructura->infraestructura_valor_n = $request->infraestructura_valor_n;
+
+            // Descripciones
+            $infraestructura->infraestructura_descripcion_1 = $request->infraestructura_descripcion_1;
+            $infraestructura->infraestructura_descripcion_2 = $request->infraestructura_descripcion_2;
+            $infraestructura->infraestructura_descripcion_3 = $request->infraestructura_descripcion_3;
+            $infraestructura->infraestructura_descripcion_a = $request->infraestructura_descripcion_a;
+            $infraestructura->infraestructura_descripcion_b = $request->infraestructura_descripcion_b;
+            $infraestructura->infraestructura_descripcion_c = $request->infraestructura_descripcion_c;
+            $infraestructura->infraestructura_descripcion_d = $request->infraestructura_descripcion_d;
+            $infraestructura->infraestructura_descripcion_e = $request->infraestructura_descripcion_e;
+            $infraestructura->infraestructura_descripcion_f = $request->infraestructura_descripcion_f;
+            $infraestructura->infraestructura_descripcion_g = $request->infraestructura_descripcion_g;
+            $infraestructura->infraestructura_descripcion_h = $request->infraestructura_descripcion_h;
+            $infraestructura->infraestructura_descripcion_i = $request->infraestructura_descripcion_i;
+            $infraestructura->infraestructura_descripcion_j = $request->infraestructura_descripcion_j;
+            $infraestructura->infraestructura_descripcion_k = $request->infraestructura_descripcion_k;
+            $infraestructura->infraestructura_descripcion_l = $request->infraestructura_descripcion_l;
+            $infraestructura->infraestructura_descripcion_m = $request->infraestructura_descripcion_m;
+            $infraestructura->infraestructura_descripcion_n = $request->infraestructura_descripcion_n;
+
+            // =============================================
+            // CERRAMIENTO PERIMETRAL
+            // =============================================
+            $infraestructura->cp_erco_perim = $request->cp_erco_perim;
+            $infraestructura->cp_material = $request->cp_material;
+            $infraestructura->cp_material_nombre = $request->cp_material_nombre;
+            $infraestructura->cp_estado = $request->cp_estado;
+            $infraestructura->cp_seguridad = $request->cp_seguridad;
+            $infraestructura->cp_observaciones = $request->cp_observaciones;
+            $infraestructura->estado_contencion = $request->estado_contencion;
+            $infraestructura->estado_taludes = $request->estado_taludes;
+            $infraestructura->estado_perimetrico = $request->estado_perimetrico;
+
+            // =============================================
+            // ACCESIBILIDAD, UBICACIÓN, CIRCULACIÓN
+            // =============================================
+            $infraestructura->ac_option_1 = $request->ac_option_1;
+            $infraestructura->ac_option_1_text = $request->ac_option_1_text;
+            $infraestructura->ac_option_2 = $request->ac_option_2;
+            $infraestructura->ac_option_2_text = $request->ac_option_2_text;
+            $infraestructura->ac_option_3 = $request->ac_option_3;
+            $infraestructura->ac_option_3_text = $request->ac_option_3_text;
+            $infraestructura->ac_option_4 = $request->ac_option_4;
+            $infraestructura->ac_option_4_text = $request->ac_option_4_text;
+            $infraestructura->ac_option_5 = $request->ac_option_5;
+            $infraestructura->ac_option_5_text = $request->ac_option_5_text;
+
+            // Ubicación
+            $infraestructura->ub_option_1 = $request->ub_option_1;
+            $infraestructura->ub_option_1_text = $request->ub_option_1_text;
+            $infraestructura->ub_option_2 = $request->ub_option_2;
+            $infraestructura->ub_option_2_text = $request->ub_option_2_text;
+            $infraestructura->ub_option_3 = $request->ub_option_3;
+            $infraestructura->ub_option_3_text = $request->ub_option_3_text;
+            $infraestructura->ub_option_4 = $request->ub_option_4;
+            $infraestructura->ub_option_4_text = $request->ub_option_4_text;
+            $infraestructura->ub_option_5 = $request->ub_option_5;
+            $infraestructura->ub_option_5_text = $request->ub_option_5_text;
+            $infraestructura->ub_option_6 = $request->ub_option_6;
+            $infraestructura->ub_option_6_text = $request->ub_option_6_text;
+            $infraestructura->ub_option_7 = $request->ub_option_7;
+            $infraestructura->ub_option_7_text = $request->ub_option_7_text;
+            $infraestructura->ub_option_8 = $request->ub_option_8;
+            $infraestructura->ub_option_8_text = $request->ub_option_8_text;
+            $infraestructura->ub_option_9 = $request->ub_option_9;
+            $infraestructura->ub_option_9_text = $request->ub_option_9_text;
+            $infraestructura->ub_option_10 = $request->ub_option_10;
+            $infraestructura->ub_option_10_text = $request->ub_option_10_text;
+            $infraestructura->ub_option_11 = $request->ub_option_11;
+            $infraestructura->ub_option_11_text = $request->ub_option_11_text;
+            $infraestructura->ub_option_12 = $request->ub_option_12;
+            $infraestructura->ub_option_12_text = $request->ub_option_12_text;
+            $infraestructura->ub_option_13 = $request->ub_option_13;
+            $infraestructura->ub_option_13_text = $request->ub_option_13_text;
+            $infraestructura->ub_option_14 = $request->ub_option_14;
+            $infraestructura->ub_option_14_text = $request->ub_option_14_text;
+
+            // Circulación Horizontal
+            $infraestructura->ch_option_1 = $request->ch_option_1;
+            $infraestructura->ch_option_1_text = $request->ch_option_1_text;
+            $infraestructura->ch_option_2 = $request->ch_option_2;
+            $infraestructura->ch_option_2_text = $request->ch_option_2_text;
+            $infraestructura->ch_option_2a = $request->ch_option_2a;
+            $infraestructura->ch_option_2b = $request->ch_option_2b;
+            $infraestructura->ch_ancho = $request->ch_ancho;
+            $infraestructura->ch_option_3 = $request->ch_option_3;
+            $infraestructura->ch_option_3_text = $request->ch_option_3_text;
+            $infraestructura->ch_option_4 = $request->ch_option_4;
+            $infraestructura->ch_option_4_text = $request->ch_option_4_text;
+            $infraestructura->ch_option_5 = $request->ch_option_5;
+            $infraestructura->ch_option_5_text = $request->ch_option_5_text;
+            $infraestructura->ch_option_6 = $request->ch_option_6;
+            $infraestructura->ch_option_6_text = $request->ch_option_6_text;
+            $infraestructura->ch_option_7 = $request->ch_option_7;
+            $infraestructura->ch_option_8 = $request->ch_option_8;
+            $infraestructura->ch_option_9 = $request->ch_option_9;
+            $infraestructura->ch_option_7_text = $request->ch_option_7_text;
+
+            // Circulación Vertical
+            $infraestructura->cv_option_1 = $request->cv_option_1;
+            $infraestructura->cv_option_1_text = $request->cv_option_1_text;
+            $infraestructura->cv_option_2 = $request->cv_option_2;
+            $infraestructura->cv_option_2_text = $request->cv_option_2_text;
+            $infraestructura->cv_option_3 = $request->cv_option_3;
+            $infraestructura->cv_option_3_text = $request->cv_option_3_text;
+            $infraestructura->cv_option_4 = $request->cv_option_4;
+            $infraestructura->cv_option_4_text = $request->cv_option_4_text;
+            $infraestructura->cv_option_5 = $request->cv_option_5;
+            $infraestructura->cv_option_5_text = $request->cv_option_5_text;
+            $infraestructura->cv_option_6 = $request->cv_option_6;
+            $infraestructura->cv_option_6_text = $request->cv_option_6_text;
+            $infraestructura->cv_option_7 = $request->cv_option_7;
+            $infraestructura->cv_option_7_text = $request->cv_option_7_text;
+            $infraestructura->cv_option_8 = $request->cv_option_8;
+            $infraestructura->cv_option_8_text = $request->cv_option_8_text;
+            $infraestructura->cv_option_9 = $request->cv_option_9;
+            $infraestructura->cv_option_9_text = $request->cv_option_9_text;
+            $infraestructura->cv_option_10 = $request->cv_option_10;
+            $infraestructura->cv_option_10_text = $request->cv_option_10_text;
+
+            // =============================================
+            // OBSERVACIONES Y EVALUACIÓN FINAL
+            // =============================================
+            $infraestructura->observacion = $request->observacion;
+            $infraestructura->puntaje = $request->puntaje;
+            $infraestructura->tipo_intervencion = $request->tipo_intervencion;
+            $infraestructura->fecha_evaluacion = $request->fecha_evaluacion;
+            $infraestructura->hora_inicio = $request->hora_inicio;
+            $infraestructura->hora_final = $request->hora_final;
+            $infraestructura->comentarios = $request->comentarios;
+
+            $infraestructura->save();
+
+            DB::commit();
+
+            return redirect()->route('infraestructura.edit', ['cargar' => $establecimiento->id])
+                ->with('success', 'Datos de infraestructura guardados correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', 'Error al guardar infraestructura: ' . $e->getMessage())
+                ->withInput();
         }
-        
-        // Buscar o crear registro de infraestructura
-        $infraestructura = FormatI::where('id_establecimiento', $establecimiento->id)->first();
-        
-        if (!$infraestructura) {
-            $infraestructura = new FormatI();
-            $infraestructura->id_establecimiento = $establecimiento->id;
-            $infraestructura->user_id = $user->id;
-            $infraestructura->user_created = $user->id;
-            $infraestructura->codigo_ipre = $establecimiento->codigo;
-            $infraestructura->idregion = $establecimiento->idregion;
-        } else {
-            $infraestructura->user_updated = $user->id;
-        }
-        
-        // =============================================
-        // DATOS DEL TERRENO
-        // =============================================
-        $infraestructura->t_condicion_saneamiento = $request->t_condicion_saneamiento;
-        $infraestructura->t_area_terreno = $request->t_area_terreno;
-        $infraestructura->t_area_construida = $request->t_area_construida;
-        $infraestructura->t_area_estac = $request->t_area_estac;
-        $infraestructura->t_area_libre = $request->t_area_libre;
-        $infraestructura->t_estacionamiento = $request->t_estacionamiento;
-        $infraestructura->t_inspeccion = $request->t_inspeccion;
-        $infraestructura->t_inspeccion_estado = $request->t_inspeccion_estado;
-        $infraestructura->t_vulnerable = $request->t_vulnerable;
-        
-        // =============================================
-        // PLANOS TÉCNICOS
-        // =============================================
-        $infraestructura->pf_ubicacion = $request->has('pf_ubicacion') ? 'SI' : 'NO';
-        $infraestructura->pf_perimetro = $request->has('pf_perimetro') ? 'SI' : 'NO';
-        $infraestructura->pf_arquitectura = $request->has('pf_arquitectura') ? 'SI' : 'NO';
-        $infraestructura->pf_estructuras = $request->has('pf_estructuras') ? 'SI' : 'NO';
-        $infraestructura->pf_ins_sanitarias = $request->has('pf_ins_sanitarias') ? 'SI' : 'NO';
-        $infraestructura->pf_ins_electricas = $request->has('pf_ins_electricas') ? 'SI' : 'NO';
-        $infraestructura->pf_ins_mecanicas = $request->has('pf_ins_mecanicas') ? 'SI' : 'NO';
-        $infraestructura->pf_ins_comunic = $request->has('pf_ins_comunic') ? 'SI' : 'NO';
-        $infraestructura->pf_distribuicion = $request->has('pf_distribuicion') ? 'SI' : 'NO';
-        
-        // =============================================
-        // DATOS DEL EDIFICIO
-        // =============================================
-        $infraestructura->sonatos = $request->sonatos;
-        $infraestructura->pisos = $request->pisos;
-        $infraestructura->area = $request->area;
-        $infraestructura->material = $request->material;
-        $infraestructura->material_nombre = $request->material_nombre;
-        
-        // =============================================
-        // CERRAMIENTO PERIMETRAL
-        // =============================================
-        $infraestructura->cp_erco_perim = $request->cp_erco_perim;
-        $infraestructura->cp_material = $request->cp_material;
-        $infraestructura->cp_material_nombre = $request->cp_material_nombre;
-        $infraestructura->cp_estado = $request->cp_estado;
-        $infraestructura->estado_contencion = $request->estado_contencion;
-        $infraestructura->estado_taludes = $request->estado_taludes;
-        
-        // =============================================
-        // OBSERVACIONES Y EVALUACIÓN
-        // =============================================
-        $infraestructura->observacion = $request->observacion;
-        $infraestructura->fecha_evaluacion = $request->fecha_evaluacion;
-        $infraestructura->hora_inicio = $request->hora_inicio;
-        $infraestructura->hora_final = $request->hora_final;
-        $infraestructura->comentarios = $request->comentarios;
-        
-        $infraestructura->save();
-        
-        DB::commit();
-        
-        return redirect()->route('infraestructura.edit', ['cargar' => $establecimiento->id])
-            ->with('success', 'Datos de infraestructura guardados correctamente');
-            
-    } catch (\Exception $e) {
-        DB::rollBack();
-        return redirect()->back()
-            ->with('error', 'Error al guardar infraestructura: ' . $e->getMessage())
-            ->withInput();
     }
-}
 }
