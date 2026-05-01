@@ -31,16 +31,21 @@ class EdificacionController extends Controller
     /**
      * Obtener una edificación específica
      */
-    public function show($id)
-    {
-        $edificacion = FormatIOne::find($id);
+  public function show($id)
+{
+    $edificacion = FormatIOne::with(['upss', 'tipoIntervencion'])->find($id);
 
-        if (!$edificacion) {
-            return response()->json(['error' => 'Edificación no encontrada'], 404);
-        }
-
-        return response()->json($edificacion);
+    if (!$edificacion) {
+        return response()->json(['error' => 'Edificación no encontrada'], 404);
     }
+
+    // Asegurar que devuelva el ID directamente
+    $response = $edificacion->toArray();
+    $response['tipo_intervencion_id'] = $edificacion->tipo_intervencion;
+    $response['tipo_intervencion_nombre'] = $edificacion->tipoIntervencion?->nombre;
+
+    return response()->json($response);
+}
 
     /**
      * Guardar nueva edificación
@@ -48,7 +53,6 @@ class EdificacionController extends Controller
     public function store(Request $request)
     {
         try {
-
             DB::beginTransaction();
 
             $user = Auth::user();
@@ -79,9 +83,10 @@ class EdificacionController extends Controller
             $edificacion->ultima_intervencion = $request->ultima_intervencion;
             $edificacion->tipo_intervencion = $request->tipo_intervencion;
             $edificacion->observacion = $request->observacion;
-
-
             $edificacion->save();
+
+            // Cargar relaciones después de guardar
+            $edificacion->load(['upss', 'tipoIntervencion']);
 
             DB::commit();
 
@@ -122,6 +127,9 @@ class EdificacionController extends Controller
             $edificacion->tipo_intervencion = $request->tipo_intervencion;
             $edificacion->observacion = $request->observacion;
             $edificacion->save();
+
+            // Cargar relaciones después de actualizar
+            $edificacion->load(['upss', 'tipoIntervencion']);
 
             DB::commit();
 

@@ -35,7 +35,7 @@ class InfraestructuraController extends Controller
         $profesiones = Profesion::orderBy('nombre')->get();
         $condiciones = CondicionProfesional::orderBy('nombre')->get();
         $regimenes = RegimenLaboral::orderBy('nombre')->get();
-        $tiposDocumento = TipoDocumento::all(); // ← Agrega esto
+        $tiposDocumento = TipoDocumento::all();
 
         if ($request->get('codigo')) {
             $codigoBuscar = $request->get('codigo');
@@ -63,6 +63,7 @@ class InfraestructuraController extends Controller
         if (!$establecimiento) {
             $showSelector = true;
         }
+
         // Cargar UPSS para el select
         $upssList = UPSS::orderBy('nombre')->get();
         // Cargar tipos de intervención para el select
@@ -70,18 +71,17 @@ class InfraestructuraController extends Controller
         // Cargar el format usando la relación
         $format = $establecimiento ? $establecimiento->format : null;
 
-        if ($establecimiento) {
-            $infraestructura = FormatI::where('id_establecimiento', $establecimiento->id)->first();
-        }
+        $edificaciones = collect();
+
         if ($establecimiento) {
             $infraestructura = FormatI::where('id_establecimiento', $establecimiento->id)->first();
 
-            // Cargar edificaciones
-            $edificaciones = collect();
             if ($infraestructura) {
+                // Cargar edificaciones
                 $edificaciones = FormatIOne::where('id_format_i', $infraestructura->id)->get();
             }
         }
+
         // Preparar arrays para selects
         $tiposMaterial = [
             '' => 'Seleccione',
@@ -128,12 +128,9 @@ class InfraestructuraController extends Controller
             'estadosAcabado' => $estadosAcabado,
             'tiposPavimento' => $tiposPavimento,
             'opcionesSiNo' => $opcionesSiNo,
-            'edificaciones' => $edificaciones,  // ← AGREGAR ESTA LÍNEA
-            'upssList' => $upssList,  // ← AGREGAR ESTA LÍNEA
+            'edificaciones' => $edificaciones,
+            'upssList' => $upssList,
             'tiposIntervencion' => $tiposIntervencion,
-
-
-
         ]);
     }
 
@@ -243,6 +240,8 @@ class InfraestructuraController extends Controller
             $establecimiento->coordenada_utm_norte = $request->coord_utm_norte;
             $establecimiento->coordenada_utm_este = $request->coord_utm_este;
 
+
+
             $establecimiento->save();
 
             // =============================================
@@ -337,6 +336,26 @@ class InfraestructuraController extends Controller
             $infraestructura->pd_ins_mecanicas = $request->has('pd_ins_mecanicas') ? 'SI' : 'NO';
             $infraestructura->pd_ins_comunic = $request->has('pd_ins_comunic') ? 'SI' : 'NO';
             $infraestructura->pd_distribuicion = $request->has('pd_distribuicion') ? 'SI' : 'NO';
+
+
+            // =============================================
+            // ACABADOS EXTERIORES (ae_)
+            // =============================================
+            $infraestructura->ae_pavimentos = $request->ae_pavimentos;
+            $infraestructura->ae_pavimentos_nombre = $request->ae_pavimentos_nombre;
+            $infraestructura->ae_pav_estado = $request->ae_pav_estado;
+            $infraestructura->ae_veredas = $request->ae_veredas;
+            $infraestructura->ae_veredas_nombre = $request->ae_veredas_nombre;
+            $infraestructura->ae_ver_estado = $request->ae_ver_estado;
+            $infraestructura->ae_zocalos = $request->ae_zocalos;
+            $infraestructura->ae_zocalos_nombre = $request->ae_zocalos_nombre;
+            $infraestructura->ae_zoc_estado = $request->ae_zoc_estado;
+            $infraestructura->ae_muros = $request->ae_muros;
+            $infraestructura->ae_muros_nombre = $request->ae_muros_nombre;
+            $infraestructura->ae_mur_estado = $request->ae_mur_estado;
+            $infraestructura->ae_techo = $request->ae_techo;
+            $infraestructura->ae_techo_nombre = $request->ae_techo_nombre;
+            $infraestructura->ae_tec_estado = $request->ae_tec_estado;
 
             // =============================================
             // DATOS DEL EDIFICIO
