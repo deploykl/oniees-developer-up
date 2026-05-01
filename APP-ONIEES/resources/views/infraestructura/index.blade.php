@@ -192,7 +192,7 @@
                 </form>
             </div>
         </div>
-
+        <!-- ✅ MODAL FUERA DEL FORMULARIO PRINCIPAL -->
         <!-- SIDEBAR DERECHO DE PROGRESO CON PESTAÑAS -->
         <div class="right-sidebar" x-data="progressSidebar()" x-init="initProgress()">
             <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden sticky top-20">
@@ -417,7 +417,9 @@
                 </div>
             </div>
         </div>
+
     </div>
+        @include('infraestructura.partials.modal.modal-edificacion')
 
 
 

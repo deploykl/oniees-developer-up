@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Establishment;
 use App\Models\Format;
+use App\Models\FormatIOne;
 use App\Models\Profesion;
 use App\Models\CondicionProfesional;
 use App\Models\RegimenLaboral;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\NivelesAtencion;
 use App\Models\TipoDocumento;
 use App\Models\FormatI;
+use App\Models\UPSS;
+use App\Models\TipoIntervencion;
 
 class InfraestructuraController extends Controller
 {
@@ -60,14 +63,25 @@ class InfraestructuraController extends Controller
         if (!$establecimiento) {
             $showSelector = true;
         }
-
+        // Cargar UPSS para el select
+        $upssList = UPSS::orderBy('nombre')->get();
+        // Cargar tipos de intervención para el select
+        $tiposIntervencion = TipoIntervencion::orderBy('nombre')->get();
         // Cargar el format usando la relación
         $format = $establecimiento ? $establecimiento->format : null;
 
         if ($establecimiento) {
             $infraestructura = FormatI::where('id_establecimiento', $establecimiento->id)->first();
         }
+        if ($establecimiento) {
+            $infraestructura = FormatI::where('id_establecimiento', $establecimiento->id)->first();
 
+            // Cargar edificaciones
+            $edificaciones = collect();
+            if ($infraestructura) {
+                $edificaciones = FormatIOne::where('id_format_i', $infraestructura->id)->get();
+            }
+        }
         // Preparar arrays para selects
         $tiposMaterial = [
             '' => 'Seleccione',
@@ -114,6 +128,12 @@ class InfraestructuraController extends Controller
             'estadosAcabado' => $estadosAcabado,
             'tiposPavimento' => $tiposPavimento,
             'opcionesSiNo' => $opcionesSiNo,
+            'edificaciones' => $edificaciones,  // ← AGREGAR ESTA LÍNEA
+            'upssList' => $upssList,  // ← AGREGAR ESTA LÍNEA
+            'tiposIntervencion' => $tiposIntervencion,
+
+
+
         ]);
     }
 
