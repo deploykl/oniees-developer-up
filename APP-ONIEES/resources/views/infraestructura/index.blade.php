@@ -1,4 +1,17 @@
 <x-app-layout>
+    <script>
+        // Store global para compartir el estado de las pestañas
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('tabs', {
+                activeTab: localStorage.getItem('activeTab') || 'datos-generales',
+
+                setActiveTab(tab) {
+                    this.activeTab = tab;
+                    localStorage.setItem('activeTab', tab);
+                }
+            });
+        });
+    </script>
     <x-slot name="title">Infraestructura - Sistema IPRESS</x-slot>
 
     <style>
@@ -152,21 +165,27 @@
                 @endif
             @endhasrole
 
-            <div x-data="{ activeTab: localStorage.getItem('activeTab') || 'datos-generales' }" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div x-data class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div class="border-b border-gray-200">
                     <nav class="flex -mb-px">
-                        <button @click="activeTab = 'datos-generales'"
-                            :class="{ 'border-blue-500 text-blue-600': activeTab === 'datos-generales', 'border-transparent text-gray-500': activeTab !== 'datos-generales' }"
+                        <button @click="$store.tabs.setActiveTab('datos-generales')"
+                            :class="{ 'border-blue-500 text-blue-600': $store.tabs
+                                .activeTab === 'datos-generales', 'border-transparent text-gray-500': $store.tabs
+                                    .activeTab !== 'datos-generales' }"
                             class="px-6 py-3 text-sm font-medium border-b-2 transition-colors">
                             <i class="fas fa-building mr-2"></i> Datos Generales
                         </button>
-                        <button @click="activeTab = 'infraestructura'"
-                            :class="{ 'border-teal-500 text-teal-600': activeTab === 'infraestructura', 'border-transparent text-gray-500': activeTab !== 'infraestructura' }"
+                        <button @click="$store.tabs.setActiveTab('infraestructura')"
+                            :class="{ 'border-teal-500 text-teal-600': $store.tabs
+                                .activeTab === 'infraestructura', 'border-transparent text-gray-500': $store.tabs
+                                    .activeTab !== 'infraestructura' }"
                             class="px-6 py-3 text-sm font-medium border-b-2 transition-colors">
                             <i class="fas fa-hard-hat mr-2"></i> Infraestructura
                         </button>
-                        <button @click="activeTab = 'servicios-basicos'"
-                            :class="{ 'border-cyan-500 text-cyan-600': activeTab === 'servicios-basicos', 'border-transparent text-gray-500': activeTab !== 'servicios-basicos' }"
+                        <button @click="$store.tabs.setActiveTab('servicios-basicos')"
+                            :class="{ 'border-cyan-500 text-cyan-600': $store.tabs
+                                .activeTab === 'servicios-basicos', 'border-transparent text-gray-500': $store.tabs
+                                    .activeTab !== 'servicios-basicos' }"
                             class="px-6 py-3 text-sm font-medium border-b-2 transition-colors">
                             <i class="fas fa-water mr-2"></i> Servicios Básicos
                         </button>
@@ -177,13 +196,13 @@
                     @csrf
                     <input type="hidden" name="id_establecimiento" value="{{ $establecimiento->id ?? '' }}">
 
-                    <div x-show="activeTab === 'datos-generales'" class="p-6">
+                    <div x-show="$store.tabs.activeTab === 'datos-generales'" class="p-6">
                         @include('infraestructura.partials.datos-generales')
                     </div>
-                    <div x-show="activeTab === 'servicios-basicos'" class="p-6" style="display: none;">
+                    <div x-show="$store.tabs.activeTab === 'servicios-basicos'" class="p-6" x-cloak>
                         @include('infraestructura.partials.servicios-basicos')
                     </div>
-                    <div x-show="activeTab === 'infraestructura'" class="p-6" style="display: none;">
+                    <div x-show="$store.tabs.activeTab === 'infraestructura'" class="p-6" x-cloak>
                         @include('infraestructura.partials.infraestructura')
                     </div>
                 </form>
@@ -223,19 +242,22 @@
                 <!-- PESTAÑAS DEL SIDEBAR -->
                 <div class="border-b border-gray-200">
                     <div class="flex">
-                        <button @click="activeSidebarTab = 'datos-generales'"
+                        <button
+                            @click="$store.tabs.setActiveTab('datos-generales'); activeSidebarTab = 'datos-generales'"
                             :class="activeSidebarTab === 'datos-generales' ? 'border-blue-500 text-blue-600 bg-blue-50' :
                                 'border-transparent text-gray-500 hover:text-gray-700'"
                             class="flex-1 px-3 py-2 text-xs font-medium border-b-2 transition-colors sidebar-tab">
                             <i class="fas fa-building mr-1"></i> Datos Grales
                         </button>
-                        <button @click="activeSidebarTab = 'infraestructura'"
+                        <button
+                            @click="$store.tabs.setActiveTab('infraestructura'); activeSidebarTab = 'infraestructura'"
                             :class="activeSidebarTab === 'infraestructura' ? 'border-teal-500 text-teal-600 bg-teal-50' :
                                 'border-transparent text-gray-500 hover:text-gray-700'"
                             class="flex-1 px-3 py-2 text-xs font-medium border-b-2 transition-colors sidebar-tab">
                             <i class="fas fa-hard-hat mr-1"></i> Infraestructura
                         </button>
-                        <button @click="activeSidebarTab = 'servicios-basicos'"
+                        <button
+                            @click="$store.tabs.setActiveTab('servicios-basicos'); activeSidebarTab = 'servicios-basicos'"
                             :class="activeSidebarTab === 'servicios-basicos' ? 'border-cyan-500 text-cyan-600 bg-cyan-50' :
                                 'border-transparent text-gray-500 hover:text-gray-700'"
                             class="flex-1 px-3 py-2 text-xs font-medium border-b-2 transition-colors sidebar-tab">
@@ -497,62 +519,7 @@
                             </div>
                         </div>
 
-                        <div @click="scrollToSection('sec-entorno')"
-                            class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-2"><i
-                                        class="fas fa-tree text-teal-500 text-xs w-4"></i><span
-                                        class="text-xs font-medium">3.3.3 Estado del Entorno</span></div>
-                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
-                                        :class="sections['sec-entorno'].percent === 100 ? 'text-green-600' : 'text-gray-500'"
-                                        x-text="sections['sec-entorno'].completed + '/' + sections['sec-entorno'].total"></span><span
-                                        class="text-xs text-gray-400"
-                                        x-text="'(' + sections['sec-entorno'].percent + '%)'"></span></div>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
-                                <div class="bg-teal-500 h-1 rounded-full transition-all"
-                                    :style="{ width: sections['sec-entorno'].percent + '%' }"></div>
-                            </div>
-                        </div>
-
-                        <div @click="scrollToSection('sec-observaciones')"
-                            class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-2"><i
-                                        class="fas fa-comment-dots text-teal-500 text-xs w-4"></i><span
-                                        class="text-xs font-medium">3.4 Observaciones</span></div>
-                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
-                                        :class="sections['sec-observaciones'].percent === 100 ? 'text-green-600' :
-                                            'text-gray-500'"
-                                        x-text="sections['sec-observaciones'].completed + '/' + sections['sec-observaciones'].total"></span><span
-                                        class="text-xs text-gray-400"
-                                        x-text="'(' + sections['sec-observaciones'].percent + '%)'"></span></div>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
-                                <div class="bg-teal-500 h-1 rounded-full transition-all"
-                                    :style="{ width: sections['sec-observaciones'].percent + '%' }"></div>
-                            </div>
-                        </div>
-
-                        <div @click="scrollToSection('sec-tipo-intervencion')"
-                            class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-2"><i
-                                        class="fas fa-clipboard-list text-teal-500 text-xs w-4"></i><span
-                                        class="text-xs font-medium">3.5 Tipo Intervención</span></div>
-                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
-                                        :class="sections['sec-tipo-intervencion'].percent === 100 ? 'text-green-600' :
-                                            'text-gray-500'"
-                                        x-text="sections['sec-tipo-intervencion'].completed + '/' + sections['sec-tipo-intervencion'].total"></span><span
-                                        class="text-xs text-gray-400"
-                                        x-text="'(' + sections['sec-tipo-intervencion'].percent + '%)'"></span></div>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
-                                <div class="bg-teal-500 h-1 rounded-full transition-all"
-                                    :style="{ width: sections['sec-tipo-intervencion'].percent + '%' }"></div>
-                            </div>
-                        </div>
-
+                    <!--  !-- Solo mostrar esta sección si el establecimiento es un hospital 
                         <div @click="scrollToSection('sec-operatividad')"
                             class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
                             <div class="flex justify-between items-center">
@@ -571,7 +538,7 @@
                                     :style="{ width: sections['sec-operatividad'].percent + '%' }"></div>
                             </div>
                         </div>
-
+-->
                         <div @click="scrollToSection('sec-fotos')"
                             class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
                             <div class="flex justify-between items-center">
@@ -1074,12 +1041,12 @@
                     },
                     'sec-edificaciones': {
                         completed: 0,
-                        total: 10, // Aumentado para contar los campos de acabados interiores
+                        total: 1,
                         percent: 0
                     },
                     'sec-analisis-infra': {
                         completed: 0,
-                        total: 1,
+                        total: 23,
                         percent: 0
                     },
                     'sec-entorno': {
@@ -1140,7 +1107,7 @@
                     // AGUA
                     'sec-agua': {
                         completed: 0,
-                        total: 12, // Campos: se_agua, se_agua_otro, se_agua_operativo, se_agua_estado, se_sevicio_semana, se_horas_dia, se_sevicio_semana_calculo, se_servicio_agua(2 radios), se_empresa_agua
+                        total: 8, // Campos: se_agua, se_agua_otro, se_agua_operativo, se_agua_estado, se_sevicio_semana, se_horas_dia, se_sevicio_semana_calculo, se_servicio_agua(2 radios), se_empresa_agua
                         percent: 0
                     },
                     // DESAGÜE
@@ -1224,6 +1191,7 @@
                 totalProgress: 0,
 
                 initProgress() {
+                    // Escuchar eventos de progreso de secciones
                     window.addEventListener('sectionProgress', (e) => {
                         if (this.sections[e.detail.section]) {
                             this.sections[e.detail.section].completed = e.detail.filled;
@@ -1233,8 +1201,17 @@
                         }
                     });
 
+                    // 👇 NUEVO: Sincronizar activeSidebarTab con el store global
+                    this.$watch('$store.tabs.activeTab', (value) => {
+                        this.activeSidebarTab = value;
+                        localStorage.setItem('activeSidebarTab', value);
+                    });
+
                     // Forzar eventos iniciales después de que todo cargue
                     setTimeout(() => {
+                        // Sincronizar estado inicial
+                        this.activeSidebarTab = Alpine.store('tabs').activeTab;
+
                         // Disparar eventos manualmente para seguridad y patrimonio
                         const secSeguridad = document.getElementById('sec-seguridad');
                         if (secSeguridad && secSeguridad.__x) {
@@ -1278,15 +1255,19 @@
                             'sec-personal-discapacitado'
                         ];
 
+                        // Usar el store global para cambiar la pestaña
                         if (seccionesDatosGenerales.includes(sectionId)) {
-                            document.querySelector('[x-on\\:click="activeTab = \'datos-generales\'"]')?.click();
+                            window.Alpine.store('tabs').setActiveTab('datos-generales');
+                            this.activeSidebarTab = 'datos-generales';
                         } else if (seccionesInfraestructura.includes(sectionId)) {
-                            document.querySelector('[x-on\\:click="activeTab = \'infraestructura\'"]')?.click();
+                            window.Alpine.store('tabs').setActiveTab('infraestructura');
+                            this.activeSidebarTab = 'infraestructura';
                         } else if (seccionesServiciosBasicos.includes(sectionId)) {
-                            document.querySelector('[x-on\\:click="activeTab = \'servicios-basicos\'"]')?.click();
+                            window.Alpine.store('tabs').setActiveTab('servicios-basicos');
+                            this.activeSidebarTab = 'servicios-basicos';
                         }
 
-                        // Calcular el desplazamiento para no tapar el contenido con el header
+                        // Resto del código de scroll...
                         setTimeout(() => {
                             const headerOffset = 90;
                             const elementPosition = element.getBoundingClientRect().top;
@@ -1295,7 +1276,7 @@
                                 top: offsetPosition,
                                 behavior: 'smooth'
                             });
-                        }, 150); // Pequeño delay para que la pestaña termine de cambiar
+                        }, 150);
                     }
                 }
             };

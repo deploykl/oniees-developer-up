@@ -1,216 +1,158 @@
- <div class="bg-gradient-to-r from-teal-50 to-white px-6 py-4 border-b border-gray-200">
-     <h3 class="text-lg font-semibold text-teal-800 flex items-center gap-2">
-         <i class="fas fa-building"></i> 1. SERVICIOS BÁSICOS DEL ESTABLECIMIENTO
-     </h3>
- </div>
- <!-- ============================================ -->
- <!-- AGUA -->
- <!-- ============================================ -->
- <div id="sec-agua" class="form-section" x-data="sectionCounter('sec-agua', 12)" x-init="init()">
-     <div class="section-header" @click="toggle()">
-         <div class="section-header-left">
-             <h2 class="section-title">
-                 <i class="fas fa-tint text-blue-500"></i> 1. Agua
-                 <span class="section-badge">Servicio básico</span>
-                 <i class="fas accordion-icon" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
-             </h2>
-             <p class="section-subtitle">Abastecimiento y calidad del agua</p>
-         </div>
-         <div class="progress-counter" @click.stop>
-             <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span
-                         x-text="total"></span></span></div>
-             <div class="counter-bar">
-                 <div class="counter-bar-fill"
-                     :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
-                     :style="{ width: percent + '%' }"></div>
-             </div>
-             <div class="counter-percent"
-                 :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
-                 x-text="percent + '%'">
-             </div>
-         </div>
-     </div>
-     <div class="section-content" :class="open ? '' : 'hidden'">
-         <div class="form-grid">
-             <!-- El agua que utilizan en la ipress procede principalmente de -->
-             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                 <div>
-                     <label class="block text-sm font-medium text-gray-700 mb-2">
-                         El agua que utilizan en la ipress procede principalmente de: <span
-                             class="text-red-500">*</span>
-                     </label>
-                     <select name="se_agua" id="se_agua" class="w-full rounded-lg border-gray-300">
-                         <option value="">Seleccione</option>
-                         <option value="RP"
-                             {{ old('se_agua', $format_ii->se_agua ?? '') == 'RP' ? 'selected' : '' }}>Red Pública
-                         </option>
-                         <option value="CCS"
-                             {{ old('se_agua', $format_ii->se_agua ?? '') == 'CCS' ? 'selected' : '' }}>Camion-cisterna
-                             u
-                             otro similar</option>
-                         <option value="P"
-                             {{ old('se_agua', $format_ii->se_agua ?? '') == 'P' ? 'selected' : '' }}>
-                             Pozo</option>
-                         <option value="MP"
-                             {{ old('se_agua', $format_ii->se_agua ?? '') == 'MP' ? 'selected' : '' }}>Manantial o
-                             puquio
-                         </option>
-                         <option value="RALL"
-                             {{ old('se_agua', $format_ii->se_agua ?? '') == 'RALL' ? 'selected' : '' }}>Rio, acequia,
-                             lago, laguna</option>
-                         <option value="O"
-                             {{ old('se_agua', $format_ii->se_agua ?? '') == 'O' ? 'selected' : '' }}>
-                             Otro</option>
-                     </select>
-                 </div>
-                 <div id="se_agua_otro_div"
-                     style="display: {{ old('se_agua', $format_ii->se_agua ?? '') == 'O' ? 'block' : 'none' }};">
-                     <label class="block text-sm font-medium text-gray-700 mb-2">Especifique otro origen del
-                         agua:</label>
-                     <input type="text" name="se_agua_otro"
-                         value="{{ old('se_agua_otro', $format_ii->se_agua_otro ?? '') }}"
-                         class="w-full rounded-lg border-gray-300" placeholder="Ej: Agua embotellada, etc.">
-                 </div>
-             </div>
-
-             <!-- ¿Se encuentra operativo? -->
-             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                 <div>
-                     <label class="block text-sm font-medium text-gray-700 mb-2">¿Se encuentra operativo? <span
-                             class="text-red-500">*</span></label>
-                     <div class="flex gap-6">
-                         <label class="flex items-center gap-2">
-                             <input type="radio" name="se_agua_operativo" value="SI"
-                                 class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                                 {{ old('se_agua_operativo', $format_ii->se_agua_operativo ?? '') == 'SI' ? 'checked' : '' }}>
-                             <span>SI</span>
-                         </label>
-                         <label class="flex items-center gap-2">
-                             <input type="radio" name="se_agua_operativo" value="NO"
-                                 class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                                 {{ old('se_agua_operativo', $format_ii->se_agua_operativo ?? '') == 'NO' ? 'checked' : '' }}>
-                             <span>NO</span>
-                         </label>
-                     </div>
-                 </div>
-
-                 <div>
-                     <label class="block text-sm font-medium text-gray-700 mb-2">Estado de conservación: <span
-                             class="text-red-500">*</span></label>
-                     <div class="flex gap-6">
-                         <label class="flex items-center gap-2">
-                             <input type="radio" name="se_agua_estado" value="B"
-                                 class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                                 {{ old('se_agua_estado', $format_ii->se_agua_estado ?? '') == 'B' ? 'checked' : '' }}>
-                             <span>Bueno (B)</span>
-                         </label>
-                         <label class="flex items-center gap-2">
-                             <input type="radio" name="se_agua_estado" value="R"
-                                 class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                                 {{ old('se_agua_estado', $format_ii->se_agua_estado ?? '') == 'R' ? 'checked' : '' }}>
-                             <span>Regular (R)</span>
-                         </label>
-                         <label class="flex items-center gap-2">
-                             <input type="radio" name="se_agua_estado" value="M"
-                                 class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                                 {{ old('se_agua_estado', $format_ii->se_agua_estado ?? '') == 'M' ? 'checked' : '' }}>
-                             <span>Malo (M)</span>
-                         </label>
-                     </div>
-                 </div>
-             </div>
-
-             <!-- Días y horas de servicio -->
-             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                 <div>
-                     <label class="block text-sm font-medium text-gray-700 mb-2">¿La IPRESS tiene el servicio de agua
-                         todos los días de la semana? <span class="text-red-500">*</span></label>
-                     <div class="flex gap-6">
-                         <label class="flex items-center gap-2">
-                             <input type="radio" name="se_sevicio_semana" value="SI"
-                                 class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                                 {{ old('se_sevicio_semana', $format_ii->se_sevicio_semana ?? '') == 'SI' ? 'checked' : '' }}>
-                             <span>SI</span>
-                         </label>
-                         <label class="flex items-center gap-2">
-                             <input type="radio" name="se_sevicio_semana" value="NO"
-                                 class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                                 {{ old('se_sevicio_semana', $format_ii->se_sevicio_semana ?? '') == 'NO' ? 'checked' : '' }}>
-                             <span>NO</span>
-                         </label>
-                     </div>
-                 </div>
-             </div>
-
-             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                 <div>
-                     <label class="block text-sm font-medium text-gray-700 mb-2">Horas al día: <span
-                             class="text-red-500">*</span></label>
-                     <input type="number" name="se_horas_dia" id="se_horas_dia"
-                         value="{{ old('se_horas_dia', $format_ii->se_horas_dia ?? '24') }}"
-                         class="w-full rounded-lg border-gray-300" min="0" max="24" step="1">
-                 </div>
-                 <div>
-                     <label class="block text-sm font-medium text-gray-700 mb-2">Horas a la semana:</label>
-                     <input type="number" name="se_sevicio_semana_calculo" id="se_sevicio_semana_calculo"
-                         value="{{ old('se_sevicio_semana_calculo', $format_ii->se_sevicio_semana_calculo ?? '168') }}"
-                         class="w-full rounded-lg border-gray-300 bg-gray-100" readonly>
-                 </div>
-             </div>
-
-             <!-- Pago del servicio -->
-             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                 <div>
-                     <label class="block text-sm font-medium text-gray-700 mb-2">¿Pagan por el servicio de agua? <span
-                             class="text-red-500">*</span></label>
-                     <div class="flex gap-6">
-                         <label class="flex items-center gap-2">
-                             <input type="radio" name="se_servicio_agua" value="SI" id="se_agua_paga_si"
-                                 class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                                 {{ old('se_servicio_agua', $format_ii->se_servicio_agua ?? '') == 'SI' ? 'checked' : '' }}>
-                             <span>SI</span>
-                         </label>
-                         <label class="flex items-center gap-2">
-                             <input type="radio" name="se_servicio_agua" value="NO" id="se_agua_paga_no"
-                                 class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                                 {{ old('se_servicio_agua', $format_ii->se_servicio_agua ?? '') == 'NO' ? 'checked' : '' }}>
-                             <span>NO</span>
-                         </label>
-                     </div>
-                 </div>
-             </div>
-
-             <!-- Empresa/Entidad a la que se paga -->
-             <div id="se_agua_empresa_div"
-                 style="display: {{ old('se_servicio_agua', $format_ii->se_servicio_agua ?? '') == 'SI' ? 'block' : 'none' }};">
-                 <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
-                     <div>
-                         <label class="block text-sm font-medium text-gray-700 mb-2">¿A qué empresa o entidad se paga
-                             por el servicio de agua? <span class="text-red-500">*</span></label>
-                         <select name="se_empresa_agua" id="se_agua_empresa"
-                             class="w-full rounded-lg border-gray-300">
-                             <option value="">Seleccione</option>
-                             <option value="EPS"
-                                 {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'EPS' ? 'selected' : '' }}>
-                                 Empresa prestadora de servicio</option>
-                             <option value="M"
-                                 {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'M' ? 'selected' : '' }}>
-                                 Municipalidad</option>
-                             <option value="PC"
-                                 {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'PC' ? 'selected' : '' }}>
-                                 Organización comunal</option>
-                             <option value="C"
-                                 {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'C' ? 'selected' : '' }}>
-                                 Camion cisterna (pago directo)</option>
-                         </select>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
+<div class="px-6 py-5 border-b border-gray-100">
+    <div class="flex items-center gap-3">
+        <div class="w-1 h-8 bg-teal-500 rounded-full"></div>
+        <div>
+            <h3 class="text-base font-semibold text-gray-800">SERVICIOS BÁSICOS DEL ESTABLECIMIENTO</h3>
+            <p class="text-xs text-gray-500 mt-0.5">Agua, electricidad, comunicaciones y más</p>
+        </div>
+    </div>
+</div>
 
 
+<!-- ============================================ -->
+<!-- AGUA -->
+<!-- ============================================ -->
+<div id="sec-agua" class="form-section" x-data="sectionCounter('sec-agua', 8)" x-init="init()">
+    <div class="section-header" @click="toggle()">
+        <div class="section-header-left">
+            <h2 class="section-title">
+                <div class="w-7 h-7 bg-cyan-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-tint text-cyan-500 text-sm"></i>
+                </div>
+                1. Agua
+                <span class="section-badge">Servicio básico</span>
+                <i class="fas accordion-icon ml-auto" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </h2>
+            <p class="section-subtitle">Abastecimiento y calidad del agua</p>
+        </div>
+        <div class="progress-counter" @click.stop>
+            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span x-text="total"></span></span></div>
+            <div class="counter-bar">
+                <div class="counter-bar-fill" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" :style="{ width: percent + '%' }"></div>
+            </div>
+            <div class="counter-percent" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" x-text="percent + '%'"></div>
+        </div>
+    </div>
+    <div class="section-content" :class="open ? '' : 'hidden'">
+        <div class="p-5 space-y-5">
+            <!-- Origen del agua -->
+            <div class="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+                            El agua que utilizan en la IPRESS procede principalmente de: <span class="text-cyan-500">*</span>
+                        </label>
+                        <select name="se_agua" id="se_agua" class="w-full rounded-lg border-gray-200 bg-white focus:border-cyan-400 focus:ring-cyan-400 text-sm">
+                            <option value="">Seleccione</option>
+                            <option value="RP" {{ old('se_agua', $format_ii->se_agua ?? '') == 'RP' ? 'selected' : '' }}>Red Pública</option>
+                            <option value="CCS" {{ old('se_agua', $format_ii->se_agua ?? '') == 'CCS' ? 'selected' : '' }}>Camion-cisterna u otro similar</option>
+                            <option value="P" {{ old('se_agua', $format_ii->se_agua ?? '') == 'P' ? 'selected' : '' }}>Pozo</option>
+                            <option value="MP" {{ old('se_agua', $format_ii->se_agua ?? '') == 'MP' ? 'selected' : '' }}>Manantial o puquio</option>
+                            <option value="RALL" {{ old('se_agua', $format_ii->se_agua ?? '') == 'RALL' ? 'selected' : '' }}>Rio, acequia, lago, laguna</option>
+                            <option value="O" {{ old('se_agua', $format_ii->se_agua ?? '') == 'O' ? 'selected' : '' }}>Otro</option>
+                        </select>
+                    </div>
+                    <div id="se_agua_otro_div" style="display: {{ old('se_agua', $format_ii->se_agua ?? '') == 'O' ? 'block' : 'none' }};">
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">Especifique otro origen del agua:</label>
+                        <input type="text" name="se_agua_otro" value="{{ old('se_agua_otro', $format_ii->se_agua_otro ?? '') }}" class="w-full rounded-lg border-gray-200 bg-white focus:border-cyan-400 focus:ring-cyan-400 text-sm" placeholder="Ej: Agua embotellada, etc.">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operatividad y estado de conservación -->
+            <div class="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">¿Se encuentra operativo? <span class="text-cyan-500">*</span></label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="se_agua_operativo" value="SI" class="w-4 h-4 text-cyan-500 focus:ring-cyan-400 focus:ring-offset-0 border-gray-300" {{ old('se_agua_operativo', $format_ii->se_agua_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">SI</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="se_agua_operativo" value="NO" class="w-4 h-4 text-cyan-500 focus:ring-cyan-400 focus:ring-offset-0 border-gray-300" {{ old('se_agua_operativo', $format_ii->se_agua_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">NO</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">Estado de conservación: <span class="text-cyan-500">*</span></label>
+                        <div class="flex gap-5">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="se_agua_estado" value="B" class="w-4 h-4 text-cyan-500 focus:ring-cyan-400 focus:ring-offset-0 border-gray-300" {{ old('se_agua_estado', $format_ii->se_agua_estado ?? '') == 'B' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">Bueno (B)</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="se_agua_estado" value="R" class="w-4 h-4 text-cyan-500 focus:ring-cyan-400 focus:ring-offset-0 border-gray-300" {{ old('se_agua_estado', $format_ii->se_agua_estado ?? '') == 'R' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">Regular (R)</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="se_agua_estado" value="M" class="w-4 h-4 text-cyan-500 focus:ring-cyan-400 focus:ring-offset-0 border-gray-300" {{ old('se_agua_estado', $format_ii->se_agua_estado ?? '') == 'M' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">Malo (M)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Días y horas de servicio -->
+            <div class="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">¿La IPRESS tiene el servicio de agua todos los días de la semana? <span class="text-cyan-500">*</span></label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="se_sevicio_semana" value="SI" class="w-4 h-4 text-cyan-500 focus:ring-cyan-400 focus:ring-offset-0 border-gray-300" {{ old('se_sevicio_semana', $format_ii->se_sevicio_semana ?? '') == 'SI' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">SI</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="se_sevicio_semana" value="NO" class="w-4 h-4 text-cyan-500 focus:ring-cyan-400 focus:ring-offset-0 border-gray-300" {{ old('se_sevicio_semana', $format_ii->se_sevicio_semana ?? '') == 'NO' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">NO</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">Horas al día: <span class="text-cyan-500">*</span></label>
+                        <input type="number" name="se_horas_dia" id="se_horas_dia" value="{{ old('se_horas_dia', $format_ii->se_horas_dia ?? '24') }}" class="w-full rounded-lg border-gray-200 bg-white focus:border-cyan-400 focus:ring-cyan-400 text-sm" min="0" max="24" step="1">
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">Horas a la semana:</label>
+                    <input type="number" name="se_sevicio_semana_calculo" id="se_sevicio_semana_calculo" value="{{ old('se_sevicio_semana_calculo', $format_ii->se_sevicio_semana_calculo ?? '168') }}" class="w-full rounded-lg border-gray-200 bg-gray-100 text-sm" readonly>
+                </div>
+            </div>
+
+            <!-- Pago del servicio -->
+            <div class="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                <div class="grid grid-cols-1 gap-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">¿Pagan por el servicio de agua? <span class="text-cyan-500">*</span></label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="se_servicio_agua" value="SI" id="se_agua_paga_si" class="w-4 h-4 text-cyan-500 focus:ring-cyan-400 focus:ring-offset-0 border-gray-300" {{ old('se_servicio_agua', $format_ii->se_servicio_agua ?? '') == 'SI' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">SI</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="se_servicio_agua" value="NO" id="se_agua_paga_no" class="w-4 h-4 text-cyan-500 focus:ring-cyan-400 focus:ring-offset-0 border-gray-300" {{ old('se_servicio_agua', $format_ii->se_servicio_agua ?? '') == 'NO' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">NO</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="se_agua_empresa_div" style="display: {{ old('se_servicio_agua', $format_ii->se_servicio_agua ?? '') == 'SI' ? 'block' : 'none' }};">
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">¿A qué empresa o entidad se paga por el servicio de agua? <span class="text-cyan-500">*</span></label>
+                        <select name="se_empresa_agua" id="se_agua_empresa" class="w-full rounded-lg border-gray-200 bg-white focus:border-cyan-400 focus:ring-cyan-400 text-sm">
+                            <option value="">Seleccione</option>
+                            <option value="EPS" {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'EPS' ? 'selected' : '' }}>Empresa prestadora de servicio</option>
+                            <option value="M" {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'M' ? 'selected' : '' }}>Municipalidad</option>
+                            <option value="PC" {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'PC' ? 'selected' : '' }}>Organización comunal</option>
+                            <option value="C" {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'C' ? 'selected' : '' }}>Camion cisterna (pago directo)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
