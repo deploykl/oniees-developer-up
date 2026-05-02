@@ -2752,61 +2752,8 @@
         }
     }
 
-    // Evento cuando se cambia el puntaje
-    const puntajeInput = document.getElementById('puntaje_obtenido');
-    if (puntajeInput) {
-        puntajeInput.addEventListener('input', calcularIntervencion);
-        puntajeInput.addEventListener('change', calcularIntervencion);
-        // Calcular al cargar la página si hay un valor
-        calcularIntervencion();
-    }
+  
 
-    function calcularPuntajeTotal() {
-        // Lista de todas las letras de la A a la N
-        const letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'];
-        let total = 0;
-
-        for (let letra of letras) {
-            // Verificar si está seleccionado "SI" (valor 1) o "NO" (valor 0)
-            const radioSi = document.querySelector(`input[name="infraestructura_option_${letra}"][value="1"]:checked`);
-
-            if (radioSi) {
-                // Si está seleccionado SI, obtener el valor de la valoración
-                const selectValor = document.querySelector(`select[name="infraestructura_valor_${letra}"]`);
-                if (selectValor && selectValor.value) {
-                    const valor = parseInt(selectValor.value);
-                    if (!isNaN(valor)) {
-                        total += valor;
-                    }
-                }
-            }
-        }
-
-        return total;
-    }
-
-    function actualizarPuntajeYIntervalo() {
-        const puntajeTotal = calcularPuntajeTotal();
-        const puntajeInput = document.getElementById('puntaje_obtenido');
-        const intervaloInput = document.getElementById('puntaje_intervalo');
-        const tipoInput = document.getElementById('tipo_intervencion_resultante');
-
-        if (puntajeInput) {
-            puntajeInput.value = puntajeTotal;
-        }
-
-        // Calcular intervalo y tipo de intervención
-        if (puntajeTotal >= 0 && puntajeTotal <= 65) {
-            if (intervaloInput) intervaloInput.value = '0 - 65';
-            if (tipoInput) tipoInput.value = 'SERVICIO y/o MANTENIMIENTO';
-        } else if (puntajeTotal > 65) {
-            if (intervaloInput) intervaloInput.value = 'Mayor a 65';
-            if (tipoInput) tipoInput.value = 'IOARR y/o PIP';
-        } else {
-            if (intervaloInput) intervaloInput.value = '';
-            if (tipoInput) tipoInput.value = '';
-        }
-    }
     // ============================================
     // FUNCIONES REUTILIZABLES PARA PUNTAJE TOTAL
     // ============================================
@@ -3025,30 +2972,7 @@
         }
     }
 
-    function editFoto(id, tipo, nombre) {
-        if (!formatIId || formatIId === 0) {
-            alert('Primero debe guardar los datos de infraestructura');
-            return;
-        }
-
-        document.getElementById('fotoModal').classList.remove('hidden');
-        document.getElementById('modalFotoTitle').innerText = 'Editar Foto';
-        document.getElementById('foto_id').value = id;
-
-        // Para edición, no es obligatorio seleccionar un archivo
-        const archivoInput = document.getElementById('foto_archivo');
-        if (archivoInput) {
-            archivoInput.required = false;
-            archivoInput.value = '';
-        }
-
-        // Mostrar aviso de que puede dejar el archivo vacío
-        const aviso = document.getElementById('editar_aviso');
-        if (aviso) aviso.style.display = 'block';
-
-        const requiredSpan = document.getElementById('archivo_required');
-        if (requiredSpan) requiredSpan.style.display = 'none';
-    }
+ 
 
     function closeFotoModal() {
         document.getElementById('fotoModal').classList.add('hidden');
@@ -3057,12 +2981,6 @@
         document.getElementById('foto_archivo').value = '';
     }
 
-    function closeFotoModal() {
-        document.getElementById('fotoModal').classList.add('hidden');
-        // Resetear el formulario
-        document.getElementById('foto_id').value = '';
-        document.getElementById('foto_archivo').value = '';
-    }
 
     function verFoto(url, nombre) {
         console.log('Ver foto:', url, nombre);
@@ -3130,69 +3048,8 @@
     }
 
 
-    function addFotoRow(data) {
-        const noFotos = document.getElementById('no-fotos');
-        if (noFotos) noFotos.remove();
 
-        const tbody = document.getElementById('tabla-fotos');
-        if (!tbody) return;
-
-        const rowHtml = `
-        <tr id="foto-${data.id}">
-            <td class="border px-4 py-2">
-                <a href="${data.url}" target="_blank" class="text-teal-600 hover:text-teal-800">
-                    ${escapeHtml(data.nombre)}
-                </a>
-              </td>
-            <td class="border px-4 py-2">${data.size || '-'}</td>
-            <td class="border px-4 py-2">${data.created_at ? new Date(data.created_at).toLocaleDateString() : '-'}</td>
-            <td class="border px-4 py-2 text-center">
-                <button type="button" onclick="verFoto('${data.url}', '${escapeHtml(data.nombre)}')"
-                    class="text-blue-600 hover:text-blue-800 mr-2" title="Ver">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button type="button" onclick="editFoto(${data.id}, ${data.tipo || 1}, '${escapeHtml(data.nombre)}')"
-                    class="text-green-600 hover:text-green-800 mr-2" title="Editar">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button type="button" onclick="deleteFoto(${data.id})"
-                    class="text-red-600 hover:text-red-800" title="Eliminar">
-                    <i class="fas fa-trash"></i>
-                </button>
-              </td>
-         </tr>
-    `;
-        tbody.insertAdjacentHTML('beforeend', rowHtml);
-    }
-
-    function updateFotoRow(data) {
-        const row = document.getElementById(`foto-${data.id}`);
-        if (row) {
-            row.innerHTML = `
-            <td class="border px-4 py-2">
-                <a href="${data.url}" target="_blank" class="text-teal-600 hover:text-teal-800">
-                    ${escapeHtml(data.nombre)}
-                </a>
-             </td>
-            <td class="border px-4 py-2">${data.size || '-'}</td>
-            <td class="border px-4 py-2">${data.created_at ? new Date(data.created_at).toLocaleDateString() : '-'}</td>
-            <td class="border px-4 py-2 text-center">
-                <button type="button" onclick="verFoto('${data.url}', '${escapeHtml(data.nombre)}')"
-                    class="text-blue-600 hover:text-blue-800 mr-2" title="Ver">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button type="button" onclick="editFoto(${data.id}, ${data.tipo || 1}, '${escapeHtml(data.nombre)}')"
-                    class="text-green-600 hover:text-green-800 mr-2" title="Editar">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button type="button" onclick="deleteFoto(${data.id})"
-                    class="text-red-600 hover:text-red-800" title="Eliminar">
-                    <i class="fas fa-trash"></i>
-                </button>
-             </td>
-        `;
-        }
-    }
+ 
 
     // Función auxiliar para escapar HTML
     function escapeHtml(str) {
