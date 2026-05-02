@@ -108,7 +108,10 @@ class Establishment extends Model
     {
         return $this->hasOne(Format::class, 'id_establecimiento');
     }
-
+    public function formatII()
+    {
+        return $this->hasOne(FormatII::class, 'id_establecimiento');
+    }
     /**
      * Métodos adicionales, mutadores, etc., según tus necesidades
      */

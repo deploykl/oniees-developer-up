@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\NivelesAtencion;
 use App\Models\TipoDocumento;
 use App\Models\FormatI;
+use App\Models\FormatII; // ← Agregar este import
+
 use App\Models\UPSS;
 use App\Models\TipoIntervencion;
 
@@ -71,7 +73,14 @@ class InfraestructuraController extends Controller
         $tiposIntervencion = TipoIntervencion::orderBy('nombre')->get();
         // Cargar el format usando la relación
         $format = $establecimiento ? $establecimiento->format : null;
+        // ============ NUEVO: Cargar FormatII ============
+        $format_ii = $establecimiento ? $establecimiento->formatII : null;
 
+        // Si no existe, crear una instancia vacía para la vista
+        if (!$format_ii && $establecimiento) {
+            $format_ii = new FormatII();
+            $format_ii->id_establecimiento = $establecimiento->id;
+        }
         $edificaciones = collect();
 
         if ($establecimiento) {
@@ -127,6 +136,7 @@ class InfraestructuraController extends Controller
         return view('infraestructura.index', [
             'establecimiento' => $establecimiento,
             'format' => $format,
+            'format_ii' => $format_ii, // ← AGREGAR ESTO
             'showSelector' => $showSelector,
             'user' => $user,
             'codigoBuscar' => $codigoBuscar,
@@ -191,6 +201,8 @@ class InfraestructuraController extends Controller
     /**
      * Guardar datos generales del establecimiento e infraestructura
      */
+
+
     public function save(Request $request)
     {
         try {
@@ -256,9 +268,16 @@ class InfraestructuraController extends Controller
             $establecimiento->coordenada_utm_norte = $request->coord_utm_norte;
             $establecimiento->coordenada_utm_este = $request->coord_utm_este;
 
-
-
             $establecimiento->save();
+
+            // =============================================
+            // CREAR FORMAT_II (SERVICIOS BÁSICOS) - AHORA SÍ, DESPUÉS DE SAVE
+            // =============================================
+            $format_ii = FormatII::where('id_establecimiento', $establecimiento->id)->first();
+            if (!$format_ii) {
+                $format_ii = new FormatII();
+                $format_ii->id_establecimiento = $establecimiento->id;
+            }
 
             // =============================================
             // 2. GUARDAR EN TABLA format
@@ -353,7 +372,6 @@ class InfraestructuraController extends Controller
             $infraestructura->pd_ins_comunic = $request->input('pd_ins_comunic');
             $infraestructura->pd_distribuicion = $request->input('pd_distribuicion');
 
-
             // =============================================
             // ACABADOS EXTERIORES (ae_)
             // =============================================
@@ -379,7 +397,7 @@ class InfraestructuraController extends Controller
             $infraestructura->sonatos = $request->sonatos;
             $infraestructura->pisos = $request->pisos;
             $infraestructura->area = $request->area;
-            $infraestructura->ubicacion = $request->ubicacion;  // ← AGREGAR ESTA LÍNEA
+            $infraestructura->ubicacion = $request->ubicacion;
             $infraestructura->material = $request->material;
             $infraestructura->material_nombre = $request->material_nombre;
 
@@ -548,7 +566,146 @@ class InfraestructuraController extends Controller
             $infraestructura->cv_option_9_text = $request->cv_option_9_text;
             $infraestructura->cv_option_10_text = $request->cv_option_10_text;
 */
+            // ============ AGUA ============
+            $format_ii->se_agua = $request->se_agua;
+            $format_ii->se_agua_operativo = $request->se_agua_operativo;
+            $format_ii->se_agua_otro = $request->se_agua_otro;
+            $format_ii->se_agua_estado = $request->se_agua_estado;
+            $format_ii->se_sevicio_semana = $request->se_sevicio_semana;
+            $format_ii->se_horas_dia = $request->se_horas_dia;
+            $format_ii->se_horas_semana = $request->se_horas_semana;
+            $format_ii->se_servicio_agua = $request->se_servicio_agua;
+            $format_ii->se_empresa_agua = $request->se_empresa_agua;
+            $format_ii->se_agua_option = $request->se_agua_option;
+            $format_ii->se_agua_fuente = $request->se_agua_fuente;
+            $format_ii->se_agua_proveedor_ruc = $request->se_agua_proveedor_ruc;
+            $format_ii->se_agua_proveedor = $request->se_agua_proveedor;
 
+            // ============ DESAGÜE ============
+            $format_ii->se_desague = $request->se_desague;
+            $format_ii->se_desague_otro = $request->se_desague_otro;
+            $format_ii->se_desague_operativo = $request->se_desague_operativo;
+            $format_ii->se_desague_estado = $request->se_desague_estado;
+            $format_ii->se_desague_option = $request->se_desague_option;
+            $format_ii->se_desague_fuente = $request->se_desague_fuente;
+            $format_ii->se_desague_proveedor_ruc = $request->se_desague_proveedor_ruc;
+            $format_ii->se_desague_proveedor = $request->se_desague_proveedor;
+
+            // ============ ELECTRICIDAD ============
+            $format_ii->se_electricidad = $request->se_electricidad;
+            $format_ii->se_electricidad_operativo = $request->se_electricidad_operativo;
+            $format_ii->se_electricidad_estado = $request->se_electricidad_estado;
+            $format_ii->se_electricidad_option = $request->se_electricidad_option;
+            $format_ii->se_electricidad_fuente = $request->se_electricidad_fuente;
+            $format_ii->se_electricidad_proveedor_ruc = $request->se_electricidad_proveedor_ruc;
+            $format_ii->se_electricidad_proveedor = $request->se_electricidad_proveedor;
+
+            // ============ TELEFONÍA ============
+            $format_ii->se_telefonia = $request->se_telefonia;
+            $format_ii->se_telefonia_operativo = $request->se_telefonia_operativo;
+            $format_ii->se_telefonia_estado = $request->se_telefonia_estado;
+            $format_ii->se_telefonia_option = $request->se_telefonia_option;
+            $format_ii->se_telefonia_fuente = $request->se_telefonia_fuente;
+            $format_ii->se_telefonia_proveedor_ruc = $request->se_telefonia_proveedor_ruc;
+            $format_ii->se_telefonia_proveedor = $request->se_telefonia_proveedor;
+
+            // ============ INTERNET ============
+            $format_ii->se_internet = $request->se_internet;
+            $format_ii->se_internet_estado = $request->se_internet_estado;
+            $format_ii->se_internet_option = $request->se_internet_option;
+            $format_ii->se_internet_fuente = $request->se_internet_fuente;
+            $format_ii->se_internet_proveedor_ruc = $request->se_internet_proveedor_ruc;
+            $format_ii->se_internet_proveedor = $request->se_internet_proveedor;
+            $format_ii->se_internet_operativo = $request->se_internet_operativo;
+            $format_ii->internet_operador = $request->internet_operador;
+            $format_ii->internet_option1 = $request->internet_option1;
+            $format_ii->internet_red = $request->internet_red;
+            $format_ii->internet_porcentaje = $request->internet_porcentaje;
+            $format_ii->internet_transmision = $request->internet_transmision;
+            $format_ii->internet_option2 = $request->internet_option2;
+            $format_ii->internet_servicio = $request->internet_servicio;
+
+            // ============ RED ============
+            $format_ii->se_red = $request->se_red;
+            $format_ii->se_red_operativo = $request->se_red_operativo;
+            $format_ii->se_red_estado = $request->se_red_estado;
+            $format_ii->se_red_option = $request->se_red_option;
+            $format_ii->se_red_fuente = $request->se_red_fuente;
+            $format_ii->se_red_proveedor_ruc = $request->se_red_proveedor_ruc;
+            $format_ii->se_red_proveedor = $request->se_red_proveedor;
+
+            // ============ GAS ============
+            $format_ii->se_gas = $request->se_gas;
+            $format_ii->se_gas_operativo = $request->se_gas_operativo;
+            $format_ii->se_gas_estado = $request->se_gas_estado;
+            $format_ii->se_gas_option = $request->se_gas_option;
+            $format_ii->se_gas_fuente = $request->se_gas_fuente;
+            $format_ii->se_gas_proveedor_ruc = $request->se_gas_proveedor_ruc;
+            $format_ii->se_gas_proveedor = $request->se_gas_proveedor;
+
+            // ============ RESIDUOS SÓLIDOS ============
+            $format_ii->se_residuos = $request->se_residuos;
+            $format_ii->se_residuos_operativo = $request->se_residuos_operativo;
+            $format_ii->se_residuos_estado = $request->se_residuos_estado;
+            $format_ii->se_residuos_option = $request->se_residuos_option;
+            $format_ii->se_residuos_fuente = $request->se_residuos_fuente;
+            $format_ii->se_residuos_proveedor_ruc = $request->se_residuos_proveedor_ruc;
+            $format_ii->se_residuos_proveedor = $request->se_residuos_proveedor;
+
+            // ============ RESIDUOS HOSPITALARIOS ============
+            $format_ii->se_residuos_h = $request->se_residuos_h;
+            $format_ii->se_residuos_h_operativo = $request->se_residuos_h_operativo;
+            $format_ii->se_residuos_h_estado = $request->se_residuos_h_estado;
+            $format_ii->se_residuos_h_option = $request->se_residuos_h_option;
+            $format_ii->se_residuos_h_fuente = $request->se_residuos_h_fuente;
+            $format_ii->se_residuos_h_proveedor_ruc = $request->se_residuos_h_proveedor_ruc;
+            $format_ii->se_residuos_h_proveedor = $request->se_residuos_h_proveedor;
+
+            // ============ SERVICIOS COMPLEMENTARIOS ============
+            $format_ii->sc_servicio = $request->sc_servicio;
+            $format_ii->sc_servicio_operativo = $request->sc_servicio_operativo;
+            $format_ii->sc_servicio_estado = $request->sc_servicio_estado;
+            $format_ii->sc_servicio_option = $request->sc_servicio_option;
+            $format_ii->sc_servicio_fuente = $request->sc_servicio_fuente;
+            $format_ii->sc_servicio_proveedor_ruc = $request->sc_servicio_proveedor_ruc;
+            $format_ii->sc_servicio_proveedor = $request->sc_servicio_proveedor;
+
+            // ============ SSHH ============
+            $format_ii->sc_sshh = $request->sc_sshh;
+            $format_ii->sc_sshh_operativo = $request->sc_sshh_operativo;
+            $format_ii->sc_sshh_estado = $request->sc_sshh_estado;
+            $format_ii->sc_sshh_option = $request->sc_sshh_option;
+            $format_ii->sc_sshh_fuente = $request->sc_sshh_fuente;
+            $format_ii->sc_sshh_proveedor_ruc = $request->sc_sshh_proveedor_ruc;
+            $format_ii->sc_sshh_proveedor = $request->sc_sshh_proveedor;
+
+            // ============ PERSONAL ============
+            $format_ii->sc_personal = $request->sc_personal;
+            $format_ii->sc_personal_operativo = $request->sc_personal_operativo;
+            $format_ii->sc_personal_estado = $request->sc_personal_estado;
+            $format_ii->sc_personal_option = $request->sc_personal_option;
+            $format_ii->sc_personal_fuente = $request->sc_personal_fuente;
+            $format_ii->sc_personal_proveedor_ruc = $request->sc_personal_proveedor_ruc;
+            $format_ii->sc_personal_proveedor = $request->sc_personal_proveedor;
+
+            // ============ VESTIDORES ============
+            $format_ii->sc_vestidores = $request->sc_vestidores;
+            $format_ii->sc_vestidores_estado = $request->sc_vestidores_estado;
+            $format_ii->sc_vestidores_option = $request->sc_vestidores_option;
+            $format_ii->sc_vestidores_fuente = $request->sc_vestidores_fuente;
+            $format_ii->sc_vestidores_proveedor_ruc = $request->sc_vestidores_proveedor_ruc;
+            $format_ii->sc_vestidores_proveedor = $request->sc_vestidores_proveedor;
+
+            // ============ TELEVISIÓN ============
+            $format_ii->televicion = $request->televicion;
+            $format_ii->televicion_operador = $request->televicion_operador;
+            $format_ii->televicion_option1 = $request->televicion_option1;
+            $format_ii->televicion_espera = $request->televicion_espera;
+            $format_ii->televicion_porcentaje = $request->televicion_porcentaje;
+            $format_ii->televicion_antena = $request->televicion_antena;
+            $format_ii->televicion_equipo = $request->televicion_equipo;
+            
+            $format_ii->save();  
             $infraestructura->save();
 
             DB::commit();
@@ -570,6 +727,8 @@ class InfraestructuraController extends Controller
                 ->withInput();
         }
     }
+
+
     /**
      * Guardar datos de infraestructura
      */
