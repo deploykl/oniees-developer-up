@@ -375,13 +375,110 @@
                     </div>
 
                     <!-- TAB INFRAESTRUCTURA -->
-                    <div x-show="activeSidebarTab === 'infraestructura'" class="space-y-1">
-                        <div class="text-xs font-semibold text-gray-500 px-3 pt-2 pb-1">🏗️ SECCIONES</div>
-                        <div class="p-4 text-center text-gray-400 text-xs">
-                            <i class="fas fa-hard-hat text-2xl mb-2 block"></i>
-                            Módulo en construcción
-                        </div>
-                    </div>
+<div x-show="activeSidebarTab === 'infraestructura'" class="space-y-1">
+    <div class="text-xs font-semibold text-gray-500 px-3 pt-2 pb-1">🏗️ SECCIONES</div>
+    
+    <div @click="scrollToSection('sec-saneamiento')" class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2"><i class="fas fa-file-signature text-teal-500 text-xs w-4"></i><span class="text-xs font-medium">1. Saneamiento Físico Legal</span></div>
+            <div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-saneamiento'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-saneamiento'].completed + '/' + sections['sec-saneamiento'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-saneamiento'].percent + '%)'"></span></div>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-saneamiento'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-planos-fisico')" class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2"><i class="fas fa-drafting-compass text-teal-500 text-xs w-4"></i><span class="text-xs font-medium">2. Planos Técnicos (Físico)</span></div>
+            <div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-planos-fisico'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-planos-fisico'].completed + '/' + sections['sec-planos-fisico'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-planos-fisico'].percent + '%)'"></span></div>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-planos-fisico'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-planos-digital')" class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2"><i class="fas fa-laptop-code text-teal-500 text-xs w-4"></i><span class="text-xs font-medium">2.1 Planos Técnicos (Digital)</span></div>
+            <div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-planos-digital'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-planos-digital'].completed + '/' + sections['sec-planos-digital'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-planos-digital'].percent + '%)'"></span></div>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-planos-digital'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-acabados-exteriores')" class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2"><i class="fas fa-paint-roller text-teal-500 text-xs w-4"></i><span class="text-xs font-medium">3.1 Acabados Exteriores</span></div>
+            <div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-acabados-exteriores'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-acabados-exteriores'].completed + '/' + sections['sec-acabados-exteriores'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-acabados-exteriores'].percent + '%)'"></span></div>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-acabados-exteriores'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-edificaciones')" class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2"><i class="fas fa-building text-teal-500 text-xs w-4"></i><span class="text-xs font-medium">3.2 Edificación y Acabados</span></div>
+            <div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-edificaciones'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-edificaciones'].completed + '/' + sections['sec-edificaciones'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-edificaciones'].percent + '%)'"></span></div>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-edificaciones'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-analisis-infra')" class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2"><i class="fas fa-chart-line text-teal-500 text-xs w-4"></i><span class="text-xs font-medium">3.3 Análisis Infraestructura</span></div>
+            <div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-analisis-infra'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-analisis-infra'].completed + '/' + sections['sec-analisis-infra'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-analisis-infra'].percent + '%)'"></span></div>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-analisis-infra'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-entorno')" class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2"><i class="fas fa-tree text-teal-500 text-xs w-4"></i><span class="text-xs font-medium">3.3.3 Estado del Entorno</span></div>
+            <div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-entorno'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-entorno'].completed + '/' + sections['sec-entorno'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-entorno'].percent + '%)'"></span></div>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-entorno'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-observaciones')" class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
+        <div class="flex justify-between items-center"><div class="flex items-center gap-2"><i class="fas fa-comment-dots text-teal-500 text-xs w-4"></i><span class="text-xs font-medium">3.4 Observaciones</span></div><div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-observaciones'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-observaciones'].completed + '/' + sections['sec-observaciones'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-observaciones'].percent + '%)'"></span></div></div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-observaciones'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-tipo-intervencion')" class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
+        <div class="flex justify-between items-center"><div class="flex items-center gap-2"><i class="fas fa-clipboard-list text-teal-500 text-xs w-4"></i><span class="text-xs font-medium">3.5 Tipo Intervención</span></div><div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-tipo-intervencion'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-tipo-intervencion'].completed + '/' + sections['sec-tipo-intervencion'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-tipo-intervencion'].percent + '%)'"></span></div></div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-tipo-intervencion'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-operatividad')" class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
+        <div class="flex justify-between items-center"><div class="flex items-center gap-2"><i class="fas fa-chart-simple text-teal-500 text-xs w-4"></i><span class="text-xs font-medium">3.6 Operatividad</span></div><div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-operatividad'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-operatividad'].completed + '/' + sections['sec-operatividad'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-operatividad'].percent + '%)'"></span></div></div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-operatividad'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-fotos')" class="p-2 rounded-lg hover:bg-teal-50 cursor-pointer transition">
+        <div class="flex justify-between items-center"><div class="flex items-center gap-2"><i class="fas fa-camera text-teal-500 text-xs w-4"></i><span class="text-xs font-medium">4. Fotos</span></div><div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-fotos'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-fotos'].completed + '/' + sections['sec-fotos'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-fotos'].percent + '%)'"></span></div></div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-teal-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-fotos'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-archivos')" class="p-2 rounded-lg hover:bg-amber-50 cursor-pointer transition">
+        <div class="flex justify-between items-center"><div class="flex items-center gap-2"><i class="fas fa-folder-open text-amber-500 text-xs w-4"></i><span class="text-xs font-medium">5. Archivos</span></div><div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-archivos'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-archivos'].completed + '/' + sections['sec-archivos'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-archivos'].percent + '%)'"></span></div></div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-amber-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-archivos'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-accesibilidad')" class="p-2 rounded-lg hover:bg-purple-50 cursor-pointer transition">
+        <div class="flex justify-between items-center"><div class="flex items-center gap-2"><i class="fas fa-wheelchair text-purple-500 text-xs w-4"></i><span class="text-xs font-medium">6. Accesibilidad</span></div><div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-accesibilidad'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-accesibilidad'].completed + '/' + sections['sec-accesibilidad'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-accesibilidad'].percent + '%)'"></span></div></div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-purple-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-accesibilidad'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-ubicacion')" class="p-2 rounded-lg hover:bg-emerald-50 cursor-pointer transition">
+        <div class="flex justify-between items-center"><div class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-emerald-500 text-xs w-4"></i><span class="text-xs font-medium">7. Ubicación y Entorno</span></div><div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-ubicacion'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-ubicacion'].completed + '/' + sections['sec-ubicacion'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-ubicacion'].percent + '%)'"></span></div></div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-emerald-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-ubicacion'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-circulacion-horizontal')" class="p-2 rounded-lg hover:bg-pink-50 cursor-pointer transition">
+        <div class="flex justify-between items-center"><div class="flex items-center gap-2"><i class="fas fa-arrows-alt-h text-pink-500 text-xs w-4"></i><span class="text-xs font-medium">8. Circulación Horizontal</span></div><div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-circulacion-horizontal'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-circulacion-horizontal'].completed + '/' + sections['sec-circulacion-horizontal'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-circulacion-horizontal'].percent + '%)'"></span></div></div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-pink-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-circulacion-horizontal'].percent + '%' }"></div></div>
+    </div>
+    
+    <div @click="scrollToSection('sec-circulacion-vertical')" class="p-2 rounded-lg hover:bg-indigo-50 cursor-pointer transition">
+        <div class="flex justify-between items-center"><div class="flex items-center gap-2"><i class="fas fa-arrows-alt-v text-indigo-500 text-xs w-4"></i><span class="text-xs font-medium">9. Circulación Vertical</span></div><div class="flex items-center gap-1"><span class="text-xs font-mono" :class="sections['sec-circulacion-vertical'].percent === 100 ? 'text-green-600' : 'text-gray-500'" x-text="sections['sec-circulacion-vertical'].completed + '/' + sections['sec-circulacion-vertical'].total"></span><span class="text-xs text-gray-400" x-text="'(' + sections['sec-circulacion-vertical'].percent + '%)'"></span></div></div>
+        <div class="w-full bg-gray-200 rounded-full h-1 mt-1"><div class="bg-indigo-500 h-1 rounded-full transition-all" :style="{ width: sections['sec-circulacion-vertical'].percent + '%' }"></div></div>
+    </div>
+</div>
 
                     <!-- TAB SERVICIOS BÁSICOS -->
                     <div x-show="activeSidebarTab === 'servicios-basicos'" class="space-y-1">
@@ -419,8 +516,8 @@
         </div>
 
     </div>
-        @include('infraestructura.partials.modal.modal-edificacion')
-        @include('infraestructura.partials.modal.modal-acabados')
+    @include('infraestructura.partials.modal.modal-edificacion')
+    @include('infraestructura.partials.modal.modal-acabados')
 
 
 
@@ -457,8 +554,92 @@
 
         function progressSidebar() {
             return {
-                activeSidebarTab: localStorage.getItem('activeSidebarTab') || 'datos-generales',
+                activeSidebarTab: localStorage.getItem('activeSidebarTab') ||
+                'infraestructura', // Predeterminado a 'infraestructura'
                 sections: {
+                    // Secciones para 'infraestructura'
+                    'sec-saneamiento': {
+                        completed: 0,
+                        total: 13,
+                        percent: 0
+                    },
+                    'sec-planos-fisico': {
+                        completed: 0,
+                        total: 9,
+                        percent: 0
+                    },
+                    'sec-planos-digital': {
+                        completed: 0,
+                        total: 9,
+                        percent: 0
+                    },
+                    'sec-acabados-exteriores': {
+                        completed: 0,
+                        total: 10,
+                        percent: 0
+                    },
+                    'sec-edificaciones': {
+                        completed: 0,
+                        total: 1,
+                        percent: 0
+                    },
+                    'sec-analisis-infra': {
+                        completed: 0,
+                        total: 1,
+                        percent: 0
+                    },
+                    'sec-entorno': {
+                        completed: 0,
+                        total: 5,
+                        percent: 0
+                    },
+                    'sec-observaciones': {
+                        completed: 0,
+                        total: 1,
+                        percent: 0
+                    },
+                    'sec-tipo-intervencion': {
+                        completed: 0,
+                        total: 4,
+                        percent: 0
+                    },
+                    'sec-operatividad': {
+                        completed: 0,
+                        total: 1,
+                        percent: 0
+                    },
+                    'sec-fotos': {
+                        completed: 0,
+                        total: 1,
+                        percent: 0
+                    },
+                    'sec-archivos': {
+                        completed: 0,
+                        total: 1,
+                        percent: 0
+                    },
+                    'sec-accesibilidad': {
+                        completed: 0,
+                        total: 4,
+                        percent: 0
+                    },
+                    'sec-ubicacion': {
+                        completed: 0,
+                        total: 13,
+                        percent: 0
+                    },
+                    'sec-circulacion-horizontal': {
+                        completed: 0,
+                        total: 10,
+                        percent: 0
+                    },
+                    'sec-circulacion-vertical': {
+                        completed: 0,
+                        total: 10,
+                        percent: 0
+                    },
+
+                    // Secciones para 'datos-generales'
                     'sec-datos-generales': {
                         completed: 0,
                         total: 18,
@@ -522,23 +703,26 @@
                 scrollToSection(sectionId) {
                     const element = document.getElementById(sectionId);
                     if (element) {
-                        if (sectionId.startsWith('sec-')) {
+                        // Cambiar a la pestaña correcta si es necesario
+                        if (sectionId.startsWith('sec-') &&
+                            !['sec-datos-generales', 'sec-red-diresa', 'sec-datos-adicionales',
+                                'sec-localizacion', 'sec-seguridad', 'sec-patrimonio', 'sec-director'
+                            ].includes(sectionId)) {
+                            // Cambiar a la pestaña 'infraestructura' si no es una sección de 'datos-generales'
+                            document.querySelector('[x-on\\:click="activeTab = \'infraestructura\'"]')?.click();
+                        } else {
+                            // Cambiar a la pestaña 'datos-generales' si es una sección de 'datos-generales'
                             document.querySelector('[x-on\\:click="activeTab = \'datos-generales\'"]')?.click();
                         }
 
-                        // Calcular offset para no tapar con el header
+                        // Calcular el desplazamiento para no tapar el contenido con el header
                         const headerOffset = 90;
                         const elementPosition = element.getBoundingClientRect().top;
                         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
                         window.scrollTo({
                             top: offsetPosition,
                             behavior: 'smooth'
                         });
-
-                        if (element.__x && element.__x.$data) {
-                            element.__x.$data.open = true;
-                        }
                     }
                 }
             };

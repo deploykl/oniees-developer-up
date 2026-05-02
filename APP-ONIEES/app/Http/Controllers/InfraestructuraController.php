@@ -472,6 +472,83 @@ class InfraestructuraController extends Controller
             $infraestructura->hora_final = $request->hora_final;
             $infraestructura->comentarios = $request->comentarios;
 
+            // =============================================
+            // 6. ACCESIBILIDAD
+            // =============================================
+            $infraestructura->ac_option_1 = $request->ac_option_1;
+            $infraestructura->ac_option_2 = $request->ac_option_2;
+            $infraestructura->ac_option_3 = $request->ac_option_3;
+            $infraestructura->ac_option_4 = $request->ac_option_4;
+
+            // =============================================
+            // 7 UBICACION Y ENTORNO 
+            // =============================================
+            $infraestructura->ub_option_1 = $request->ub_option_1;
+            $infraestructura->ub_option_2 = $request->ub_option_2;
+            $infraestructura->ub_option_3 = $request->ub_option_3;
+            $infraestructura->ub_option_4 = $request->ub_option_4;
+            $infraestructura->ub_option_5 = $request->ub_option_5;
+            $infraestructura->ub_option_6 = $request->ub_option_6;
+            $infraestructura->ub_option_7 = $request->ub_option_7;
+            $infraestructura->ub_option_8 = $request->ub_option_8;
+            $infraestructura->ub_option_9 = $request->ub_option_9;
+            $infraestructura->ub_option_10 = $request->ub_option_10;
+            $infraestructura->ub_option_11 = $request->ub_option_11;
+            $infraestructura->ub_option_12 = $request->ub_option_12;
+            $infraestructura->ub_option_13 = $request->ub_option_13;
+
+            // =============================================
+            // 8 CIRCULACION HORIZONTAL 
+            // =============================================
+            $infraestructura->ch_option_1 = $request->ch_option_1;
+            $infraestructura->ch_option_2 = $request->ch_option_2;
+            $infraestructura->ch_option_3 = $request->ch_option_3;
+            $infraestructura->ch_option_4 = $request->ch_option_4;
+            $infraestructura->ch_option_5 = $request->ch_option_5;
+            $infraestructura->ch_option_6 = $request->ch_option_6;
+            $infraestructura->ch_option_7 = $request->ch_option_7;
+            $infraestructura->ch_option_8 = $request->ch_option_8;
+            $infraestructura->ch_option_9 = $request->ch_option_9;
+            $infraestructura->ch_ancho = $request->ch_ancho;
+            
+            /*
+            $infraestructura->ch_option_1_text = $request->ch_option_1_text;
+            $infraestructura->ch_option_2_text = $request->ch_option_2_text;
+            $infraestructura->ch_option_3_text = $request->ch_option_3_text;
+            $infraestructura->ch_option_4_text = $request->ch_option_4_text;
+            $infraestructura->ch_option_5_text = $request->ch_option_5_text;
+            $infraestructura->ch_option_6_text = $request->ch_option_6_text;
+            $infraestructura->ch_option_7_text = $request->ch_option_7_text;
+            $infraestructura->ch_option_8_text = $request->ch_option_8_text;
+            $infraestructura->ch_option_9_text = $request->ch_option_9_text;
+            */
+            // =============================================
+            // 9 CIRCULACION VERTICAL 
+            // =============================================
+            $infraestructura->cv_option_1 = $request->cv_option_1;
+            $infraestructura->cv_option_2 = $request->cv_option_2;
+            $infraestructura->cv_option_3 = $request->cv_option_3;
+            $infraestructura->cv_option_4 = $request->cv_option_4;
+            $infraestructura->cv_option_5 = $request->cv_option_5;
+            $infraestructura->cv_option_6 = $request->cv_option_6;
+            $infraestructura->cv_option_7 = $request->cv_option_7;
+            $infraestructura->cv_option_8 = $request->cv_option_8;
+            $infraestructura->cv_option_9 = $request->cv_option_9;
+            $infraestructura->cv_option_10 = $request->cv_option_10;
+
+            /*
+            $infraestructura->cv_option_1_text = $request->cv_option_1_text;
+            $infraestructura->cv_option_2_text = $request->cv_option_2_text;
+            $infraestructura->cv_option_3_text = $request->cv_option_3_text;
+            $infraestructura->cv_option_4_text = $request->cv_option_4_text;
+            $infraestructura->cv_option_5_text = $request->cv_option_5_text;
+            $infraestructura->cv_option_6_text = $request->cv_option_6_text;
+            $infraestructura->cv_option_7_text = $request->cv_option_7_text;
+            $infraestructura->cv_option_8_text = $request->cv_option_8_text;
+            $infraestructura->cv_option_9_text = $request->cv_option_9_text;
+            $infraestructura->cv_option_10_text = $request->cv_option_10_text;
+*/
+
             $infraestructura->save();
 
             DB::commit();
