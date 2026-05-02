@@ -330,28 +330,28 @@ class InfraestructuraController extends Controller
             // =============================================
             // PLANOS TÉCNICOS (FÍSICO - pf_)
             // =============================================
-            $infraestructura->pf_ubicacion = $request->has('pf_ubicacion') ? 'SI' : 'NO';
-            $infraestructura->pf_perimetro = $request->has('pf_perimetro') ? 'SI' : 'NO';
-            $infraestructura->pf_arquitectura = $request->has('pf_arquitectura') ? 'SI' : 'NO';
-            $infraestructura->pf_estructuras = $request->has('pf_estructuras') ? 'SI' : 'NO';
-            $infraestructura->pf_ins_sanitarias = $request->has('pf_ins_sanitarias') ? 'SI' : 'NO';
-            $infraestructura->pf_ins_electricas = $request->has('pf_ins_electricas') ? 'SI' : 'NO';
-            $infraestructura->pf_ins_mecanicas = $request->has('pf_ins_mecanicas') ? 'SI' : 'NO';
-            $infraestructura->pf_ins_comunic = $request->has('pf_ins_comunic') ? 'SI' : 'NO';
-            $infraestructura->pf_distribuicion = $request->has('pf_distribuicion') ? 'SI' : 'NO';
+            $infraestructura->pf_ubicacion = $request->input('pf_ubicacion');
+            $infraestructura->pf_perimetro = $request->input('pf_perimetro');
+            $infraestructura->pf_arquitectura = $request->input('pf_arquitectura');
+            $infraestructura->pf_estructuras = $request->input('pf_estructuras');
+            $infraestructura->pf_ins_sanitarias = $request->input('pf_ins_sanitarias');
+            $infraestructura->pf_ins_electricas = $request->input('pf_ins_electricas');
+            $infraestructura->pf_ins_mecanicas = $request->input('pf_ins_mecanicas');
+            $infraestructura->pf_ins_comunic = $request->input('pf_ins_comunic');
+            $infraestructura->pf_distribuicion = $request->input('pf_distribuicion');
 
             // =============================================
             // PLANOS TÉCNICOS (DIGITAL - pd_)
             // =============================================
-            $infraestructura->pd_ubicacion = $request->has('pd_ubicacion') ? 'SI' : 'NO';
-            $infraestructura->pd_perimetro = $request->has('pd_perimetro') ? 'SI' : 'NO';
-            $infraestructura->pd_arquitectura = $request->has('pd_arquitectura') ? 'SI' : 'NO';
-            $infraestructura->pd_estructuras = $request->has('pd_estructuras') ? 'SI' : 'NO';
-            $infraestructura->pd_ins_sanitarias = $request->has('pd_ins_sanitarias') ? 'SI' : 'NO';
-            $infraestructura->pd_ins_electricas = $request->has('pd_ins_electricas') ? 'SI' : 'NO';
-            $infraestructura->pd_ins_mecanicas = $request->has('pd_ins_mecanicas') ? 'SI' : 'NO';
-            $infraestructura->pd_ins_comunic = $request->has('pd_ins_comunic') ? 'SI' : 'NO';
-            $infraestructura->pd_distribuicion = $request->has('pd_distribuicion') ? 'SI' : 'NO';
+            $infraestructura->pd_ubicacion = $request->input('pd_ubicacion');
+            $infraestructura->pd_perimetro = $request->input('pd_perimetro');
+            $infraestructura->pd_arquitectura = $request->input('pd_arquitectura');
+            $infraestructura->pd_estructuras = $request->input('pd_estructuras');
+            $infraestructura->pd_ins_sanitarias = $request->input('pd_ins_sanitarias');
+            $infraestructura->pd_ins_electricas = $request->input('pd_ins_electricas');
+            $infraestructura->pd_ins_mecanicas = $request->input('pd_ins_mecanicas');
+            $infraestructura->pd_ins_comunic = $request->input('pd_ins_comunic');
+            $infraestructura->pd_distribuicion = $request->input('pd_distribuicion');
 
 
             // =============================================
@@ -510,7 +510,7 @@ class InfraestructuraController extends Controller
             $infraestructura->ch_option_8 = $request->ch_option_8;
             $infraestructura->ch_option_9 = $request->ch_option_9;
             $infraestructura->ch_ancho = $request->ch_ancho;
-            
+
             /*
             $infraestructura->ch_option_1_text = $request->ch_option_1_text;
             $infraestructura->ch_option_2_text = $request->ch_option_2_text;
