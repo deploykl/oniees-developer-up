@@ -1,10 +1,5 @@
 <div class="space-y-6">
-    <div class="bg-teal-50 p-4 rounded-lg mb-4">
-        <h3 class="text-lg font-semibold text-teal-800 mb-2 flex items-center gap-2">
-            <i class="fas fa-hard-hat"></i> Módulo de Infraestructura
-        </h3>
-        <p class="text-sm text-gray-600">Complete los datos de infraestructura del establecimiento de salud</p>
-    </div>
+
 
     <!-- ============================================ -->
     <!-- SECCIÓN 1: ESTADO DEL SANEAMIENTO FÍSICO LEGAL -->
@@ -2165,123 +2160,113 @@
     <!-- ============================================ -->
     <!-- SECCIÓN 6: ACCESIBILIDAD -->
     <!-- ============================================ -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mt-6">
-        <div class="bg-gradient-to-r from-purple-50 to-white px-6 py-4 border-b border-gray-200">
-            <h3 class="text-lg font-semibold text-purple-800 flex items-center gap-2">
-                <i class="fas fa-wheelchair"></i> 6. Accesibilidad
-            </h3>
-            <p class="text-sm text-gray-500 mt-1">Condiciones de acceso para pacientes, personal y público en general
-            </p>
+    <div id="sec-accesibilidad" class="form-section" x-data="sectionCounter('sec-accesibilidad', 4)">
+        <div class="section-header" @click="toggle()">
+            <div class="section-header-left">
+                <h2 class="section-title">
+                    <i class="fas fa-wheelchair"></i> 6. Accesibilidad
+                    <span class="section-badge">Evaluación</span> <i class="fas accordion-icon"
+                        :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </h2>
+                <p class="section-subtitle">Condiciones de acceso para pacientes, personal y público en general</p>
+            </div>
+            <div class="progress-counter" @click.stop>
+                <div class="counter-number"><span class="completed" x-text="filled"></span><span
+                        class="total">/<span x-text="total"></span></span></div>
+                <div class="counter-bar">
+                    <div class="counter-bar-fill"
+                        :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                        :style="{ width: percent + '%' }"></div>
+                </div>
+                <div class="counter-percent"
+                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                    x-text="percent + '%'"></div>
+            </div>
         </div>
-        <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                <!-- 1. Horario de atención abierto al público -->
-                <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">
-                        ¿Se encuentra abierto a los pacientes, personal y público en general, dentro de los horarios de
-                        atención establecidos?
-                    </label>
-                    <div class="flex gap-6">
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="ac_option_1" value="SI"
-                                class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
-                                {{ ($infraestructura->ac_option_1 ?? '') == 'SI' ? 'checked' : '' }}>
-                            <span>SI</span>
+        <div class="section-content" :class="open ? '' : 'hidden'">
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="border rounded-lg p-4 bg-gray-50">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            ¿Se encuentra abierto a los pacientes, personal y público en general, dentro de los horarios
+                            de atención establecidos?
                         </label>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="ac_option_1" value="NO"
-                                class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
-                                {{ ($infraestructura->ac_option_1 ?? '') == 'NO' ? 'checked' : '' }}>
-                            <span>NO</span>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="ac_option_1" value="NO CORRESPONDE"
-                                class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
-                                {{ ($infraestructura->ac_option_1 ?? '') == 'NO CORRESPONDE' ? 'checked' : '' }}>
-                            <span>NO CORRESPONDE</span>
-                        </label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center gap-2"><input type="radio" name="ac_option_1"
+                                    value="SI"
+                                    class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    {{ ($infraestructura->ac_option_1 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label>
+                            <label class="flex items-center gap-2"><input type="radio" name="ac_option_1"
+                                    value="NO"
+                                    class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    {{ ($infraestructura->ac_option_1 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
+                            <label class="flex items-center gap-2"><input type="radio" name="ac_option_1"
+                                    value="NO CORRESPONDE"
+                                    class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    {{ ($infraestructura->ac_option_1 ?? '') == 'NO CORRESPONDE' ? 'checked' : '' }}><span>NO
+                                    CORRESPONDE</span></label>
+                        </div>
                     </div>
-                </div>
-
-                <!-- 2. Rampas de ingreso y barandas -->
-                <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">
-                        ¿Cuenta con rampas de ingreso y barandas en las escaleras para PCD (Personas con Discapacidad)?
-                    </label>
-                    <div class="flex gap-6">
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="ac_option_2" value="SI"
-                                class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
-                                {{ ($infraestructura->ac_option_2 ?? '') == 'SI' ? 'checked' : '' }}>
-                            <span>SI</span>
+                    <div class="border rounded-lg p-4 bg-gray-50">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            ¿Cuenta con rampas de ingreso y barandas en las escaleras para PCD (Personas con
+                            Discapacidad)?
                         </label>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="ac_option_2" value="NO"
-                                class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
-                                {{ ($infraestructura->ac_option_2 ?? '') == 'NO' ? 'checked' : '' }}>
-                            <span>NO</span>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="ac_option_2" value="NO CORRESPONDE"
-                                class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
-                                {{ ($infraestructura->ac_option_2 ?? '') == 'NO CORRESPONDE' ? 'checked' : '' }}>
-                            <span>NO CORRESPONDE</span>
-                        </label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center gap-2"><input type="radio" name="ac_option_2"
+                                    value="SI"
+                                    class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    {{ ($infraestructura->ac_option_2 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label>
+                            <label class="flex items-center gap-2"><input type="radio" name="ac_option_2"
+                                    value="NO"
+                                    class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    {{ ($infraestructura->ac_option_2 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
+                            <label class="flex items-center gap-2"><input type="radio" name="ac_option_2"
+                                    value="NO CORRESPONDE"
+                                    class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    {{ ($infraestructura->ac_option_2 ?? '') == 'NO CORRESPONDE' ? 'checked' : '' }}><span>NO
+                                    CORRESPONDE</span></label>
+                        </div>
                     </div>
-                </div>
-
-                <!-- 3. Estacionamiento de taxis para PCD -->
-                <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">
-                        ¿Cuenta con lugar para estacionamiento de taxis para personas con discapacidad?
-                    </label>
-                    <div class="flex gap-6">
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="ac_option_3" value="SI"
-                                class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
-                                {{ ($infraestructura->ac_option_3 ?? '') == 'SI' ? 'checked' : '' }}>
-                            <span>SI</span>
+                    <div class="border rounded-lg p-4 bg-gray-50">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            ¿Cuenta con lugar para estacionamiento de taxis para personas con discapacidad?
                         </label>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="ac_option_3" value="NO"
-                                class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
-                                {{ ($infraestructura->ac_option_3 ?? '') == 'NO' ? 'checked' : '' }}>
-                            <span>NO</span>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="ac_option_3" value="NO CORRESPONDE"
-                                class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
-                                {{ ($infraestructura->ac_option_3 ?? '') == 'NO CORRESPONDE' ? 'checked' : '' }}>
-                            <span>NO CORRESPONDE</span>
-                        </label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center gap-2"><input type="radio" name="ac_option_3"
+                                    value="SI"
+                                    class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    {{ ($infraestructura->ac_option_3 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label>
+                            <label class="flex items-center gap-2"><input type="radio" name="ac_option_3"
+                                    value="NO"
+                                    class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    {{ ($infraestructura->ac_option_3 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
+                            <label class="flex items-center gap-2"><input type="radio" name="ac_option_3"
+                                    value="NO CORRESPONDE"
+                                    class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    {{ ($infraestructura->ac_option_3 ?? '') == 'NO CORRESPONDE' ? 'checked' : '' }}><span>NO
+                                    CORRESPONDE</span></label>
+                        </div>
                     </div>
-                </div>
-
-                <!-- 4. Acceso vulnerable a inundaciones -->
-                <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">
-                        ¿El acceso es vulnerable a inundaciones o correnteras de agua por desnivel de piso?
-                    </label>
-                    <div class="flex gap-6">
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="ac_option_4" value="SI"
-                                class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
-                                {{ ($infraestructura->ac_option_4 ?? '') == 'SI' ? 'checked' : '' }}>
-                            <span>SI</span>
+                    <div class="border rounded-lg p-4 bg-gray-50">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            ¿El acceso es vulnerable a inundaciones o correnteras de agua por desnivel de piso?
                         </label>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="ac_option_4" value="NO"
-                                class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
-                                {{ ($infraestructura->ac_option_4 ?? '') == 'NO' ? 'checked' : '' }}>
-                            <span>NO</span>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="ac_option_4" value="NO CORRESPONDE"
-                                class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
-                                {{ ($infraestructura->ac_option_4 ?? '') == 'NO CORRESPONDE' ? 'checked' : '' }}>
-                            <span>NO CORRESPONDE</span>
-                        </label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center gap-2"><input type="radio" name="ac_option_4"
+                                    value="SI"
+                                    class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    {{ ($infraestructura->ac_option_4 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label>
+                            <label class="flex items-center gap-2"><input type="radio" name="ac_option_4"
+                                    value="NO"
+                                    class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    {{ ($infraestructura->ac_option_4 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
+                            <label class="flex items-center gap-2"><input type="radio" name="ac_option_4"
+                                    value="NO CORRESPONDE"
+                                    class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    {{ ($infraestructura->ac_option_4 ?? '') == 'NO CORRESPONDE' ? 'checked' : '' }}><span>NO
+                                    CORRESPONDE</span></label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2289,756 +2274,545 @@
     </div>
 
 
-     <!--============================================-->
-        <!-- SECCIÓN 7: UBICACIÓN Y ENTORNO -->
-        <!-- ============================================ -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mt-6">
-            <div class="bg-gradient-to-r from-emerald-50 to-white px-6 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-emerald-800 flex items-center gap-2">
+
+
+    <!-- ============================================ -->
+    <!-- SECCIÓN 7: UBICACIÓN Y ENTORNO -->
+    <!-- ============================================ -->
+    <div id="sec-ubicacion" class="form-section" x-data="sectionCounter('sec-ubicacion', 13)">
+        <div class="section-header" @click="toggle()">
+            <div class="section-header-left">
+                <h2 class="section-title">
                     <i class="fas fa-map-marker-alt"></i> 7. Ubicación y Entorno
-                </h3>
-                <p class="text-sm text-gray-500 mt-1">Evaluación del terreno y ubicación del establecimiento</p>
+                    <span class="section-badge">Evaluación</span>
+                    <i class="fas accordion-icon" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </h2>
+                <p class="section-subtitle">Evaluación del terreno y ubicación del establecimiento</p>
             </div>
+            <div class="progress-counter" @click.stop>
+                <div class="counter-number"><span class="completed" x-text="filled"></span><span
+                        class="total">/<span x-text="total"></span></span></div>
+                <div class="counter-bar">
+                    <div class="counter-bar-fill"
+                        :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                        :style="{ width: percent + '%' }"></div>
+                </div>
+                <div class="counter-percent"
+                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                    x-text="percent + '%'"></div>
+            </div>
+        </div>
+        <div class="section-content" :class="open ? '' : 'hidden'">
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                    <!-- 1. Cuencas de topografía accidentada -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Se ubica en cuencas de topografía accidentada, terrazas aluviales o de inundación,
-                            abanicos aluvionales, como de deyección?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_1" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica en cuencas de topografía
+                            accidentada, terrazas aluviales o de inundación, abanicos aluvionales, como de
+                            deyección?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_1" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_1 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_1" value="NO"
+                                    {{ ($infraestructura->ub_option_1 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_1"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_1 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_1 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 2. Terrenos con pendiente inestable -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Se ubica en terrenos con pendiente inestable, al pie de borde o de laderas?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_2" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica en terrenos con
+                            pendiente inestable, al pie de borde o de laderas?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_2" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_2 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_2" value="NO"
+                                    {{ ($infraestructura->ub_option_2 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_2"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_2 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_2 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 3. Restos arqueológicos -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Existe evidencias de restos arqueológicos (declarados como zona arqueológica por el
-                            Ministerio de Cultura)?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_3" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Existe evidencias de restos
+                            arqueológicos (declarados como zona arqueológica por el Ministerio de Cultura)?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_3" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_3 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_3" value="NO"
+                                    {{ ($infraestructura->ub_option_3 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_3"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_3 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_3 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 4. Certificado de inexistencia de restos arqueológicos -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Cuenta con Certificado de Inexistencia de Restos Arqueológicos (CIRA)?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_4" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Cuenta con Certificado de
+                            Inexistencia de Restos Arqueológicos (CIRA)?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_4" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_4 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_4" value="NO"
+                                    {{ ($infraestructura->ub_option_4 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_4"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_4 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_4 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 5. Distancia menor a 100m de estaciones de servicio -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Se ubica a una distancia menor a 100m de estaciones de servicio de combustible?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_5" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor a
+                            100m de estaciones de servicio de combustible?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_5" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_5 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_5" value="NO"
+                                    {{ ($infraestructura->ub_option_5 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_5"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_5 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_5 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 6. Distancia menor a 100m de grandes edificaciones comerciales -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Se ubica a una distancia menor a 100m de grandes edificaciones comerciales
-                            (supermercados o similares)?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_6" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor a
+                            100m de grandes edificaciones comerciales (supermercados o similares)?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_6" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_6 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_6" value="NO"
+                                    {{ ($infraestructura->ub_option_6 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_6"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_6 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_6 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 7. Distancia menor a 100m de edificaciones con concentración de personas -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Se ubica a una distancia menor a 100m al límite de la propiedad de edificaciones que
-                            generen concentración de personas?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_7" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor a
+                            100m al límite de la propiedad de edificaciones que generen concentración de
+                            personas?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_7" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_7 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_7" value="NO"
+                                    {{ ($infraestructura->ub_option_7 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_7"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_7 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_7 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 8. Distancia menor a 300m de ríos, lagos o lagunas -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Se ubica a una distancia menor a 300m al límite de la propiedad de borde de ríos, lagos
-                            o lagunas?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_8" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor a
+                            300m al límite de la propiedad de borde de ríos, lagos o lagunas?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_8" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_8 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_8" value="NO"
+                                    {{ ($infraestructura->ub_option_8 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_8"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_8 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_8 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 9. Distancia menor a 1km del litoral -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Se ubica a una distancia menor a 1km al límite de la propiedad del litoral?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_9" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor a
+                            1km al límite de la propiedad del litoral?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_9" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_9 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_9" value="NO"
+                                    {{ ($infraestructura->ub_option_9 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_9"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_9 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_9 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 10. Terrenos con suelo proveniente de relleno sanitario -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Se ubica en terrenos con suelo provenientes de relleno sanitario?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_10" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica en terrenos con suelo
+                            provenientes de relleno sanitario?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_10" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_10 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_10" value="NO"
+                                    {{ ($infraestructura->ub_option_10 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_10"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_10 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_10 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 11. Terrenos próximos a volcanes -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Se ubica en terrenos próximos a volcanes?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_11" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica en terrenos próximos a
+                            volcanes?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_11" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_11 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_11" value="NO"
+                                    {{ ($infraestructura->ub_option_11 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_11"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_11 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_11 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 12. Distancia menor a 300m de fuentes de contaminación ambiental -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Se ubica a una distancia menor de 300m al límite de la propiedad de fuentes de
-                            contaminación ambiental?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_12" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor de
+                            300m al límite de la propiedad de fuentes de contaminación ambiental?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_12" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_12 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_12" value="NO"
+                                    {{ ($infraestructura->ub_option_12 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_12"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_12 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_12 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 13. Distancia menor a 1km de rellenos sanitarios -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Se ubica a una distancia menor de 1km de rellenos sanitarios, basurales y plantas de
-                            tratamiento de aguas residuales?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_13" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor de
+                            1km de rellenos sanitarios, basurales y plantas de tratamiento de aguas residuales?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ub_option_13" value="SI"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_13 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ub_option_13" value="NO"
+                                    {{ ($infraestructura->ub_option_13 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ub_option_13"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    {{ ($infraestructura->ub_option_13 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ub_option_13 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- ============================================ -->
-        <!-- SECCIÓN 8: CIRCULACIÓN HORIZONTAL -->
-        <!-- ============================================ -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mt-6">
-            <div class="bg-gradient-to-r from-pink-50 to-white px-6 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-pink-800 flex items-center gap-2">
+
+
+    <!-- ============================================ -->
+    <!-- SECCIÓN 8: CIRCULACIÓN HORIZONTAL -->
+    <!-- ============================================ -->
+    <div id="sec-circulacion-horizontal" class="form-section" x-data="sectionCounter('sec-circulacion-horizontal', 10)">
+        <div class="section-header" @click="toggle()">
+            <div class="section-header-left">
+                <h2 class="section-title">
                     <i class="fas fa-arrows-alt-h"></i> 8. Circulación Horizontal
-                </h3>
-                <p class="text-sm text-gray-500 mt-1">Evaluación de corredores y accesos internos</p>
+                    <span class="section-badge">Evaluación</span>
+                    <i class="fas accordion-icon" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </h2>
+                <p class="section-subtitle">Evaluación de corredores y accesos internos</p>
             </div>
+            <div class="progress-counter" @click.stop>
+                <div class="counter-number"><span class="completed" x-text="filled"></span><span
+                        class="total">/<span x-text="total"></span></span></div>
+                <div class="counter-bar">
+                    <div class="counter-bar-fill"
+                        :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                        :style="{ width: percent + '%' }"></div>
+                </div>
+                <div class="counter-percent"
+                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                    x-text="percent + '%'"></div>
+            </div>
+        </div>
+        <div class="section-content" :class="open ? '' : 'hidden'">
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                    <!-- 1. Ancho mínimo 2.40m en áreas asistenciales -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Todos los corredores de las áreas asistenciales tienen un ancho mínimo de 2.40m?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_1" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores de las áreas
+                            asistenciales tienen un ancho mínimo de 2.40m?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ch_option_1" value="SI"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_1 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_1" value="NO"
+                                    {{ ($infraestructura->ch_option_1 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ch_option_1"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_1 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ch_option_1 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 2. Ancho mínimo 2.80m en áreas de emergencia -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Todos los corredores de las áreas de emergencia tienen un ancho mínimo de 2.80m?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_2" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores de las áreas
+                            de emergencia tienen un ancho mínimo de 2.80m?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ch_option_2" value="SI"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_2 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_2" value="NO"
+                                    {{ ($infraestructura->ch_option_2 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ch_option_2"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_2 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ch_option_2 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 3. Corredores usados como área de espera -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Los corredores se utilizan como área de espera?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_3" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Los corredores se utilizan como
+                            área de espera?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ch_option_3" value="SI"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_3 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_3" value="NO"
+                                    {{ ($infraestructura->ch_option_3 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ch_option_3"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_3 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ch_option_3 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 4. Área de espera en uno o ambos lados -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿El área de espera de los corredores se da en uno o en ambos lados?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_4" value="1"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿El área de espera de los
+                            corredores se da en uno o en ambos lados?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ch_option_4" value="1"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_4 ?? '') == '1' ? 'checked' : '' }}>
-                                <span>1 (Un lado)</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_4" value="2"
+                                    {{ ($infraestructura->ch_option_4 ?? '') == '1' ? 'checked' : '' }}><span>1 (Un
+                                    lado)</span></label><label class="flex items-center gap-2"><input type="radio"
+                                    name="ch_option_4" value="2"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_4 ?? '') == '2' ? 'checked' : '' }}>
-                                <span>2 (Ambos lados)</span>
-                            </label>
-                        </div>
+                                    {{ ($infraestructura->ch_option_4 ?? '') == '2' ? 'checked' : '' }}><span>2 (Ambos
+                                    lados)</span></label></div>
                     </div>
-
-                    <!-- 5. Ancho total del corredor (campo numérico) -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Cuál es el ancho total (m) del corredor incluido el área de espera?
-                        </label>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Cuál es el ancho total (m) del
+                            corredor incluido el área de espera?</label>
                         <input type="number" step="0.01" name="ch_ancho"
                             value="{{ $infraestructura->ch_ancho ?? '' }}"
                             class="w-full rounded-lg border-gray-300 focus:border-pink-500 focus:ring-pink-500"
                             placeholder="Ej: 2.50">
                         <p class="text-xs text-gray-500 mt-1">Ingrese el ancho en metros (ejemplo: 2.50)</p>
                     </div>
-
-                    <!-- 6. Circulación de UPSS hospitalización restringida -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿La circulación de la UPSS de hospitalización está restringida?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_5" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿La circulación de la UPSS de
+                            hospitalización está restringida?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ch_option_5" value="SI"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_5 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_5" value="NO"
+                                    {{ ($infraestructura->ch_option_5 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ch_option_5"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_5 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ch_option_5 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 7. Ancho mínimo 3.20m en centro quirúrgico -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Todos los corredores de las áreas del centro quirúrgico tienen un ancho mínimo de
-                            3.20m?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_6" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores de las áreas
+                            del centro quirúrgico tienen un ancho mínimo de 3.20m?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ch_option_6" value="SI"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_6 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_6" value="NO"
+                                    {{ ($infraestructura->ch_option_6 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ch_option_6"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_6 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ch_option_6 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 8. Corredores libres de obstáculos -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Todos los corredores están libres de obstáculos?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_7" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores están libres
+                            de obstáculos?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ch_option_7" value="SI"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_7 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_7" value="NO"
+                                    {{ ($infraestructura->ch_option_7 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ch_option_7"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_7 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ch_option_7 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 9. Extintores empotrados -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Los extintores o sistemas contra incendios están empotrados en los muros de los
-                            corredores?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_8" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Los extintores o sistemas contra
+                            incendios están empotrados en los muros de los corredores?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ch_option_8" value="SI"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_8 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_8" value="NO"
+                                    {{ ($infraestructura->ch_option_8 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ch_option_8"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_8 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ch_option_8 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 10. Corredores protegidos del sol y lluvia -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Todos los corredores están protegidos del sol y la lluvia?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_9" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores están
+                            protegidos del sol y la lluvia?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="ch_option_9" value="SI"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_9 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="ch_option_9" value="NO"
+                                    {{ ($infraestructura->ch_option_9 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="ch_option_9"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                    {{ ($infraestructura->ch_option_9 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->ch_option_9 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
+    </div>
 
 
-        <!-- ============================================ -->
-        <!-- SECCIÓN 9: CIRCULACIÓN VERTICAL -->
-        <!-- ============================================ -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mt-6">
-            <div class="bg-gradient-to-r from-indigo-50 to-white px-6 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-indigo-800 flex items-center gap-2">
+
+
+    <!-- ============================================ -->
+    <!-- SECCIÓN 9: CIRCULACIÓN VERTICAL -->
+    <!-- ============================================ -->
+    <div id="sec-circulacion-vertical" class="form-section" x-data="sectionCounter('sec-circulacion-vertical', 10)">
+        <div class="section-header" @click="toggle()">
+            <div class="section-header-left">
+                <h2 class="section-title">
                     <i class="fas fa-arrows-alt-v"></i> 9. Circulación Vertical
-                </h3>
-                <p class="text-sm text-gray-500 mt-1">Evaluación de escaleras, rampas y ascensores</p>
+                    <span class="section-badge">Evaluación</span>
+                    <i class="fas accordion-icon" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </h2>
+                <p class="section-subtitle">Evaluación de escaleras, rampas y ascensores</p>
             </div>
+            <div class="progress-counter" @click.stop>
+                <div class="counter-number"><span class="completed" x-text="filled"></span><span
+                        class="total">/<span x-text="total"></span></span></div>
+                <div class="counter-bar">
+                    <div class="counter-bar-fill"
+                        :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                        :style="{ width: percent + '%' }"></div>
+                </div>
+                <div class="counter-percent"
+                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                    x-text="percent + '%'"></div>
+            </div>
+        </div>
+        <div class="section-content" :class="open ? '' : 'hidden'">
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                    <!-- 1. Escaleras ancho mínimo 1.80m -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Todas las escaleras tienen un ancho mínimo de 1.80m y tienen pasamanos a ambos lados de
-                            0.90m de altura?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_1" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Todas las escaleras tienen un
+                            ancho mínimo de 1.80m y tienen pasamanos a ambos lados de 0.90m de altura?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="cv_option_1" value="SI"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_1 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_1" value="NO"
+                                    {{ ($infraestructura->cv_option_1 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="cv_option_1"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_1 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->cv_option_1 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 2. Escaleras de servicio ancho mínimo 1.20m -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Todas las escaleras de servicio y de evacuación tienen un ancho mínimo de 1.20m y
-                            tienen pasamanos a ambos lados?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_2" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Todas las escaleras de servicio y
+                            de evacuación tienen un ancho mínimo de 1.20m y tienen pasamanos a ambos lados?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="cv_option_2" value="SI"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_2 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_2" value="NO"
+                                    {{ ($infraestructura->cv_option_2 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="cv_option_2"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_2 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->cv_option_2 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 3. Área previa a la escalera distancia mínima 3m -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿El área previa a la escalera tiene una distancia mínima de 3 metros considerada desde
-                            el inicio de la escalera hasta el paramento opuesto?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_3" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿El área previa a la escalera
+                            tiene una distancia mínima de 3 metros considerada desde el inicio de la escalera hasta el
+                            paramento opuesto?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="cv_option_3" value="SI"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_3 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_3" value="NO"
+                                    {{ ($infraestructura->cv_option_3 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="cv_option_3"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_3 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->cv_option_3 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 4. Pasos de escaleras antideslizantes -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Los pasos de las escaleras son de material antideslizante y llevan cantoneras?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_4" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Los pasos de las escaleras son de
+                            material antideslizante y llevan cantoneras?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="cv_option_4" value="SI"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_4 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_4" value="NO"
+                                    {{ ($infraestructura->cv_option_4 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="cv_option_4"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_4 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->cv_option_4 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 5. Rampas ancho mínimo 1.25m -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Todas las rampas tienen un ancho mínimo de 1.25m?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_5" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Todas las rampas tienen un ancho
+                            mínimo de 1.25m?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="cv_option_5" value="SI"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_5 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_5" value="NO"
+                                    {{ ($infraestructura->cv_option_5 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="cv_option_5"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_5 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->cv_option_5 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 6. Rampas piso antideslizante -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Todas las rampas tienen el piso de material antideslizante y/o bruñado cada 10cm?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_6" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Todas las rampas tienen el piso
+                            de material antideslizante y/o bruñado cada 10cm?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="cv_option_6" value="SI"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_6 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_6" value="NO"
+                                    {{ ($infraestructura->cv_option_6 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="cv_option_6"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_6 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->cv_option_6 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 7. Rampas pendiente mínima -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Todas las rampas peatonales tienen la pendiente mínima de acuerdo a reglamento?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_7" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Todas las rampas peatonales
+                            tienen la pendiente mínima de acuerdo a reglamento?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="cv_option_7" value="SI"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_7 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_7" value="NO"
+                                    {{ ($infraestructura->cv_option_7 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="cv_option_7"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_7 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->cv_option_7 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 8. Rampas con barandas -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Todas las rampas cuentan con barandas a ambos lados?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_8" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Todas las rampas cuentan con
+                            barandas a ambos lados?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="cv_option_8" value="SI"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_8 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_8" value="NO"
+                                    {{ ($infraestructura->cv_option_8 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="cv_option_8"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_8 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->cv_option_8 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 9. Ascensores para traslado de pacientes -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Cuenta con ascensores para el traslado de pacientes?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_9" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Cuenta con ascensores para el
+                            traslado de pacientes?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="cv_option_9" value="SI"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_9 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_9" value="NO"
+                                    {{ ($infraestructura->cv_option_9 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="cv_option_9"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_9 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->cv_option_9 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-                    <!-- 10. Montacarga -->
                     <div class="border rounded-lg p-4 bg-gray-50">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            ¿Cuenta con montacarga para transportar únicamente carga y/o servicio?
-                        </label>
-                        <div class="flex gap-6">
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_10" value="SI"
+                        <label class="block text-sm font-medium text-gray-700 mb-3">¿Cuenta con montacarga para
+                            transportar únicamente carga y/o servicio?</label>
+                        <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
+                                    name="cv_option_10" value="SI"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_10 ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span>SI</span>
-                            </label>
-                            <label class="flex items-center gap-2">
-                                <input type="radio" name="cv_option_10" value="NO"
+                                    {{ ($infraestructura->cv_option_10 ?? '') == 'SI' ? 'checked' : '' }}><span>SI</span></label><label
+                                class="flex items-center gap-2"><input type="radio" name="cv_option_10"
+                                    value="NO"
                                     class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    {{ ($infraestructura->cv_option_10 ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span>NO</span>
-                            </label>
+                                    {{ ($infraestructura->cv_option_10 ?? '') == 'NO' ? 'checked' : '' }}><span>NO</span></label>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
+    </div>
+
+
+
 </div>
 
 <!-- Modal para agregar/editar foto -->
