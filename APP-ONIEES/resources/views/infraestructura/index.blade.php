@@ -210,7 +210,16 @@
                             :style="{ width: totalProgress + '%' }"></div>
                     </div>
                 </div>
-
+                <!-- Botón Guardar Cambios -->
+                <div class="p-4 border-t border-gray-200 bg-white" x-data="{ saving: false }">
+                    <button type="submit" form="mainForm"
+                        @click="saving = true; setTimeout(() => saving = false, 3000)"
+                        class="w-full px-4 py-3 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
+                        style="background: linear-gradient(135deg, #0E7C9E, #0a637f);">
+                        <i class="fas" :class="saving ? 'fa-spinner fa-spin' : 'fa-save'"></i>
+                        <span x-text="saving ? 'Guardando...' : 'Guardar Cambios'"></span>
+                    </button>
+                </div>
                 <!-- PESTAÑAS DEL SIDEBAR -->
                 <div class="border-b border-gray-200">
                     <div class="flex">
@@ -678,11 +687,267 @@
                     </div>
 
                     <!-- TAB SERVICIOS BÁSICOS -->
+                    <!-- TAB SERVICIOS BÁSICOS -->
                     <div x-show="activeSidebarTab === 'servicios-basicos'" class="space-y-1">
-                        <div class="text-xs font-semibold text-gray-500 px-3 pt-2 pb-1">💧 SECCIONES</div>
-                        <div class="p-4 text-center text-gray-400 text-xs">
-                            <i class="fas fa-water text-2xl mb-2 block"></i>
-                            Módulo en construcción
+                        <div class="text-xs font-semibold text-gray-500 px-3 pt-2 pb-1">💧 AGUA Y SANEAMIENTO</div>
+
+                        <div @click="scrollToSection('sec-agua')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-tint text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">1. Agua</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-agua']?.percent === 100 ? 'text-green-600' : 'text-gray-500'"
+                                        x-text="(sections['sec-agua']?.completed || 0) + '/' + (sections['sec-agua']?.total || 12)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-agua']?.percent || 0) + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-agua']?.percent || 0) + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div @click="scrollToSection('sec-desague')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-toilet text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">2. Desagüe/Alcantarillado</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-desague']?.percent === 100 ? 'text-green-600' : 'text-gray-500'"
+                                        x-text="(sections['sec-desague']?.completed || 0) + '/' + (sections['sec-desague']?.total || 5)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-desague']?.percent || 0) + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-desague']?.percent || 0) + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div class="text-xs font-semibold text-gray-500 px-3 pt-2 pb-1 mt-2">⚡ ENERGÍA</div>
+
+                        <div @click="scrollToSection('sec-electricidad')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-bolt text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">3. Electricidad</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-electricidad']?.percent === 100 ? 'text-green-600' :
+                                            'text-gray-500'"
+                                        x-text="(sections['sec-electricidad']?.completed || 0) + '/' + (sections['sec-electricidad']?.total || 8)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-electricidad']?.percent || 0) + '%)'"></span>
+                                </div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-electricidad']?.percent || 0) + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div class="text-xs font-semibold text-gray-500 px-3 pt-2 pb-1 mt-2">📡 COMUNICACIONES</div>
+
+                        <div @click="scrollToSection('sec-telefonia')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-phone text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">4. Telefonía Fija</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-telefonia']?.percent === 100 ? 'text-green-600' : 'text-gray-500'"
+                                        x-text="(sections['sec-telefonia']?.completed || 0) + '/' + (sections['sec-telefonia']?.total || 7)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-telefonia']?.percent || 0) + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-telefonia']?.percent || 0) + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div @click="scrollToSection('sec-internet')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-wifi text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">5. Internet</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-internet']?.percent === 100 ? 'text-green-600' : 'text-gray-500'"
+                                        x-text="(sections['sec-internet']?.completed || 0) + '/' + (sections['sec-internet']?.total || 15)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-internet']?.percent || 0) + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-internet']?.percent || 0) + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div @click="scrollToSection('sec-television')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-tv text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">6. Televisión</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-television']?.percent === 100 ? 'text-green-600' : 'text-gray-500'"
+                                        x-text="(sections['sec-television']?.completed || 0) + '/' + (sections['sec-television']?.total || 8)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-television']?.percent || 0) + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-television']?.percent || 0) + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div @click="scrollToSection('sec-red-movil')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-signal text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">7. Red Móvil</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-red-movil']?.percent === 100 ? 'text-green-600' : 'text-gray-500'"
+                                        x-text="(sections['sec-red-movil']?.completed || 0) + '/' + (sections['sec-red-movil']?.total || 8)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-red-movil']?.percent || 0) + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-red-movil']?.percent || 0) + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div class="text-xs font-semibold text-gray-500 px-3 pt-2 pb-1 mt-2">🔥 GAS</div>
+
+                        <div @click="scrollToSection('sec-gas')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-fire text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">8. Gas Natural o GLP</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-gas']?.percent === 100 ? 'text-green-600' : 'text-gray-500'"
+                                        x-text="(sections['sec-gas']?.completed || 0) + '/' + (sections['sec-gas']?.total || 8)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-gas']?.percent || 0) + '%)'"></span></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-gas']?.percent || 0) + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div class="text-xs font-semibold text-gray-500 px-3 pt-2 pb-1 mt-2">🗑️ RESIDUOS</div>
+
+                        <div @click="scrollToSection('sec-residuos-solidos')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-trash-alt text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">9. Residuos Sólidos</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-residuos-solidos']?.percent === 100 ? 'text-green-600' :
+                                            'text-gray-500'"
+                                        x-text="(sections['sec-residuos-solidos']?.completed || 0) + '/' + (sections['sec-residuos-solidos']?.total || 8)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-residuos-solidos']?.percent || 0) + '%)'"></span>
+                                </div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-residuos-solidos']?.percent || 0) + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div @click="scrollToSection('sec-residuos-hospitalarios')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-biohazard text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">10. Residuos Hospitalarios</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-residuos-hospitalarios']?.percent === 100 ? 'text-green-600' :
+                                            'text-gray-500'"
+                                        x-text="(sections['sec-residuos-hospitalarios']?.completed || 0) + '/' + (sections['sec-residuos-hospitalarios']?.total || 8)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-residuos-hospitalarios']?.percent || 0) + '%)'"></span>
+                                </div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-residuos-hospitalarios']?.percent || 0) + '%' }">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-xs font-semibold text-gray-500 px-3 pt-2 pb-1 mt-2">👥 SERVICIOS COLECTIVOS
+                        </div>
+
+                        <div @click="scrollToSection('sec-personal-salud')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-user-md text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">11. Personal de Salud</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-personal-salud']?.percent === 100 ? 'text-green-600' :
+                                            'text-gray-500'"
+                                        x-text="(sections['sec-personal-salud']?.completed || 0) + '/' + (sections['sec-personal-salud']?.total || 4)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-personal-salud']?.percent || 0) + '%)'"></span>
+                                </div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-personal-salud']?.percent || 0) + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div @click="scrollToSection('sec-personal-externo')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-users text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">12. Personal Externo/Paciente</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-personal-externo']?.percent === 100 ? 'text-green-600' :
+                                            'text-gray-500'"
+                                        x-text="(sections['sec-personal-externo']?.completed || 0) + '/' + (sections['sec-personal-externo']?.total || 4)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-personal-externo']?.percent || 0) + '%)'"></span>
+                                </div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-personal-externo']?.percent || 0) + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <div @click="scrollToSection('sec-personal-discapacitado')"
+                            class="p-2 rounded-lg hover:bg-cyan-50 cursor-pointer transition">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2"><i
+                                        class="fas fa-wheelchair text-cyan-500 text-xs w-4"></i><span
+                                        class="text-xs font-medium">13. Personal Discapacitado</span></div>
+                                <div class="flex items-center gap-1"><span class="text-xs font-mono"
+                                        :class="sections['sec-personal-discapacitado']?.percent === 100 ? 'text-green-600' :
+                                            'text-gray-500'"
+                                        x-text="(sections['sec-personal-discapacitado']?.completed || 0) + '/' + (sections['sec-personal-discapacitado']?.total || 4)"></span><span
+                                        class="text-xs text-gray-400"
+                                        x-text="'(' + (sections['sec-personal-discapacitado']?.percent || 0) + '%)'"></span>
+                                </div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                <div class="bg-cyan-500 h-1 rounded-full transition-all"
+                                    :style="{ width: (sections['sec-personal-discapacitado']?.percent || 0) + '%' }">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -699,16 +964,7 @@
                     </div>
                 </div>
 
-                <!-- Botón Guardar Cambios -->
-                <div class="p-4 border-t border-gray-200 bg-white" x-data="{ saving: false }">
-                    <button type="submit" form="mainForm"
-                        @click="saving = true; setTimeout(() => saving = false, 3000)"
-                        class="w-full px-4 py-3 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
-                        style="background: linear-gradient(135deg, #0E7C9E, #0a637f);">
-                        <i class="fas" :class="saving ? 'fa-spinner fa-spin' : 'fa-save'"></i>
-                        <span x-text="saving ? 'Guardando...' : 'Guardar Cambios'"></span>
-                    </button>
-                </div>
+
             </div>
         </div>
 
@@ -754,6 +1010,45 @@
                 activeSidebarTab: localStorage.getItem('activeSidebarTab') ||
                     'datos-generales', // Predeterminado a 'infraestructura'
                 sections: {
+
+                    // ============================================
+                    // Secciones para 'datos-generales'
+                    // ============================================
+                    'sec-datos-generales': {
+                        completed: 0,
+                        total: 18,
+                        percent: 0
+                    },
+                    'sec-red-diresa': {
+                        completed: 0,
+                        total: 8,
+                        percent: 0
+                    },
+                    'sec-datos-adicionales': {
+                        completed: 0,
+                        total: 6,
+                        percent: 0
+                    },
+                    'sec-localizacion': {
+                        completed: 0,
+                        total: 5,
+                        percent: 0
+                    },
+                    'sec-seguridad': {
+                        completed: 0,
+                        total: 1,
+                        percent: 0
+                    },
+                    'sec-patrimonio': {
+                        completed: 0,
+                        total: 1,
+                        percent: 0
+                    },
+                    'sec-director': {
+                        completed: 0,
+                        total: 9,
+                        percent: 0
+                    },
                     // ============================================
                     // Secciones para 'infraestructura'
                     // ============================================
@@ -838,44 +1133,6 @@
                         percent: 0
                     },
 
-                    // ============================================
-                    // Secciones para 'datos-generales'
-                    // ============================================
-                    'sec-datos-generales': {
-                        completed: 0,
-                        total: 18,
-                        percent: 0
-                    },
-                    'sec-red-diresa': {
-                        completed: 0,
-                        total: 8,
-                        percent: 0
-                    },
-                    'sec-datos-adicionales': {
-                        completed: 0,
-                        total: 6,
-                        percent: 0
-                    },
-                    'sec-localizacion': {
-                        completed: 0,
-                        total: 5,
-                        percent: 0
-                    },
-                    'sec-seguridad': {
-                        completed: 0,
-                        total: 3,
-                        percent: 0
-                    },
-                    'sec-patrimonio': {
-                        completed: 0,
-                        total: 3,
-                        percent: 0
-                    },
-                    'sec-director': {
-                        completed: 0,
-                        total: 9,
-                        percent: 0
-                    },
 
                     // ============================================
                     // Secciones para 'servicios-basicos'
@@ -970,16 +1227,27 @@
                     window.addEventListener('sectionProgress', (e) => {
                         if (this.sections[e.detail.section]) {
                             this.sections[e.detail.section].completed = e.detail.filled;
+                            this.sections[e.detail.section].total = e.detail.total;
                             this.sections[e.detail.section].percent = e.detail.percent;
                             this.calculateTotal();
                         }
                     });
+
+                    // Forzar eventos iniciales después de que todo cargue
                     setTimeout(() => {
+                        // Disparar eventos manualmente para seguridad y patrimonio
+                        const secSeguridad = document.getElementById('sec-seguridad');
+                        if (secSeguridad && secSeguridad.__x) {
+                            secSeguridad.__x.$data.update();
+                        }
+                        const secPatrimonio = document.getElementById('sec-patrimonio');
+                        if (secPatrimonio && secPatrimonio.__x) {
+                            secPatrimonio.__x.$data.update();
+                        }
                         this.calculateTotal();
                         this.$watch('activeSidebarTab', val => localStorage.setItem('activeSidebarTab', val));
                     }, 500);
                 },
-
                 calculateTotal() {
                     let totalCompleted = 0;
                     let totalFields = 0;

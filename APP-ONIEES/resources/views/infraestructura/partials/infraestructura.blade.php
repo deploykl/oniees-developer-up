@@ -1,4 +1,3 @@
-<div class="form-container">
 
 
     <!-- ============================================ -->
@@ -2811,9 +2810,6 @@
         </div>
     </div>
 
-
-
-</div>
 
 <!-- Modal para agregar/editar foto -->
 <div id="fotoModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">

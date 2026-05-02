@@ -27,7 +27,7 @@
             @auth
                 <!-- DASHBOARD - Visible para todos -->
                 <a href="{{ route('dashboard') }}" class="nav-link-glass {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                    <i class="fas fa-chart-line"></i> Dashboard
+                    <i class="fas fa-house"></i> Inicio
                 </a>
                 
                 <!-- INFRAESTRUCTURA - Visible para todos -->
