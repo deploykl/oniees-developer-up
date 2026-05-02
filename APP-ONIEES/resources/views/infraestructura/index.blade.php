@@ -180,17 +180,14 @@
                     <div x-show="activeTab === 'datos-generales'" class="p-6">
                         @include('infraestructura.partials.datos-generales')
                     </div>
-
+                    <div x-show="activeTab === 'servicios-basicos'" class="p-6" style="display: none;">
+                        @include('infraestructura.partials.servicios-basicos')
+                    </div>
                     <div x-show="activeTab === 'infraestructura'" class="p-6" style="display: none;">
                         @include('infraestructura.partials.infraestructura')
                     </div>
 
-                    <!-- En el tab de servicios-basicos -->
-                    <div x-show="activeTab === 'servicios-basicos'" class="p-6" style="display: none;">
-                        @include('infraestructura.partials.servicios-basicos', [
-                            'format_ii' => $format_ii ?? null,
-                        ])
-                    </div>
+
 
                 </form>
             </div>
