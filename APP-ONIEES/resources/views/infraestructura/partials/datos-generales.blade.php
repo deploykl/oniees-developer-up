@@ -996,73 +996,99 @@
         };
     }
 
-    function sectionCounter(sectionId, total) {
-        return {
-            sectionId: sectionId,
-            total: total,
-            filled: 0,
-            percent: 0,
-            open: localStorage.getItem('accordion_' + sectionId) !== 'false',
-
-            toggle() {
-                this.open = !this.open;
-                localStorage.setItem('accordion_' + this.sectionId, this.open);
-                setTimeout(() => this.update(), 50);
-            },
-
-            init() {
-                setTimeout(() => this.update(), 100);
-                const section = document.getElementById(this.sectionId);
-                if (section) {
-                    const inputs = section.querySelectorAll('input, select, textarea');
-                    inputs.forEach(input => {
-                        input.addEventListener('change', () => this.update());
-                        input.addEventListener('input', () => this.update());
-                    });
-                }
-            },
-
-            update() {
-                const section = document.getElementById(this.sectionId);
-                if (!section) return;
-
-                // SOLO contar inputs que son VISIBLES (no ocultos por display:none)
+   function sectionCounter(sectionId, total) {
+    return {
+        sectionId: sectionId,
+        total: total,
+        filled: 0,
+        percent: 0,
+        open: localStorage.getItem('accordion_' + sectionId) !== 'false',
+        
+        toggle() {
+            this.open = !this.open;
+            localStorage.setItem('accordion_' + this.sectionId, this.open);
+        },
+        
+        init() {
+            const section = document.getElementById(this.sectionId);
+            if (section) {
                 const inputs = section.querySelectorAll('input, select, textarea');
-                let count = 0;
                 inputs.forEach(input => {
-                    // Verificar si el elemento es visible (no tiene display:none)
-                    const isVisible = input.offsetParent !== null ||
-                        (input.closest('[style*="display: none"]') === null &&
-                            input.closest('[style*="display:none"]') === null);
-
-                    // También verificar si está dentro de un div oculto
-                    let parent = input.parentElement;
-                    let isHidden = false;
-                    while (parent && parent !== section) {
-                        if (parent.style.display === 'none') {
-                            isHidden = true;
-                            break;
-                        }
-                        parent = parent.parentElement;
+                    input.addEventListener('change', () => this.update());
+                    input.addEventListener('input', () => this.update());
+                });
+            }
+            setTimeout(() => this.update(), 100);
+        },
+        
+        update() {
+            const section = document.getElementById(this.sectionId);
+            if (!section) return;
+            
+            const allInputs = section.querySelectorAll('input, select, textarea');
+            let count = 0;
+            let processedRadios = new Set(); // Para cada grupo de radio, contar solo 1
+            
+            allInputs.forEach(input => {
+                // Saltar inputs ocultos
+                if (input.type === 'hidden') return;
+                
+                // Verificar si el input es visible (no está en un div oculto)
+                let isVisible = true;
+                let parent = input.parentElement;
+                while (parent && parent !== section) {
+                    if (parent.style.display === 'none') {
+                        isVisible = false;
+                        break;
                     }
-
-                    if (!isHidden && input.value && input.value.trim() !== '' && input.value !== 'null') {
+                    parent = parent.parentElement;
+                }
+                if (!isVisible) return;
+                
+                // MANEJO ESPECIAL PARA RADIO BUTTONS
+                if (input.type === 'radio') {
+                    // Solo procesar cada grupo UNA VEZ
+                    if (!processedRadios.has(input.name)) {
+                        processedRadios.add(input.name);
+                        // Buscar si hay un radio seleccionado en este grupo
+                        const selectedRadio = document.querySelector(`input[name="${input.name}"]:checked`);
+                        if (selectedRadio && selectedRadio.value !== '') {
+                            count++;
+                        }
+                    }
+                    return;
+                }
+                
+                // Para CHECKBOX
+                if (input.type === 'checkbox') {
+                    if (input.checked) {
                         count++;
                     }
-                });
+                    return;
+                }
+                
+                // Para inputs normales, select, textarea
+                if (input.value && input.value.trim() !== '' && input.value !== 'null') {
+                    count++;
+                }
+            });
+            
+            this.filled = count;
+            // Calcular porcentaje basado en el total que pasaste (11)
+            this.percent = Math.min(Math.round((count / this.total) * 100), 100);
+            
+            // Disparar evento para el sidebar
+            window.dispatchEvent(new CustomEvent('sectionProgress', {
+                detail: {
+                    section: this.sectionId,
+                    filled: count,
+                    total: this.total,
+                    percent: this.percent
+                }
+            }));
+        }
+    };
+}
 
-                this.filled = count;
-                this.percent = Math.min(Math.round((count / this.total) * 100), 100);
 
-                window.dispatchEvent(new CustomEvent('sectionProgress', {
-                    detail: {
-                        section: this.sectionId,
-                        filled: count,
-                        total: this.total,
-                        percent: this.percent
-                    }
-                }));
-            }
-        };
-    }
 </script>

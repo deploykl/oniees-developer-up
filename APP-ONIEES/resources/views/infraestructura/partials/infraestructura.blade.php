@@ -4,7 +4,7 @@
     <!-- SECCIÓN 1: ESTADO DEL SANEAMIENTO FÍSICO LEGAL -->
     <!-- ============================================ -->
 
-    <div id="sec-saneamiento" class="form-section" x-data="sectionCounter('sec-saneamiento', 13)" x-init="init()">
+    <div id="sec-saneamiento" class="form-section" x-data="sectionCounter('sec-saneamiento', 11)" x-init="init()">
         <div class="section-header" @click="toggle()">
             <div class="section-header-left">
                 <h2 class="section-title">

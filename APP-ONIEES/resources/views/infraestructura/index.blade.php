@@ -1054,7 +1054,7 @@
                     // ============================================
                     'sec-saneamiento': {
                         completed: 0,
-                        total: 13,
+                        total: 11,
                         percent: 0
                     },
                     'sec-planos-fisico': {
