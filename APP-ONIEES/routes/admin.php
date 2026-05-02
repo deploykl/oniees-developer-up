@@ -1,10 +1,8 @@
 <?php
 
 
-use App\Http\Controllers\Admin\ReniecController;
 use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Registro\TableroGerencialController;
 
 
 

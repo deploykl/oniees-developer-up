@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Establishment;
 use App\Models\Format;
 use App\Models\FormatIOne;
+use App\Models\FormatIFiles;
 use App\Models\Profesion;
 use App\Models\CondicionProfesional;
 use App\Models\RegimenLaboral;
@@ -81,8 +82,19 @@ class InfraestructuraController extends Controller
                 $edificaciones = FormatIOne::where('id_format_i', $infraestructura->id)->get();
             }
         }
-
+        $idFormatI = $infraestructura ? $infraestructura->id : 0;
+        $fotos = FormatIFiles::where('id_format_i', $idFormatI)
+            ->where('tipo', 1)
+            ->orderBy('created_at', 'desc')
+            ->get();
         // Preparar arrays para selects
+
+        $archivos = FormatIFiles::where('id_format_i', $idFormatI)
+            ->where('tipo', 2)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+
         $tiposMaterial = [
             '' => 'Seleccione',
             '1' => 'Adobe',
@@ -131,6 +143,10 @@ class InfraestructuraController extends Controller
             'edificaciones' => $edificaciones,
             'upssList' => $upssList,
             'tiposIntervencion' => $tiposIntervencion,
+            'fotos' => $fotos,
+            'archivos' => $archivos, // ← agregar esto
+
+
         ]);
     }
 
@@ -363,8 +379,82 @@ class InfraestructuraController extends Controller
             $infraestructura->sonatos = $request->sonatos;
             $infraestructura->pisos = $request->pisos;
             $infraestructura->area = $request->area;
+            $infraestructura->ubicacion = $request->ubicacion;  // ← AGREGAR ESTA LÍNEA
             $infraestructura->material = $request->material;
             $infraestructura->material_nombre = $request->material_nombre;
+
+
+            // =============================================
+            // EVALUACIÓN DE INFRAESTRUCTURA (Options A-N)
+            // =============================================
+            // CORRECCIÓN PARA TODAS LAS OPCIONES (A - N)
+            $infraestructura->infraestructura_option_a = $request->input('infraestructura_option_a') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_a = ($request->input('infraestructura_option_a') == '1') ? $request->infraestructura_valor_a : null;
+
+            $infraestructura->infraestructura_option_b = $request->input('infraestructura_option_b') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_b = ($request->input('infraestructura_option_b') == '1') ? $request->infraestructura_valor_b : null;
+
+            $infraestructura->infraestructura_option_c = $request->input('infraestructura_option_c') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_c = ($request->input('infraestructura_option_c') == '1') ? $request->infraestructura_valor_c : null;
+
+            $infraestructura->infraestructura_option_d = $request->input('infraestructura_option_d') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_d = ($request->input('infraestructura_option_d') == '1') ? $request->infraestructura_valor_d : null;
+
+            $infraestructura->infraestructura_option_e = $request->input('infraestructura_option_e') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_e = ($request->input('infraestructura_option_e') == '1') ? $request->infraestructura_valor_e : null;
+
+            $infraestructura->infraestructura_option_f = $request->input('infraestructura_option_f') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_f = ($request->input('infraestructura_option_f') == '1') ? $request->infraestructura_valor_f : null;
+
+            $infraestructura->infraestructura_option_g = $request->input('infraestructura_option_g') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_g = ($request->input('infraestructura_option_g') == '1') ? $request->infraestructura_valor_g : null;
+
+            $infraestructura->infraestructura_option_h = $request->input('infraestructura_option_h') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_h = ($request->input('infraestructura_option_h') == '1') ? $request->infraestructura_valor_h : null;
+
+            $infraestructura->infraestructura_option_i = $request->input('infraestructura_option_i') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_i = ($request->input('infraestructura_option_i') == '1') ? $request->infraestructura_valor_i : null;
+
+            $infraestructura->infraestructura_option_j = $request->input('infraestructura_option_j') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_j = ($request->input('infraestructura_option_j') == '1') ? $request->infraestructura_valor_j : null;
+
+            $infraestructura->infraestructura_option_k = $request->input('infraestructura_option_k') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_k = ($request->input('infraestructura_option_k') == '1') ? $request->infraestructura_valor_k : null;
+
+            $infraestructura->infraestructura_option_l = $request->input('infraestructura_option_l') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_l = ($request->input('infraestructura_option_l') == '1') ? $request->infraestructura_valor_l : null;
+
+            $infraestructura->infraestructura_option_m = $request->input('infraestructura_option_m') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_m = ($request->input('infraestructura_option_m') == '1') ? $request->infraestructura_valor_m : null;
+
+            $infraestructura->infraestructura_option_n = $request->input('infraestructura_option_n') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_n = ($request->input('infraestructura_option_n') == '1') ? $request->infraestructura_valor_n : null;
+
+            // Descripciones
+            $infraestructura->infraestructura_descripcion_1 = $request->infraestructura_descripcion_1;
+            $infraestructura->infraestructura_descripcion_2 = $request->infraestructura_descripcion_2;
+            $infraestructura->infraestructura_descripcion_3 = $request->infraestructura_descripcion_3;
+            $infraestructura->infraestructura_descripcion_a = $request->infraestructura_descripcion_a;
+            $infraestructura->infraestructura_descripcion_b = $request->infraestructura_descripcion_b;
+            $infraestructura->infraestructura_descripcion_c = $request->infraestructura_descripcion_c;
+            $infraestructura->infraestructura_descripcion_d = $request->infraestructura_descripcion_d;
+            $infraestructura->infraestructura_descripcion_e = $request->infraestructura_descripcion_e;
+            $infraestructura->infraestructura_descripcion_f = $request->infraestructura_descripcion_f;
+            $infraestructura->infraestructura_descripcion_g = $request->infraestructura_descripcion_g;
+            $infraestructura->infraestructura_descripcion_h = $request->infraestructura_descripcion_h;
+            $infraestructura->infraestructura_descripcion_i = $request->infraestructura_descripcion_i;
+            $infraestructura->infraestructura_descripcion_j = $request->infraestructura_descripcion_j;
+            $infraestructura->infraestructura_descripcion_k = $request->infraestructura_descripcion_k;
+            $infraestructura->infraestructura_descripcion_l = $request->infraestructura_descripcion_l;
+            $infraestructura->infraestructura_descripcion_m = $request->infraestructura_descripcion_m;
+            $infraestructura->infraestructura_descripcion_n = $request->infraestructura_descripcion_n;
+
+            // Estado del entorno
+            $infraestructura->estado_contencion = $request->estado_contencion;
+            $infraestructura->estado_taludes = $request->estado_taludes;
+            $infraestructura->observacion = $request->observacion;
+            $infraestructura->puntaje = $request->puntaje;
+            $infraestructura->tipo_intervencion = $request->tipo_intervencion;
 
             // =============================================
             // CERRAMIENTO PERIMETRAL
@@ -552,34 +642,52 @@ class InfraestructuraController extends Controller
             // =============================================
             // EVALUACIÓN DE INFRAESTRUCTURA (Options A-N)
             // =============================================
-            $infraestructura->infraestructura_option_a = $request->has('infraestructura_option_a') ? 1 : 0;
-            $infraestructura->infraestructura_valor_a = $request->infraestructura_valor_a;
-            $infraestructura->infraestructura_option_b = $request->has('infraestructura_option_b') ? 1 : 0;
-            $infraestructura->infraestructura_valor_b = $request->infraestructura_valor_b;
-            $infraestructura->infraestructura_option_c = $request->has('infraestructura_option_c') ? 1 : 0;
-            $infraestructura->infraestructura_valor_c = $request->infraestructura_valor_c;
-            $infraestructura->infraestructura_option_d = $request->has('infraestructura_option_d') ? 1 : 0;
-            $infraestructura->infraestructura_valor_d = $request->infraestructura_valor_d;
-            $infraestructura->infraestructura_option_e = $request->has('infraestructura_option_e') ? 1 : 0;
-            $infraestructura->infraestructura_valor_e = $request->infraestructura_valor_e;
-            $infraestructura->infraestructura_option_f = $request->has('infraestructura_option_f') ? 1 : 0;
-            $infraestructura->infraestructura_valor_f = $request->infraestructura_valor_f;
-            $infraestructura->infraestructura_option_g = $request->has('infraestructura_option_g') ? 1 : 0;
-            $infraestructura->infraestructura_valor_g = $request->infraestructura_valor_g;
-            $infraestructura->infraestructura_option_h = $request->has('infraestructura_option_h') ? 1 : 0;
-            $infraestructura->infraestructura_valor_h = $request->infraestructura_valor_h;
-            $infraestructura->infraestructura_option_i = $request->has('infraestructura_option_i') ? 1 : 0;
-            $infraestructura->infraestructura_valor_i = $request->infraestructura_valor_i;
-            $infraestructura->infraestructura_option_j = $request->has('infraestructura_option_j') ? 1 : 0;
-            $infraestructura->infraestructura_valor_j = $request->infraestructura_valor_j;
-            $infraestructura->infraestructura_option_k = $request->has('infraestructura_option_k') ? 1 : 0;
-            $infraestructura->infraestructura_valor_k = $request->infraestructura_valor_k;
-            $infraestructura->infraestructura_option_l = $request->has('infraestructura_option_l') ? 1 : 0;
-            $infraestructura->infraestructura_valor_l = $request->infraestructura_valor_l;
-            $infraestructura->infraestructura_option_m = $request->has('infraestructura_option_m') ? 1 : 0;
-            $infraestructura->infraestructura_valor_m = $request->infraestructura_valor_m;
-            $infraestructura->infraestructura_option_n = $request->has('infraestructura_option_n') ? 1 : 0;
-            $infraestructura->infraestructura_valor_n = $request->infraestructura_valor_n;
+            // =============================================
+            // =============================================
+            // EVALUACIÓN DE INFRAESTRUCTURA (Options A-N)
+            // =============================================
+            // Para cada elemento, verificar específicamente el valor del radio
+            $infraestructura->infraestructura_option_a = $request->input('infraestructura_option_a') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_a = ($request->input('infraestructura_option_a') == '1') ? $request->infraestructura_valor_a : null;
+
+            $infraestructura->infraestructura_option_b = $request->input('infraestructura_option_b') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_b = ($request->input('infraestructura_option_b') == '1') ? $request->infraestructura_valor_b : null;
+
+            $infraestructura->infraestructura_option_c = $request->input('infraestructura_option_c') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_c = ($request->input('infraestructura_option_c') == '1') ? $request->infraestructura_valor_c : null;
+
+            $infraestructura->infraestructura_option_d = $request->input('infraestructura_option_d') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_d = ($request->input('infraestructura_option_d') == '1') ? $request->infraestructura_valor_d : null;
+
+            $infraestructura->infraestructura_option_e = $request->input('infraestructura_option_e') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_e = ($request->input('infraestructura_option_e') == '1') ? $request->infraestructura_valor_e : null;
+
+            $infraestructura->infraestructura_option_f = $request->input('infraestructura_option_f') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_f = ($request->input('infraestructura_option_f') == '1') ? $request->infraestructura_valor_f : null;
+
+            $infraestructura->infraestructura_option_g = $request->input('infraestructura_option_g') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_g = ($request->input('infraestructura_option_g') == '1') ? $request->infraestructura_valor_g : null;
+
+            $infraestructura->infraestructura_option_h = $request->input('infraestructura_option_h') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_h = ($request->input('infraestructura_option_h') == '1') ? $request->infraestructura_valor_h : null;
+
+            $infraestructura->infraestructura_option_i = $request->input('infraestructura_option_i') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_i = ($request->input('infraestructura_option_i') == '1') ? $request->infraestructura_valor_i : null;
+
+            $infraestructura->infraestructura_option_j = $request->input('infraestructura_option_j') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_j = ($request->input('infraestructura_option_j') == '1') ? $request->infraestructura_valor_j : null;
+
+            $infraestructura->infraestructura_option_k = $request->input('infraestructura_option_k') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_k = ($request->input('infraestructura_option_k') == '1') ? $request->infraestructura_valor_k : null;
+
+            $infraestructura->infraestructura_option_l = $request->input('infraestructura_option_l') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_l = ($request->input('infraestructura_option_l') == '1') ? $request->infraestructura_valor_l : null;
+
+            $infraestructura->infraestructura_option_m = $request->input('infraestructura_option_m') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_m = ($request->input('infraestructura_option_m') == '1') ? $request->infraestructura_valor_m : null;
+
+            $infraestructura->infraestructura_option_n = $request->input('infraestructura_option_n') == '1' ? 1 : 0;
+            $infraestructura->infraestructura_valor_n = ($request->input('infraestructura_option_n') == '1') ? $request->infraestructura_valor_n : null;
 
             // Descripciones
             $infraestructura->infraestructura_descripcion_1 = $request->infraestructura_descripcion_1;

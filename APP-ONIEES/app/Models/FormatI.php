@@ -107,11 +107,13 @@ class FormatI extends Model
         'material_nombre',
         'edificacion',
         'numeral',
+        
         'cp_erco_perim',
         'cp_material',
         'cp_material_nombre',
         'cp_estado',
         'cp_seguridad',
+        
         'cp_observaciones',
         'estado_contencion',
         'estado_taludes',

@@ -64,30 +64,30 @@ Route::middleware(['auth'])->group(function () {
     // ============================================
     // ADMIN - REPOSITORIO (TODO EN MODALES)
     // ============================================
-    
-// Dentro de Route::middleware(['auth'])->group
-Route::prefix('admin')->name('admin.')->group(function () {
-    // Categorías (vista principal)
-    Route::get('repositorio/categories', [CategoryController::class, 'index'])->name('repositorio.categories');
-    
-    // Recursos por subcategoría
-    Route::get('repositorio/resources/{subcategory}', [ResourceController::class, 'index'])->name('repositorio.resources');
-    
-    // API endpoints
-    Route::prefix('repositorio/api')->name('repositorio.api.')->group(function () {
-        Route::post('categories', [CategoryController::class, 'store']);
-        Route::put('categories/{category}', [CategoryController::class, 'update']);
-        Route::delete('categories/{category}', [CategoryController::class, 'destroy']);
-        
-        Route::post('subcategories', [SubcategoryController::class, 'store']);
-        Route::put('subcategories/{subcategory}', [SubcategoryController::class, 'update']);
-        Route::delete('subcategories/{subcategory}', [SubcategoryController::class, 'destroy']);
-        
-        Route::post('resources', [ResourceController::class, 'store']);
-        Route::put('resources/{resource}', [ResourceController::class, 'update']);
-        Route::delete('resources/{resource}', [ResourceController::class, 'destroy']);
+
+    // Dentro de Route::middleware(['auth'])->group
+    Route::prefix('admin')->name('admin.')->group(function () {
+        // Categorías (vista principal)
+        Route::get('repositorio/categories', [CategoryController::class, 'index'])->name('repositorio.categories');
+
+        // Recursos por subcategoría
+        Route::get('repositorio/resources/{subcategory}', [ResourceController::class, 'index'])->name('repositorio.resources');
+
+        // API endpoints
+        Route::prefix('repositorio/api')->name('repositorio.api.')->group(function () {
+            Route::post('categories', [CategoryController::class, 'store']);
+            Route::put('categories/{category}', [CategoryController::class, 'update']);
+            Route::delete('categories/{category}', [CategoryController::class, 'destroy']);
+
+            Route::post('subcategories', [SubcategoryController::class, 'store']);
+            Route::put('subcategories/{subcategory}', [SubcategoryController::class, 'update']);
+            Route::delete('subcategories/{subcategory}', [SubcategoryController::class, 'destroy']);
+
+            Route::post('resources', [ResourceController::class, 'store']);
+            Route::put('resources/{resource}', [ResourceController::class, 'update']);
+            Route::delete('resources/{resource}', [ResourceController::class, 'destroy']);
+        });
     });
-});
 });
 
 
@@ -97,4 +97,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::get('/debug-session', function () {
     dd(session()->all());
+});
+Route::get('/test-insert-foto', function() {
+    try {
+        $foto = new \App\Models\FormatIFiles();
+        $foto->id_format_i = 4;
+        $foto->tipo = 1;
+        $foto->nombre = 'test.jpg';
+        $foto->url = '/storage/test.jpg';
+        $foto->size = '10 KB';
+        $foto->user_id = 1;
+        $foto->save();
+        
+        return "Insertado correctamente con ID: " . $foto->id;
+    } catch (\Exception $e) {
+        return "Error: " . $e->getMessage();
+    }
 });

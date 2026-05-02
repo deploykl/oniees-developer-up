@@ -420,6 +420,7 @@
 
     </div>
         @include('infraestructura.partials.modal.modal-edificacion')
+        @include('infraestructura.partials.modal.modal-acabados')
 
 
 
