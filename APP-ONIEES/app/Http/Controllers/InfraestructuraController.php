@@ -515,8 +515,6 @@ class InfraestructuraController extends Controller
 
 
             // OBTENER TODOS LOS DATOS DEL REQUEST
-            $allData = $request->all();
-            \Log::info('TODO el request:', $allData);
             $format_ii = FormatII::where('id_establecimiento', $establecimiento->id)->first();
 
             if (!$format_ii) {
@@ -530,6 +528,9 @@ class InfraestructuraController extends Controller
             // Asignar SOLO si vienen en el request
             if ($request->has('se_agua')) {
                 $format_ii->se_agua = $request->se_agua;
+            }
+            if ($request->has('se_agua_otro')) {
+                $format_ii->se_agua_otro = $request->se_agua_otro;
             }
             if ($request->has('se_agua_operativo')) {
                 $format_ii->se_agua_operativo = $request->se_agua_operativo;
@@ -555,6 +556,9 @@ class InfraestructuraController extends Controller
             if ($request->has('se_desague')) {
                 $format_ii->se_desague = $request->se_desague;
             }
+             if ($request->has('se_desague_otro')) {
+                 $format_ii->se_desague_otro = $request->se_desague_otro;
+            }
             if ($request->has('se_desague_operativo')) {
                 $format_ii->se_desague_operativo = $request->se_desague_operativo;
             }
@@ -567,11 +571,7 @@ class InfraestructuraController extends Controller
 
             $format_ii->save();
 
-            \Log::info('FormatII DESPUES de guardar - ID: ' . $format_ii->id);
-            \Log::info('Valores guardados:', [
-                'se_agua' => $format_ii->se_agua,
-                'se_desague' => $format_ii->se_desague,
-            ]);
+
             DB::commit();
 
             // Limpiar sesión

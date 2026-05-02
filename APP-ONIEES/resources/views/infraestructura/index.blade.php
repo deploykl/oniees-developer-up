@@ -186,9 +186,6 @@
                     <div x-show="activeTab === 'infraestructura'" class="p-6" style="display: none;">
                         @include('infraestructura.partials.infraestructura')
                     </div>
-
-
-
                 </form>
             </div>
         </div>
