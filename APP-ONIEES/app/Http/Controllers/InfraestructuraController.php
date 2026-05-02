@@ -73,9 +73,9 @@ class InfraestructuraController extends Controller
         $tiposIntervencion = TipoIntervencion::orderBy('nombre')->get();
         // Cargar el format usando la relación
         $format = $establecimiento ? $establecimiento->format : null;
-        $format_ii = $establecimiento->formatII;
+        $format_ii = $establecimiento ? $establecimiento->formatII : null;
 
-        if (!$format_ii) {
+        if (!$format_ii && $establecimiento) {
             $format_ii = new FormatII();
             $format_ii->id_establecimiento = $establecimiento->id;
         }
@@ -556,8 +556,8 @@ class InfraestructuraController extends Controller
             if ($request->has('se_desague')) {
                 $format_ii->se_desague = $request->se_desague;
             }
-             if ($request->has('se_desague_otro')) {
-                 $format_ii->se_desague_otro = $request->se_desague_otro;
+            if ($request->has('se_desague_otro')) {
+                $format_ii->se_desague_otro = $request->se_desague_otro;
             }
             if ($request->has('se_desague_operativo')) {
                 $format_ii->se_desague_operativo = $request->se_desague_operativo;
@@ -567,6 +567,279 @@ class InfraestructuraController extends Controller
             }
             if ($request->has('se_desague_fuente')) {
                 $format_ii->se_desague_fuente = $request->se_desague_fuente;
+            }
+
+
+            if ($request->has('se_electricidad')) {
+                $format_ii->se_electricidad = $request->se_electricidad;
+            }
+            if ($request->has('se_electricidad_operativo')) {
+                $format_ii->se_electricidad_operativo = $request->se_electricidad_operativo;
+            }
+            if ($request->has('se_electricidad_estado')) {
+                $format_ii->se_electricidad_estado = $request->se_electricidad_estado;
+            }
+            if ($request->has('se_electricidad_fuente')) {
+                $format_ii->se_electricidad_fuente = $request->se_electricidad_fuente;
+            }
+            if ($request->has('se_electricidad_option')) {
+                $format_ii->se_electricidad_option = $request->se_electricidad_option;
+            }
+            if ($request->has('se_electricidad_proveedor')) {
+                $format_ii->se_electricidad_proveedor = $request->se_electricidad_proveedor;
+            }
+            if ($request->has('se_electricidad_proveedor_ruc')) {
+                $format_ii->se_electricidad_proveedor_ruc = $request->se_electricidad_proveedor_ruc;
+            }
+
+
+            if ($request->has('se_telefonia')) {
+                $format_ii->se_telefonia = $request->se_telefonia;
+            }
+            if ($request->has('se_telefonia_operativo')) {
+                $format_ii->se_telefonia_operativo = $request->se_telefonia_operativo;
+            }
+            if ($request->has('se_telefonia_estado')) {
+                $format_ii->se_telefonia_estado = $request->se_telefonia_estado;
+            }
+            if ($request->has('se_telefonia_option')) {
+                $format_ii->se_telefonia_option = $request->se_telefonia_option;
+            }
+            if ($request->has('se_telefonia_fuente')) {
+                $format_ii->se_telefonia_fuente = $request->se_telefonia_fuente;
+            }
+            if ($request->has('se_telefonia_proveedor_ruc')) {
+                $format_ii->se_telefonia_proveedor_ruc = $request->se_telefonia_proveedor_ruc;
+            }
+            if ($request->has('se_telefonia_proveedor')) {
+                $format_ii->se_telefonia_proveedor = $request->se_telefonia_proveedor;
+            }
+
+            if ($request->has('se_internet')) {
+                $format_ii->se_internet = $request->se_internet;
+            }
+            if ($request->has('se_internet_estado')) {
+                $format_ii->se_internet_estado = $request->se_internet_estado;
+            }
+            if ($request->has('se_internet_option')) {
+                $format_ii->se_internet_option = $request->se_internet_option;
+            }
+            if ($request->has('se_internet_fuente')) {
+                $format_ii->se_internet_fuente = $request->se_internet_fuente;
+            }
+            if ($request->has('se_internet_proveedor_ruc')) {
+                $format_ii->se_internet_proveedor_ruc = $request->se_internet_proveedor_ruc;
+            }
+            if ($request->has('se_internet_proveedor')) {
+                $format_ii->se_internet_proveedor = $request->se_internet_proveedor;
+            }
+
+            if ($request->has('internet')) {
+                $format_ii->internet = $request->internet;
+            }
+            if ($request->has('se_internet_operativo')) {
+                $format_ii->se_internet_operativo = $request->se_internet_operativo;
+            }
+            if ($request->has('internet_operador')) {
+                $format_ii->internet_operador = $request->internet_operador;
+            }
+            if ($request->has('internet_option1')) {
+                $format_ii->internet_option1 = $request->internet_option1;
+            }
+            if ($request->has('internet_red')) {
+                $format_ii->internet_red = $request->internet_red;
+            }
+            if ($request->has('internet_porcentaje')) {
+                $format_ii->internet_porcentaje = $request->internet_porcentaje;
+            }
+            if ($request->has('internet_transmision')) {
+                $format_ii->internet_transmision = $request->internet_transmision;
+            }
+            if ($request->has('internet_option2')) {
+                $format_ii->internet_option2 = $request->internet_option2;
+            }
+            if ($request->has('internet_servicio')) {
+                $format_ii->internet_servicio = $request->internet_servicio;
+            }
+
+
+            if ($request->has('televicion')) {
+                $format_ii->televicion = $request->televicion;
+            }
+            if ($request->has('televicion_operador')) {
+                $format_ii->televicion_operador = $request->televicion_operador;
+            }
+            if ($request->has('televicion_option1')) {
+                $format_ii->televicion_option1 = $request->televicion_option1;
+            }
+            if ($request->has('televicion_espera')) {
+                $format_ii->televicion_espera = $request->televicion_espera;
+            }
+            if ($request->has('televicion_porcentaje')) {
+                $format_ii->televicion_porcentaje = $request->televicion_porcentaje;
+            }
+            if ($request->has('televicion_antena')) {
+                $format_ii->televicion_antena = $request->televicion_antena;
+            }
+            if ($request->has('televicion_equipo')) {
+                $format_ii->televicion_equipo = $request->televicion_equipo;
+            }
+
+            if ($request->has('se_red')) {
+                $format_ii->se_red = $request->se_red;
+            }
+            if ($request->has('se_red_operativo')) {
+                $format_ii->se_red_operativo = $request->se_red_operativo;
+            }
+            if ($request->has('se_red_estado')) {
+                $format_ii->se_red_estado = $request->se_red_estado;
+            }
+            if ($request->has('se_red_option')) {
+                $format_ii->se_red_option = $request->se_red_option;
+            }
+            if ($request->has('se_red_fuente')) {
+                $format_ii->se_red_fuente = $request->se_red_fuente;
+            }
+            if ($request->has('se_red_proveedor_ruc')) {
+                $format_ii->se_red_proveedor_ruc = $request->se_red_proveedor_ruc;
+            }
+            if ($request->has('se_red_proveedor')) {
+                $format_ii->se_red_proveedor = $request->se_red_proveedor;
+            }
+
+            // GAS
+            if ($request->has('se_gas')) {
+                $format_ii->se_gas = $request->se_gas;
+            }
+            if ($request->has('se_gas_operativo')) {
+                $format_ii->se_gas_operativo = $request->se_gas_operativo;
+            }
+            if ($request->has('se_gas_estado')) {
+                $format_ii->se_gas_estado = $request->se_gas_estado;
+            }
+            if ($request->has('se_gas_option')) {
+                $format_ii->se_gas_option = $request->se_gas_option;
+            }
+            if ($request->has('se_gas_fuente')) {
+                $format_ii->se_gas_fuente = $request->se_gas_fuente;
+            }
+            if ($request->has('se_gas_proveedor_ruc')) {
+                $format_ii->se_gas_proveedor_ruc = $request->se_gas_proveedor_ruc;
+            }
+            if ($request->has('se_gas_proveedor')) {
+                $format_ii->se_gas_proveedor = $request->se_gas_proveedor;
+            }
+
+
+            if ($request->has('se_residuos')) {
+                $format_ii->se_residuos = $request->se_residuos;
+            }
+            if ($request->has('se_residuos_operativo')) {
+                $format_ii->se_residuos_operativo = $request->se_residuos_operativo;
+            }
+            if ($request->has('se_residuos_estado')) {
+                $format_ii->se_residuos_estado = $request->se_residuos_estado;
+            }
+            if ($request->has('se_residuos_option')) {
+                $format_ii->se_residuos_option = $request->se_residuos_option;
+            }
+            if ($request->has('se_residuos_fuente')) {
+                $format_ii->se_residuos_fuente = $request->se_residuos_fuente;
+            }
+            if ($request->has('se_residuos_proveedor_ruc')) {
+                $format_ii->se_residuos_proveedor_ruc = $request->se_residuos_proveedor_ruc;
+            }
+            if ($request->has('se_residuos_proveedor')) {
+                $format_ii->se_residuos_proveedor = $request->se_residuos_proveedor;
+            }
+
+
+
+            if ($request->has('se_residuos_h')) {
+                $format_ii->se_residuos_h = $request->se_residuos_h;
+            }
+            if ($request->has('se_residuos_h_operativo')) {
+                $format_ii->se_residuos_h_operativo = $request->se_residuos_h_operativo;
+            }
+            if ($request->has('se_residuos_h_estado')) {
+                $format_ii->se_residuos_h_estado = $request->se_residuos_h_estado;
+            }
+            if ($request->has('se_residuos_h_option')) {
+                $format_ii->se_residuos_h_option = $request->se_residuos_h_option;
+            }
+            if ($request->has('se_residuos_h_fuente')) {
+                $format_ii->se_residuos_h_fuente = $request->se_residuos_h_fuente;
+            }
+            if ($request->has('se_residuos_h_proveedor_ruc')) {
+                $format_ii->se_residuos_h_proveedor_ruc = $request->se_residuos_h_proveedor_ruc;
+            }
+            if ($request->has('se_residuos_h_proveedor')) {
+                $format_ii->se_residuos_h_proveedor = $request->se_residuos_h_proveedor;
+            }
+
+
+            if ($request->has('sc_personal')) {
+                $format_ii->sc_personal = $request->sc_personal;
+            }
+            if ($request->has('sc_personal_operativo')) {
+                $format_ii->sc_personal_operativo = $request->sc_personal_operativo;
+            }
+            if ($request->has('sc_personal_estado')) {
+                $format_ii->sc_personal_estado = $request->sc_personal_estado;
+            }
+            if ($request->has('sc_personal_option')) {
+                $format_ii->sc_personal_option = $request->sc_personal_option;
+            }
+            if ($request->has('sc_personal_fuente')) {
+                $format_ii->sc_personal_fuente = $request->sc_personal_fuente;
+            }
+            if ($request->has('sc_personal_proveedor_ruc')) {
+                $format_ii->sc_personal_proveedor_ruc = $request->sc_personal_proveedor_ruc;
+            }
+            if ($request->has('sc_personal_proveedor')) {
+                $format_ii->sc_personal_proveedor = $request->sc_personal_proveedor;
+            }
+
+            if ($request->has('sc_sshh')) {
+                $format_ii->sc_sshh = $request->sc_sshh;
+            }
+            if ($request->has('sc_sshh_operativo')) {
+                $format_ii->sc_sshh_operativo = $request->sc_sshh_operativo;
+            }
+            if ($request->has('sc_sshh_estado')) {
+                $format_ii->sc_sshh_estado = $request->sc_sshh_estado;
+            }
+            if ($request->has('sc_sshh_option')) {
+                $format_ii->sc_sshh_option = $request->sc_sshh_option;
+            }
+            if ($request->has('sc_sshh_fuente')) {
+                $format_ii->sc_sshh_fuente = $request->sc_sshh_fuente;
+            }
+            if ($request->has('sc_sshh_proveedor_ruc')) {
+                $format_ii->sc_sshh_proveedor_ruc = $request->sc_sshh_proveedor_ruc;
+            }
+            if ($request->has('sc_sshh_proveedor')) {
+                $format_ii->sc_sshh_proveedor = $request->sc_sshh_proveedor;
+            }
+
+
+            if ($request->has('sc_vestidores')) {
+                $format_ii->sc_vestidores = $request->sc_vestidores;
+            }
+            if ($request->has('sc_vestidores_estado')) {
+                $format_ii->sc_vestidores_estado = $request->sc_vestidores_estado;
+            }
+            if ($request->has('sc_vestidores_option')) {
+                $format_ii->sc_vestidores_option = $request->sc_vestidores_option;
+            }
+            if ($request->has('sc_vestidores_fuente')) {
+                $format_ii->sc_vestidores_fuente = $request->sc_vestidores_fuente;
+            }
+            if ($request->has('sc_vestidores_proveedor_ruc')) {
+                $format_ii->sc_vestidores_proveedor_ruc = $request->sc_vestidores_proveedor_ruc;
+            }
+            if ($request->has('sc_vestidores_proveedor')) {
+                $format_ii->sc_vestidores_proveedor = $request->sc_vestidores_proveedor;
             }
 
             $format_ii->save();

@@ -1,3 +1,5 @@
+<h1>1. SERVICIOS BÁSICOS DEL ESTABLECIMIENTO</h1>
+
 <!-- ============================================ -->
 <!-- AGUA -->
 <!-- ============================================ -->
@@ -14,20 +16,27 @@
             </label>
             <select name="se_agua" id="se_agua" class="w-full rounded-lg border-gray-300">
                 <option value="">Seleccione</option>
-                <option value="RP" {{ old('se_agua', $format_ii->se_agua ?? '') == 'RP' ? 'selected' : '' }}>Red Pública</option>
-                <option value="CCS" {{ old('se_agua', $format_ii->se_agua ?? '') == 'CCS' ? 'selected' : '' }}>Camion-cisterna u otro similar</option>
-                <option value="P" {{ old('se_agua', $format_ii->se_agua ?? '') == 'P' ? 'selected' : '' }}>Pozo</option>
-                <option value="MP" {{ old('se_agua', $format_ii->se_agua ?? '') == 'MP' ? 'selected' : '' }}>Manantial o puquio</option>
-                <option value="RALL" {{ old('se_agua', $format_ii->se_agua ?? '') == 'RALL' ? 'selected' : '' }}>Rio, acequia, lago, laguna</option>
-                <option value="O" {{ old('se_agua', $format_ii->se_agua ?? '') == 'O' ? 'selected' : '' }}>Otro</option>
+                <option value="RP" {{ old('se_agua', $format_ii->se_agua ?? '') == 'RP' ? 'selected' : '' }}>Red
+                    Pública</option>
+                <option value="CCS" {{ old('se_agua', $format_ii->se_agua ?? '') == 'CCS' ? 'selected' : '' }}>
+                    Camion-cisterna u otro similar</option>
+                <option value="P" {{ old('se_agua', $format_ii->se_agua ?? '') == 'P' ? 'selected' : '' }}>Pozo
+                </option>
+                <option value="MP" {{ old('se_agua', $format_ii->se_agua ?? '') == 'MP' ? 'selected' : '' }}>
+                    Manantial o puquio</option>
+                <option value="RALL" {{ old('se_agua', $format_ii->se_agua ?? '') == 'RALL' ? 'selected' : '' }}>Rio,
+                    acequia, lago, laguna</option>
+                <option value="O" {{ old('se_agua', $format_ii->se_agua ?? '') == 'O' ? 'selected' : '' }}>Otro
+                </option>
             </select>
         </div>
-        <div id="se_agua_otro_div" style="display: {{ old('se_agua', $format_ii->se_agua ?? '') == 'O' ? 'block' : 'none' }};">
+        <div id="se_agua_otro_div"
+            style="display: {{ old('se_agua', $format_ii->se_agua ?? '') == 'O' ? 'block' : 'none' }};">
             <label class="block text-sm font-medium text-gray-700 mb-2">
                 Especifique otro origen del agua:
             </label>
-            <input type="text" name="se_agua_otro" value="{{ old('se_agua_otro', $format_ii->se_agua_otro ?? '') }}" 
-                   class="w-full rounded-lg border-gray-300" placeholder="Ej: Agua embotellada, etc.">
+            <input type="text" name="se_agua_otro" value="{{ old('se_agua_otro', $format_ii->se_agua_otro ?? '') }}"
+                class="w-full rounded-lg border-gray-300" placeholder="Ej: Agua embotellada, etc.">
         </div>
     </div>
 
@@ -39,15 +48,15 @@
             </label>
             <div class="flex gap-6">
                 <label class="flex items-center gap-2">
-                    <input type="radio" name="se_agua_operativo" value="SI" 
-                           class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                           {{ old('se_agua_operativo', $format_ii->se_agua_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                    <input type="radio" name="se_agua_operativo" value="SI"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_agua_operativo', $format_ii->se_agua_operativo ?? '') == 'SI' ? 'checked' : '' }}>
                     <span>SI</span>
                 </label>
                 <label class="flex items-center gap-2">
-                    <input type="radio" name="se_agua_operativo" value="NO" 
-                           class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                           {{ old('se_agua_operativo', $format_ii->se_agua_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                    <input type="radio" name="se_agua_operativo" value="NO"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_agua_operativo', $format_ii->se_agua_operativo ?? '') == 'NO' ? 'checked' : '' }}>
                     <span>NO</span>
                 </label>
             </div>
@@ -60,21 +69,21 @@
             </label>
             <div class="flex gap-6">
                 <label class="flex items-center gap-2">
-                    <input type="radio" name="se_agua_estado" value="B" 
-                           class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                           {{ old('se_agua_estado', $format_ii->se_agua_estado ?? '') == 'B' ? 'checked' : '' }}>
+                    <input type="radio" name="se_agua_estado" value="B"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_agua_estado', $format_ii->se_agua_estado ?? '') == 'B' ? 'checked' : '' }}>
                     <span>Bueno (B)</span>
                 </label>
                 <label class="flex items-center gap-2">
-                    <input type="radio" name="se_agua_estado" value="R" 
-                           class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                           {{ old('se_agua_estado', $format_ii->se_agua_estado ?? '') == 'R' ? 'checked' : '' }}>
+                    <input type="radio" name="se_agua_estado" value="R"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_agua_estado', $format_ii->se_agua_estado ?? '') == 'R' ? 'checked' : '' }}>
                     <span>Regular (R)</span>
                 </label>
                 <label class="flex items-center gap-2">
-                    <input type="radio" name="se_agua_estado" value="M" 
-                           class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                           {{ old('se_agua_estado', $format_ii->se_agua_estado ?? '') == 'M' ? 'checked' : '' }}>
+                    <input type="radio" name="se_agua_estado" value="M"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_agua_estado', $format_ii->se_agua_estado ?? '') == 'M' ? 'checked' : '' }}>
                     <span>Malo (M)</span>
                 </label>
             </div>
@@ -89,15 +98,15 @@
             </label>
             <div class="flex gap-6">
                 <label class="flex items-center gap-2">
-                    <input type="radio" name="se_sevicio_semana" value="SI" 
-                           class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                           {{ old('se_sevicio_semana', $format_ii->se_sevicio_semana ?? '') == 'SI' ? 'checked' : '' }}>
+                    <input type="radio" name="se_sevicio_semana" value="SI"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_sevicio_semana', $format_ii->se_sevicio_semana ?? '') == 'SI' ? 'checked' : '' }}>
                     <span>SI</span>
                 </label>
                 <label class="flex items-center gap-2">
-                    <input type="radio" name="se_sevicio_semana" value="NO" 
-                           class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                           {{ old('se_sevicio_semana', $format_ii->se_sevicio_semana ?? '') == 'NO' ? 'checked' : '' }}>
+                    <input type="radio" name="se_sevicio_semana" value="NO"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_sevicio_semana', $format_ii->se_sevicio_semana ?? '') == 'NO' ? 'checked' : '' }}>
                     <span>NO</span>
                 </label>
             </div>
@@ -109,15 +118,17 @@
             <label class="block text-sm font-medium text-gray-700 mb-2">
                 Horas al día: <span class="text-red-500">*</span>
             </label>
-            <input type="number" name="se_horas_dia" id="se_horas_dia" value="{{ old('se_horas_dia', $format_ii->se_horas_dia ?? '24') }}" 
-                   class="w-full rounded-lg border-gray-300" min="0" max="24" step="1">
+            <input type="number" name="se_horas_dia" id="se_horas_dia"
+                value="{{ old('se_horas_dia', $format_ii->se_horas_dia ?? '24') }}"
+                class="w-full rounded-lg border-gray-300" min="0" max="24" step="1">
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">
                 Horas a la semana:
             </label>
-            <input type="number" name="se_sevicio_semana_calculo" id="se_sevicio_semana_calculo" value="{{ old('se_sevicio_semana_calculo', $format_ii->se_sevicio_semana_calculo ?? '168') }}" 
-                   class="w-full rounded-lg border-gray-300 bg-gray-100" readonly>
+            <input type="number" name="se_sevicio_semana_calculo" id="se_sevicio_semana_calculo"
+                value="{{ old('se_sevicio_semana_calculo', $format_ii->se_sevicio_semana_calculo ?? '168') }}"
+                class="w-full rounded-lg border-gray-300 bg-gray-100" readonly>
         </div>
     </div>
 
@@ -130,14 +141,14 @@
             <div class="flex gap-6">
                 <label class="flex items-center gap-2">
                     <input type="radio" name="se_servicio_agua" value="SI" id="se_agua_paga_si"
-                           class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                           {{ old('se_servicio_agua', $format_ii->se_servicio_agua ?? '') == 'SI' ? 'checked' : '' }}>
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_servicio_agua', $format_ii->se_servicio_agua ?? '') == 'SI' ? 'checked' : '' }}>
                     <span>SI</span>
                 </label>
                 <label class="flex items-center gap-2">
                     <input type="radio" name="se_servicio_agua" value="NO" id="se_agua_paga_no"
-                           class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
-                           {{ old('se_servicio_agua', $format_ii->se_servicio_agua ?? '') == 'NO' ? 'checked' : '' }}>
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_servicio_agua', $format_ii->se_servicio_agua ?? '') == 'NO' ? 'checked' : '' }}>
                     <span>NO</span>
                 </label>
             </div>
@@ -145,7 +156,8 @@
     </div>
 
     <!-- Empresa/Entidad a la que se paga -->
-    <div id="se_agua_empresa_div" style="display: {{ old('se_servicio_agua', $format_ii->se_servicio_agua ?? '') == 'SI' ? 'block' : 'none' }};">
+    <div id="se_agua_empresa_div"
+        style="display: {{ old('se_servicio_agua', $format_ii->se_servicio_agua ?? '') == 'SI' ? 'block' : 'none' }};">
         <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -153,10 +165,18 @@
                 </label>
                 <select name="se_empresa_agua" id="se_agua_empresa" class="w-full rounded-lg border-gray-300">
                     <option value="">Seleccione</option>
-                    <option value="EPS" {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'EPS' ? 'selected' : '' }}>Empresa prestadora de servicio</option>
-                    <option value="M" {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'M' ? 'selected' : '' }}>Municipalidad</option>
-                    <option value="PC" {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'PC' ? 'selected' : '' }}>Organización comunal</option>
-                    <option value="C" {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'C' ? 'selected' : '' }}>Camion cisterna (pago directo)</option>
+                    <option value="EPS"
+                        {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'EPS' ? 'selected' : '' }}>
+                        Empresa prestadora de servicio</option>
+                    <option value="M"
+                        {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'M' ? 'selected' : '' }}>
+                        Municipalidad</option>
+                    <option value="PC"
+                        {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'PC' ? 'selected' : '' }}>
+                        Organización comunal</option>
+                    <option value="C"
+                        {{ old('se_empresa_agua', $format_ii->se_empresa_agua ?? '') == 'C' ? 'selected' : '' }}>Camion
+                        cisterna (pago directo)</option>
                 </select>
             </div>
         </div>
@@ -179,20 +199,31 @@
             </label>
             <select name="se_desague" id="se_desague" class="w-full rounded-lg border-gray-300">
                 <option value="">Seleccione</option>
-                <option value="RPD" {{ old('se_desague', $format_ii->se_desague ?? '') == 'RPD' ? 'selected' : '' }}>Red pública de desagüe dentro de la IPRESS</option>
-                <option value="RPF" {{ old('se_desague', $format_ii->se_desague ?? '') == 'RPF' ? 'selected' : '' }}>Red pública de desagüe fuera de la IPRESS</option>
-                <option value="P" {{ old('se_desague', $format_ii->se_desague ?? '') == 'P' ? 'selected' : '' }}>Pozo séptico, tanque séptico, séptico biogestor</option>
-                <option value="L" {{ old('se_desague', $format_ii->se_desague ?? '') == 'L' ? 'selected' : '' }}>Letrina (con tratamiento)</option>
-                <option value="PN" {{ old('se_desague', $format_ii->se_desague ?? '') == 'PN' ? 'selected' : '' }}>Pozo ciego o negro</option>
-                <option value="OTR" {{ old('se_desague', $format_ii->se_desague ?? '') == 'OTR' ? 'selected' : '' }}>Otro</option>
+                <option value="RPD"
+                    {{ old('se_desague', $format_ii->se_desague ?? '') == 'RPD' ? 'selected' : '' }}>Red pública de
+                    desagüe dentro de la IPRESS</option>
+                <option value="RPF"
+                    {{ old('se_desague', $format_ii->se_desague ?? '') == 'RPF' ? 'selected' : '' }}>Red pública de
+                    desagüe fuera de la IPRESS</option>
+                <option value="P" {{ old('se_desague', $format_ii->se_desague ?? '') == 'P' ? 'selected' : '' }}>
+                    Pozo séptico, tanque séptico, séptico biogestor</option>
+                <option value="L" {{ old('se_desague', $format_ii->se_desague ?? '') == 'L' ? 'selected' : '' }}>
+                    Letrina (con tratamiento)</option>
+                <option value="PN"
+                    {{ old('se_desague', $format_ii->se_desague ?? '') == 'PN' ? 'selected' : '' }}>Pozo ciego o negro
+                </option>
+                <option value="OTR"
+                    {{ old('se_desague', $format_ii->se_desague ?? '') == 'OTR' ? 'selected' : '' }}>Otro</option>
             </select>
         </div>
-        <div id="se_desague_otro_div" style="display: {{ old('se_desague', $format_ii->se_desague ?? '') == 'OTR' ? 'block' : 'none' }};">
+        <div id="se_desague_otro_div"
+            style="display: {{ old('se_desague', $format_ii->se_desague ?? '') == 'OTR' ? 'block' : 'none' }};">
             <label class="block text-sm font-medium text-gray-700 mb-2">
                 Especifique otro tipo de servicio:
             </label>
-            <input type="text" name="se_desague_otro" value="{{ old('se_desague_otro', $format_ii->se_desague_otro ?? '') }}" 
-                   class="w-full rounded-lg border-gray-300" placeholder="Ej: Canal abierto, etc.">
+            <input type="text" name="se_desague_otro"
+                value="{{ old('se_desague_otro', $format_ii->se_desague_otro ?? '') }}"
+                class="w-full rounded-lg border-gray-300" placeholder="Ej: Canal abierto, etc.">
         </div>
     </div>
 
@@ -204,15 +235,15 @@
             </label>
             <div class="flex gap-6">
                 <label class="flex items-center gap-2">
-                    <input type="radio" name="se_desague_operativo" value="SI" 
-                           class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
-                           {{ old('se_desague_operativo', $format_ii->se_desague_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                    <input type="radio" name="se_desague_operativo" value="SI"
+                        class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                        {{ old('se_desague_operativo', $format_ii->se_desague_operativo ?? '') == 'SI' ? 'checked' : '' }}>
                     <span>SI</span>
                 </label>
                 <label class="flex items-center gap-2">
-                    <input type="radio" name="se_desague_operativo" value="NO" 
-                           class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
-                           {{ old('se_desague_operativo', $format_ii->se_desague_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                    <input type="radio" name="se_desague_operativo" value="NO"
+                        class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                        {{ old('se_desague_operativo', $format_ii->se_desague_operativo ?? '') == 'NO' ? 'checked' : '' }}>
                     <span>NO</span>
                 </label>
             </div>
@@ -225,21 +256,21 @@
             </label>
             <div class="flex gap-6">
                 <label class="flex items-center gap-2">
-                    <input type="radio" name="se_desague_estado" value="B" 
-                           class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
-                           {{ old('se_desague_estado', $format_ii->se_desague_estado ?? '') == 'B' ? 'checked' : '' }}>
+                    <input type="radio" name="se_desague_estado" value="B"
+                        class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                        {{ old('se_desague_estado', $format_ii->se_desague_estado ?? '') == 'B' ? 'checked' : '' }}>
                     <span>Bueno (B)</span>
                 </label>
                 <label class="flex items-center gap-2">
-                    <input type="radio" name="se_desague_estado" value="R" 
-                           class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
-                           {{ old('se_desague_estado', $format_ii->se_desague_estado ?? '') == 'R' ? 'checked' : '' }}>
+                    <input type="radio" name="se_desague_estado" value="R"
+                        class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                        {{ old('se_desague_estado', $format_ii->se_desague_estado ?? '') == 'R' ? 'checked' : '' }}>
                     <span>Regular (R)</span>
                 </label>
                 <label class="flex items-center gap-2">
-                    <input type="radio" name="se_desague_estado" value="M" 
-                           class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
-                           {{ old('se_desague_estado', $format_ii->se_desague_estado ?? '') == 'M' ? 'checked' : '' }}>
+                    <input type="radio" name="se_desague_estado" value="M"
+                        class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                        {{ old('se_desague_estado', $format_ii->se_desague_estado ?? '') == 'M' ? 'checked' : '' }}>
                     <span>Malo (M)</span>
                 </label>
             </div>
@@ -248,65 +279,1796 @@
 </div>
 
 
+<!-- ============================================ -->
+<!-- ELECTRICIDAD -->
+<!-- ============================================ -->
+<div class="mb-8 border-b border-gray-200 pb-6">
+    <h4 class="text-md font-semibold text-gray-700 mb-4">
+        <i class="fas fa-bolt mr-2 text-yellow-500"></i> 3. Electricidad
+    </h4>
+
+    <!-- Cuenta con servicio de electricidad -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Cuenta con servicio de electricidad? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_electricidad" value="SI" id="se_electricidad_si"
+                        class="rounded-full border-gray-300 text-yellow-600 focus:ring-yellow-500"
+                        {{ old('se_electricidad', $format_ii->se_electricidad ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_electricidad" value="NO" id="se_electricidad_no"
+                        class="rounded-full border-gray-300 text-yellow-600 focus:ring-yellow-500"
+                        {{ old('se_electricidad', $format_ii->se_electricidad ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- ¿Se encuentra operativo? -->
+        <div id="se_electricidad_operativo_div"
+            style="display: {{ old('se_electricidad', $format_ii->se_electricidad ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Se encuentra operativo? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_electricidad_operativo" value="SI"
+                        class="rounded-full border-gray-300 text-yellow-600 focus:ring-yellow-500"
+                        {{ old('se_electricidad_operativo', $format_ii->se_electricidad_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_electricidad_operativo" value="NO"
+                        class="rounded-full border-gray-300 text-yellow-600 focus:ring-yellow-500"
+                        {{ old('se_electricidad_operativo', $format_ii->se_electricidad_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Situación/Estado de conservación -->
+        <div id="se_electricidad_estado_div"
+            style="display: {{ old('se_electricidad', $format_ii->se_electricidad ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Situación de servicio / Estado de conservación: <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_electricidad_estado" value="B"
+                        class="rounded-full border-gray-300 text-yellow-600 focus:ring-yellow-500"
+                        {{ old('se_electricidad_estado', $format_ii->se_electricidad_estado ?? '') == 'B' ? 'checked' : '' }}>
+                    <span>Bueno (B)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_electricidad_estado" value="R"
+                        class="rounded-full border-gray-300 text-yellow-600 focus:ring-yellow-500"
+                        {{ old('se_electricidad_estado', $format_ii->se_electricidad_estado ?? '') == 'R' ? 'checked' : '' }}>
+                    <span>Regular (R)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_electricidad_estado" value="M"
+                        class="rounded-full border-gray-300 text-yellow-600 focus:ring-yellow-500"
+                        {{ old('se_electricidad_estado', $format_ii->se_electricidad_estado ?? '') == 'M' ? 'checked' : '' }}>
+                    <span>Malo (M)</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modo de uso (visible solo si tiene electricidad = SI) -->
+    <div id="se_electricidad_option_div"
+        style="display: {{ old('se_electricidad', $format_ii->se_electricidad ?? '') == 'SI' ? 'block' : 'none' }};">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Modo de uso: <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_electricidad_option" value="C"
+                            class="rounded-full border-gray-300 text-yellow-600 focus:ring-yellow-500"
+                            {{ old('se_electricidad_option', $format_ii->se_electricidad_option ?? '') == 'C' ? 'checked' : '' }}>
+                        <span>CONTINUO</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_electricidad_option" value="T"
+                            class="rounded-full border-gray-300 text-yellow-600 focus:ring-yellow-500"
+                            {{ old('se_electricidad_option', $format_ii->se_electricidad_option ?? '') == 'T' ? 'checked' : '' }}>
+                        <span>TEMPORAL</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fuente / Proveedor -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Fuente de electricidad / Nombre del proveedor:
+            </label>
+            <input type="text" name="se_electricidad_fuente"
+                value="{{ old('se_electricidad_fuente', $format_ii->se_electricidad_fuente ?? '') }}"
+                class="w-full rounded-lg border-gray-300" placeholder="Ej: Electrocentro, ENEL, etc.">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                RUC del proveedor:
+            </label>
+            <input type="text" name="se_electricidad_proveedor_ruc"
+                value="{{ old('se_electricidad_proveedor_ruc', $format_ii->se_electricidad_proveedor_ruc ?? '') }}"
+                class="w-full rounded-lg border-gray-300" placeholder="Ej: 20123456789" maxlength="11">
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- TELEFONÍA FIJA -->
+<!-- ============================================ -->
+<div class="mb-8 border-b border-gray-200 pb-6">
+    <h4 class="text-md font-semibold text-gray-700 mb-4">
+        <i class="fas fa-phone mr-2 text-purple-500"></i> 4. Telefonía Fija
+    </h4>
+
+    <!-- Cuenta con servicio de telefonía fija -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Cuenta con servicio de telefonía fija? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_telefonia" value="SI" id="se_telefonia_si"
+                        class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                        {{ old('se_telefonia', $format_ii->se_telefonia ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_telefonia" value="NO" id="se_telefonia_no"
+                        class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                        {{ old('se_telefonia', $format_ii->se_telefonia ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- ¿Se encuentra operativo? -->
+        <div id="se_telefonia_operativo_div"
+            style="display: {{ old('se_telefonia', $format_ii->se_telefonia ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Se encuentra operativo? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_telefonia_operativo" value="SI"
+                        class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                        {{ old('se_telefonia_operativo', $format_ii->se_telefonia_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_telefonia_operativo" value="NO"
+                        class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                        {{ old('se_telefonia_operativo', $format_ii->se_telefonia_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Situación/Estado de conservación -->
+        <div id="se_telefonia_estado_div"
+            style="display: {{ old('se_telefonia', $format_ii->se_telefonia ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Situación de servicio / Estado de conservación: <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_telefonia_estado" value="B"
+                        class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                        {{ old('se_telefonia_estado', $format_ii->se_telefonia_estado ?? '') == 'B' ? 'checked' : '' }}>
+                    <span>Bueno (B)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_telefonia_estado" value="R"
+                        class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                        {{ old('se_telefonia_estado', $format_ii->se_telefonia_estado ?? '') == 'R' ? 'checked' : '' }}>
+                    <span>Regular (R)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_telefonia_estado" value="M"
+                        class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                        {{ old('se_telefonia_estado', $format_ii->se_telefonia_estado ?? '') == 'M' ? 'checked' : '' }}>
+                    <span>Malo (M)</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modo de uso (visible solo si tiene telefonía = SI) -->
+    <div id="se_telefonia_option_div"
+        style="display: {{ old('se_telefonia', $format_ii->se_telefonia ?? '') == 'SI' ? 'block' : 'none' }};">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Modo de uso: <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_telefonia_option" value="C"
+                            class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                            {{ old('se_telefonia_option', $format_ii->se_telefonia_option ?? '') == 'C' ? 'checked' : '' }}>
+                        <span>CONTINUO</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_telefonia_option" value="T"
+                            class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                            {{ old('se_telefonia_option', $format_ii->se_telefonia_option ?? '') == 'T' ? 'checked' : '' }}>
+                        <span>TEMPORAL</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fuente / Proveedor -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Nombre del proveedor:
+                </label>
+                <input type="text" name="se_telefonia_proveedor"
+                    value="{{ old('se_telefonia_proveedor', $format_ii->se_telefonia_proveedor ?? '') }}"
+                    class="w-full rounded-lg border-gray-300" placeholder="Ej: Claro, Movistar, etc.">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    RUC del proveedor:
+                </label>
+                <input type="text" name="se_telefonia_proveedor_ruc"
+                    value="{{ old('se_telefonia_proveedor_ruc', $format_ii->se_telefonia_proveedor_ruc ?? '') }}"
+                    class="w-full rounded-lg border-gray-300" placeholder="Ej: 20123456789" maxlength="11">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- INTERNET -->
+<!-- ============================================ -->
+<div class="mb-8 border-b border-gray-200 pb-6">
+    <h4 class="text-md font-semibold text-gray-700 mb-4">
+        <i class="fas fa-wifi mr-2 text-indigo-500"></i> 5. Internet
+    </h4>
+
+    <!-- Cuenta con servicio de internet -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Cuenta con servicio de internet? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_internet" value="SI" id="se_internet_si"
+                        class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        {{ old('se_internet', $format_ii->se_internet ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_internet" value="NO" id="se_internet_no"
+                        class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        {{ old('se_internet', $format_ii->se_internet ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- ¿Se encuentra operativo? -->
+        <div id="se_internet_operativo_div"
+            style="display: {{ old('se_internet', $format_ii->se_internet ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Se encuentra operativo? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_internet_operativo" value="SI"
+                        class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        {{ old('se_internet_operativo', $format_ii->se_internet_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_internet_operativo" value="NO"
+                        class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        {{ old('se_internet_operativo', $format_ii->se_internet_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Situación/Estado de conservación -->
+        <div id="se_internet_estado_div"
+            style="display: {{ old('se_internet', $format_ii->se_internet ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Situación de servicio / Estado de conservación: <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_internet_estado" value="B"
+                        class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        {{ old('se_internet_estado', $format_ii->se_internet_estado ?? '') == 'B' ? 'checked' : '' }}>
+                    <span>Bueno (B)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_internet_estado" value="R"
+                        class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        {{ old('se_internet_estado', $format_ii->se_internet_estado ?? '') == 'R' ? 'checked' : '' }}>
+                    <span>Regular (R)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_internet_estado" value="M"
+                        class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        {{ old('se_internet_estado', $format_ii->se_internet_estado ?? '') == 'M' ? 'checked' : '' }}>
+                    <span>Malo (M)</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modo de uso (visible solo si tiene internet = SI) -->
+    <div id="se_internet_option_div"
+        style="display: {{ old('se_internet', $format_ii->se_internet ?? '') == 'SI' ? 'block' : 'none' }};">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Modo de uso: <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_internet_option" value="C"
+                            class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            {{ old('se_internet_option', $format_ii->se_internet_option ?? '') == 'C' ? 'checked' : '' }}>
+                        <span>CONTINUO</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_internet_option" value="T"
+                            class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            {{ old('se_internet_option', $format_ii->se_internet_option ?? '') == 'T' ? 'checked' : '' }}>
+                        <span>TEMPORAL</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proveedor y RUC -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Proveedor:
+                </label>
+                <input type="text" name="se_internet_proveedor"
+                    value="{{ old('se_internet_proveedor', $format_ii->se_internet_proveedor ?? '') }}"
+                    class="w-full rounded-lg border-gray-300" placeholder="Ej: Claro, Movistar, Entel, etc.">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    RUC del proveedor:
+                </label>
+                <input type="text" name="se_internet_proveedor_ruc"
+                    value="{{ old('se_internet_proveedor_ruc', $format_ii->se_internet_proveedor_ruc ?? '') }}"
+                    class="w-full rounded-lg border-gray-300" placeholder="Ej: 20123456789" maxlength="11">
+            </div>
+        </div>
+
+        <!-- ¿Dispone de conexión a internet? -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    ¿Dispone de conexión a internet? <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="internet_conexion" value="SI" id="internet_conexion_si"
+                            class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            {{ old('internet_conexion', $format_ii->internet ?? '') == 'SI' ? 'checked' : '' }}>
+                        <span>SI</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="internet_conexion" value="NO" id="internet_conexion_no"
+                            class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            {{ old('internet_conexion', $format_ii->internet ?? '') == 'NO' ? 'checked' : '' }}>
+                        <span>NO</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- ¿De qué operador? (visible solo si tiene conexión = SI) -->
+            <div id="internet_operador_div"
+                style="display: {{ old('internet_conexion', $format_ii->internet ?? '') == 'SI' ? 'block' : 'none' }};">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    ¿De qué operador? <span class="text-red-500">*</span>
+                </label>
+                <select name="internet_operador" class="w-full rounded-lg border-gray-300">
+                    <option value="">Seleccione</option>
+                    <option value="CLARO"
+                        {{ old('internet_operador', $format_ii->internet_operador ?? '') == 'CLARO' ? 'selected' : '' }}>
+                        CLARO</option>
+                    <option value="MOVISTAR"
+                        {{ old('internet_operador', $format_ii->internet_operador ?? '') == 'MOVISTAR' ? 'selected' : '' }}>
+                        MOVISTAR</option>
+                    <option value="ENTEL"
+                        {{ old('internet_operador', $format_ii->internet_operador ?? '') == 'ENTEL' ? 'selected' : '' }}>
+                        ENTEL</option>
+                    <option value="BITEL"
+                        {{ old('internet_operador', $format_ii->internet_operador ?? '') == 'BITEL' ? 'selected' : '' }}>
+                        BITEL</option>
+                    <option value="OTRO"
+                        {{ old('internet_operador', $format_ii->internet_operador ?? '') == 'OTRO' ? 'selected' : '' }}>
+                        OTRO</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Continuidad de servicio (Temporal) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Continuidad de servicio: <span class="text-red-500">*</span>
+                </label>
+                <select name="internet_continuidad" class="w-full rounded-lg border-gray-300">
+                    <option value="">Seleccione</option>
+                    <option value="T"
+                        {{ old('internet_continuidad', $format_ii->internet_option1 ?? '') == 'T' ? 'selected' : '' }}>
+                        Temporal</option>
+                    <option value="P"
+                        {{ old('internet_continuidad', $format_ii->internet_option1 ?? '') == 'P' ? 'selected' : '' }}>
+                        Permanente</option>
+                    <option value="N"
+                        {{ old('internet_continuidad', $format_ii->internet_option1 ?? '') == 'N' ? 'selected' : '' }}>
+                        Nunca</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ¿Dispone de una red? -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    ¿Dispone de una red? <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="internet_red" value="CABLEADA"
+                            class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            {{ old('internet_red', $format_ii->internet_red ?? '') == 'CABLEADA' ? 'checked' : '' }}>
+                        <span>CABLEADA</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="internet_red" value="WI-FI"
+                            class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            {{ old('internet_red', $format_ii->internet_red ?? '') == 'WI-FI' ? 'checked' : '' }}>
+                        <span>WI-FI</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="internet_red" value="AMBAS"
+                            class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            {{ old('internet_red', $format_ii->internet_red ?? '') == 'AMBAS' ? 'checked' : '' }}>
+                        <span>AMBAS</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Porcentaje de ambientes con acceso a internet -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Porcentaje de ambientes o servicios que tienen acceso a internet: <span
+                        class="text-red-500">*</span>
+                </label>
+                <div class="flex items-center gap-2">
+                    <input type="number" name="internet_porcentaje"
+                        value="{{ old('internet_porcentaje', $format_ii->internet_porcentaje ?? '80') }}"
+                        class="w-32 rounded-lg border-gray-300" min="0" max="100" step="1">
+                    <span>% (0-100)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ¿Puede transmitir voz, datos, imágenes? -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    ¿Puede transmitir voz, datos, imágenes por la conexión a internet? <span
+                        class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="internet_transmision" value="SI"
+                            class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            {{ old('internet_transmision', $format_ii->internet_transmision ?? '') == 'SI' ? 'checked' : '' }}>
+                        <span>SI</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="internet_transmision" value="NO"
+                            class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            {{ old('internet_transmision', $format_ii->internet_transmision ?? '') == 'NO' ? 'checked' : '' }}>
+                        <span>NO</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Continuidad de servicio (Siempre) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Continuidad de servicio: <span class="text-red-500">*</span>
+                </label>
+                <select name="internet_option2" class="w-full rounded-lg border-gray-300">
+                    <option value="">Seleccione</option>
+                    <option value="S"
+                        {{ old('internet_option2', $format_ii->internet_option2 ?? '') == 'S' ? 'selected' : '' }}>
+                        Siempre</option>
+                    <option value="P"
+                        {{ old('internet_option2', $format_ii->internet_option2 ?? '') == 'P' ? 'selected' : '' }}>Por
+                        las Noches</option>
+                    <option value="N"
+                        {{ old('internet_option2', $format_ii->internet_option2 ?? '') == 'N' ? 'selected' : '' }}>
+                        Nunca</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ¿Realiza algún servicio de telesalud? -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    ¿Realiza algún servicio de telesalud? <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="internet_servicio" value="SI"
+                            class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            {{ old('internet_servicio', $format_ii->internet_servicio ?? '') == 'SI' ? 'checked' : '' }}>
+                        <span>SI</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="internet_servicio" value="NO"
+                            class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            {{ old('internet_servicio', $format_ii->internet_servicio ?? '') == 'NO' ? 'checked' : '' }}>
+                        <span>NO</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================ -->
+<!-- TELEVISIÓN -->
+<!-- ============================================ -->
+<div class="mb-8 border-b border-gray-200 pb-6">
+    <h4 class="text-md font-semibold text-gray-700 mb-4">
+        <i class="fas fa-tv mr-2 text-red-500"></i> 6. Televisión
+    </h4>
+
+    <!-- ¿Dispone de señal de televisión por cable? -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Dispone de señal de televisión por cable? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="televicion" value="SI" id="televicion_si"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('televicion', $format_ii->televicion ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="televicion" value="NO" id="televicion_no"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('televicion', $format_ii->televicion ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- ¿De qué operador? (visible solo si tiene televisión = SI) -->
+        <div id="televicion_operador_div"
+            style="display: {{ old('televicion', $format_ii->televicion ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿De qué operador? <span class="text-red-500">*</span>
+            </label>
+            <input type="text" name="televicion_operador"
+                value="{{ old('televicion_operador', $format_ii->televicion_operador ?? '') }}"
+                class="w-full rounded-lg border-gray-300" placeholder="Ej: Claro, Movistar, DirecTV, etc.">
+        </div>
+    </div>
+
+    <!-- Continuidad de servicio (visible solo si tiene televisión = SI) -->
+    <div id="televicion_option_div"
+        style="display: {{ old('televicion', $format_ii->televicion ?? '') == 'SI' ? 'block' : 'none' }};">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Continuidad de servicio: <span class="text-red-500">*</span>
+                </label>
+                <select name="televicion_option1" class="w-full rounded-lg border-gray-300">
+                    <option value="">Seleccione</option>
+                    <option value="S"
+                        {{ old('televicion_option1', $format_ii->televicion_option1 ?? '') == 'S' ? 'selected' : '' }}>
+                        Siempre</option>
+                    <option value="T"
+                        {{ old('televicion_option1', $format_ii->televicion_option1 ?? '') == 'T' ? 'selected' : '' }}>
+                        Temporal</option>
+                    <option value="N"
+                        {{ old('televicion_option1', $format_ii->televicion_option1 ?? '') == 'N' ? 'selected' : '' }}>
+                        Nunca</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- ¿Las salas de espera dispone de televisores? -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Las salas de espera disponen de televisores? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="televicion_espera" value="SI"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('televicion_espera', $format_ii->televicion_espera ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="televicion_espera" value="NO"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('televicion_espera', $format_ii->televicion_espera ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Porcentaje de ambientes que tienen televisores (visible solo si salas de espera = SI) -->
+    <div id="televicion_porcentaje_div"
+        style="display: {{ old('televicion_espera', $format_ii->televicion_espera ?? '') == 'SI' ? 'block' : 'none' }};">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Porcentaje de ambientes que tienen televisores: <span class="text-red-500">*</span>
+                </label>
+                <div class="flex items-center gap-2">
+                    <input type="number" name="televicion_porcentaje"
+                        value="{{ old('televicion_porcentaje', $format_ii->televicion_porcentaje ?? '50') }}"
+                        class="w-32 rounded-lg border-gray-300" min="0" max="100" step="1">
+                    <span>% (0-100)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ¿Cuenta con antena de radio de telecomunicación? -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Cuenta con antena de radio de telecomunicación? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="televicion_antena" value="SI"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('televicion_antena', $format_ii->televicion_antena ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="televicion_antena" value="NO"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('televicion_antena', $format_ii->televicion_antena ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <!-- ¿Cuenta con equipo de telecomunicación? -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Cuenta con equipo de telecomunicación? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="televicion_equipo" value="SI"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('televicion_equipo', $format_ii->televicion_equipo ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="televicion_equipo" value="NO"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('televicion_equipo', $format_ii->televicion_equipo ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================ -->
+<!-- RED MÓVIL -->
+<!-- ============================================ -->
+<div class="mb-8 border-b border-gray-200 pb-6">
+    <h4 class="text-md font-semibold text-gray-700 mb-4">
+        <i class="fas fa-signal mr-2 text-blue-500"></i> 7. Red Móvil
+    </h4>
+
+    <!-- Cuenta con servicio de red móvil -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Cuenta con servicio de red móvil? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_red" value="SI" id="se_red_si"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_red', $format_ii->se_red ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_red" value="NO" id="se_red_no"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_red', $format_ii->se_red ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="se_red_operativo_div"
+            style="display: {{ old('se_red', $format_ii->se_red ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Se encuentra operativo? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_red_operativo" value="SI"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_red_operativo', $format_ii->se_red_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_red_operativo" value="NO"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_red_operativo', $format_ii->se_red_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="se_red_estado_div"
+            style="display: {{ old('se_red', $format_ii->se_red ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Situación de servicio / Estado de conservación: <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_red_estado" value="B"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_red_estado', $format_ii->se_red_estado ?? '') == 'B' ? 'checked' : '' }}>
+                    <span>Bueno (B)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_red_estado" value="R"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_red_estado', $format_ii->se_red_estado ?? '') == 'R' ? 'checked' : '' }}>
+                    <span>Regular (R)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_red_estado" value="M"
+                        class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                        {{ old('se_red_estado', $format_ii->se_red_estado ?? '') == 'M' ? 'checked' : '' }}>
+                    <span>Malo (M)</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div id="se_red_option_div"
+        style="display: {{ old('se_red', $format_ii->se_red ?? '') == 'SI' ? 'block' : 'none' }};">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Modo de uso: <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_red_option" value="C"
+                            class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                            {{ old('se_red_option', $format_ii->se_red_option ?? '') == 'C' ? 'checked' : '' }}>
+                        <span>CONTINUO</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_red_option" value="T"
+                            class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                            {{ old('se_red_option', $format_ii->se_red_option ?? '') == 'T' ? 'checked' : '' }}>
+                        <span>TEMPORAL</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Proveedor:
+                </label>
+                <input type="text" name="se_red_proveedor"
+                    value="{{ old('se_red_proveedor', $format_ii->se_red_proveedor ?? '') }}"
+                    class="w-full rounded-lg border-gray-300" placeholder="Ej: Claro, Movistar, Entel, Bitel">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    RUC del proveedor:
+                </label>
+                <input type="text" name="se_red_proveedor_ruc"
+                    value="{{ old('se_red_proveedor_ruc', $format_ii->se_red_proveedor_ruc ?? '') }}"
+                    class="w-full rounded-lg border-gray-300" placeholder="Ej: 20123456789" maxlength="11">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ============================================ -->
+<!-- GAS NATURAL O GLP -->
+<!-- ============================================ -->
+<div class="mb-8 border-b border-gray-200 pb-6">
+    <h4 class="text-md font-semibold text-gray-700 mb-4">
+        <i class="fas fa-fire mr-2 text-orange-500"></i> 8. Gas Natural o GLP
+    </h4>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Cuenta con servicio de gas natural o GLP? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_gas" value="SI" id="se_gas_si"
+                        class="rounded-full border-gray-300 text-orange-600 focus:ring-orange-500"
+                        {{ old('se_gas', $format_ii->se_gas ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_gas" value="NO" id="se_gas_no"
+                        class="rounded-full border-gray-300 text-orange-600 focus:ring-orange-500"
+                        {{ old('se_gas', $format_ii->se_gas ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="se_gas_operativo_div"
+            style="display: {{ old('se_gas', $format_ii->se_gas ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Se encuentra operativo? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_gas_operativo" value="SI"
+                        class="rounded-full border-gray-300 text-orange-600 focus:ring-orange-500"
+                        {{ old('se_gas_operativo', $format_ii->se_gas_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_gas_operativo" value="NO"
+                        class="rounded-full border-gray-300 text-orange-600 focus:ring-orange-500"
+                        {{ old('se_gas_operativo', $format_ii->se_gas_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="se_gas_estado_div"
+            style="display: {{ old('se_gas', $format_ii->se_gas ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Situación de servicio / Estado de conservación: <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_gas_estado" value="B"
+                        class="rounded-full border-gray-300 text-orange-600 focus:ring-orange-500"
+                        {{ old('se_gas_estado', $format_ii->se_gas_estado ?? '') == 'B' ? 'checked' : '' }}>
+                    <span>Bueno (B)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_gas_estado" value="R"
+                        class="rounded-full border-gray-300 text-orange-600 focus:ring-orange-500"
+                        {{ old('se_gas_estado', $format_ii->se_gas_estado ?? '') == 'R' ? 'checked' : '' }}>
+                    <span>Regular (R)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_gas_estado" value="M"
+                        class="rounded-full border-gray-300 text-orange-600 focus:ring-orange-500"
+                        {{ old('se_gas_estado', $format_ii->se_gas_estado ?? '') == 'M' ? 'checked' : '' }}>
+                    <span>Malo (M)</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div id="se_gas_option_div"
+        style="display: {{ old('se_gas', $format_ii->se_gas ?? '') == 'SI' ? 'block' : 'none' }};">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Modo de uso: <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_gas_option" value="C"
+                            class="rounded-full border-gray-300 text-orange-600 focus:ring-orange-500"
+                            {{ old('se_gas_option', $format_ii->se_gas_option ?? '') == 'C' ? 'checked' : '' }}>
+                        <span>CONTINUO</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_gas_option" value="T"
+                            class="rounded-full border-gray-300 text-orange-600 focus:ring-orange-500"
+                            {{ old('se_gas_option', $format_ii->se_gas_option ?? '') == 'T' ? 'checked' : '' }}>
+                        <span>TEMPORAL</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Proveedor:
+                </label>
+                <input type="text" name="se_gas_proveedor"
+                    value="{{ old('se_gas_proveedor', $format_ii->se_gas_proveedor ?? '') }}"
+                    class="w-full rounded-lg border-gray-300" placeholder="Ej: Calidda, Solgas, etc.">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    RUC del proveedor:
+                </label>
+                <input type="text" name="se_gas_proveedor_ruc"
+                    value="{{ old('se_gas_proveedor_ruc', $format_ii->se_gas_proveedor_ruc ?? '') }}"
+                    class="w-full rounded-lg border-gray-300" placeholder="Ej: 20123456789" maxlength="11">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================ -->
+<!-- RESIDUOS SÓLIDOS -->
+<!-- ============================================ -->
+<div class="mb-8 border-b border-gray-200 pb-6">
+    <h4 class="text-md font-semibold text-gray-700 mb-4">
+        <i class="fas fa-trash-alt mr-2 text-green-500"></i> 9. Eliminación de Residuos Sólidos
+    </h4>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Cuenta con servicio de eliminación de residuos sólidos? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos" value="SI" id="se_residuos_si"
+                        class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                        {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos" value="NO" id="se_residuos_no"
+                        class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                        {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="se_residuos_operativo_div"
+            style="display: {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Se encuentra operativo? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos_operativo" value="SI"
+                        class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                        {{ old('se_residuos_operativo', $format_ii->se_residuos_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos_operativo" value="NO"
+                        class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                        {{ old('se_residuos_operativo', $format_ii->se_residuos_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="se_residuos_estado_div"
+            style="display: {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Situación de servicio / Estado de conservación: <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos_estado" value="B"
+                        class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                        {{ old('se_residuos_estado', $format_ii->se_residuos_estado ?? '') == 'B' ? 'checked' : '' }}>
+                    <span>Bueno (B)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos_estado" value="R"
+                        class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                        {{ old('se_residuos_estado', $format_ii->se_residuos_estado ?? '') == 'R' ? 'checked' : '' }}>
+                    <span>Regular (R)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos_estado" value="M"
+                        class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                        {{ old('se_residuos_estado', $format_ii->se_residuos_estado ?? '') == 'M' ? 'checked' : '' }}>
+                    <span>Malo (M)</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div id="se_residuos_option_div"
+        style="display: {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'SI' ? 'block' : 'none' }};">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Modo de uso: <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_residuos_option" value="C"
+                            class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                            {{ old('se_residuos_option', $format_ii->se_residuos_option ?? '') == 'C' ? 'checked' : '' }}>
+                        <span>CONTINUO</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_residuos_option" value="T"
+                            class="rounded-full border-gray-300 text-green-600 focus:ring-green-500"
+                            {{ old('se_residuos_option', $format_ii->se_residuos_option ?? '') == 'T' ? 'checked' : '' }}>
+                        <span>TEMPORAL</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Proveedor:
+                </label>
+                <input type="text" name="se_residuos_proveedor"
+                    value="{{ old('se_residuos_proveedor', $format_ii->se_residuos_proveedor ?? '') }}"
+                    class="w-full rounded-lg border-gray-300" placeholder="Ej: Municipalidad, empresa privada, etc.">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    RUC del proveedor:
+                </label>
+                <input type="text" name="se_residuos_proveedor_ruc"
+                    value="{{ old('se_residuos_proveedor_ruc', $format_ii->se_residuos_proveedor_ruc ?? '') }}"
+                    class="w-full rounded-lg border-gray-300" placeholder="Ej: 20123456789" maxlength="11">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- ============================================ -->
+<!-- RESIDUOS HOSPITALARIOS -->
+<!-- ============================================ -->
+<div class="mb-8 border-b border-gray-200 pb-6">
+    <h4 class="text-md font-semibold text-gray-700 mb-4">
+        <i class="fas fa-biohazard mr-2 text-red-500"></i> 10. Eliminación de Residuos Hospitalarios
+    </h4>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Cuenta con servicio de eliminación de residuos hospitalarios? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos_h" value="SI" id="se_residuos_h_si"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos_h" value="NO" id="se_residuos_h_no"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="se_residuos_h_operativo_div"
+            style="display: {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                ¿Se encuentra operativo? <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos_h_operativo" value="SI"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('se_residuos_h_operativo', $format_ii->se_residuos_h_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                    <span>SI</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos_h_operativo" value="NO"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('se_residuos_h_operativo', $format_ii->se_residuos_h_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                    <span>NO</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="se_residuos_h_estado_div"
+            style="display: {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'SI' ? 'block' : 'none' }};">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Situación de servicio / Estado de conservación: <span class="text-red-500">*</span>
+            </label>
+            <div class="flex gap-6">
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos_h_estado" value="B"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('se_residuos_h_estado', $format_ii->se_residuos_h_estado ?? '') == 'B' ? 'checked' : '' }}>
+                    <span>Bueno (B)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos_h_estado" value="R"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('se_residuos_h_estado', $format_ii->se_residuos_h_estado ?? '') == 'R' ? 'checked' : '' }}>
+                    <span>Regular (R)</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="se_residuos_h_estado" value="M"
+                        class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                        {{ old('se_residuos_h_estado', $format_ii->se_residuos_h_estado ?? '') == 'M' ? 'checked' : '' }}>
+                    <span>Malo (M)</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div id="se_residuos_h_option_div"
+        style="display: {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'SI' ? 'block' : 'none' }};">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Modo de uso: <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_residuos_h_option" value="C"
+                            class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                            {{ old('se_residuos_h_option', $format_ii->se_residuos_h_option ?? '') == 'C' ? 'checked' : '' }}>
+                        <span>CONTINUO</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="se_residuos_h_option" value="T"
+                            class="rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                            {{ old('se_residuos_h_option', $format_ii->se_residuos_h_option ?? '') == 'T' ? 'checked' : '' }}>
+                        <span>TEMPORAL</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Proveedor:
+                </label>
+                <input type="text" name="se_residuos_h_proveedor"
+                    value="{{ old('se_residuos_h_proveedor', $format_ii->se_residuos_h_proveedor ?? '') }}"
+                    class="w-full rounded-lg border-gray-300"
+                    placeholder="Ej: Empresa especializada en residuos hospitalarios">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    RUC del proveedor:
+                </label>
+                <input type="text" name="se_residuos_h_proveedor_ruc"
+                    value="{{ old('se_residuos_h_proveedor_ruc', $format_ii->se_residuos_h_proveedor_ruc ?? '') }}"
+                    class="w-full rounded-lg border-gray-300" placeholder="Ej: 20123456789" maxlength="11">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<h1>2. SERVICIOS COLECTIVOS </h1>
+<!-- ============================================ -->
+<!-- SERVICIOS COLECTIVOS -->
+<!-- ============================================ -->
+<div class="mb-8 border-b border-gray-200 pb-6">
+    <h4 class="text-md font-semibold text-gray-700 mb-4">
+        <i class="fas fa-users mr-2 text-teal-500"></i> 11. Servicios Colectivos (SS.HH. y Vestidores)
+    </h4>
+
+    <!-- ============================================ -->
+    <!-- PERSONAL DE SALUD -->
+    <!-- ============================================ -->
+    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+        <h5 class="text-md font-semibold text-gray-700 mb-4 border-l-4 border-teal-500 pl-3">
+            <i class="fas fa-user-md mr-2 text-teal-500"></i> Personal de Salud
+        </h5>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    ¿Cuenta con servicios higiénicos y vestidores? <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_personal" value="SI" id="sc_personal_si"
+                               class="rounded-full border-gray-300 text-teal-600 focus:ring-teal-500"
+                               {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'SI' ? 'checked' : '' }}>
+                        <span>SI</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_personal" value="NO" id="sc_personal_no"
+                               class="rounded-full border-gray-300 text-teal-600 focus:ring-teal-500"
+                               {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'NO' ? 'checked' : '' }}>
+                        <span>NO</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="sc_personal_operativo_div" style="display: {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'SI' ? 'block' : 'none' }};">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    ¿Se encuentra operativo? <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_personal_operativo" value="SI" 
+                               class="rounded-full border-gray-300 text-teal-600 focus:ring-teal-500"
+                               {{ old('sc_personal_operativo', $format_ii->sc_personal_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                        <span>SI</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_personal_operativo" value="NO" 
+                               class="rounded-full border-gray-300 text-teal-600 focus:ring-teal-500"
+                               {{ old('sc_personal_operativo', $format_ii->sc_personal_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                        <span>NO</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="sc_personal_estado_div" style="display: {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'SI' ? 'block' : 'none' }};">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Situación de servicio / Estado de conservación: <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_personal_estado" value="B" 
+                               class="rounded-full border-gray-300 text-teal-600 focus:ring-teal-500"
+                               {{ old('sc_personal_estado', $format_ii->sc_personal_estado ?? '') == 'B' ? 'checked' : '' }}>
+                        <span>Bueno (B)</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_personal_estado" value="R" 
+                               class="rounded-full border-gray-300 text-teal-600 focus:ring-teal-500"
+                               {{ old('sc_personal_estado', $format_ii->sc_personal_estado ?? '') == 'R' ? 'checked' : '' }}>
+                        <span>Regular (R)</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_personal_estado" value="M" 
+                               class="rounded-full border-gray-300 text-teal-600 focus:ring-teal-500"
+                               {{ old('sc_personal_estado', $format_ii->sc_personal_estado ?? '') == 'M' ? 'checked' : '' }}>
+                        <span>Malo (M)</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div id="sc_personal_option_div" style="display: {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'SI' ? 'block' : 'none' }};">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Modo de uso: <span class="text-red-500">*</span>
+                    </label>
+                    <div class="flex gap-6">
+                        <label class="flex items-center gap-2">
+                            <input type="radio" name="sc_personal_option" value="C" 
+                                   class="rounded-full border-gray-300 text-teal-600 focus:ring-teal-500"
+                                   {{ old('sc_personal_option', $format_ii->sc_personal_option ?? '') == 'C' ? 'checked' : '' }}>
+                            <span>CONTINUO</span>
+                        </label>
+                        <label class="flex items-center gap-2">
+                            <input type="radio" name="sc_personal_option" value="T" 
+                                   class="rounded-full border-gray-300 text-teal-600 focus:ring-teal-500"
+                                   {{ old('sc_personal_option', $format_ii->sc_personal_option ?? '') == 'T' ? 'checked' : '' }}>
+                            <span>TEMPORAL</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PERSONAL EXTERNO / PACIENTE -->
+    <!-- ============================================ -->
+    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+        <h5 class="text-md font-semibold text-gray-700 mb-4 border-l-4 border-blue-500 pl-3">
+            <i class="fas fa-users mr-2 text-blue-500"></i> Personal Externo / Paciente
+        </h5>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    ¿Cuenta con servicios higiénicos y vestidores? <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_sshh" value="SI" id="sc_sshh_si"
+                               class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                               {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'SI' ? 'checked' : '' }}>
+                        <span>SI</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_sshh" value="NO" id="sc_sshh_no"
+                               class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                               {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'NO' ? 'checked' : '' }}>
+                        <span>NO</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="sc_sshh_operativo_div" style="display: {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'SI' ? 'block' : 'none' }};">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    ¿Se encuentra operativo? <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_sshh_operativo" value="SI" 
+                               class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                               {{ old('sc_sshh_operativo', $format_ii->sc_sshh_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                        <span>SI</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_sshh_operativo" value="NO" 
+                               class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                               {{ old('sc_sshh_operativo', $format_ii->sc_sshh_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                        <span>NO</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="sc_sshh_estado_div" style="display: {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'SI' ? 'block' : 'none' }};">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Situación de servicio / Estado de conservación: <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_sshh_estado" value="B" 
+                               class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                               {{ old('sc_sshh_estado', $format_ii->sc_sshh_estado ?? '') == 'B' ? 'checked' : '' }}>
+                        <span>Bueno (B)</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_sshh_estado" value="R" 
+                               class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                               {{ old('sc_sshh_estado', $format_ii->sc_sshh_estado ?? '') == 'R' ? 'checked' : '' }}>
+                        <span>Regular (R)</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_sshh_estado" value="M" 
+                               class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                               {{ old('sc_sshh_estado', $format_ii->sc_sshh_estado ?? '') == 'M' ? 'checked' : '' }}>
+                        <span>Malo (M)</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div id="sc_sshh_option_div" style="display: {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'SI' ? 'block' : 'none' }};">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Modo de uso: <span class="text-red-500">*</span>
+                    </label>
+                    <div class="flex gap-6">
+                        <label class="flex items-center gap-2">
+                            <input type="radio" name="sc_sshh_option" value="C" 
+                                   class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                                   {{ old('sc_sshh_option', $format_ii->sc_sshh_option ?? '') == 'C' ? 'checked' : '' }}>
+                            <span>CONTINUO</span>
+                        </label>
+                        <label class="flex items-center gap-2">
+                            <input type="radio" name="sc_sshh_option" value="T" 
+                                   class="rounded-full border-gray-300 text-blue-600 focus:ring-blue-500"
+                                   {{ old('sc_sshh_option', $format_ii->sc_sshh_option ?? '') == 'T' ? 'checked' : '' }}>
+                            <span>TEMPORAL</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PERSONAL DISCAPACITADO -->
+    <!-- ============================================ -->
+    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+        <h5 class="text-md font-semibold text-gray-700 mb-4 border-l-4 border-purple-500 pl-3">
+            <i class="fas fa-wheelchair mr-2 text-purple-500"></i> Personal Discapacitado
+        </h5>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    ¿Cuenta con servicios higiénicos y vestidores? <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_vestidores" value="SI" id="sc_vestidores_si"
+                               class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                               {{ old('sc_vestidores', $format_ii->sc_vestidores ?? '') == 'SI' ? 'checked' : '' }}>
+                        <span>SI</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_vestidores" value="NO" id="sc_vestidores_no"
+                               class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                               {{ old('sc_vestidores', $format_ii->sc_vestidores ?? '') == 'NO' ? 'checked' : '' }}>
+                        <span>NO</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="sc_vestidores_operativo_div" style="display: {{ old('sc_vestidores', $format_ii->sc_vestidores ?? '') == 'SI' ? 'block' : 'none' }};">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    ¿Se encuentra operativo? <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_vestidores_operativo" value="SI" 
+                               class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                               {{ old('sc_vestidores_operativo', $format_ii->sc_vestidores_operativo ?? '') == 'SI' ? 'checked' : '' }}>
+                        <span>SI</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_vestidores_operativo" value="NO" 
+                               class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                               {{ old('sc_vestidores_operativo', $format_ii->sc_vestidores_operativo ?? '') == 'NO' ? 'checked' : '' }}>
+                        <span>NO</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="sc_vestidores_estado_div" style="display: {{ old('sc_vestidores', $format_ii->sc_vestidores ?? '') == 'SI' ? 'block' : 'none' }};">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Estado de conservación: <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_vestidores_estado" value="B" 
+                               class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                               {{ old('sc_vestidores_estado', $format_ii->sc_vestidores_estado ?? '') == 'B' ? 'checked' : '' }}>
+                        <span>Bueno (B)</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_vestidores_estado" value="R" 
+                               class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                               {{ old('sc_vestidores_estado', $format_ii->sc_vestidores_estado ?? '') == 'R' ? 'checked' : '' }}>
+                        <span>Regular (R)</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="sc_vestidores_estado" value="M" 
+                               class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                               {{ old('sc_vestidores_estado', $format_ii->sc_vestidores_estado ?? '') == 'M' ? 'checked' : '' }}>
+                        <span>Malo (M)</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div id="sc_vestidores_option_div" style="display: {{ old('sc_vestidores', $format_ii->sc_vestidores ?? '') == 'SI' ? 'block' : 'none' }};">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Modo de uso: <span class="text-red-500">*</span>
+                    </label>
+                    <div class="flex gap-6">
+                        <label class="flex items-center gap-2">
+                            <input type="radio" name="sc_vestidores_option" value="C" 
+                                   class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                   {{ old('sc_vestidores_option', $format_ii->sc_vestidores_option ?? '') == 'C' ? 'checked' : '' }}>
+                            <span>CONTINUO</span>
+                        </label>
+                        <label class="flex items-center gap-2">
+                            <input type="radio" name="sc_vestidores_option" value="T" 
+                                   class="rounded-full border-gray-300 text-purple-600 focus:ring-purple-500"
+                                   {{ old('sc_vestidores_option', $format_ii->sc_vestidores_option ?? '') == 'T' ? 'checked' : '' }}>
+                            <span>TEMPORAL</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
-$(document).ready(function() {
-    // ============================================
-    // AGUA: Mostrar/ocultar campo "Otro"
-    // ============================================
-    $('#se_agua').on('change', function() {
-        if ($(this).val() === 'O') {
-            $('#se_agua_otro_div').slideDown(200);
-        } else {
-            $('#se_agua_otro_div').slideUp(200);
-            $('input[name="se_agua_otro"]').val('');
+    $(document).ready(function() {
+        // ============================================
+        // AGUA: Mostrar/ocultar campo "Otro"
+        // ============================================
+        $('#se_agua').on('change', function() {
+            if ($(this).val() === 'O') {
+                $('#se_agua_otro_div').slideDown(200);
+            } else {
+                $('#se_agua_otro_div').slideUp(200);
+                $('input[name="se_agua_otro"]').val('');
+            }
+        });
+
+        // ============================================
+        // AGUA: Mostrar/ocultar empresa según pago
+        // ============================================
+        function toggleEmpresaDiv() {
+            if ($('#se_agua_paga_si').is(':checked')) {
+                $('#se_agua_empresa_div').slideDown(200);
+            } else {
+                $('#se_agua_empresa_div').slideUp(200);
+                $('#se_agua_empresa').val('');
+            }
         }
+
+        $('#se_agua_paga_si, #se_agua_paga_no').on('change', toggleEmpresaDiv);
+        toggleEmpresaDiv();
+
+        // ============================================
+        // AGUA: Calcular horas a la semana
+        // ============================================
+        function calcularHorasSemana() {
+            var horasDia = parseInt($('#se_horas_dia').val()) || 0;
+            var totalHoras = 0;
+
+            if ($('input[name="se_sevicio_semana"]:checked').val() === 'SI') {
+                totalHoras = horasDia * 7;
+            } else {
+                totalHoras = horasDia * 5; // Lunes a viernes
+            }
+
+            $('#se_sevicio_semana_calculo').val(totalHoras);
+        }
+
+        $('#se_horas_dia').on('input', calcularHorasSemana);
+        $('input[name="se_sevicio_semana"]').on('change', calcularHorasSemana);
+        calcularHorasSemana();
+
+        // ============================================
+        // DESAGÜE: Mostrar/ocultar campo "Otro"
+        // ============================================
+        $('#se_desague').on('change', function() {
+            if ($(this).val() === 'OTR') {
+                $('#se_desague_otro_div').slideDown(200);
+            } else {
+                $('#se_desague_otro_div').slideUp(200);
+                $('input[name="se_desague_otro"]').val('');
+            }
+        });
     });
 
-    // ============================================
-    // AGUA: Mostrar/ocultar empresa según pago
-    // ============================================
-    function toggleEmpresaDiv() {
-        if ($('#se_agua_paga_si').is(':checked')) {
-            $('#se_agua_empresa_div').slideDown(200);
+    function toggleElectricidadFields() {
+        if ($('#se_electricidad_si').is(':checked')) {
+            $('#se_electricidad_operativo_div').slideDown(200);
+            $('#se_electricidad_estado_div').slideDown(200);
+            $('#se_electricidad_option_div').slideDown(200);
         } else {
-            $('#se_agua_empresa_div').slideUp(200);
-            $('#se_agua_empresa').val('');
+            $('#se_electricidad_operativo_div').slideUp(200);
+            $('#se_electricidad_estado_div').slideUp(200);
+            $('#se_electricidad_option_div').slideUp(200);
+            // Limpiar campos cuando NO tiene electricidad
+            $('input[name="se_electricidad_operativo"]').prop('checked', false);
+            $('input[name="se_electricidad_estado"]').prop('checked', false);
+            $('input[name="se_electricidad_option"]').prop('checked', false);
+            $('input[name="se_electricidad_fuente"]').val('');
+            $('input[name="se_electricidad_proveedor_ruc"]').val('');
         }
     }
-    
-    $('#se_agua_paga_si, #se_agua_paga_no').on('change', toggleEmpresaDiv);
-    toggleEmpresaDiv();
+
+    $('#se_electricidad_si, #se_electricidad_no').on('change', toggleElectricidadFields);
+    toggleElectricidadFields();
+
 
     // ============================================
-    // AGUA: Calcular horas a la semana
+    // TELEFONÍA: Mostrar/ocultar campos según SI/NO
     // ============================================
-    function calcularHorasSemana() {
-        var horasDia = parseInt($('#se_horas_dia').val()) || 0;
-        var totalHoras = 0;
-        
-        if ($('input[name="se_sevicio_semana"]:checked').val() === 'SI') {
-            totalHoras = horasDia * 7;
+    function toggleTelefoniaFields() {
+        if ($('#se_telefonia_si').is(':checked')) {
+            $('#se_telefonia_operativo_div').slideDown(200);
+            $('#se_telefonia_estado_div').slideDown(200);
+            $('#se_telefonia_option_div').slideDown(200);
         } else {
-            totalHoras = horasDia * 5; // Lunes a viernes
+            $('#se_telefonia_operativo_div').slideUp(200);
+            $('#se_telefonia_estado_div').slideUp(200);
+            $('#se_telefonia_option_div').slideUp(200);
+            // Limpiar campos cuando NO tiene telefonía
+            $('input[name="se_telefonia_operativo"]').prop('checked', false);
+            $('input[name="se_telefonia_estado"]').prop('checked', false);
+            $('input[name="se_telefonia_option"]').prop('checked', false);
+            $('input[name="se_telefonia_proveedor"]').val('');
+            $('input[name="se_telefonia_proveedor_ruc"]').val('');
         }
-        
-        $('#se_sevicio_semana_calculo').val(totalHoras);
     }
-    
-    $('#se_horas_dia').on('input', calcularHorasSemana);
-    $('input[name="se_sevicio_semana"]').on('change', calcularHorasSemana);
-    calcularHorasSemana();
+
+    $('#se_telefonia_si, #se_telefonia_no').on('change', toggleTelefoniaFields);
+    toggleTelefoniaFields();
 
     // ============================================
-    // DESAGÜE: Mostrar/ocultar campo "Otro"
+    // TELEVISIÓN: Mostrar/ocultar campos según SI/NO
     // ============================================
-    $('#se_desague').on('change', function() {
-        if ($(this).val() === 'OTR') {
-            $('#se_desague_otro_div').slideDown(200);
+    function toggleTelevicionFields() {
+        if ($('#televicion_si').is(':checked')) {
+            $('#televicion_operador_div').slideDown(200);
+            $('#televicion_option_div').slideDown(200);
         } else {
-            $('#se_desague_otro_div').slideUp(200);
-            $('input[name="se_desague_otro"]').val('');
+            $('#televicion_operador_div').slideUp(200);
+            $('#televicion_option_div').slideUp(200);
+            $('input[name="televicion_operador"]').val('');
+            $('select[name="televicion_option1"]').val('');
         }
-    });
-});
+    }
+
+    // Mostrar/ocultar porcentaje según salas de espera
+    function togglePorcentajeDiv() {
+        if ($('input[name="televicion_espera"]:checked').val() === 'SI') {
+            $('#televicion_porcentaje_div').slideDown(200);
+        } else {
+            $('#televicion_porcentaje_div').slideUp(200);
+            $('input[name="televicion_porcentaje"]').val('');
+        }
+    }
+
+    $('#televicion_si, #televicion_no').on('change', toggleTelevicionFields);
+    $('input[name="televicion_espera"]').on('change', togglePorcentajeDiv);
+    toggleTelevicionFields();
+    togglePorcentajeDiv();
+
+
+    // ============================================
+    // RED MÓVIL
+    // ============================================
+    function toggleRedFields() {
+        if ($('#se_red_si').is(':checked')) {
+            $('#se_red_operativo_div, #se_red_estado_div, #se_red_option_div').slideDown(200);
+        } else {
+            $('#se_red_operativo_div, #se_red_estado_div, #se_red_option_div').slideUp(200);
+            $('input[name="se_red_operativo"], input[name="se_red_estado"], input[name="se_red_option"]').prop(
+                'checked', false);
+            $('input[name="se_red_proveedor"], input[name="se_red_proveedor_ruc"]').val('');
+        }
+    }
+
+    // ============================================
+    // GAS
+    // ============================================
+    function toggleGasFields() {
+        if ($('#se_gas_si').is(':checked')) {
+            $('#se_gas_operativo_div, #se_gas_estado_div, #se_gas_option_div').slideDown(200);
+        } else {
+            $('#se_gas_operativo_div, #se_gas_estado_div, #se_gas_option_div').slideUp(200);
+            $('input[name="se_gas_operativo"], input[name="se_gas_estado"], input[name="se_gas_option"]').prop(
+                'checked', false);
+            $('input[name="se_gas_proveedor"], input[name="se_gas_proveedor_ruc"]').val('');
+        }
+    }
+
+    // ============================================
+    // RESIDUOS SÓLIDOS
+    // ============================================
+    function toggleResiduosFields() {
+        if ($('#se_residuos_si').is(':checked')) {
+            $('#se_residuos_operativo_div, #se_residuos_estado_div, #se_residuos_option_div').slideDown(200);
+        } else {
+            $('#se_residuos_operativo_div, #se_residuos_estado_div, #se_residuos_option_div').slideUp(200);
+            $('input[name="se_residuos_operativo"], input[name="se_residuos_estado"], input[name="se_residuos_option"]')
+                .prop('checked', false);
+            $('input[name="se_residuos_proveedor"], input[name="se_residuos_proveedor_ruc"]').val('');
+        }
+    }
+
+    // ============================================
+    // RESIDUOS HOSPITALARIOS
+    // ============================================
+    function toggleResiduosHFields() {
+        if ($('#se_residuos_h_si').is(':checked')) {
+            $('#se_residuos_h_operativo_div, #se_residuos_h_estado_div, #se_residuos_h_option_div').slideDown(200);
+        } else {
+            $('#se_residuos_h_operativo_div, #se_residuos_h_estado_div, #se_residuos_h_option_div').slideUp(200);
+            $('input[name="se_residuos_h_operativo"], input[name="se_residuos_h_estado"], input[name="se_residuos_h_option"]')
+                .prop('checked', false);
+            $('input[name="se_residuos_h_proveedor"], input[name="se_residuos_h_proveedor_ruc"]').val('');
+        }
+    }
+
+    // Eventos
+    $('#se_red_si, #se_red_no').on('change', toggleRedFields);
+    $('#se_gas_si, #se_gas_no').on('change', toggleGasFields);
+    $('#se_residuos_si, #se_residuos_no').on('change', toggleResiduosFields);
+    $('#se_residuos_h_si, #se_residuos_h_no').on('change', toggleResiduosHFields);
+
+    // Inicializar
+    toggleRedFields();
+    toggleGasFields();
+    toggleResiduosFields();
+    toggleResiduosHFields();
+
+
+    // ============================================
+// PERSONAL DE SALUD
+// ============================================
+function togglePersonalFields() {
+    if ($('#sc_personal_si').is(':checked')) {
+        $('#sc_personal_operativo_div, #sc_personal_estado_div, #sc_personal_option_div').slideDown(200);
+    } else {
+        $('#sc_personal_operativo_div, #sc_personal_estado_div, #sc_personal_option_div').slideUp(200);
+        $('input[name="sc_personal_operativo"], input[name="sc_personal_estado"], input[name="sc_personal_option"]').prop('checked', false);
+    }
+}
+
+// ============================================
+// PERSONAL EXTERNO / PACIENTE
+// ============================================
+function toggleSshhFields() {
+    if ($('#sc_sshh_si').is(':checked')) {
+        $('#sc_sshh_operativo_div, #sc_sshh_estado_div, #sc_sshh_option_div').slideDown(200);
+    } else {
+        $('#sc_sshh_operativo_div, #sc_sshh_estado_div, #sc_sshh_option_div').slideUp(200);
+        $('input[name="sc_sshh_operativo"], input[name="sc_sshh_estado"], input[name="sc_sshh_option"]').prop('checked', false);
+    }
+}
+
+// ============================================
+// PERSONAL DISCAPACITADO
+// ============================================
+function toggleVestidoresFields() {
+    if ($('#sc_vestidores_si').is(':checked')) {
+        $('#sc_vestidores_operativo_div, #sc_vestidores_estado_div, #sc_vestidores_option_div').slideDown(200);
+    } else {
+        $('#sc_vestidores_operativo_div, #sc_vestidores_estado_div, #sc_vestidores_option_div').slideUp(200);
+        $('input[name="sc_vestidores_operativo"], input[name="sc_vestidores_estado"], input[name="sc_vestidores_option"]').prop('checked', false);
+    }
+}
+
+// Eventos
+$('#sc_personal_si, #sc_personal_no').on('change', togglePersonalFields);
+$('#sc_sshh_si, #sc_sshh_no').on('change', toggleSshhFields);
+$('#sc_vestidores_si, #sc_vestidores_no').on('change', toggleVestidoresFields);
+
+// Inicializar
+togglePersonalFields();
+toggleSshhFields();
+toggleVestidoresFields();
 </script>

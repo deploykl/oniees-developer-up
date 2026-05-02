@@ -38,6 +38,7 @@ class FormatII extends Model
         'se_desague_fuente',
         'se_desague_proveedor_ruc',
         'se_desague_proveedor',
+        
         'se_electricidad',
         'se_electricidad_operativo',
         'se_electricidad_estado',
@@ -45,6 +46,7 @@ class FormatII extends Model
         'se_electricidad_fuente',
         'se_electricidad_proveedor_ruc',
         'se_electricidad_proveedor',
+        
         'se_telefonia',
         'se_telefonia_operativo',
         'se_telefonia_estado',

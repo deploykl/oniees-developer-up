@@ -752,9 +752,11 @@
         function progressSidebar() {
             return {
                 activeSidebarTab: localStorage.getItem('activeSidebarTab') ||
-                    'infraestructura', // Predeterminado a 'infraestructura'
+                    'datos-generales', // Predeterminado a 'infraestructura'
                 sections: {
+                    // ============================================
                     // Secciones para 'infraestructura'
+                    // ============================================
                     'sec-saneamiento': {
                         completed: 0,
                         total: 13,
@@ -777,7 +779,7 @@
                     },
                     'sec-edificaciones': {
                         completed: 0,
-                        total: 1,
+                        total: 10, // Aumentado para contar los campos de acabados interiores
                         percent: 0
                     },
                     'sec-analisis-infra': {
@@ -836,7 +838,9 @@
                         percent: 0
                     },
 
+                    // ============================================
                     // Secciones para 'datos-generales'
+                    // ============================================
                     'sec-datos-generales': {
                         completed: 0,
                         total: 18,
@@ -871,9 +875,97 @@
                         completed: 0,
                         total: 9,
                         percent: 0
+                    },
+
+                    // ============================================
+                    // Secciones para 'servicios-basicos'
+                    // ============================================
+                    // AGUA
+                    'sec-agua': {
+                        completed: 0,
+                        total: 12, // Campos: se_agua, se_agua_otro, se_agua_operativo, se_agua_estado, se_sevicio_semana, se_horas_dia, se_sevicio_semana_calculo, se_servicio_agua(2 radios), se_empresa_agua
+                        percent: 0
+                    },
+                    // DESAGÜE
+                    'sec-desague': {
+                        completed: 0,
+                        total: 5, // Campos: se_desague, se_desague_otro, se_desague_operativo, se_desague_estado
+                        percent: 0
+                    },
+                    // ELECTRICIDAD
+                    'sec-electricidad': {
+                        completed: 0,
+                        total: 8, // Campos: se_electricidad, se_electricidad_operativo, se_electricidad_estado, se_electricidad_option, se_electricidad_fuente, se_electricidad_proveedor_ruc
+                        percent: 0
+                    },
+                    // TELEFONÍA
+                    'sec-telefonia': {
+                        completed: 0,
+                        total: 7, // Campos: se_telefonia, se_telefonia_operativo, se_telefonia_estado, se_telefonia_option, se_telefonia_proveedor, se_telefonia_proveedor_ruc
+                        percent: 0
+                    },
+                    // INTERNET
+                    'sec-internet': {
+                        completed: 0,
+                        total: 15, // Campos: se_internet, se_internet_operativo, se_internet_estado, se_internet_option, se_internet_proveedor, se_internet_proveedor_ruc, internet_conexion, internet_operador, internet_continuidad, internet_red, internet_porcentaje, internet_transmision, internet_option2, internet_servicio
+                        percent: 0
+                    },
+                    // TELEVISIÓN
+                    'sec-television': {
+                        completed: 0,
+                        total: 8, // Campos: televicion, televicion_operador, televicion_option1, televicion_espera, televicion_porcentaje, televicion_antena, televicion_equipo
+                        percent: 0
+                    },
+                    // RED MÓVIL
+                    'sec-red-movil': {
+                        completed: 0,
+                        total: 8, // Campos: se_red, se_red_operativo, se_red_estado, se_red_option, se_red_proveedor, se_red_proveedor_ruc
+                        percent: 0
+                    },
+                    // GAS
+                    'sec-gas': {
+                        completed: 0,
+                        total: 8, // Campos: se_gas, se_gas_operativo, se_gas_estado, se_gas_option, se_gas_proveedor, se_gas_proveedor_ruc
+                        percent: 0
+                    },
+                    // RESIDUOS SÓLIDOS
+                    'sec-residuos-solidos': {
+                        completed: 0,
+                        total: 8, // Campos: se_residuos, se_residuos_operativo, se_residuos_estado, se_residuos_option, se_residuos_proveedor, se_residuos_proveedor_ruc
+                        percent: 0
+                    },
+                    // RESIDUOS HOSPITALARIOS
+                    'sec-residuos-hospitalarios': {
+                        completed: 0,
+                        total: 8, // Campos: se_residuos_h, se_residuos_h_operativo, se_residuos_h_estado, se_residuos_h_option, se_residuos_h_proveedor, se_residuos_h_proveedor_ruc
+                        percent: 0
+                    },
+
+                    // ============================================
+                    // Secciones para 'servicios-colectivos'
+                    // ============================================
+                    // PERSONAL DE SALUD
+                    'sec-personal-salud': {
+                        completed: 0,
+                        total: 4, // Campos: sc_personal, sc_personal_operativo, sc_personal_estado, sc_personal_option
+                        percent: 0
+                    },
+                    // PERSONAL EXTERNO / PACIENTE
+                    'sec-personal-externo': {
+                        completed: 0,
+                        total: 4, // Campos: sc_sshh, sc_sshh_operativo, sc_sshh_estado, sc_sshh_option
+                        percent: 0
+                    },
+                    // PERSONAL DISCAPACITADO
+                    'sec-personal-discapacitado': {
+                        completed: 0,
+                        total: 4, // Campos: sc_vestidores, sc_vestidores_operativo, sc_vestidores_estado, sc_vestidores_option
+                        percent: 0
                     }
                 },
+
                 totalProgress: 0,
+
                 initProgress() {
                     window.addEventListener('sectionProgress', (e) => {
                         if (this.sections[e.detail.section]) {
@@ -887,6 +979,7 @@
                         this.$watch('activeSidebarTab', val => localStorage.setItem('activeSidebarTab', val));
                     }, 500);
                 },
+
                 calculateTotal() {
                     let totalCompleted = 0;
                     let totalFields = 0;
@@ -897,29 +990,44 @@
                     let rawProgress = totalFields > 0 ? Math.round((totalCompleted / totalFields) * 100) : 0;
                     this.totalProgress = Math.min(rawProgress, 100);
                 },
+
                 scrollToSection(sectionId) {
                     const element = document.getElementById(sectionId);
                     if (element) {
-                        // Cambiar a la pestaña correcta si es necesario
-                        if (sectionId.startsWith('sec-') &&
-                            !['sec-datos-generales', 'sec-red-diresa', 'sec-datos-adicionales',
-                                'sec-localizacion', 'sec-seguridad', 'sec-patrimonio', 'sec-director'
-                            ].includes(sectionId)) {
-                            // Cambiar a la pestaña 'infraestructura' si no es una sección de 'datos-generales'
-                            document.querySelector('[x-on\\:click="activeTab = \'infraestructura\'"]')?.click();
-                        } else {
-                            // Cambiar a la pestaña 'datos-generales' si es una sección de 'datos-generales'
+                        // Determinar a qué pestaña pertenece la sección
+                        const seccionesDatosGenerales = ['sec-datos-generales', 'sec-red-diresa', 'sec-datos-adicionales',
+                            'sec-localizacion', 'sec-seguridad', 'sec-patrimonio', 'sec-director'
+                        ];
+                        const seccionesInfraestructura = ['sec-saneamiento', 'sec-planos-fisico', 'sec-planos-digital',
+                            'sec-acabados-exteriores', 'sec-edificaciones', 'sec-analisis-infra', 'sec-entorno',
+                            'sec-observaciones', 'sec-tipo-intervencion', 'sec-operatividad', 'sec-fotos',
+                            'sec-archivos', 'sec-accesibilidad', 'sec-ubicacion', 'sec-circulacion-horizontal',
+                            'sec-circulacion-vertical'
+                        ];
+                        const seccionesServiciosBasicos = ['sec-agua', 'sec-desague', 'sec-electricidad', 'sec-telefonia',
+                            'sec-internet', 'sec-television', 'sec-red-movil', 'sec-gas', 'sec-residuos-solidos',
+                            'sec-residuos-hospitalarios', 'sec-personal-salud', 'sec-personal-externo',
+                            'sec-personal-discapacitado'
+                        ];
+
+                        if (seccionesDatosGenerales.includes(sectionId)) {
                             document.querySelector('[x-on\\:click="activeTab = \'datos-generales\'"]')?.click();
+                        } else if (seccionesInfraestructura.includes(sectionId)) {
+                            document.querySelector('[x-on\\:click="activeTab = \'infraestructura\'"]')?.click();
+                        } else if (seccionesServiciosBasicos.includes(sectionId)) {
+                            document.querySelector('[x-on\\:click="activeTab = \'servicios-basicos\'"]')?.click();
                         }
 
                         // Calcular el desplazamiento para no tapar el contenido con el header
-                        const headerOffset = 90;
-                        const elementPosition = element.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'smooth'
-                        });
+                        setTimeout(() => {
+                            const headerOffset = 90;
+                            const elementPosition = element.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
+                        }, 150); // Pequeño delay para que la pestaña termine de cambiar
                     }
                 }
             };
