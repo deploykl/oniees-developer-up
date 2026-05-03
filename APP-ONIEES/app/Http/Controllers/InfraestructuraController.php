@@ -82,6 +82,8 @@ class InfraestructuraController extends Controller
         $edificaciones = collect();
 
         if ($establecimiento) {
+            $establecimiento->load('regionRelacion'); // Cargar la relación
+
             $infraestructura = FormatI::where('id_establecimiento', $establecimiento->id)->first();
 
             if ($infraestructura) {

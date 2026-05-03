@@ -156,16 +156,16 @@
                         <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">Horas al
                             día: <span class="text-cyan-500">*</span></label>
                         <input type="number" name="se_horas_dia" id="se_horas_dia"
-                            value="{{ old('se_horas_dia', $format_ii->se_horas_dia ?? '24') }}"
+                            value="{{ old('se_horas_dia', $format_ii->se_horas_dia ?? ($establecimiento ? '24' : '')) }}"
                             class="w-full rounded-lg border-gray-200 bg-white focus:border-cyan-400 focus:ring-cyan-400 text-sm"
-                            min="0" max="24" step="1">
+                            min="0" max="24" step="1" placeholder="Ej: 24">
                     </div>
                 </div>
                 <div class="mt-4">
                     <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">Horas a la
                         semana:</label>
                     <input type="number" name="se_sevicio_semana_calculo" id="se_sevicio_semana_calculo"
-                        value="{{ old('se_sevicio_semana_calculo', $format_ii->se_sevicio_semana_calculo ?? '168') }}"
+                        value="{{ old('se_sevicio_semana_calculo', $format_ii->se_sevicio_semana_calculo ?? '') }}"
                         class="w-full rounded-lg border-gray-200 bg-gray-100 text-sm" readonly>
                 </div>
             </div>
@@ -2109,25 +2109,45 @@
         $('#se_agua_paga_si, #se_agua_paga_no').on('change', toggleEmpresaDiv);
         toggleEmpresaDiv();
 
-        // ============================================
-        // AGUA: Calcular horas a la semana
-        // ============================================
-        function calcularHorasSemana() {
-            var horasDia = parseInt($('#se_horas_dia').val()) || 0;
-            var totalHoras = 0;
+       function validarHorasDia() {
+    let valor = parseInt($('#se_horas_dia').val()) || 0;
+    if (valor > 24) {
+        $('#se_horas_dia').val(24);
+        valor = 24;
+    }
+    if (valor < 0) {
+        $('#se_horas_dia').val(0);
+        valor = 0;
+    }
+    calcularHorasSemana();
+}
 
-            if ($('input[name="se_sevicio_semana"]:checked').val() === 'SI') {
-                totalHoras = horasDia * 7;
-            } else {
-                totalHoras = horasDia * 5; // Lunes a viernes
-            }
+// ============================================
+// AGUA: Calcular horas a la semana
+// ============================================
+function calcularHorasSemana() {
+    var horasDia = parseInt($('#se_horas_dia').val()) || 0;
+    var totalHoras = 0;
 
-            $('#se_sevicio_semana_calculo').val(totalHoras);
-        }
+    if ($('input[name="se_sevicio_semana"]:checked').val() === 'SI') {
+        totalHoras = horasDia * 7;
+    } else if ($('input[name="se_sevicio_semana"]:checked').val() === 'NO') {
+        totalHoras = horasDia * 5;
+    } else {
+        totalHoras = 0;
+    }
 
-        $('#se_horas_dia').on('input', calcularHorasSemana);
-        $('input[name="se_sevicio_semana"]').on('change', calcularHorasSemana);
-        calcularHorasSemana();
+    // Asignar valor siempre (puede ser 0)
+    $('#se_sevicio_semana_calculo').val(totalHoras);
+}
+
+// Eventos
+$('#se_horas_dia').on('input', validarHorasDia);
+$('#se_horas_dia').on('blur', validarHorasDia);
+$('input[name="se_sevicio_semana"]').on('change', calcularHorasSemana);
+
+// Inicializar
+calcularHorasSemana();
 
         // ============================================
         // DESAGÜE: Mostrar/ocultar campo "Otro"

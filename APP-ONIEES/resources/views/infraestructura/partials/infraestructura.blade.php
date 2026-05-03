@@ -854,537 +854,968 @@
                 </div>
 
 
-<!-- ============================================ -->
-<!-- 3.3.2 EVALUACIÓN DEL ESTADO DE LA INFRAESTRUCTURA -->
-<!-- ============================================ -->
-<div class="border rounded-lg p-4 bg-gray-50">
-    <h4 class="text-md font-semibold text-gray-800 mb-4 border-l-4 border-teal-600 pl-3">3.3.2 Evaluación del Estado de la Infraestructura</h4>
-    
-    <div class="space-y-3">
-        <!-- A. Daños por Inundación -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">A</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Daños a la infraestructura por Inundación</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <!-- PRIMERA FILA: ¿Presenta daños? + Valoración -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="infraestructura_option_a" value="1" class="w-3.5 h-3.5 text-teal-600 focus:ring-teal-500" {{ ($infraestructura->infraestructura_option_a ?? 0) == 1 ? 'checked' : '' }}>
-                                <span class="text-sm text-gray-700">SI</span>
-                            </label>
-                            <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="infraestructura_option_a" value="0" class="w-3.5 h-3.5 text-teal-600 focus:ring-teal-500" {{ ($infraestructura->infraestructura_option_a ?? 0) == 0 ? 'checked' : '' }}>
-                                <span class="text-sm text-gray-700">NO</span>
-                            </label>
+                <!-- ============================================ -->
+                <!-- 3.3.2 EVALUACIÓN DEL ESTADO DE LA INFRAESTRUCTURA -->
+                <!-- ============================================ -->
+                <div class="border rounded-lg p-4 bg-gray-50">
+                    <h4 class="text-md font-semibold text-gray-800 mb-4 border-l-4 border-teal-600 pl-3">3.3.2
+                        Evaluación del Estado de la Infraestructura</h4>
+
+                    <div class="space-y-3">
+                        <!-- A. Daños por Inundación -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">A</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Daños a la infraestructura por
+                                    Inundación</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <!-- PRIMERA FILA: ¿Presenta daños? + Valoración -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer">
+                                                <input type="radio" name="infraestructura_option_a" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600 focus:ring-teal-500"
+                                                    {{ isset($infraestructura->infraestructura_option_a) && $infraestructura->infraestructura_option_a == 1 ? 'checked' : '' }}>
+                                                <span class="text-sm text-gray-700">SI</span>
+                                            </label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer">
+                                                <input type="radio" name="infraestructura_option_a" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600 focus:ring-teal-500"
+                                                    {{ isset($infraestructura->infraestructura_option_a) && $infraestructura->infraestructura_option_a == 0 ? 'checked' : '' }}>
+                                                <span class="text-sm text-gray-700">NO</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-a"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_a) && $infraestructura->infraestructura_option_a == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_a"
+                                            class="w-full rounded-md border-gray-200 text-sm focus:border-teal-500 focus:ring-teal-500">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_a ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Piso mojado</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_a ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Pared mojado</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_a ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Techo y cielo raso mojado</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_a ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Desprendimiento de cerámico de piso</option>
+                                            <option value="5"
+                                                {{ ($infraestructura->infraestructura_valor_a ?? '') == '5' ? 'selected' : '' }}>
+                                                5. Erosión de piso de cemento</option>
+                                            <option value="6"
+                                                {{ ($infraestructura->infraestructura_valor_a ?? '') == '6' ? 'selected' : '' }}>
+                                                6. Desprendimiento de piso de cerámico</option>
+                                            <option value="7"
+                                                {{ ($infraestructura->infraestructura_valor_a ?? '') == '7' ? 'selected' : '' }}>
+                                                7. Desprendimiento de tarrajeo</option>
+                                            <option value="8"
+                                                {{ ($infraestructura->infraestructura_valor_a ?? '') == '8' ? 'selected' : '' }}>
+                                                8. Fallas de asentado de ladrillo</option>
+                                            <option value="9"
+                                                {{ ($infraestructura->infraestructura_valor_a ?? '') == '9' ? 'selected' : '' }}>
+                                                9. Afectación de sobrecimiento</option>
+                                            <option value="10"
+                                                {{ ($infraestructura->infraestructura_valor_a ?? '') == '10' ? 'selected' : '' }}>
+                                                10. Zocavones y falla de cimentación</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- SEGUNDA FILA: Descripción del daño (ancho completo) -->
+                                <div id="descripcion-a"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_a) && $infraestructura->infraestructura_option_a == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_a" rows="2"
+                                        class="w-full rounded-md border-gray-200 text-sm focus:border-teal-500 focus:ring-teal-500"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_a ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_a" class="w-full rounded-md border-gray-200 text-sm focus:border-teal-500 focus:ring-teal-500" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_a ?? '') == '1' ? 'selected' : '' }}>1. Piso mojado</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_a ?? '') == '2' ? 'selected' : '' }}>2. Pared mojado</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_a ?? '') == '3' ? 'selected' : '' }}>3. Techo y cielo raso mojado</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_a ?? '') == '4' ? 'selected' : '' }}>4. Desprendimiento de cerámico de piso</option>
-                            <option value="5" {{ ($infraestructura->infraestructura_valor_a ?? '') == '5' ? 'selected' : '' }}>5. Erosión de piso de cemento</option>
-                            <option value="6" {{ ($infraestructura->infraestructura_valor_a ?? '') == '6' ? 'selected' : '' }}>6. Desprendimiento de piso de cerámico</option>
-                            <option value="7" {{ ($infraestructura->infraestructura_valor_a ?? '') == '7' ? 'selected' : '' }}>7. Desprendimiento de tarrajeo</option>
-                            <option value="8" {{ ($infraestructura->infraestructura_valor_a ?? '') == '8' ? 'selected' : '' }}>8. Fallas de asentado de ladrillo</option>
-                            <option value="9" {{ ($infraestructura->infraestructura_valor_a ?? '') == '9' ? 'selected' : '' }}>9. Afectación de sobrecimiento</option>
-                            <option value="10" {{ ($infraestructura->infraestructura_valor_a ?? '') == '10' ? 'selected' : '' }}>10. Zocavones y falla de cimentación</option>
-                        </select>
-                    </div>
-                </div>
-                <!-- SEGUNDA FILA: Descripción del daño (ancho completo) -->
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_a" rows="2" class="w-full rounded-md border-gray-200 text-sm focus:border-teal-500 focus:ring-teal-500" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_a ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- B. Daños por Movimiento en masa -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">B</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Daños a la infraestructura (Movimiento en masa, deslizamiento, Huayco, etc)</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_b" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_b ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_b" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_b ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- B. Daños por Movimiento en masa -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">B</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Daños a la infraestructura (Movimiento
+                                    en masa, deslizamiento, Huayco, etc)</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_b" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_b) && $infraestructura->infraestructura_option_b == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_b" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_b) && $infraestructura->infraestructura_option_b == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-b"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_b) && $infraestructura->infraestructura_option_b == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_b"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_b ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Ingreso de agua al EE.SS.</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_b ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Ingreso de lodo al EE.SS.</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_b ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Ingreso de lodo y piedra al EE.SS.</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_b ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Cerco perimetrico fisurado</option>
+                                            <option value="5"
+                                                {{ ($infraestructura->infraestructura_valor_b ?? '') == '5' ? 'selected' : '' }}>
+                                                5. Cerco perimétrico en diagonal</option>
+                                            <option value="6"
+                                                {{ ($infraestructura->infraestructura_valor_b ?? '') == '6' ? 'selected' : '' }}>
+                                                6. Derrumbe parcial de Cerco perimétrico</option>
+                                            <option value="7"
+                                                {{ ($infraestructura->infraestructura_valor_b ?? '') == '7' ? 'selected' : '' }}>
+                                                7. Derrumbe total de Cerco perimétrico</option>
+                                            <option value="8"
+                                                {{ ($infraestructura->infraestructura_valor_b ?? '') == '8' ? 'selected' : '' }}>
+                                                8. Ingreso de agua a la edificación (UPSS)</option>
+                                            <option value="9"
+                                                {{ ($infraestructura->infraestructura_valor_b ?? '') == '9' ? 'selected' : '' }}>
+                                                9. Ingreso de lodo a la edificación (UPSS)</option>
+                                            <option value="10"
+                                                {{ ($infraestructura->infraestructura_valor_b ?? '') == '10' ? 'selected' : '' }}>
+                                                10. Ingreso de lodo y piedras a la edificación (UPSS)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-b"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_b) && $infraestructura->infraestructura_option_b == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_b" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_b ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_b" class="w-full rounded-md border-gray-200 text-sm" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_b ?? '') == '1' ? 'selected' : '' }}>1. Ingreso de agua al EE.SS.</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_b ?? '') == '2' ? 'selected' : '' }}>2. Ingreso de lodo al EE.SS.</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_b ?? '') == '3' ? 'selected' : '' }}>3. Ingreso de lodo y piedra al EE.SS.</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_b ?? '') == '4' ? 'selected' : '' }}>4. Cerco perimetrico fisurado</option>
-                            <option value="5" {{ ($infraestructura->infraestructura_valor_b ?? '') == '5' ? 'selected' : '' }}>5. Cerco perimétrico en diagonal</option>
-                            <option value="6" {{ ($infraestructura->infraestructura_valor_b ?? '') == '6' ? 'selected' : '' }}>6. Derrumbe parcial de Cerco perimétrico</option>
-                            <option value="7" {{ ($infraestructura->infraestructura_valor_b ?? '') == '7' ? 'selected' : '' }}>7. Derrumbe total de Cerco perimétrico</option>
-                            <option value="8" {{ ($infraestructura->infraestructura_valor_b ?? '') == '8' ? 'selected' : '' }}>8. Ingreso de agua a la edificación (UPSS)</option>
-                            <option value="9" {{ ($infraestructura->infraestructura_valor_b ?? '') == '9' ? 'selected' : '' }}>9. Ingreso de lodo a la edificación (UPSS)</option>
-                            <option value="10" {{ ($infraestructura->infraestructura_valor_b ?? '') == '10' ? 'selected' : '' }}>10. Ingreso de lodo y piedras a la edificación (UPSS)</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_b" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_b ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- C. Daños a elementos estructurales - Vigas -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">C</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Daños a elementos estructurales - Vigas</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_c" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_c ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_c" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_c ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- C. Daños a elementos estructurales - Vigas -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">C</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Daños a elementos estructurales - Vigas
+                                </h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_c" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_c) && $infraestructura->infraestructura_option_c == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_c" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_c) && $infraestructura->infraestructura_option_c == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-c"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_c) && $infraestructura->infraestructura_option_c == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_c"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_c ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Viga mojada</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_c ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Pintura deteriorada</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_c ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Tarrajeo carcomido</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_c ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Tarrajeo fisurado</option>
+                                            <option value="5"
+                                                {{ ($infraestructura->infraestructura_valor_c ?? '') == '5' ? 'selected' : '' }}>
+                                                5. Fisura del concreto</option>
+                                            <option value="6"
+                                                {{ ($infraestructura->infraestructura_valor_c ?? '') == '6' ? 'selected' : '' }}>
+                                                6. Cortes por mala distribución de estribos</option>
+                                            <option value="7"
+                                                {{ ($infraestructura->infraestructura_valor_c ?? '') == '7' ? 'selected' : '' }}>
+                                                7. Desgaste de viga, por lluvia acida</option>
+                                            <option value="8"
+                                                {{ ($infraestructura->infraestructura_valor_c ?? '') == '8' ? 'selected' : '' }}>
+                                                8. Exposición del fierro</option>
+                                            <option value="9"
+                                                {{ ($infraestructura->infraestructura_valor_c ?? '') == '9' ? 'selected' : '' }}>
+                                                9. Deformación de viga</option>
+                                            <option value="10"
+                                                {{ ($infraestructura->infraestructura_valor_c ?? '') == '10' ? 'selected' : '' }}>
+                                                10. Rotura de viga</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-c"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_c) && $infraestructura->infraestructura_option_c == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_c" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_c ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_c" class="w-full rounded-md border-gray-200 text-sm" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_c ?? '') == '1' ? 'selected' : '' }}>1. Viga mojada</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_c ?? '') == '2' ? 'selected' : '' }}>2. Pintura deteriorada</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_c ?? '') == '3' ? 'selected' : '' }}>3. Tarrajeo carcomido</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_c ?? '') == '4' ? 'selected' : '' }}>4. Tarrajeo fisurado</option>
-                            <option value="5" {{ ($infraestructura->infraestructura_valor_c ?? '') == '5' ? 'selected' : '' }}>5. Fisura del concreto</option>
-                            <option value="6" {{ ($infraestructura->infraestructura_valor_c ?? '') == '6' ? 'selected' : '' }}>6. Cortes por mala distribución de estribos</option>
-                            <option value="7" {{ ($infraestructura->infraestructura_valor_c ?? '') == '7' ? 'selected' : '' }}>7. Desgaste de viga, por lluvia acida</option>
-                            <option value="8" {{ ($infraestructura->infraestructura_valor_c ?? '') == '8' ? 'selected' : '' }}>8. Exposición del fierro</option>
-                            <option value="9" {{ ($infraestructura->infraestructura_valor_c ?? '') == '9' ? 'selected' : '' }}>9. Deformación de viga</option>
-                            <option value="10" {{ ($infraestructura->infraestructura_valor_c ?? '') == '10' ? 'selected' : '' }}>10. Rotura de viga</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_c" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_c ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- D. Daños a elementos estructurales - Columnas -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">D</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Daños a elementos estructurales - Columnas</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_d" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_d ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_d" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_d ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- D. Daños a elementos estructurales - Columnas -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">D</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Daños a elementos estructurales -
+                                    Columnas</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_d" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_d) && $infraestructura->infraestructura_option_d == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_d" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_d) && $infraestructura->infraestructura_option_d == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-d"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_d) && $infraestructura->infraestructura_option_d == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_d"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_d ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Columna mojada</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_d ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Pintura deteriorada</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_d ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Tarrajeo carcomido</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_d ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Tarrajeo fisurado</option>
+                                            <option value="5"
+                                                {{ ($infraestructura->infraestructura_valor_d ?? '') == '5' ? 'selected' : '' }}>
+                                                5. Fisura del concreto</option>
+                                            <option value="6"
+                                                {{ ($infraestructura->infraestructura_valor_d ?? '') == '6' ? 'selected' : '' }}>
+                                                6. Cortes por mala distribución de estribos</option>
+                                            <option value="7"
+                                                {{ ($infraestructura->infraestructura_valor_d ?? '') == '7' ? 'selected' : '' }}>
+                                                7. Desgaste de columna, por lluvia acida</option>
+                                            <option value="8"
+                                                {{ ($infraestructura->infraestructura_valor_d ?? '') == '8' ? 'selected' : '' }}>
+                                                8. Exposición del fierro</option>
+                                            <option value="9"
+                                                {{ ($infraestructura->infraestructura_valor_d ?? '') == '9' ? 'selected' : '' }}>
+                                                9. Deformación de viga</option>
+                                            <option value="10"
+                                                {{ ($infraestructura->infraestructura_valor_d ?? '') == '10' ? 'selected' : '' }}>
+                                                10. Rotura de columna</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-d"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_d) && $infraestructura->infraestructura_option_d == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_d" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_d ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_d" class="w-full rounded-md border-gray-200 text-sm" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_d ?? '') == '1' ? 'selected' : '' }}>1. Columna mojada</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_d ?? '') == '2' ? 'selected' : '' }}>2. Pintura deteriorada</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_d ?? '') == '3' ? 'selected' : '' }}>3. Tarrajeo carcomido</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_d ?? '') == '4' ? 'selected' : '' }}>4. Tarrajeo fisurado</option>
-                            <option value="5" {{ ($infraestructura->infraestructura_valor_d ?? '') == '5' ? 'selected' : '' }}>5. Fisura del concreto</option>
-                            <option value="6" {{ ($infraestructura->infraestructura_valor_d ?? '') == '6' ? 'selected' : '' }}>6. Cortes por mala distribución de estribos</option>
-                            <option value="7" {{ ($infraestructura->infraestructura_valor_d ?? '') == '7' ? 'selected' : '' }}>7. Desgaste de columna, por lluvia acida</option>
-                            <option value="8" {{ ($infraestructura->infraestructura_valor_d ?? '') == '8' ? 'selected' : '' }}>8. Exposición del fierro</option>
-                            <option value="9" {{ ($infraestructura->infraestructura_valor_d ?? '') == '9' ? 'selected' : '' }}>9. Deformación de viga</option>
-                            <option value="10" {{ ($infraestructura->infraestructura_valor_d ?? '') == '10' ? 'selected' : '' }}>10. Rotura de columna</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_d" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_d ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- E. Techos -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">E</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Techos (aligerado, cobertura liviana u otros)</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_e" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_e ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_e" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_e ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- E. Techos -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">E</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Techos (aligerado, cobertura liviana u
+                                    otros)</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_e" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_e) && $infraestructura->infraestructura_option_e == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_e" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_e) && $infraestructura->infraestructura_option_e == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-e"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_e) && $infraestructura->infraestructura_option_e == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_e"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_e ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Techo mojado</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_e ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Filtración de agua</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_e ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Paño de cobertura dañada</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_e ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Paño de cobertura rota</option>
+                                            <option value="5"
+                                                {{ ($infraestructura->infraestructura_valor_e ?? '') == '5' ? 'selected' : '' }}>
+                                                5. Pintura dañada de cielo raso</option>
+                                            <option value="6"
+                                                {{ ($infraestructura->infraestructura_valor_e ?? '') == '6' ? 'selected' : '' }}>
+                                                6. Desprendimiento de tarrajeo de losa</option>
+                                            <option value="7"
+                                                {{ ($infraestructura->infraestructura_valor_e ?? '') == '7' ? 'selected' : '' }}>
+                                                7. Filtración de losa aligerada</option>
+                                            <option value="8"
+                                                {{ ($infraestructura->infraestructura_valor_e ?? '') == '8' ? 'selected' : '' }}>
+                                                8. Fisura en losa aligerada</option>
+                                            <option value="9"
+                                                {{ ($infraestructura->infraestructura_valor_e ?? '') == '9' ? 'selected' : '' }}>
+                                                9. Estructura de madera y/o metal roto</option>
+                                            <option value="10"
+                                                {{ ($infraestructura->infraestructura_valor_e ?? '') == '10' ? 'selected' : '' }}>
+                                                10. Estructura de madera y/o metal caido</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-e"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_e) && $infraestructura->infraestructura_option_e == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_e" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_e ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_e" class="w-full rounded-md border-gray-200 text-sm" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_e ?? '') == '1' ? 'selected' : '' }}>1. Techo mojado</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_e ?? '') == '2' ? 'selected' : '' }}>2. Filtración de agua</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_e ?? '') == '3' ? 'selected' : '' }}>3. Paño de cobertura dañada</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_e ?? '') == '4' ? 'selected' : '' }}>4. Paño de cobertura rota</option>
-                            <option value="5" {{ ($infraestructura->infraestructura_valor_e ?? '') == '5' ? 'selected' : '' }}>5. Pintura dañada de cielo raso</option>
-                            <option value="6" {{ ($infraestructura->infraestructura_valor_e ?? '') == '6' ? 'selected' : '' }}>6. Desprendimiento de tarrajeo de losa</option>
-                            <option value="7" {{ ($infraestructura->infraestructura_valor_e ?? '') == '7' ? 'selected' : '' }}>7. Filtración de losa aligerada</option>
-                            <option value="8" {{ ($infraestructura->infraestructura_valor_e ?? '') == '8' ? 'selected' : '' }}>8. Fisura en losa aligerada</option>
-                            <option value="9" {{ ($infraestructura->infraestructura_valor_e ?? '') == '9' ? 'selected' : '' }}>9. Estructura de madera y/o metal roto</option>
-                            <option value="10" {{ ($infraestructura->infraestructura_valor_e ?? '') == '10' ? 'selected' : '' }}>10. Estructura de madera y/o metal caido</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_e" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_e ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- F. Muros -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">F</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Muros</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_f" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_f ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_f" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_f ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- F. Muros -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">F</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Muros</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_f" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_f) && $infraestructura->infraestructura_option_f == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_f" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_f) && $infraestructura->infraestructura_option_f == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-f"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_f) && $infraestructura->infraestructura_option_f == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_f"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_f ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Muro mojado</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_f ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Pintura deteriorada</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_f ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Revestimiento deteriorado</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_f ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Tarrajeo fisurado</option>
+                                            <option value="5"
+                                                {{ ($infraestructura->infraestructura_valor_f ?? '') == '5' ? 'selected' : '' }}>
+                                                5. Desprendimiento de zócalo</option>
+                                            <option value="6"
+                                                {{ ($infraestructura->infraestructura_valor_f ?? '') == '6' ? 'selected' : '' }}>
+                                                6. Desprendimiento de panel</option>
+                                            <option value="7"
+                                                {{ ($infraestructura->infraestructura_valor_f ?? '') == '7' ? 'selected' : '' }}>
+                                                7. Exposición de ladrillo</option>
+                                            <option value="8"
+                                                {{ ($infraestructura->infraestructura_valor_f ?? '') == '8' ? 'selected' : '' }}>
+                                                8. Estructura de muro deteriorado</option>
+                                            <option value="9"
+                                                {{ ($infraestructura->infraestructura_valor_f ?? '') == '9' ? 'selected' : '' }}>
+                                                9. Afectación de sobrecimiento</option>
+                                            <option value="10"
+                                                {{ ($infraestructura->infraestructura_valor_f ?? '') == '10' ? 'selected' : '' }}>
+                                                10. Derrumbe de muro</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-f"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_f) && $infraestructura->infraestructura_option_f == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_f" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_f ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_f" class="w-full rounded-md border-gray-200 text-sm" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_f ?? '') == '1' ? 'selected' : '' }}>1. Muro mojado</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_f ?? '') == '2' ? 'selected' : '' }}>2. Pintura deteriorada</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_f ?? '') == '3' ? 'selected' : '' }}>3. Revestimiento deteriorado</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_f ?? '') == '4' ? 'selected' : '' }}>4. Tarrajeo fisurado</option>
-                            <option value="5" {{ ($infraestructura->infraestructura_valor_f ?? '') == '5' ? 'selected' : '' }}>5. Desprendimiento de zócalo</option>
-                            <option value="6" {{ ($infraestructura->infraestructura_valor_f ?? '') == '6' ? 'selected' : '' }}>6. Desprendimiento de panel</option>
-                            <option value="7" {{ ($infraestructura->infraestructura_valor_f ?? '') == '7' ? 'selected' : '' }}>7. Exposición de ladrillo</option>
-                            <option value="8" {{ ($infraestructura->infraestructura_valor_f ?? '') == '8' ? 'selected' : '' }}>8. Estructura de muro deteriorado</option>
-                            <option value="9" {{ ($infraestructura->infraestructura_valor_f ?? '') == '9' ? 'selected' : '' }}>9. Afectación de sobrecimiento</option>
-                            <option value="10" {{ ($infraestructura->infraestructura_valor_f ?? '') == '10' ? 'selected' : '' }}>10. Derrumbe de muro</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_f" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_f ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- G. Pisos -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">G</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Pisos</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_g" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_g ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_g" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_g ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- G. Pisos -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">G</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Pisos</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_g" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_g) && $infraestructura->infraestructura_option_g == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_g" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_g) && $infraestructura->infraestructura_option_g == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-g"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_g) && $infraestructura->infraestructura_option_g == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_g"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_g ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Piso y vereda mojado</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_g ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Desprendimiento de cerámico de piso</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_g ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Erosión de piso de cemento</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_g ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Desprendimiento de contrapiso</option>
+                                            <option value="5"
+                                                {{ ($infraestructura->infraestructura_valor_g ?? '') == '5' ? 'selected' : '' }}>
+                                                5. Rotura de piso</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-g"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_g) && $infraestructura->infraestructura_option_g == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_g" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_g ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_g" class="w-full rounded-md border-gray-200 text-sm" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_g ?? '') == '1' ? 'selected' : '' }}>1. Piso y vereda mojado</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_g ?? '') == '2' ? 'selected' : '' }}>2. Desprendimiento de cerámico de piso</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_g ?? '') == '3' ? 'selected' : '' }}>3. Erosión de piso de cemento</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_g ?? '') == '4' ? 'selected' : '' }}>4. Desprendimiento de contrapiso</option>
-                            <option value="5" {{ ($infraestructura->infraestructura_valor_g ?? '') == '5' ? 'selected' : '' }}>5. Rotura de piso</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_g" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_g ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- H. Sistema de drenaje pluvial -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">H</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Sistema de drenaje pluvial (Canaletas de techo, montantes de bajas, etc)</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_h" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_h ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_h" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_h ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- H. Sistema de drenaje pluvial -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">H</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Sistema de drenaje pluvial (Canaletas
+                                    de techo, montantes de bajas, etc)</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_h" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_h) && $infraestructura->infraestructura_option_h == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_h" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_h) && $infraestructura->infraestructura_option_h == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-h"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_h) && $infraestructura->infraestructura_option_h == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_h"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_h ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Filtración de canaleta de techo</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_h ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Rotura de canaleta de techo</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_h ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Desprendimiento de canaleta</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_h ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Montantes rotas</option>
+                                            <option value="5"
+                                                {{ ($infraestructura->infraestructura_valor_h ?? '') == '5' ? 'selected' : '' }}>
+                                                5. Canaletas de piso rotas y saturadas</option>
+                                            <option value="6"
+                                                {{ ($infraestructura->infraestructura_valor_h ?? '') == '6' ? 'selected' : '' }}>
+                                                6. Rejilla de canaleta de piso rotas</option>
+                                            <option value="7"
+                                                {{ ($infraestructura->infraestructura_valor_h ?? '') == '7' ? 'selected' : '' }}>
+                                                7. Colapsado de montante</option>
+                                            <option value="8"
+                                                {{ ($infraestructura->infraestructura_valor_h ?? '') == '8' ? 'selected' : '' }}>
+                                                8. Colapsado total de canaletas de techo</option>
+                                            <option value="9"
+                                                {{ ($infraestructura->infraestructura_valor_h ?? '') == '9' ? 'selected' : '' }}>
+                                                9. Colapsado total de canaletas de piso</option>
+                                            <option value="10"
+                                                {{ ($infraestructura->infraestructura_valor_h ?? '') == '10' ? 'selected' : '' }}>
+                                                10. Sistema colapsado</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-h"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_h) && $infraestructura->infraestructura_option_h == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_h" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_h ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_h" class="w-full rounded-md border-gray-200 text-sm" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_h ?? '') == '1' ? 'selected' : '' }}>1. Filtración de canaleta de techo</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_h ?? '') == '2' ? 'selected' : '' }}>2. Rotura de canaleta de techo</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_h ?? '') == '3' ? 'selected' : '' }}>3. Desprendimiento de canaleta</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_h ?? '') == '4' ? 'selected' : '' }}>4. Montantes rotas</option>
-                            <option value="5" {{ ($infraestructura->infraestructura_valor_h ?? '') == '5' ? 'selected' : '' }}>5. Canaletas de piso rotas y saturadas</option>
-                            <option value="6" {{ ($infraestructura->infraestructura_valor_h ?? '') == '6' ? 'selected' : '' }}>6. Rejilla de canaleta de piso rotas</option>
-                            <option value="7" {{ ($infraestructura->infraestructura_valor_h ?? '') == '7' ? 'selected' : '' }}>7. Colapsado de montante</option>
-                            <option value="8" {{ ($infraestructura->infraestructura_valor_h ?? '') == '8' ? 'selected' : '' }}>8. Colapsado total de canaletas de techo</option>
-                            <option value="9" {{ ($infraestructura->infraestructura_valor_h ?? '') == '9' ? 'selected' : '' }}>9. Colapsado total de canaletas de piso</option>
-                            <option value="10" {{ ($infraestructura->infraestructura_valor_h ?? '') == '10' ? 'selected' : '' }}>10. Sistema colapsado</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_h" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_h ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- I. Puertas y ventanas -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">I</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Puertas y ventanas</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_i" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_i ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_i" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_i ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- I. Puertas y ventanas -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">I</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Puertas y ventanas</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_i" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_i) && $infraestructura->infraestructura_option_i == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_i" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_i) && $infraestructura->infraestructura_option_i == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-i"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_i) && $infraestructura->infraestructura_option_i == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_i"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_i ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Puerta y ventana de madera mojada</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_i ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Puerta y ventana de metal oxidada</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_i ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Ceraduras y accesorios en mal estado</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_i ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Desprendimiento de marco de puerta</option>
+                                            <option value="5"
+                                                {{ ($infraestructura->infraestructura_valor_i ?? '') == '5' ? 'selected' : '' }}>
+                                                5. Desprendimiento de puerta</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-i"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_i) && $infraestructura->infraestructura_option_i == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_i" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_i ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_i" class="w-full rounded-md border-gray-200 text-sm" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_i ?? '') == '1' ? 'selected' : '' }}>1. Puerta y ventana de madera mojada</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_i ?? '') == '2' ? 'selected' : '' }}>2. Puerta y ventana de metal oxidada</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_i ?? '') == '3' ? 'selected' : '' }}>3. Ceraduras y accesorios en mal estado</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_i ?? '') == '4' ? 'selected' : '' }}>4. Desprendimiento de marco de puerta</option>
-                            <option value="5" {{ ($infraestructura->infraestructura_valor_i ?? '') == '5' ? 'selected' : '' }}>5. Desprendimiento de puerta</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_i" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_i ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- J. Equipos -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">J</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Equipos</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_j" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_j ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_j" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_j ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- J. Equipos -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">J</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Equipos</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_j" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_j) && $infraestructura->infraestructura_option_j == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_j" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_j) && $infraestructura->infraestructura_option_j == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-j"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_j) && $infraestructura->infraestructura_option_j == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_j"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_j ?? '') == '1' ? 'selected' : '' }}>
+                                                1. OPERATIVO</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_j ?? '') == '2' ? 'selected' : '' }}>
+                                                2. INOPERATIVO</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-j"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_j) && $infraestructura->infraestructura_option_j == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_j" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_j ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_j" class="w-full rounded-md border-gray-200 text-sm" style="{{ ($infraestructura->infraestructura_option_j ?? 0) == 1 ? 'display: block;' : 'display: none;' }}">
-                            <option value="">Seleccione</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_j ?? '') == '1' ? 'selected' : '' }}>1. OPERATIVO</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_j ?? '') == '2' ? 'selected' : '' }}>2. INOPERATIVO</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_j" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_j ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- K. Red de agua -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">K</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Red de agua</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_k" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_k ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_k" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_k ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- K. Red de agua -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">K</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Red de agua</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_k" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_k) && $infraestructura->infraestructura_option_k == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_k" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_k) && $infraestructura->infraestructura_option_k == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-k"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_k) && $infraestructura->infraestructura_option_k == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_k"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_k ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Inundación de cisterna y otros</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_k ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Daño de cajas, valvulas, ubicadas en superficie, lodo</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_k ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Exposición de tuberías</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_k ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Rajadura de tuberías, fuga de desague</option>
+                                            <option value="5"
+                                                {{ ($infraestructura->infraestructura_valor_k ?? '') == '5' ? 'selected' : '' }}>
+                                                5. Desaparece tubería por fuerza de lodo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-k"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_k) && $infraestructura->infraestructura_option_k == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_k" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_k ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_k" class="w-full rounded-md border-gray-200 text-sm" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_k ?? '') == '1' ? 'selected' : '' }}>1. Inundación de cisterna y otros</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_k ?? '') == '2' ? 'selected' : '' }}>2. Daño de cajas, valvulas, ubicadas en superficie, lodo</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_k ?? '') == '3' ? 'selected' : '' }}>3. Exposición de tuberías</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_k ?? '') == '4' ? 'selected' : '' }}>4. Rajadura de tuberías, fuga de desague</option>
-                            <option value="5" {{ ($infraestructura->infraestructura_valor_k ?? '') == '5' ? 'selected' : '' }}>5. Desaparece tubería por fuerza de lodo</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_k" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_k ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
-
-        <!-- L. Red de desagüe -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">L</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Red de desagüe</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_l" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_l ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_l" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_l ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- L. Red de desagüe -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">L</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Red de desagüe</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_l" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_l) && $infraestructura->infraestructura_option_l == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_l" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_l) && $infraestructura->infraestructura_option_l == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-l"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_l) && $infraestructura->infraestructura_option_l == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_l"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_l ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Inundación de cajas y buzones</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_l ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Daño de cajas, valvulas, ubicadas en superficie, lodo</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_l ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Exposición de tuberías</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_l ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Rajadura de tuberías, fuga de desague</option>
+                                            <option value="5"
+                                                {{ ($infraestructura->infraestructura_valor_l ?? '') == '5' ? 'selected' : '' }}>
+                                                5. Desaparece tubería por fuerza de lodo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-l"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_l) && $infraestructura->infraestructura_option_l == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_l" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_l ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_l" class="w-full rounded-md border-gray-200 text-sm" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_l ?? '') == '1' ? 'selected' : '' }}>1. Inundación de cajas y buzones</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_l ?? '') == '2' ? 'selected' : '' }}>2. Daño de cajas, valvulas, ubicadas en superficie, lodo</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_l ?? '') == '3' ? 'selected' : '' }}>3. Exposición de tuberías</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_l ?? '') == '4' ? 'selected' : '' }}>4. Rajadura de tuberías, fuga de desague</option>
-                            <option value="5" {{ ($infraestructura->infraestructura_valor_l ?? '') == '5' ? 'selected' : '' }}>5. Desaparece tubería por fuerza de lodo</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_l" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_l ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- M. Red de agua contra incendio -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">M</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Red de agua contra incendio</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_m" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_m ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_m" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_m ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- M. Red de agua contra incendio -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">M</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Red de agua contra incendio</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_m" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_m) && $infraestructura->infraestructura_option_m == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_m" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_m) && $infraestructura->infraestructura_option_m == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-m"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_m) && $infraestructura->infraestructura_option_m == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_m"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_m ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Daño de cajas, valvulas, ubicadas en superficie, lodo</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_m ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Exposición de tuberías</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_m ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Rajadura de tuberías, fuga de desague</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_m ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Desaparece tubería por fuerza de lodo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-m"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_m) && $infraestructura->infraestructura_option_m == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_m" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_m ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_m" class="w-full rounded-md border-gray-200 text-sm" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_m ?? '') == '1' ? 'selected' : '' }}>1. Daño de cajas, valvulas, ubicadas en superficie, lodo</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_m ?? '') == '2' ? 'selected' : '' }}>2. Exposición de tuberías</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_m ?? '') == '3' ? 'selected' : '' }}>3. Rajadura de tuberías, fuga de desague</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_m ?? '') == '4' ? 'selected' : '' }}>4. Desaparece tubería por fuerza de lodo</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_m" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_m ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- N. Instalaciones eléctricas -->
-        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <span class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">N</span>
-                <h5 class="font-semibold text-gray-700 text-sm">Instalaciones eléctricas</h5>
-            </div>
-            <div class="p-4 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_n" value="1" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_n ?? 0) == 1 ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="infraestructura_option_n" value="0" class="w-3.5 h-3.5 text-teal-600" {{ ($infraestructura->infraestructura_option_n ?? 0) == 0 ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                        <!-- N. Instalaciones eléctricas -->
+                        <div
+                            class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div
+                                class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                                <span
+                                    class="w-6 h-6 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">N</span>
+                                <h5 class="font-semibold text-gray-700 text-sm">Instalaciones eléctricas</h5>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs text-gray-500 w-28">¿Presenta daños?</span>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_n" value="1"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_n) && $infraestructura->infraestructura_option_n == 1 ? 'checked' : '' }}><span
+                                                    class="text-sm">SI</span></label>
+                                            <label class="flex items-center gap-1.5 cursor-pointer"><input
+                                                    type="radio" name="infraestructura_option_n" value="0"
+                                                    class="w-3.5 h-3.5 text-teal-600"
+                                                    {{ isset($infraestructura->infraestructura_option_n) && $infraestructura->infraestructura_option_n == 0 ? 'checked' : '' }}><span
+                                                    class="text-sm">NO</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="valoracion-n"
+                                        style="display: {{ isset($infraestructura->infraestructura_option_n) && $infraestructura->infraestructura_option_n == 1 ? 'block' : 'none' }};">
+                                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
+                                        <select name="infraestructura_valor_n"
+                                            class="w-full rounded-md border-gray-200 text-sm">
+                                            <option value="">Seleccione valoración</option>
+                                            <option value="1"
+                                                {{ ($infraestructura->infraestructura_valor_n ?? '') == '1' ? 'selected' : '' }}>
+                                                1. Luminarias y tomacorrientes mojados</option>
+                                            <option value="2"
+                                                {{ ($infraestructura->infraestructura_valor_n ?? '') == '2' ? 'selected' : '' }}>
+                                                2. Cableado expuesto</option>
+                                            <option value="3"
+                                                {{ ($infraestructura->infraestructura_valor_n ?? '') == '3' ? 'selected' : '' }}>
+                                                3. Tableros mojados</option>
+                                            <option value="4"
+                                                {{ ($infraestructura->infraestructura_valor_n ?? '') == '4' ? 'selected' : '' }}>
+                                                4. Daño a ductos subterraneos</option>
+                                            <option value="5"
+                                                {{ ($infraestructura->infraestructura_valor_n ?? '') == '5' ? 'selected' : '' }}>
+                                                5. Perdida total de energía</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="descripcion-n"
+                                    style="display: {{ isset($infraestructura->infraestructura_option_n) && $infraestructura->infraestructura_option_n == 1 ? 'block' : 'none' }};">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del
+                                        daño</label>
+                                    <textarea name="infraestructura_descripcion_n" rows="2" class="w-full rounded-md border-gray-200 text-sm"
+                                        placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_n ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Valoración</label>
-                        <select name="infraestructura_valor_n" class="w-full rounded-md border-gray-200 text-sm" style="display: none;">
-                            <option value="">Seleccione valoración</option>
-                            <option value="1" {{ ($infraestructura->infraestructura_valor_n ?? '') == '1' ? 'selected' : '' }}>1. Luminarias y tomacorrientes mojados</option>
-                            <option value="2" {{ ($infraestructura->infraestructura_valor_n ?? '') == '2' ? 'selected' : '' }}>2. Cableado expuesto</option>
-                            <option value="3" {{ ($infraestructura->infraestructura_valor_n ?? '') == '3' ? 'selected' : '' }}>3. Tableros mojados</option>
-                            <option value="4" {{ ($infraestructura->infraestructura_valor_n ?? '') == '4' ? 'selected' : '' }}>4. Daño a ductos subterraneos</option>
-                            <option value="5" {{ ($infraestructura->infraestructura_valor_n ?? '') == '5' ? 'selected' : '' }}>5. Perdida total de energía</option>
-                        </select>
+
+                        <!-- Campo para otros daños -->
+                        <div class="mt-3 pt-2 border-t border-gray-200">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Indicar otro tipo de
+                                daño:</label>
+                            <textarea name="infraestructura_descripcion_1" rows="2"
+                                class="w-full rounded-md border-gray-200 text-sm focus:border-teal-500 focus:ring-teal-500"
+                                placeholder="Describa otros daños no contemplados...">{{ $infraestructura->infraestructura_descripcion_1 ?? '' }}</textarea>
+                        </div>
+
                     </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">Descripción del daño</label>
-                    <textarea name="infraestructura_descripcion_n" rows="2" class="w-full rounded-md border-gray-200 text-sm" style="display: none;" placeholder="Describa los daños...">{{ $infraestructura->infraestructura_descripcion_n ?? '' }}</textarea>
-                </div>
-            </div>
-        </div>
-
-        <!-- Campo para otros daños -->
-        <div class="mt-3 pt-2 border-t border-gray-200">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Indicar otro tipo de daño:</label>
-            <textarea name="infraestructura_descripcion_1" rows="2" class="w-full rounded-md border-gray-200 text-sm focus:border-teal-500 focus:ring-teal-500" placeholder="Describa otros daños no contemplados...">{{ $infraestructura->infraestructura_descripcion_1 ?? '' }}</textarea>
-        </div>
-    </div>
-</div>
-
-
 
                 <!-- ============================================ -->
                 <!-- 3.3.3 ESTADO DEL ENTORNO / CERRAMIENTO PERIMETRAL -->
@@ -1418,7 +1849,8 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Estado de Taludes</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Estado de
+                                Taludes</label>
                             <div class="flex flex-wrap gap-4">
                                 <label class="flex items-center gap-2"><input type="radio" name="estado_taludes"
                                         value="1"
@@ -1545,7 +1977,8 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mt-6">
         <div class="bg-gradient-to-r from-teal-50 to-white px-6 py-4 border-b border-gray-200">
             <h3 class="text-lg font-semibold text-teal-800 flex items-center gap-2">
-                <i class="fas fa-comment-dots"></i> 3.4 Observaciones, Comentarios y/o Apreciación del Evaluador
+                <i class="fas fa-comment-dots"></i> 3.4 Observaciones, Comentarios y/o Apreciación del
+                Evaluador
             </h3>
         </div>
         <div class="p-6">
@@ -1630,7 +2063,8 @@
                         <!-- Fila: Mayor a 75 -->
                         <tr id="fila_mayor_75">
                             <td class="border px-4 py-2">Mayor a 75</td>
-                            <td id="puntaje_mayor_75" class="border px-4 py-2 text-center font-semibold">-</td>
+                            <td id="puntaje_mayor_75" class="border px-4 py-2 text-center font-semibold">-
+                            </td>
                             <td class="border px-4 py-2">Afectado inoperativo</td>
                             <td class="border px-4 py-2">Evacuar</td>
                         </tr>
@@ -1857,7 +2291,8 @@
                 <span class="section-badge">Evaluación</span> <i class="fas accordion-icon"
                     :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
             </h2>
-            <p class="section-subtitle">Condiciones de acceso para pacientes, personal y público en general</p>
+            <p class="section-subtitle">Condiciones de acceso para pacientes, personal y público en general
+            </p>
         </div>
         <div class="progress-counter" @click.stop>
             <div class="counter-number"><span class="completed" x-text="filled"></span><span
@@ -1877,7 +2312,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="border rounded-lg p-4 bg-gray-50">
                     <label class="block text-sm font-medium text-gray-700 mb-3">
-                        ¿Se encuentra abierto a los pacientes, personal y público en general, dentro de los horarios
+                        ¿Se encuentra abierto a los pacientes, personal y público en general, dentro de los
+                        horarios
                         de atención establecidos?
                     </label>
                     <div class="flex gap-6">
@@ -1995,7 +2431,8 @@
         <div class="p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica en cuencas de topografía
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica en cuencas de
+                        topografía
                         accidentada, terrazas aluviales o de inundación, abanicos aluvionales, como de
                         deyección?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
@@ -2048,7 +2485,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor a
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia
+                        menor a
                         100m de estaciones de servicio de combustible?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ub_option_5" value="SI"
@@ -2061,7 +2499,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor a
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia
+                        menor a
                         100m de grandes edificaciones comerciales (supermercados o similares)?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ub_option_6" value="SI"
@@ -2074,7 +2513,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor a
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia
+                        menor a
                         100m al límite de la propiedad de edificaciones que generen concentración de
                         personas?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
@@ -2088,7 +2528,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor a
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia
+                        menor a
                         300m al límite de la propiedad de borde de ríos, lagos o lagunas?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ub_option_8" value="SI"
@@ -2101,7 +2542,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor a
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia
+                        menor a
                         1km al límite de la propiedad del litoral?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ub_option_9" value="SI"
@@ -2114,7 +2556,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica en terrenos con suelo
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica en terrenos con
+                        suelo
                         provenientes de relleno sanitario?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ub_option_10" value="SI"
@@ -2127,7 +2570,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica en terrenos próximos a
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica en terrenos próximos
+                        a
                         volcanes?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ub_option_11" value="SI"
@@ -2140,7 +2584,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor de
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia
+                        menor de
                         300m al límite de la propiedad de fuentes de contaminación ambiental?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ub_option_12" value="SI"
@@ -2153,8 +2598,10 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia menor de
-                        1km de rellenos sanitarios, basurales y plantas de tratamiento de aguas residuales?</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Se ubica a una distancia
+                        menor de
+                        1km de rellenos sanitarios, basurales y plantas de tratamiento de aguas
+                        residuales?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ub_option_13" value="SI"
                                 class="rounded-full border-gray-300 text-emerald-600 focus:ring-emerald-500"
@@ -2202,7 +2649,8 @@
         <div class="p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores de las áreas
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores de las
+                        áreas
                         asistenciales tienen un ancho mínimo de 2.40m?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ch_option_1" value="SI"
@@ -2215,7 +2663,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores de las áreas
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores de las
+                        áreas
                         de emergencia tienen un ancho mínimo de 2.80m?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ch_option_2" value="SI"
@@ -2228,7 +2677,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Los corredores se utilizan como
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Los corredores se utilizan
+                        como
                         área de espera?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ch_option_3" value="SI"
@@ -2246,15 +2696,18 @@
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ch_option_4" value="1"
                                 class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                {{ ($infraestructura->ch_option_4 ?? '') == '1' ? 'checked' : '' }}><span>1 (Un
+                                {{ ($infraestructura->ch_option_4 ?? '') == '1' ? 'checked' : '' }}><span>1
+                                (Un
                                 lado)</span></label><label class="flex items-center gap-2"><input type="radio"
                                 name="ch_option_4" value="2"
                                 class="rounded-full border-gray-300 text-pink-600 focus:ring-pink-500"
-                                {{ ($infraestructura->ch_option_4 ?? '') == '2' ? 'checked' : '' }}><span>2 (Ambos
+                                {{ ($infraestructura->ch_option_4 ?? '') == '2' ? 'checked' : '' }}><span>2
+                                (Ambos
                                 lados)</span></label></div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Cuál es el ancho total (m) del
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Cuál es el ancho total (m)
+                        del
                         corredor incluido el área de espera?</label>
                     <input type="number" step="0.01" name="ch_ancho"
                         value="{{ $infraestructura->ch_ancho ?? '' }}"
@@ -2276,7 +2729,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores de las áreas
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores de las
+                        áreas
                         del centro quirúrgico tienen un ancho mínimo de 3.20m?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ch_option_6" value="SI"
@@ -2289,7 +2743,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores están libres
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todos los corredores están
+                        libres
                         de obstáculos?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ch_option_7" value="SI"
@@ -2302,7 +2757,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Los extintores o sistemas contra
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Los extintores o sistemas
+                        contra
                         incendios están empotrados en los muros de los corredores?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="ch_option_8" value="SI"
@@ -2378,7 +2834,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todas las escaleras de servicio y
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todas las escaleras de
+                        servicio y
                         de evacuación tienen un ancho mínimo de 1.20m y tienen pasamanos a ambos lados?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="cv_option_2" value="SI"
@@ -2392,7 +2849,8 @@
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
                     <label class="block text-sm font-medium text-gray-700 mb-3">¿El área previa a la escalera
-                        tiene una distancia mínima de 3 metros considerada desde el inicio de la escalera hasta el
+                        tiene una distancia mínima de 3 metros considerada desde el inicio de la escalera hasta
+                        el
                         paramento opuesto?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="cv_option_3" value="SI"
@@ -2405,7 +2863,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Los pasos de las escaleras son de
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Los pasos de las escaleras
+                        son de
                         material antideslizante y llevan cantoneras?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="cv_option_4" value="SI"
@@ -2418,7 +2877,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todas las rampas tienen un ancho
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todas las rampas tienen un
+                        ancho
                         mínimo de 1.25m?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="cv_option_5" value="SI"
@@ -2431,7 +2891,8 @@
                     </div>
                 </div>
                 <div class="border rounded-lg p-4 bg-gray-50">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todas las rampas tienen el piso
+                    <label class="block text-sm font-medium text-gray-700 mb-3">¿Todas las rampas tienen el
+                        piso
                         de material antideslizante y/o bruñado cada 10cm?</label>
                     <div class="flex gap-6"><label class="flex items-center gap-2"><input type="radio"
                                 name="cv_option_6" value="SI"
@@ -3109,48 +3570,39 @@
     }
 
     function initEvaluacionInfraestructura() {
-        // Lista de todos los elementos A hasta N
-        const elementos = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'];
+        const letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'];
 
-        elementos.forEach(letra => {
+        letras.forEach(letra => {
             const radioSi = document.querySelector(`input[name="infraestructura_option_${letra}"][value="1"]`);
             const radioNo = document.querySelector(`input[name="infraestructura_option_${letra}"][value="0"]`);
-            const valoracionSelect = document.querySelector(`select[name="infraestructura_valor_${letra}"]`);
-            const descripcionTextarea = document.querySelector(
-                `textarea[name="infraestructura_descripcion_${letra}"]`);
+            const camposDiv = document.getElementById(`campos-${letra}`);
 
-            if (!radioSi || !radioNo || !valoracionSelect) return;
-
-            // Función para mostrar/ocultar la valoración
-            const toggleValoracion = () => {
-                if (radioSi.checked) {
-                    valoracionSelect.style.display = 'block';
-                    valoracionSelect.disabled = false;
-                    if (descripcionTextarea) {
-                        descripcionTextarea.style.display = 'block';
-                        descripcionTextarea.disabled = false;
+            if (radioSi && radioNo && camposDiv) {
+                const toggleCampos = () => {
+                    if (radioSi.checked) {
+                        camposDiv.style.display = 'grid';
+                    } else if (radioNo.checked) {
+                        camposDiv.style.display = 'none';
+                        // Limpiar campos cuando se selecciona NO
+                        const selects = camposDiv.querySelectorAll('select');
+                        const textareas = camposDiv.querySelectorAll('textarea');
+                        selects.forEach(select => select.value = '');
+                        textareas.forEach(textarea => textarea.value = '');
                     }
-                } else {
-                    valoracionSelect.style.display = 'none';
-                    valoracionSelect.disabled = true;
-                    // Limpiar valor cuando es NO
-                    valoracionSelect.value = '';
-                    if (descripcionTextarea) {
-                        descripcionTextarea.style.display = 'none';
-                        descripcionTextarea.disabled = true;
-                        descripcionTextarea.value = '';
-                    }
-                }
-            };
+                };
 
-            // Agregar eventos
-            radioSi.addEventListener('change', toggleValoracion);
-            radioNo.addEventListener('change', toggleValoracion);
+                radioSi.addEventListener('change', toggleCampos);
+                radioNo.addEventListener('change', toggleCampos);
 
-            // Estado inicial al cargar la página
-            toggleValoracion();
+                // Estado inicial
+                toggleCampos();
+            }
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        initEvaluacionInfraestructura();
+    });
     // Manejo del Cerco Perimetral
     document.addEventListener('DOMContentLoaded', function() {
         const tieneCercoRadios = document.querySelectorAll('.cp-tiene-cerco');

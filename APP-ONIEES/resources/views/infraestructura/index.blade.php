@@ -327,20 +327,32 @@
                     </div>
                 </div>
 
-                <!-- Botón Guardar Cambios - Diseño refinado -->
-                <div class="px-5 pt-2 pb-4 bg-white" x-data="{ saving: false }">
-                    <button type="submit" form="mainForm"
-                        @click="saving = true; setTimeout(() => saving = false, 3000)"
-                        class="w-full px-4 py-2.5 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm hover:scale-[1.02] active:scale-[0.98]">
-                        <svg class="w-4 h-4" :class="saving ? 'animate-spin' : ''" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
-                            </path>
-                        </svg>
-                        <span x-text="saving ? 'Guardando...' : 'Guardar Cambios'"></span>
-                    </button>
-                </div>
+                <!-- Botón Guardar Cambios - Versión minimalista -->
+<div class="px-5 pt-2 pb-4 bg-white" x-data="{ saving: false, success: false }">
+    <button type="submit" form="mainForm"
+        @click="saving = true; success = false; setTimeout(() => { saving = false; success = true; setTimeout(() => success = false, 2000); }, 2000)"
+        class="w-full px-4 py-2.5 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm hover:scale-[1.02] active:scale-[0.98]">
+        
+        <!-- Icono dinámico -->
+        <template x-if="!saving && !success">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+            </svg>
+        </template>
+        
+        <template x-if="saving">
+            <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        </template>
+        
+        <template x-if="success">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </template>
+        
+        <span x-text="saving ? 'Guardando...' : (success ? '¡Guardado!' : 'Guardar Cambios')"></span>
+    </button>
+</div>
 
                 <!-- PESTAÑAS DEL SIDEBAR - Diseño con píldoras -->
                 <div class="px-4 pt-2 pb-3 bg-gray-50/50 border-t border-gray-100">
@@ -1656,64 +1668,78 @@
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Función para buscar establecimiento
-            function buscarEstablecimiento(codigo, resultadoDiv, redirectUrl) {
-                if (!codigo) {
-                    $('#' + resultadoDiv).html('<div class="text-red-600 text-sm">❌ Ingrese un código</div>');
-                    return;
-                }
-
-                // Mostrar loading
-                $('#' + resultadoDiv).html(
-                    '<div class="text-center py-2"><i class="fas fa-spinner fa-spin"></i> Buscando...</div>');
-
-                // Hacer la búsqueda vía AJAX
-                $.ajax({
-                    url: '/infraestructura/buscar/' + codigo,
-                    method: 'GET',
-                    success: function(response) {
-                        if (response.id) {
-                            // Redirigir al establecimiento encontrado
-                            window.location.href = redirectUrl + '?cargar=' + response.id;
-                        } else {
-                            $('#' + resultadoDiv).html(
-                                '<div class="text-red-600 text-sm">❌ Establecimiento no encontrado</div>'
-                            );
-                        }
-                    },
-                    error: function(xhr) {
-                        let errorMsg = xhr.responseJSON?.error || 'Error al buscar el establecimiento';
-                        $('#' + resultadoDiv).html('<div class="text-red-600 text-sm">❌ ' + errorMsg +
-                            '</div>');
-                    }
-                });
+<script>
+    $(document).ready(function() {
+        // Función para formatear código a 8 dígitos con ceros a la izquierda
+        function formatearCodigo(codigo) {
+            codigo = codigo.trim();
+            if (!codigo) return '';
+            // Si es solo números, agregar ceros a la izquierda hasta 8 dígitos
+            if (/^\d+$/.test(codigo)) {
+                return codigo.padStart(8, '0');
             }
-
-            // Buscador inicial (cuando no hay establecimiento)
-            $('#btn_buscar')?.on('click', function() {
-                let codigo = $('#buscar_codigo').val();
-                buscarEstablecimiento(codigo, 'resultado_busqueda', '{{ route('infraestructura.edit') }}');
-            });
-
-            // Buscador secundario (cuando ya hay establecimiento)
-            $('#btn_buscar_2')?.on('click', function() {
-                let codigo = $('#buscar_codigo_2').val();
-                buscarEstablecimiento(codigo, 'resultado_busqueda_2',
-                    '{{ route('infraestructura.edit') }}');
-            });
-
-            // Permitir buscar con Enter en ambos campos
-            $('#buscar_codigo, #buscar_codigo_2').on('keypress', function(e) {
-                if (e.which === 13) {
-                    if (this.id === 'buscar_codigo') {
-                        $('#btn_buscar').click();
+            return codigo;
+        }
+        
+        function buscarEstablecimiento(codigo, resultadoDiv, redirectUrl) {
+            if (!codigo) {
+                $('#' + resultadoDiv).html('<div class="text-red-600 text-sm">❌ Ingrese un código</div>');
+                return;
+            }
+            
+            var codigoOriginal = codigo;
+            var codigoFormateado = formatearCodigo(codigo);
+            
+            $('#' + resultadoDiv).html('<div class="text-center py-2"><i class="fas fa-spinner fa-spin"></i> Buscando código: ' + codigoFormateado + '...</div>');
+            
+            $.ajax({
+                url: '/infraestructura/buscar/' + codigoFormateado,
+                method: 'GET',
+                success: function(response) {
+                    if (response.id) {
+                        window.location.href = redirectUrl + '?cargar=' + response.id;
                     } else {
-                        $('#btn_buscar_2').click();
+                        $('#' + resultadoDiv).html('<div class="text-red-600 text-sm">❌ Establecimiento no encontrado</div>');
                     }
+                },
+                error: function(xhr) {
+                    let errorMsg = xhr.responseJSON?.error || 'Error al buscar el establecimiento';
+                    $('#' + resultadoDiv).html('<div class="text-red-600 text-sm">❌ ' + errorMsg + '</div>');
                 }
             });
+        }
+        
+        // Buscador inicial
+        $('#btn_buscar')?.on('click', function() {
+            let codigo = $('#buscar_codigo').val();
+            buscarEstablecimiento(codigo, 'resultado_busqueda', '{{ route('infraestructura.edit') }}');
         });
-    </script>
+        
+        // Buscador secundario
+        $('#btn_buscar_2')?.on('click', function() {
+            let codigo = $('#buscar_codigo_2').val();
+            buscarEstablecimiento(codigo, 'resultado_busqueda_2', '{{ route('infraestructura.edit') }}');
+        });
+        
+        // Enter para buscar
+        $('#buscar_codigo, #buscar_codigo_2').on('keypress', function(e) {
+            if (e.which === 13) {
+                e.preventDefault();
+                if (this.id === 'buscar_codigo') {
+                    $('#btn_buscar').click();
+                } else {
+                    $('#btn_buscar_2').click();
+                }
+            }
+        });
+        
+        // Auto-completar al salir del campo
+        $('#buscar_codigo, #buscar_codigo_2').on('blur', function() {
+            var valor = $(this).val();
+            if (valor && /^\d+$/.test(valor)) {
+                $(this).val(valor.padStart(8, '0'));
+            }
+        });
+    });
+</script>
 </x-app-layout>

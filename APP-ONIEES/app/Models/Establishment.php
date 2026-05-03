@@ -117,6 +117,23 @@ class Establishment extends Model
      */
 
     // Ejemplo: Mutador para el campo `nombre_eess`
+    // 👇 NUEVA: Relación con la tabla regions
+    public function regionRelacion()
+    {
+        return $this->belongsTo(Regions::class, 'idregion', 'id');
+    }
+
+    // Accesor para obtener el nombre de la región
+    public function getRegionNombreAttribute()
+    {
+        // Usar el nuevo nombre de la relación
+        if ($this->regionRelacion && $this->regionRelacion->nombre) {
+            return $this->regionRelacion->nombre;
+        }
+
+        // Fallback al campo region de la tabla establishment (string)
+        return $this->attributes['region'] ?? '';
+    }
     public function getNombreEessAttribute($value)
     {
         return ucfirst($value);
