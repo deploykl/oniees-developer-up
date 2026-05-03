@@ -870,37 +870,52 @@
                         </div>
                     </div>
                 </div>
-               <!-- ¿Dispone de una red? + Continuidad de servicio (Temporal) -->
-<div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">¿Dispone de una red? <span class="text-indigo-500">*</span></label>
-            <div class="flex gap-3">
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                    <input type="radio" name="internet_red" value="CABLEADA" class="w-3.5 h-3.5 text-indigo-500" {{ old('internet_red', $format_ii->internet_red ?? '') == 'CABLEADA' ? 'checked' : '' }}>
-                    <span class="text-sm">CABLEADA</span>
-                </label>
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                    <input type="radio" name="internet_red" value="WI-FI" class="w-3.5 h-3.5 text-indigo-500" {{ old('internet_red', $format_ii->internet_red ?? '') == 'WI-FI' ? 'checked' : '' }}>
-                    <span class="text-sm">WI-FI</span>
-                </label>
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                    <input type="radio" name="internet_red" value="AMBAS" class="w-3.5 h-3.5 text-indigo-500" {{ old('internet_red', $format_ii->internet_red ?? '') == 'AMBAS' ? 'checked' : '' }}>
-                    <span class="text-sm">AMBAS</span>
-                </label>
-            </div>
-        </div>
-        <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">Continuidad de servicio <span class="text-indigo-500">*</span></label>
-            <select name="internet_continuidad" class="w-full rounded-md border-gray-200 text-sm py-1.5">
-                <option value="">Seleccione</option>
-                <option value="T" {{ old('internet_continuidad', $format_ii->internet_option1 ?? '') == 'T' ? 'selected' : '' }}>Temporal</option>
-                <option value="P" {{ old('internet_continuidad', $format_ii->internet_option1 ?? '') == 'P' ? 'selected' : '' }}>Permanente</option>
-                <option value="N" {{ old('internet_continuidad', $format_ii->internet_option1 ?? '') == 'N' ? 'selected' : '' }}>Nunca</option>
-            </select>
-        </div>
-    </div>
-</div>
+                <!-- ¿Dispone de una red? + Continuidad de servicio (Temporal) -->
+                <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">¿Dispone de una red? <span
+                                    class="text-indigo-500">*</span></label>
+                            <div class="flex gap-3">
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="radio" name="internet_red" value="CABLEADA"
+                                        class="w-3.5 h-3.5 text-indigo-500"
+                                        {{ old('internet_red', $format_ii->internet_red ?? '') == 'CABLEADA' ? 'checked' : '' }}>
+                                    <span class="text-sm">CABLEADA</span>
+                                </label>
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="radio" name="internet_red" value="WI-FI"
+                                        class="w-3.5 h-3.5 text-indigo-500"
+                                        {{ old('internet_red', $format_ii->internet_red ?? '') == 'WI-FI' ? 'checked' : '' }}>
+                                    <span class="text-sm">WI-FI</span>
+                                </label>
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="radio" name="internet_red" value="AMBAS"
+                                        class="w-3.5 h-3.5 text-indigo-500"
+                                        {{ old('internet_red', $format_ii->internet_red ?? '') == 'AMBAS' ? 'checked' : '' }}>
+                                    <span class="text-sm">AMBAS</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Continuidad de servicio <span
+                                    class="text-indigo-500">*</span></label>
+                            <select name="internet_continuidad"
+                                class="w-full rounded-md border-gray-200 text-sm py-1.5">
+                                <option value="">Seleccione</option>
+                                <option value="T"
+                                    {{ old('internet_continuidad', $format_ii->internet_option1 ?? '') == 'T' ? 'selected' : '' }}>
+                                    Temporal</option>
+                                <option value="P"
+                                    {{ old('internet_continuidad', $format_ii->internet_option1 ?? '') == 'P' ? 'selected' : '' }}>
+                                    Permanente</option>
+                                <option value="N"
+                                    {{ old('internet_continuidad', $format_ii->internet_option1 ?? '') == 'N' ? 'selected' : '' }}>
+                                    Nunca</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -981,7 +996,7 @@
 <!-- ============================================ -->
 <!-- TELEVISIÓN -->
 <!-- ============================================ -->
-<div id="sec-television" class="form-section" x-data="sectionCounter('sec-television',7)" x-init="init()">
+<div id="sec-television" class="form-section" x-data="sectionCounter('sec-television', 7)" x-init="init()">
     <div class="section-header" @click="toggle()">
         <div class="section-header-left">
             <h2 class="section-title">
@@ -995,11 +1010,16 @@
             <p class="section-subtitle">Señal de televisión y equipamiento</p>
         </div>
         <div class="progress-counter" @click.stop>
-            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span x-text="total"></span></span></div>
+            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span
+                        x-text="total"></span></span></div>
             <div class="counter-bar">
-                <div class="counter-bar-fill" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" :style="{ width: percent + '%' }"></div>
+                <div class="counter-bar-fill"
+                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                    :style="{ width: percent + '%' }"></div>
             </div>
-            <div class="counter-percent" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" x-text="percent + '%'"></div>
+            <div class="counter-percent"
+                :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                x-text="percent + '%'"></div>
         </div>
     </div>
     <div class="section-content" :class="open ? '' : 'hidden'">
@@ -1009,36 +1029,55 @@
             <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Dispone de señal de televisión por cable? <span class="text-red-500">*</span></label>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Dispone de señal de televisión
+                            por cable? <span class="text-red-500">*</span></label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="televicion" value="SI" id="televicion_si" class="w-3.5 h-3.5 text-red-500" {{ old('televicion', $format_ii->televicion ?? '') == 'SI' ? 'checked' : '' }}>
+                                <input type="radio" name="televicion" value="SI" id="televicion_si"
+                                    class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('televicion', $format_ii->televicion ?? '') == 'SI' ? 'checked' : '' }}>
                                 <span class="text-sm">SI</span>
                             </label>
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="televicion" value="NO" id="televicion_no" class="w-3.5 h-3.5 text-red-500" {{ old('televicion', $format_ii->televicion ?? '') == 'NO' ? 'checked' : '' }}>
+                                <input type="radio" name="televicion" value="NO" id="televicion_no"
+                                    class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('televicion', $format_ii->televicion ?? '') == 'NO' ? 'checked' : '' }}>
                                 <span class="text-sm">NO</span>
                             </label>
                         </div>
                     </div>
-                    <div id="televicion_operador_div" style="display: {{ old('televicion', $format_ii->televicion ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿De qué operador? <span class="text-red-500">*</span></label>
-                        <input type="text" name="televicion_operador" value="{{ old('televicion_operador', $format_ii->televicion_operador ?? '') }}" class="w-full rounded-md border-gray-200 text-sm py-1.5" placeholder="Ej: Claro, Movistar, DirecTV">
+                    <div id="televicion_operador_div"
+                        style="display: {{ old('televicion', $format_ii->televicion ?? '') == 'SI' ? 'block' : 'none' }};">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿De qué operador? <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="televicion_operador"
+                            value="{{ old('televicion_operador', $format_ii->televicion_operador ?? '') }}"
+                            class="w-full rounded-md border-gray-200 text-sm py-1.5"
+                            placeholder="Ej: Claro, Movistar, DirecTV">
                     </div>
                 </div>
             </div>
 
             <!-- Continuidad de servicio (solo si tiene televisión = SI) -->
-            <div id="televicion_option_div" style="display: {{ old('televicion', $format_ii->televicion ?? '') == 'SI' ? 'block' : 'none' }};">
+            <div id="televicion_option_div"
+                style="display: {{ old('televicion', $format_ii->televicion ?? '') == 'SI' ? 'block' : 'none' }};">
                 <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Continuidad de servicio <span class="text-red-500">*</span></label>
-                            <select name="televicion_option1" class="w-full rounded-md border-gray-200 text-sm py-1.5">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Continuidad de servicio <span
+                                    class="text-red-500">*</span></label>
+                            <select name="televicion_option1"
+                                class="w-full rounded-md border-gray-200 text-sm py-1.5">
                                 <option value="">Seleccione</option>
-                                <option value="S" {{ old('televicion_option1', $format_ii->televicion_option1 ?? '') == 'S' ? 'selected' : '' }}>Siempre</option>
-                                <option value="T" {{ old('televicion_option1', $format_ii->televicion_option1 ?? '') == 'T' ? 'selected' : '' }}>Temporal</option>
-                                <option value="N" {{ old('televicion_option1', $format_ii->televicion_option1 ?? '') == 'N' ? 'selected' : '' }}>Nunca</option>
+                                <option value="S"
+                                    {{ old('televicion_option1', $format_ii->televicion_option1 ?? '') == 'S' ? 'selected' : '' }}>
+                                    Siempre</option>
+                                <option value="T"
+                                    {{ old('televicion_option1', $format_ii->televicion_option1 ?? '') == 'T' ? 'selected' : '' }}>
+                                    Temporal</option>
+                                <option value="N"
+                                    {{ old('televicion_option1', $format_ii->televicion_option1 ?? '') == 'N' ? 'selected' : '' }}>
+                                    Nunca</option>
                             </select>
                         </div>
                     </div>
@@ -1049,22 +1088,32 @@
             <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Las salas de espera disponen de televisores? <span class="text-red-500">*</span></label>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Las salas de espera disponen de
+                            televisores? <span class="text-red-500">*</span></label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="televicion_espera" value="SI" id="televicion_espera_si" class="w-3.5 h-3.5 text-red-500" {{ old('televicion_espera', $format_ii->televicion_espera ?? '') == 'SI' ? 'checked' : '' }}>
+                                <input type="radio" name="televicion_espera" value="SI"
+                                    id="televicion_espera_si" class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('televicion_espera', $format_ii->televicion_espera ?? '') == 'SI' ? 'checked' : '' }}>
                                 <span class="text-sm">SI</span>
                             </label>
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="televicion_espera" value="NO" id="televicion_espera_no" class="w-3.5 h-3.5 text-red-500" {{ old('televicion_espera', $format_ii->televicion_espera ?? '') == 'NO' ? 'checked' : '' }}>
+                                <input type="radio" name="televicion_espera" value="NO"
+                                    id="televicion_espera_no" class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('televicion_espera', $format_ii->televicion_espera ?? '') == 'NO' ? 'checked' : '' }}>
                                 <span class="text-sm">NO</span>
                             </label>
                         </div>
                     </div>
-                    <div id="televicion_porcentaje_div" style="display: {{ old('televicion_espera', $format_ii->televicion_espera ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Porcentaje de ambientes con televisores <span class="text-red-500">*</span></label>
+                    <div id="televicion_porcentaje_div"
+                        style="display: {{ old('televicion_espera', $format_ii->televicion_espera ?? '') == 'SI' ? 'block' : 'none' }};">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">Porcentaje de ambientes con
+                            televisores <span class="text-red-500">*</span></label>
                         <div class="flex items-center gap-2">
-                            <input type="number" name="televicion_porcentaje" value="{{ old('televicion_porcentaje', $format_ii->televicion_porcentaje ?? '50') }}" class="w-20 rounded-md border-gray-200 text-sm py-1.5 text-center" min="0" max="100" step="1">
+                            <input type="number" name="televicion_porcentaje"
+                                value="{{ old('televicion_porcentaje', $format_ii->televicion_porcentaje ?? '50') }}"
+                                class="w-20 rounded-md border-gray-200 text-sm py-1.5 text-center" min="0"
+                                max="100" step="1">
                             <span class="text-xs text-gray-500">%</span>
                         </div>
                     </div>
@@ -1075,27 +1124,37 @@
             <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con antena de radio de telecomunicación? <span class="text-red-500">*</span></label>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con antena de radio de
+                            telecomunicación? <span class="text-red-500">*</span></label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="televicion_antena" value="SI" class="w-3.5 h-3.5 text-red-500" {{ old('televicion_antena', $format_ii->televicion_antena ?? '') == 'SI' ? 'checked' : '' }}>
+                                <input type="radio" name="televicion_antena" value="SI"
+                                    class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('televicion_antena', $format_ii->televicion_antena ?? '') == 'SI' ? 'checked' : '' }}>
                                 <span class="text-sm">SI</span>
                             </label>
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="televicion_antena" value="NO" class="w-3.5 h-3.5 text-red-500" {{ old('televicion_antena', $format_ii->televicion_antena ?? '') == 'NO' ? 'checked' : '' }}>
+                                <input type="radio" name="televicion_antena" value="NO"
+                                    class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('televicion_antena', $format_ii->televicion_antena ?? '') == 'NO' ? 'checked' : '' }}>
                                 <span class="text-sm">NO</span>
                             </label>
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con equipo de telecomunicación? <span class="text-red-500">*</span></label>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con equipo de
+                            telecomunicación? <span class="text-red-500">*</span></label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="televicion_equipo" value="SI" class="w-3.5 h-3.5 text-red-500" {{ old('televicion_equipo', $format_ii->televicion_equipo ?? '') == 'SI' ? 'checked' : '' }}>
+                                <input type="radio" name="televicion_equipo" value="SI"
+                                    class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('televicion_equipo', $format_ii->televicion_equipo ?? '') == 'SI' ? 'checked' : '' }}>
                                 <span class="text-sm">SI</span>
                             </label>
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="televicion_equipo" value="NO" class="w-3.5 h-3.5 text-red-500" {{ old('televicion_equipo', $format_ii->televicion_equipo ?? '') == 'NO' ? 'checked' : '' }}>
+                                <input type="radio" name="televicion_equipo" value="NO"
+                                    class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('televicion_equipo', $format_ii->televicion_equipo ?? '') == 'NO' ? 'checked' : '' }}>
                                 <span class="text-sm">NO</span>
                             </label>
                         </div>
@@ -1112,7 +1171,7 @@
 <!-- ============================================ -->
 <!-- RED MÓVIL -->
 <!-- ============================================ -->
-<div id="sec-red-movil" class="form-section" x-data="sectionCounter('sec-red-movil',6)" x-init="init()">
+<div id="sec-red-movil" class="form-section" x-data="sectionCounter('sec-red-movil', 6)" x-init="init()">
     <div class="section-header" @click="toggle()">
         <div class="section-header-left">
             <h2 class="section-title">
@@ -1126,11 +1185,16 @@
             <p class="section-subtitle">Cobertura y servicio de telefonía móvil</p>
         </div>
         <div class="progress-counter" @click.stop>
-            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span x-text="total"></span></span></div>
+            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span
+                        x-text="total"></span></span></div>
             <div class="counter-bar">
-                <div class="counter-bar-fill" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" :style="{ width: percent + '%' }"></div>
+                <div class="counter-bar-fill"
+                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                    :style="{ width: percent + '%' }"></div>
             </div>
-            <div class="counter-percent" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" x-text="percent + '%'"></div>
+            <div class="counter-percent"
+                :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                x-text="percent + '%'"></div>
         </div>
     </div>
     <div class="section-content" :class="open ? '' : 'hidden'">
@@ -1140,56 +1204,95 @@
             <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicio de red móvil? <span class="text-blue-500">*</span></label>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicio de red
+                            móvil? <span class="text-blue-500">*</span></label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="se_red" value="SI" id="se_red_si" class="w-3.5 h-3.5 text-blue-500" {{ old('se_red', $format_ii->se_red ?? '') == 'SI' ? 'checked' : '' }}>
+                                <input type="radio" name="se_red" value="SI" id="se_red_si"
+                                    class="w-3.5 h-3.5 text-blue-500"
+                                    {{ old('se_red', $format_ii->se_red ?? '') == 'SI' ? 'checked' : '' }}>
                                 <span class="text-sm">SI</span>
                             </label>
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="se_red" value="NO" id="se_red_no" class="w-3.5 h-3.5 text-blue-500" {{ old('se_red', $format_ii->se_red ?? '') == 'NO' ? 'checked' : '' }}>
+                                <input type="radio" name="se_red" value="NO" id="se_red_no"
+                                    class="w-3.5 h-3.5 text-blue-500"
+                                    {{ old('se_red', $format_ii->se_red ?? '') == 'NO' ? 'checked' : '' }}>
                                 <span class="text-sm">NO</span>
                             </label>
                         </div>
                     </div>
-                    <div id="se_red_operativo_div" style="display: {{ old('se_red', $format_ii->se_red ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo? <span class="text-blue-500">*</span></label>
+                    <div id="se_red_operativo_div"
+                        style="display: {{ old('se_red', $format_ii->se_red ?? '') == 'SI' ? 'block' : 'none' }};">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo? <span
+                                class="text-blue-500">*</span></label>
                         <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_red_operativo" value="SI" class="w-3.5 h-3.5 text-blue-500" {{ old('se_red_operativo', $format_ii->se_red_operativo ?? '') == 'SI' ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_red_operativo" value="NO" class="w-3.5 h-3.5 text-blue-500" {{ old('se_red_operativo', $format_ii->se_red_operativo ?? '') == 'NO' ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                    name="se_red_operativo" value="SI" class="w-3.5 h-3.5 text-blue-500"
+                                    {{ old('se_red_operativo', $format_ii->se_red_operativo ?? '') == 'SI' ? 'checked' : '' }}><span
+                                    class="text-sm">SI</span></label>
+                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                    name="se_red_operativo" value="NO" class="w-3.5 h-3.5 text-blue-500"
+                                    {{ old('se_red_operativo', $format_ii->se_red_operativo ?? '') == 'NO' ? 'checked' : '' }}><span
+                                    class="text-sm">NO</span></label>
                         </div>
                     </div>
-                    <div id="se_red_estado_div" style="display: {{ old('se_red', $format_ii->se_red ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span class="text-blue-500">*</span></label>
+                    <div id="se_red_estado_div"
+                        style="display: {{ old('se_red', $format_ii->se_red ?? '') == 'SI' ? 'block' : 'none' }};">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span
+                                class="text-blue-500">*</span></label>
                         <div class="flex gap-3">
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="se_red_estado" value="B" class="w-3.5 h-3.5 text-blue-500" {{ old('se_red_estado', $format_ii->se_red_estado ?? '') == 'B' ? 'checked' : '' }}><span class="text-xs">B</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="se_red_estado" value="R" class="w-3.5 h-3.5 text-blue-500" {{ old('se_red_estado', $format_ii->se_red_estado ?? '') == 'R' ? 'checked' : '' }}><span class="text-xs">R</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="se_red_estado" value="M" class="w-3.5 h-3.5 text-blue-500" {{ old('se_red_estado', $format_ii->se_red_estado ?? '') == 'M' ? 'checked' : '' }}><span class="text-xs">M</span></label>
+                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                    name="se_red_estado" value="B" class="w-3.5 h-3.5 text-blue-500"
+                                    {{ old('se_red_estado', $format_ii->se_red_estado ?? '') == 'B' ? 'checked' : '' }}><span
+                                    class="text-xs">B</span></label>
+                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                    name="se_red_estado" value="R" class="w-3.5 h-3.5 text-blue-500"
+                                    {{ old('se_red_estado', $format_ii->se_red_estado ?? '') == 'R' ? 'checked' : '' }}><span
+                                    class="text-xs">R</span></label>
+                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                    name="se_red_estado" value="M" class="w-3.5 h-3.5 text-blue-500"
+                                    {{ old('se_red_estado', $format_ii->se_red_estado ?? '') == 'M' ? 'checked' : '' }}><span
+                                    class="text-xs">M</span></label>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Campos condicionales (solo si tiene red móvil = SI) -->
-            <div id="se_red_option_div" style="display: {{ old('se_red', $format_ii->se_red ?? '') == 'SI' ? 'block' : 'none' }};" class="space-y-3">
+            <div id="se_red_option_div"
+                style="display: {{ old('se_red', $format_ii->se_red ?? '') == 'SI' ? 'block' : 'none' }};"
+                class="space-y-3">
 
                 <!-- Modo de uso + Proveedor + RUC -->
                 <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span class="text-blue-500">*</span></label>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span
+                                    class="text-blue-500">*</span></label>
                             <div class="flex gap-4">
-                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_red_option" value="C" class="w-3.5 h-3.5 text-blue-500" {{ old('se_red_option', $format_ii->se_red_option ?? '') == 'C' ? 'checked' : '' }}><span class="text-sm">CONTINUO</span></label>
-                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_red_option" value="T" class="w-3.5 h-3.5 text-blue-500" {{ old('se_red_option', $format_ii->se_red_option ?? '') == 'T' ? 'checked' : '' }}><span class="text-sm">TEMPORAL</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="se_red_option" value="C" class="w-3.5 h-3.5 text-blue-500"
+                                        {{ old('se_red_option', $format_ii->se_red_option ?? '') == 'C' ? 'checked' : '' }}><span
+                                        class="text-sm">CONTINUO</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="se_red_option" value="T" class="w-3.5 h-3.5 text-blue-500"
+                                        {{ old('se_red_option', $format_ii->se_red_option ?? '') == 'T' ? 'checked' : '' }}><span
+                                        class="text-sm">TEMPORAL</span></label>
                             </div>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Proveedor</label>
-                            <input type="text" name="se_red_proveedor" value="{{ old('se_red_proveedor', $format_ii->se_red_proveedor ?? '') }}" class="w-full rounded-md border-gray-200 text-sm py-1.5" placeholder="Ej: Claro, Movistar, Entel">
+                            <input type="text" name="se_red_proveedor"
+                                value="{{ old('se_red_proveedor', $format_ii->se_red_proveedor ?? '') }}"
+                                class="w-full rounded-md border-gray-200 text-sm py-1.5"
+                                placeholder="Ej: Claro, Movistar, Entel">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">RUC del proveedor</label>
-                            <input type="text" name="se_red_proveedor_ruc" value="{{ old('se_red_proveedor_ruc', $format_ii->se_red_proveedor_ruc ?? '') }}" class="w-full rounded-md border-gray-200 text-sm py-1.5" placeholder="Ej: 20123456789" maxlength="11">
+                            <input type="text" name="se_red_proveedor_ruc"
+                                value="{{ old('se_red_proveedor_ruc', $format_ii->se_red_proveedor_ruc ?? '') }}"
+                                class="w-full rounded-md border-gray-200 text-sm py-1.5" placeholder="Ej: 20123456789"
+                                maxlength="11">
                         </div>
                     </div>
                 </div>
@@ -1203,7 +1306,7 @@
 <!-- ============================================ -->
 <!-- GAS NATURAL O GLP -->
 <!-- ============================================ -->
-<div id="sec-gas" class="form-section" x-data="sectionCounter('sec-gas',6)" x-init="init()">
+<div id="sec-gas" class="form-section" x-data="sectionCounter('sec-gas', 6)" x-init="init()">
     <div class="section-header" @click="toggle()">
         <div class="section-header-left">
             <h2 class="section-title">
@@ -1217,11 +1320,16 @@
             <p class="section-subtitle">Suministro de gas para el establecimiento</p>
         </div>
         <div class="progress-counter" @click.stop>
-            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span x-text="total"></span></span></div>
+            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span
+                        x-text="total"></span></span></div>
             <div class="counter-bar">
-                <div class="counter-bar-fill" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" :style="{ width: percent + '%' }"></div>
+                <div class="counter-bar-fill"
+                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                    :style="{ width: percent + '%' }"></div>
             </div>
-            <div class="counter-percent" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" x-text="percent + '%'"></div>
+            <div class="counter-percent"
+                :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                x-text="percent + '%'"></div>
         </div>
     </div>
     <div class="section-content" :class="open ? '' : 'hidden'">
@@ -1231,56 +1339,95 @@
             <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicio de gas natural o GLP? <span class="text-orange-500">*</span></label>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicio de gas
+                            natural o GLP? <span class="text-orange-500">*</span></label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="se_gas" value="SI" id="se_gas_si" class="w-3.5 h-3.5 text-orange-500" {{ old('se_gas', $format_ii->se_gas ?? '') == 'SI' ? 'checked' : '' }}>
+                                <input type="radio" name="se_gas" value="SI" id="se_gas_si"
+                                    class="w-3.5 h-3.5 text-orange-500"
+                                    {{ old('se_gas', $format_ii->se_gas ?? '') == 'SI' ? 'checked' : '' }}>
                                 <span class="text-sm">SI</span>
                             </label>
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="se_gas" value="NO" id="se_gas_no" class="w-3.5 h-3.5 text-orange-500" {{ old('se_gas', $format_ii->se_gas ?? '') == 'NO' ? 'checked' : '' }}>
+                                <input type="radio" name="se_gas" value="NO" id="se_gas_no"
+                                    class="w-3.5 h-3.5 text-orange-500"
+                                    {{ old('se_gas', $format_ii->se_gas ?? '') == 'NO' ? 'checked' : '' }}>
                                 <span class="text-sm">NO</span>
                             </label>
                         </div>
                     </div>
-                    <div id="se_gas_operativo_div" style="display: {{ old('se_gas', $format_ii->se_gas ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo? <span class="text-orange-500">*</span></label>
+                    <div id="se_gas_operativo_div"
+                        style="display: {{ old('se_gas', $format_ii->se_gas ?? '') == 'SI' ? 'block' : 'none' }};">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo? <span
+                                class="text-orange-500">*</span></label>
                         <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_gas_operativo" value="SI" class="w-3.5 h-3.5 text-orange-500" {{ old('se_gas_operativo', $format_ii->se_gas_operativo ?? '') == 'SI' ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_gas_operativo" value="NO" class="w-3.5 h-3.5 text-orange-500" {{ old('se_gas_operativo', $format_ii->se_gas_operativo ?? '') == 'NO' ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                    name="se_gas_operativo" value="SI" class="w-3.5 h-3.5 text-orange-500"
+                                    {{ old('se_gas_operativo', $format_ii->se_gas_operativo ?? '') == 'SI' ? 'checked' : '' }}><span
+                                    class="text-sm">SI</span></label>
+                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                    name="se_gas_operativo" value="NO" class="w-3.5 h-3.5 text-orange-500"
+                                    {{ old('se_gas_operativo', $format_ii->se_gas_operativo ?? '') == 'NO' ? 'checked' : '' }}><span
+                                    class="text-sm">NO</span></label>
                         </div>
                     </div>
-                    <div id="se_gas_estado_div" style="display: {{ old('se_gas', $format_ii->se_gas ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span class="text-orange-500">*</span></label>
+                    <div id="se_gas_estado_div"
+                        style="display: {{ old('se_gas', $format_ii->se_gas ?? '') == 'SI' ? 'block' : 'none' }};">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span
+                                class="text-orange-500">*</span></label>
                         <div class="flex gap-3">
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="se_gas_estado" value="B" class="w-3.5 h-3.5 text-orange-500" {{ old('se_gas_estado', $format_ii->se_gas_estado ?? '') == 'B' ? 'checked' : '' }}><span class="text-xs">B</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="se_gas_estado" value="R" class="w-3.5 h-3.5 text-orange-500" {{ old('se_gas_estado', $format_ii->se_gas_estado ?? '') == 'R' ? 'checked' : '' }}><span class="text-xs">R</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="se_gas_estado" value="M" class="w-3.5 h-3.5 text-orange-500" {{ old('se_gas_estado', $format_ii->se_gas_estado ?? '') == 'M' ? 'checked' : '' }}><span class="text-xs">M</span></label>
+                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                    name="se_gas_estado" value="B" class="w-3.5 h-3.5 text-orange-500"
+                                    {{ old('se_gas_estado', $format_ii->se_gas_estado ?? '') == 'B' ? 'checked' : '' }}><span
+                                    class="text-xs">B</span></label>
+                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                    name="se_gas_estado" value="R" class="w-3.5 h-3.5 text-orange-500"
+                                    {{ old('se_gas_estado', $format_ii->se_gas_estado ?? '') == 'R' ? 'checked' : '' }}><span
+                                    class="text-xs">R</span></label>
+                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                    name="se_gas_estado" value="M" class="w-3.5 h-3.5 text-orange-500"
+                                    {{ old('se_gas_estado', $format_ii->se_gas_estado ?? '') == 'M' ? 'checked' : '' }}><span
+                                    class="text-xs">M</span></label>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Campos condicionales (solo si tiene gas = SI) -->
-            <div id="se_gas_option_div" style="display: {{ old('se_gas', $format_ii->se_gas ?? '') == 'SI' ? 'block' : 'none' }};" class="space-y-3">
+            <div id="se_gas_option_div"
+                style="display: {{ old('se_gas', $format_ii->se_gas ?? '') == 'SI' ? 'block' : 'none' }};"
+                class="space-y-3">
 
                 <!-- Modo de uso + Proveedor + RUC -->
                 <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span class="text-orange-500">*</span></label>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span
+                                    class="text-orange-500">*</span></label>
                             <div class="flex gap-4">
-                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_gas_option" value="C" class="w-3.5 h-3.5 text-orange-500" {{ old('se_gas_option', $format_ii->se_gas_option ?? '') == 'C' ? 'checked' : '' }}><span class="text-sm">CONTINUO</span></label>
-                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_gas_option" value="T" class="w-3.5 h-3.5 text-orange-500" {{ old('se_gas_option', $format_ii->se_gas_option ?? '') == 'T' ? 'checked' : '' }}><span class="text-sm">TEMPORAL</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="se_gas_option" value="C" class="w-3.5 h-3.5 text-orange-500"
+                                        {{ old('se_gas_option', $format_ii->se_gas_option ?? '') == 'C' ? 'checked' : '' }}><span
+                                        class="text-sm">CONTINUO</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="se_gas_option" value="T" class="w-3.5 h-3.5 text-orange-500"
+                                        {{ old('se_gas_option', $format_ii->se_gas_option ?? '') == 'T' ? 'checked' : '' }}><span
+                                        class="text-sm">TEMPORAL</span></label>
                             </div>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Proveedor</label>
-                            <input type="text" name="se_gas_proveedor" value="{{ old('se_gas_proveedor', $format_ii->se_gas_proveedor ?? '') }}" class="w-full rounded-md border-gray-200 text-sm py-1.5" placeholder="Ej: Calidda, Solgas">
+                            <input type="text" name="se_gas_proveedor"
+                                value="{{ old('se_gas_proveedor', $format_ii->se_gas_proveedor ?? '') }}"
+                                class="w-full rounded-md border-gray-200 text-sm py-1.5"
+                                placeholder="Ej: Calidda, Solgas">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">RUC del proveedor</label>
-                            <input type="text" name="se_gas_proveedor_ruc" value="{{ old('se_gas_proveedor_ruc', $format_ii->se_gas_proveedor_ruc ?? '') }}" class="w-full rounded-md border-gray-200 text-sm py-1.5" placeholder="Ej: 20123456789" maxlength="11">
+                            <input type="text" name="se_gas_proveedor_ruc"
+                                value="{{ old('se_gas_proveedor_ruc', $format_ii->se_gas_proveedor_ruc ?? '') }}"
+                                class="w-full rounded-md border-gray-200 text-sm py-1.5"
+                                placeholder="Ej: 20123456789" maxlength="11">
                         </div>
                     </div>
                 </div>
@@ -1297,7 +1444,7 @@
 <!-- ============================================ -->
 <!-- RESIDUOS SÓLIDOS -->
 <!-- ============================================ -->
-<div id="sec-residuos-solidos" class="form-section" x-data="sectionCounter('sec-residuos-solidos',6)" x-init="init()">
+<div id="sec-residuos-solidos" class="form-section" x-data="sectionCounter('sec-residuos-solidos', 6)" x-init="init()">
     <div class="section-header" @click="toggle()">
         <div class="section-header-left">
             <h2 class="section-title">
@@ -1311,11 +1458,16 @@
             <p class="section-subtitle">Servicio de recolección y disposición de residuos sólidos</p>
         </div>
         <div class="progress-counter" @click.stop>
-            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span x-text="total"></span></span></div>
+            <div class="counter-number"><span class="completed" x-text="filled"></span><span
+                    class="total">/<span x-text="total"></span></span></div>
             <div class="counter-bar">
-                <div class="counter-bar-fill" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" :style="{ width: percent + '%' }"></div>
+                <div class="counter-bar-fill"
+                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                    :style="{ width: percent + '%' }"></div>
             </div>
-            <div class="counter-percent" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" x-text="percent + '%'"></div>
+            <div class="counter-percent"
+                :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                x-text="percent + '%'"></div>
         </div>
     </div>
     <div class="section-content" :class="open ? '' : 'hidden'">
@@ -1325,56 +1477,97 @@
             <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicio de eliminación de residuos sólidos? <span class="text-green-500">*</span></label>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicio de
+                            eliminación de residuos sólidos? <span class="text-green-500">*</span></label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="se_residuos" value="SI" id="se_residuos_si" class="w-3.5 h-3.5 text-green-500" {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'SI' ? 'checked' : '' }}>
+                                <input type="radio" name="se_residuos" value="SI" id="se_residuos_si"
+                                    class="w-3.5 h-3.5 text-green-500"
+                                    {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'SI' ? 'checked' : '' }}>
                                 <span class="text-sm">SI</span>
                             </label>
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="se_residuos" value="NO" id="se_residuos_no" class="w-3.5 h-3.5 text-green-500" {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'NO' ? 'checked' : '' }}>
+                                <input type="radio" name="se_residuos" value="NO" id="se_residuos_no"
+                                    class="w-3.5 h-3.5 text-green-500"
+                                    {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'NO' ? 'checked' : '' }}>
                                 <span class="text-sm">NO</span>
                             </label>
                         </div>
                     </div>
-                    <div id="se_residuos_operativo_div" style="display: {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo? <span class="text-green-500">*</span></label>
+                    <div id="se_residuos_operativo_div"
+                        style="display: {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'SI' ? 'block' : 'none' }};">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo? <span
+                                class="text-green-500">*</span></label>
                         <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_residuos_operativo" value="SI" class="w-3.5 h-3.5 text-green-500" {{ old('se_residuos_operativo', $format_ii->se_residuos_operativo ?? '') == 'SI' ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_residuos_operativo" value="NO" class="w-3.5 h-3.5 text-green-500" {{ old('se_residuos_operativo', $format_ii->se_residuos_operativo ?? '') == 'NO' ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                    name="se_residuos_operativo" value="SI" class="w-3.5 h-3.5 text-green-500"
+                                    {{ old('se_residuos_operativo', $format_ii->se_residuos_operativo ?? '') == 'SI' ? 'checked' : '' }}><span
+                                    class="text-sm">SI</span></label>
+                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                    name="se_residuos_operativo" value="NO" class="w-3.5 h-3.5 text-green-500"
+                                    {{ old('se_residuos_operativo', $format_ii->se_residuos_operativo ?? '') == 'NO' ? 'checked' : '' }}><span
+                                    class="text-sm">NO</span></label>
                         </div>
                     </div>
-                    <div id="se_residuos_estado_div" style="display: {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span class="text-green-500">*</span></label>
+                    <div id="se_residuos_estado_div"
+                        style="display: {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'SI' ? 'block' : 'none' }};">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span
+                                class="text-green-500">*</span></label>
                         <div class="flex gap-3">
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="se_residuos_estado" value="B" class="w-3.5 h-3.5 text-green-500" {{ old('se_residuos_estado', $format_ii->se_residuos_estado ?? '') == 'B' ? 'checked' : '' }}><span class="text-xs">B</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="se_residuos_estado" value="R" class="w-3.5 h-3.5 text-green-500" {{ old('se_residuos_estado', $format_ii->se_residuos_estado ?? '') == 'R' ? 'checked' : '' }}><span class="text-xs">R</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="se_residuos_estado" value="M" class="w-3.5 h-3.5 text-green-500" {{ old('se_residuos_estado', $format_ii->se_residuos_estado ?? '') == 'M' ? 'checked' : '' }}><span class="text-xs">M</span></label>
+                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                    name="se_residuos_estado" value="B" class="w-3.5 h-3.5 text-green-500"
+                                    {{ old('se_residuos_estado', $format_ii->se_residuos_estado ?? '') == 'B' ? 'checked' : '' }}><span
+                                    class="text-xs">B</span></label>
+                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                    name="se_residuos_estado" value="R" class="w-3.5 h-3.5 text-green-500"
+                                    {{ old('se_residuos_estado', $format_ii->se_residuos_estado ?? '') == 'R' ? 'checked' : '' }}><span
+                                    class="text-xs">R</span></label>
+                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                    name="se_residuos_estado" value="M" class="w-3.5 h-3.5 text-green-500"
+                                    {{ old('se_residuos_estado', $format_ii->se_residuos_estado ?? '') == 'M' ? 'checked' : '' }}><span
+                                    class="text-xs">M</span></label>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Campos condicionales (solo si tiene residuos = SI) -->
-            <div id="se_residuos_option_div" style="display: {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'SI' ? 'block' : 'none' }};" class="space-y-3">
+            <div id="se_residuos_option_div"
+                style="display: {{ old('se_residuos', $format_ii->se_residuos ?? '') == 'SI' ? 'block' : 'none' }};"
+                class="space-y-3">
 
                 <!-- Modo de uso + Proveedor + RUC -->
                 <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span class="text-green-500">*</span></label>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span
+                                    class="text-green-500">*</span></label>
                             <div class="flex gap-4">
-                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_residuos_option" value="C" class="w-3.5 h-3.5 text-green-500" {{ old('se_residuos_option', $format_ii->se_residuos_option ?? '') == 'C' ? 'checked' : '' }}><span class="text-sm">CONTINUO</span></label>
-                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_residuos_option" value="T" class="w-3.5 h-3.5 text-green-500" {{ old('se_residuos_option', $format_ii->se_residuos_option ?? '') == 'T' ? 'checked' : '' }}><span class="text-sm">TEMPORAL</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="se_residuos_option" value="C"
+                                        class="w-3.5 h-3.5 text-green-500"
+                                        {{ old('se_residuos_option', $format_ii->se_residuos_option ?? '') == 'C' ? 'checked' : '' }}><span
+                                        class="text-sm">CONTINUO</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="se_residuos_option" value="T"
+                                        class="w-3.5 h-3.5 text-green-500"
+                                        {{ old('se_residuos_option', $format_ii->se_residuos_option ?? '') == 'T' ? 'checked' : '' }}><span
+                                        class="text-sm">TEMPORAL</span></label>
                             </div>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Proveedor</label>
-                            <input type="text" name="se_residuos_proveedor" value="{{ old('se_residuos_proveedor', $format_ii->se_residuos_proveedor ?? '') }}" class="w-full rounded-md border-gray-200 text-sm py-1.5" placeholder="Ej: Municipalidad, empresa privada">
+                            <input type="text" name="se_residuos_proveedor"
+                                value="{{ old('se_residuos_proveedor', $format_ii->se_residuos_proveedor ?? '') }}"
+                                class="w-full rounded-md border-gray-200 text-sm py-1.5"
+                                placeholder="Ej: Municipalidad, empresa privada">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">RUC del proveedor</label>
-                            <input type="text" name="se_residuos_proveedor_ruc" value="{{ old('se_residuos_proveedor_ruc', $format_ii->se_residuos_proveedor_ruc ?? '') }}" class="w-full rounded-md border-gray-200 text-sm py-1.5" placeholder="Ej: 20123456789" maxlength="11">
+                            <input type="text" name="se_residuos_proveedor_ruc"
+                                value="{{ old('se_residuos_proveedor_ruc', $format_ii->se_residuos_proveedor_ruc ?? '') }}"
+                                class="w-full rounded-md border-gray-200 text-sm py-1.5"
+                                placeholder="Ej: 20123456789" maxlength="11">
                         </div>
                     </div>
                 </div>
@@ -1388,7 +1581,7 @@
 <!-- ============================================ -->
 <!-- RESIDUOS HOSPITALARIOS -->
 <!-- ============================================ -->
-<div id="sec-residuos-hospitalarios" class="form-section" x-data="sectionCounter('sec-residuos-hospitalarios',6)" x-init="init()">
+<div id="sec-residuos-hospitalarios" class="form-section" x-data="sectionCounter('sec-residuos-hospitalarios', 6)" x-init="init()">
     <div class="section-header" @click="toggle()">
         <div class="section-header-left">
             <h2 class="section-title">
@@ -1402,11 +1595,16 @@
             <p class="section-subtitle">Servicio especializado para residuos biocontaminados</p>
         </div>
         <div class="progress-counter" @click.stop>
-            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span x-text="total"></span></span></div>
+            <div class="counter-number"><span class="completed" x-text="filled"></span><span
+                    class="total">/<span x-text="total"></span></span></div>
             <div class="counter-bar">
-                <div class="counter-bar-fill" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" :style="{ width: percent + '%' }"></div>
+                <div class="counter-bar-fill"
+                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                    :style="{ width: percent + '%' }"></div>
             </div>
-            <div class="counter-percent" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" x-text="percent + '%'"></div>
+            <div class="counter-percent"
+                :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                x-text="percent + '%'"></div>
         </div>
     </div>
     <div class="section-content" :class="open ? '' : 'hidden'">
@@ -1416,56 +1614,97 @@
             <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicio de eliminación de residuos hospitalarios? <span class="text-red-500">*</span></label>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicio de
+                            eliminación de residuos hospitalarios? <span class="text-red-500">*</span></label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="se_residuos_h" value="SI" id="se_residuos_h_si" class="w-3.5 h-3.5 text-red-500" {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'SI' ? 'checked' : '' }}>
+                                <input type="radio" name="se_residuos_h" value="SI" id="se_residuos_h_si"
+                                    class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'SI' ? 'checked' : '' }}>
                                 <span class="text-sm">SI</span>
                             </label>
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="se_residuos_h" value="NO" id="se_residuos_h_no" class="w-3.5 h-3.5 text-red-500" {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'NO' ? 'checked' : '' }}>
+                                <input type="radio" name="se_residuos_h" value="NO" id="se_residuos_h_no"
+                                    class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'NO' ? 'checked' : '' }}>
                                 <span class="text-sm">NO</span>
                             </label>
                         </div>
                     </div>
-                    <div id="se_residuos_h_operativo_div" style="display: {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo? <span class="text-red-500">*</span></label>
+                    <div id="se_residuos_h_operativo_div"
+                        style="display: {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'SI' ? 'block' : 'none' }};">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo? <span
+                                class="text-red-500">*</span></label>
                         <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_residuos_h_operativo" value="SI" class="w-3.5 h-3.5 text-red-500" {{ old('se_residuos_h_operativo', $format_ii->se_residuos_h_operativo ?? '') == 'SI' ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_residuos_h_operativo" value="NO" class="w-3.5 h-3.5 text-red-500" {{ old('se_residuos_h_operativo', $format_ii->se_residuos_h_operativo ?? '') == 'NO' ? 'checked' : '' }}><span class="text-sm">NO</span></label>
+                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                    name="se_residuos_h_operativo" value="SI" class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('se_residuos_h_operativo', $format_ii->se_residuos_h_operativo ?? '') == 'SI' ? 'checked' : '' }}><span
+                                    class="text-sm">SI</span></label>
+                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                    name="se_residuos_h_operativo" value="NO" class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('se_residuos_h_operativo', $format_ii->se_residuos_h_operativo ?? '') == 'NO' ? 'checked' : '' }}><span
+                                    class="text-sm">NO</span></label>
                         </div>
                     </div>
-                    <div id="se_residuos_h_estado_div" style="display: {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span class="text-red-500">*</span></label>
+                    <div id="se_residuos_h_estado_div"
+                        style="display: {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'SI' ? 'block' : 'none' }};">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span
+                                class="text-red-500">*</span></label>
                         <div class="flex gap-3">
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="se_residuos_h_estado" value="B" class="w-3.5 h-3.5 text-red-500" {{ old('se_residuos_h_estado', $format_ii->se_residuos_h_estado ?? '') == 'B' ? 'checked' : '' }}><span class="text-xs">B</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="se_residuos_h_estado" value="R" class="w-3.5 h-3.5 text-red-500" {{ old('se_residuos_h_estado', $format_ii->se_residuos_h_estado ?? '') == 'R' ? 'checked' : '' }}><span class="text-xs">R</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="se_residuos_h_estado" value="M" class="w-3.5 h-3.5 text-red-500" {{ old('se_residuos_h_estado', $format_ii->se_residuos_h_estado ?? '') == 'M' ? 'checked' : '' }}><span class="text-xs">M</span></label>
+                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                    name="se_residuos_h_estado" value="B" class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('se_residuos_h_estado', $format_ii->se_residuos_h_estado ?? '') == 'B' ? 'checked' : '' }}><span
+                                    class="text-xs">B</span></label>
+                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                    name="se_residuos_h_estado" value="R" class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('se_residuos_h_estado', $format_ii->se_residuos_h_estado ?? '') == 'R' ? 'checked' : '' }}><span
+                                    class="text-xs">R</span></label>
+                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                    name="se_residuos_h_estado" value="M" class="w-3.5 h-3.5 text-red-500"
+                                    {{ old('se_residuos_h_estado', $format_ii->se_residuos_h_estado ?? '') == 'M' ? 'checked' : '' }}><span
+                                    class="text-xs">M</span></label>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Campos condicionales (solo si tiene residuos hospitalarios = SI) -->
-            <div id="se_residuos_h_option_div" style="display: {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'SI' ? 'block' : 'none' }};" class="space-y-3">
+            <div id="se_residuos_h_option_div"
+                style="display: {{ old('se_residuos_h', $format_ii->se_residuos_h ?? '') == 'SI' ? 'block' : 'none' }};"
+                class="space-y-3">
 
                 <!-- Modo de uso + Proveedor + RUC -->
                 <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span class="text-red-500">*</span></label>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span
+                                    class="text-red-500">*</span></label>
                             <div class="flex gap-4">
-                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_residuos_h_option" value="C" class="w-3.5 h-3.5 text-red-500" {{ old('se_residuos_h_option', $format_ii->se_residuos_h_option ?? '') == 'C' ? 'checked' : '' }}><span class="text-sm">CONTINUO</span></label>
-                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="se_residuos_h_option" value="T" class="w-3.5 h-3.5 text-red-500" {{ old('se_residuos_h_option', $format_ii->se_residuos_h_option ?? '') == 'T' ? 'checked' : '' }}><span class="text-sm">TEMPORAL</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="se_residuos_h_option" value="C"
+                                        class="w-3.5 h-3.5 text-red-500"
+                                        {{ old('se_residuos_h_option', $format_ii->se_residuos_h_option ?? '') == 'C' ? 'checked' : '' }}><span
+                                        class="text-sm">CONTINUO</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="se_residuos_h_option" value="T"
+                                        class="w-3.5 h-3.5 text-red-500"
+                                        {{ old('se_residuos_h_option', $format_ii->se_residuos_h_option ?? '') == 'T' ? 'checked' : '' }}><span
+                                        class="text-sm">TEMPORAL</span></label>
                             </div>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Proveedor</label>
-                            <input type="text" name="se_residuos_h_proveedor" value="{{ old('se_residuos_h_proveedor', $format_ii->se_residuos_h_proveedor ?? '') }}" class="w-full rounded-md border-gray-200 text-sm py-1.5" placeholder="Ej: Empresa especializada">
+                            <input type="text" name="se_residuos_h_proveedor"
+                                value="{{ old('se_residuos_h_proveedor', $format_ii->se_residuos_h_proveedor ?? '') }}"
+                                class="w-full rounded-md border-gray-200 text-sm py-1.5"
+                                placeholder="Ej: Empresa especializada">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">RUC del proveedor</label>
-                            <input type="text" name="se_residuos_h_proveedor_ruc" value="{{ old('se_residuos_h_proveedor_ruc', $format_ii->se_residuos_h_proveedor_ruc ?? '') }}" class="w-full rounded-md border-gray-200 text-sm py-1.5" placeholder="Ej: 20123456789" maxlength="11">
+                            <input type="text" name="se_residuos_h_proveedor_ruc"
+                                value="{{ old('se_residuos_h_proveedor_ruc', $format_ii->se_residuos_h_proveedor_ruc ?? '') }}"
+                                class="w-full rounded-md border-gray-200 text-sm py-1.5"
+                                placeholder="Ej: 20123456789" maxlength="11">
                         </div>
                     </div>
                 </div>
@@ -1488,228 +1727,355 @@
 <!-- SERVICIOS COLECTIVOS -->
 <!-- ============================================ -->
 <div class="mb-8 border-b border-gray-200 pb-6">
-    
-
-<!-- ============================================ -->
-<!-- PERSONAL DE SALUD -->
-<!-- ============================================ -->
-<div id="sec-personal-salud" class="form-section" x-data="sectionCounter('sec-personal-salud',4)" x-init="init()">
-    <div class="section-header" @click="toggle()">
-        <div class="section-header-left">
-            <h2 class="section-title">
-                <div class="w-7 h-7 bg-teal-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-user-md text-teal-500 text-sm"></i>
-                </div>
-                11. Personal de Salud
-                <span class="section-badge">Servicios colectivos</span>
-                <i class="fas accordion-icon ml-auto" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
-            </h2>
-            <p class="section-subtitle">Servicios higiénicos y vestidores para el personal de salud</p>
-        </div>
-        <div class="progress-counter" @click.stop>
-            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span x-text="total"></span></span></div>
-            <div class="counter-bar">
-                <div class="counter-bar-fill" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" :style="{ width: percent + '%' }"></div>
-            </div>
-            <div class="counter-percent" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" x-text="percent + '%'"></div>
-        </div>
-    </div>
-    <div class="section-content" :class="open ? '' : 'hidden'">
-        <div class="p-3">
-            <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
-                <div class="flex flex-wrap items-end gap-4">
-                    <!-- ¿Cuenta con servicios? -->
-                    <div class="flex-1 min-w-[180px]">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicios higiénicos y vestidores? <span class="text-teal-500">*</span></label>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="sc_personal" value="SI" id="sc_personal_si" class="w-3.5 h-3.5 text-teal-500" {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span class="text-sm">SI</span>
-                            </label>
-                            <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="sc_personal" value="NO" id="sc_personal_no" class="w-3.5 h-3.5 text-teal-500" {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span class="text-sm">NO</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- ¿Se encuentra operativo? -->
-                    <div class="flex-1 min-w-[150px]" id="sc_personal_operativo_div" style="display: {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo? <span class="text-teal-500">*</span></label>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="sc_personal_operativo" value="SI" class="w-3.5 h-3.5 text-teal-500" {{ old('sc_personal_operativo', $format_ii->sc_personal_operativo ?? '') == 'SI' ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="sc_personal_operativo" value="NO" class="w-3.5 h-3.5 text-teal-500" {{ old('sc_personal_operativo', $format_ii->sc_personal_operativo ?? '') == 'NO' ? 'checked' : '' }}><span class="text-sm">NO</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Estado conservación -->
-                    <div class="flex-1 min-w-[160px]" id="sc_personal_estado_div" style="display: {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span class="text-teal-500">*</span></label>
-                        <div class="flex gap-3">
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="sc_personal_estado" value="B" class="w-3.5 h-3.5 text-teal-500" {{ old('sc_personal_estado', $format_ii->sc_personal_estado ?? '') == 'B' ? 'checked' : '' }}><span class="text-xs">B</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="sc_personal_estado" value="R" class="w-3.5 h-3.5 text-teal-500" {{ old('sc_personal_estado', $format_ii->sc_personal_estado ?? '') == 'R' ? 'checked' : '' }}><span class="text-xs">R</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="sc_personal_estado" value="M" class="w-3.5 h-3.5 text-teal-500" {{ old('sc_personal_estado', $format_ii->sc_personal_estado ?? '') == 'M' ? 'checked' : '' }}><span class="text-xs">M</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Modo de uso -->
-                    <div class="flex-1 min-w-[150px]" id="sc_personal_option_div" style="display: {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span class="text-teal-500">*</span></label>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="sc_personal_option" value="C" class="w-3.5 h-3.5 text-teal-500" {{ old('sc_personal_option', $format_ii->sc_personal_option ?? '') == 'C' ? 'checked' : '' }}><span class="text-sm">CONTINUO</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="sc_personal_option" value="T" class="w-3.5 h-3.5 text-teal-500" {{ old('sc_personal_option', $format_ii->sc_personal_option ?? '') == 'T' ? 'checked' : '' }}><span class="text-sm">TEMPORAL</span></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ============================================ -->
-<!-- PERSONAL EXTERNO / PACIENTE -->
-<!-- ============================================ -->
-<div id="sec-personal-externo" class="form-section" x-data="sectionCounter('sec-personal-externo',4)" x-init="init()">
-    <div class="section-header" @click="toggle()">
-        <div class="section-header-left">
-            <h2 class="section-title">
-                <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-users text-blue-500 text-sm"></i>
-                </div>
-                12. Personal Externo / Paciente
-                <span class="section-badge">Servicios colectivos</span>
-                <i class="fas accordion-icon ml-auto" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
-            </h2>
-            <p class="section-subtitle">Servicios higiénicos y vestidores para pacientes y público externo</p>
-        </div>
-        <div class="progress-counter" @click.stop>
-            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span x-text="total"></span></span></div>
-            <div class="counter-bar">
-                <div class="counter-bar-fill" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" :style="{ width: percent + '%' }"></div>
-            </div>
-            <div class="counter-percent" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" x-text="percent + '%'"></div>
-        </div>
-    </div>
-    <div class="section-content" :class="open ? '' : 'hidden'">
-        <div class="p-3">
-            <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
-                <div class="flex flex-wrap items-end gap-4">
-                    <div class="flex-1 min-w-[180px]">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicios higiénicos y vestidores? <span class="text-blue-500">*</span></label>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="sc_sshh" value="SI" id="sc_sshh_si" class="w-3.5 h-3.5 text-blue-500" {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span class="text-sm">SI</span>
-                            </label>
-                            <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="sc_sshh" value="NO" id="sc_sshh_no" class="w-3.5 h-3.5 text-blue-500" {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span class="text-sm">NO</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="flex-1 min-w-[150px]" id="sc_sshh_operativo_div" style="display: {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo? <span class="text-blue-500">*</span></label>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="sc_sshh_operativo" value="SI" class="w-3.5 h-3.5 text-blue-500" {{ old('sc_sshh_operativo', $format_ii->sc_sshh_operativo ?? '') == 'SI' ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="sc_sshh_operativo" value="NO" class="w-3.5 h-3.5 text-blue-500" {{ old('sc_sshh_operativo', $format_ii->sc_sshh_operativo ?? '') == 'NO' ? 'checked' : '' }}><span class="text-sm">NO</span></label>
-                        </div>
-                    </div>
-
-                    <div class="flex-1 min-w-[160px]" id="sc_sshh_estado_div" style="display: {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span class="text-blue-500">*</span></label>
-                        <div class="flex gap-3">
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="sc_sshh_estado" value="B" class="w-3.5 h-3.5 text-blue-500" {{ old('sc_sshh_estado', $format_ii->sc_sshh_estado ?? '') == 'B' ? 'checked' : '' }}><span class="text-xs">B</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="sc_sshh_estado" value="R" class="w-3.5 h-3.5 text-blue-500" {{ old('sc_sshh_estado', $format_ii->sc_sshh_estado ?? '') == 'R' ? 'checked' : '' }}><span class="text-xs">R</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="sc_sshh_estado" value="M" class="w-3.5 h-3.5 text-blue-500" {{ old('sc_sshh_estado', $format_ii->sc_sshh_estado ?? '') == 'M' ? 'checked' : '' }}><span class="text-xs">M</span></label>
-                        </div>
-                    </div>
-
-                    <div class="flex-1 min-w-[150px]" id="sc_sshh_option_div" style="display: {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span class="text-blue-500">*</span></label>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="sc_sshh_option" value="C" class="w-3.5 h-3.5 text-blue-500" {{ old('sc_sshh_option', $format_ii->sc_sshh_option ?? '') == 'C' ? 'checked' : '' }}><span class="text-sm">CONTINUO</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="sc_sshh_option" value="T" class="w-3.5 h-3.5 text-blue-500" {{ old('sc_sshh_option', $format_ii->sc_sshh_option ?? '') == 'T' ? 'checked' : '' }}><span class="text-sm">TEMPORAL</span></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
     <!-- ============================================ -->
-<!-- PERSONAL DISCAPACITADO -->
-<!-- ============================================ -->
-<div id="sec-personal-discapacitado" class="form-section" x-data="sectionCounter('sec-personal-discapacitado',4)" x-init="init()">
-    <div class="section-header" @click="toggle()">
-        <div class="section-header-left">
-            <h2 class="section-title">
-                <div class="w-7 h-7 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-wheelchair text-purple-500 text-sm"></i>
-                </div>
-                13. Personal Discapacitado
-                <span class="section-badge">Servicios colectivos</span>
-                <i class="fas accordion-icon ml-auto" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
-            </h2>
-            <p class="section-subtitle">Servicios higiénicos y vestidores accesibles para personas con discapacidad</p>
-        </div>
-        <div class="progress-counter" @click.stop>
-            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span x-text="total"></span></span></div>
-            <div class="counter-bar">
-                <div class="counter-bar-fill" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" :style="{ width: percent + '%' }"></div>
+    <!-- PERSONAL DE SALUD -->
+    <!-- ============================================ -->
+    <div id="sec-personal-salud" class="form-section" x-data="sectionCounter('sec-personal-salud', 1)" x-init="init()">
+        <div class="section-header" @click="toggle()">
+            <div class="section-header-left">
+                <h2 class="section-title">
+                    <div class="w-7 h-7 bg-teal-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-user-md text-teal-500 text-sm"></i>
+                    </div>
+                    11. Personal de Salud
+                    <span class="section-badge">Servicios colectivos</span>
+                    <i class="fas accordion-icon ml-auto" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </h2>
+                <p class="section-subtitle">Servicios higiénicos y vestidores para el personal de salud</p>
             </div>
-            <div class="counter-percent" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" x-text="percent + '%'"></div>
-        </div>
-    </div>
-    <div class="section-content" :class="open ? '' : 'hidden'">
-        <div class="p-3">
-            <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
-                <div class="flex flex-wrap items-end gap-4">
-                    <div class="flex-1 min-w-[180px]">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicios higiénicos y vestidores? <span class="text-purple-500">*</span></label>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="sc_vestidores" value="SI" id="sc_vestidores_si" class="w-3.5 h-3.5 text-purple-500" {{ old('sc_vestidores', $format_ii->sc_vestidores ?? '') == 'SI' ? 'checked' : '' }}>
-                                <span class="text-sm">SI</span>
-                            </label>
-                            <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="sc_vestidores" value="NO" id="sc_vestidores_no" class="w-3.5 h-3.5 text-purple-500" {{ old('sc_vestidores', $format_ii->sc_vestidores ?? '') == 'NO' ? 'checked' : '' }}>
-                                <span class="text-sm">NO</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="flex-1 min-w-[150px]" id="sc_personal_operativo_div" style="display: {{ old('sc_vestidores', $format_ii->sc_personal_operativo ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo? <span class="text-purple-500">*</span></label>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="sc_personal_operativo" value="SI" class="w-3.5 h-3.5 text-purple-500" {{ old('sc_personal_operativo', $format_ii->sc_personal_operativo ?? '') == 'SI' ? 'checked' : '' }}><span class="text-sm">SI</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="sc_personal_operativo" value="NO" class="w-3.5 h-3.5 text-purple-500" {{ old('sc_personal_operativo', $format_ii->sc_personal_operativo ?? '') == 'NO' ? 'checked' : '' }}><span class="text-sm">NO</span></label>
-                        </div>
-                    </div>
-
-                    <div class="flex-1 min-w-[160px]" id="sc_vestidores_estado_div" style="display: {{ old('sc_vestidores', $format_ii->sc_vestidores ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span class="text-purple-500">*</span></label>
-                        <div class="flex gap-3">
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="sc_vestidores_estado" value="B" class="w-3.5 h-3.5 text-purple-500" {{ old('sc_vestidores_estado', $format_ii->sc_vestidores_estado ?? '') == 'B' ? 'checked' : '' }}><span class="text-xs">B</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="sc_vestidores_estado" value="R" class="w-3.5 h-3.5 text-purple-500" {{ old('sc_vestidores_estado', $format_ii->sc_vestidores_estado ?? '') == 'R' ? 'checked' : '' }}><span class="text-xs">R</span></label>
-                            <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="sc_vestidores_estado" value="M" class="w-3.5 h-3.5 text-purple-500" {{ old('sc_vestidores_estado', $format_ii->sc_vestidores_estado ?? '') == 'M' ? 'checked' : '' }}><span class="text-xs">M</span></label>
-                        </div>
-                    </div>
-
-                    <div class="flex-1 min-w-[150px]" id="sc_vestidores_option_div" style="display: {{ old('sc_vestidores', $format_ii->sc_vestidores ?? '') == 'SI' ? 'block' : 'none' }};">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span class="text-purple-500">*</span></label>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="sc_vestidores_option" value="C" class="w-3.5 h-3.5 text-purple-500" {{ old('sc_vestidores_option', $format_ii->sc_vestidores_option ?? '') == 'C' ? 'checked' : '' }}><span class="text-sm">CONTINUO</span></label>
-                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="sc_vestidores_option" value="T" class="w-3.5 h-3.5 text-purple-500" {{ old('sc_vestidores_option', $format_ii->sc_vestidores_option ?? '') == 'T' ? 'checked' : '' }}><span class="text-sm">TEMPORAL</span></label>
-                        </div>
-                    </div>
+            <div class="progress-counter" @click.stop>
+                <div class="counter-number"><span class="completed" x-text="filled"></span><span
+                        class="total">/<span x-text="total"></span></span></div>
+                <div class="counter-bar">
+                    <div class="counter-bar-fill"
+                        :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                        :style="{ width: percent + '%' }"></div>
                 </div>
+                <div class="counter-percent"
+                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                    x-text="percent + '%'"></div>
             </div>
         </div>
+        <div class="section-content" :class="open ? '' : 'hidden'">
+            <div class="p-3">
+                <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                    <div class="flex flex-wrap items-end gap-4">
+                        <!-- ¿Cuenta con servicios? -->
+                        <div class="flex-1 min-w-[180px]">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicios
+                                higiénicos y vestidores? <span class="text-teal-500">*</span></label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="radio" name="sc_servicio" value="SI" id="sc_servicio_si"
+                                        class="w-3.5 h-3.5 text-teal-500"
+                                        {{ old('sc_servicio', $format_ii->sc_servicio ?? '') == 'SI' ? 'checked' : '' }}>
+                                    <span class="text-sm">SI</span>
+                                </label>
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="radio" name="sc_servicio" value="NO" id="sc_servicio_no"
+                                        class="w-3.5 h-3.5 text-teal-500"
+                                        {{ old('sc_servicio', $format_ii->sc_servicio ?? '') == 'NO' ? 'checked' : '' }}>
+                                    <span class="text-sm">NO</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ¿Se encuentra operativo? -->
+                        <div class="flex-1 min-w-[150px]" id="sc_servicio_operativo_div"
+                            style="display: {{ old('sc_servicio', $format_ii->sc_servicio ?? '') == 'SI' ? 'block' : 'none' }};">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo?
+                                <span class="text-teal-500">*</span></label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="sc_servicio_operativo" value="SI"
+                                        class="w-3.5 h-3.5 text-teal-500"
+                                        {{ old('sc_servicio_operativo', $format_ii->sc_servicio_operativo ?? '') == 'SI' ? 'checked' : '' }}><span
+                                        class="text-sm">SI</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="sc_servicio_operativo" value="NO"
+                                        class="w-3.5 h-3.5 text-teal-500"
+                                        {{ old('sc_servicio_operativo', $format_ii->sc_servicio_operativo ?? '') == 'NO' ? 'checked' : '' }}><span
+                                        class="text-sm">NO</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Estado conservación -->
+                        <div class="flex-1 min-w-[160px]" id="sc_servicio_estado_div"
+                            style="display: {{ old('sc_servicio', $format_ii->sc_servicio ?? '') == 'SI' ? 'block' : 'none' }};">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span
+                                    class="text-teal-500">*</span></label>
+                            <div class="flex gap-3">
+                                <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                        name="sc_servicio_estado" value="B" class="w-3.5 h-3.5 text-teal-500"
+                                        {{ old('sc_servicio_estado', $format_ii->sc_servicio_estado ?? '') == 'B' ? 'checked' : '' }}><span
+                                        class="text-xs">B</span></label>
+                                <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                        name="sc_servicio_estado" value="R" class="w-3.5 h-3.5 text-teal-500"
+                                        {{ old('sc_servicio_estado', $format_ii->sc_servicio_estado ?? '') == 'R' ? 'checked' : '' }}><span
+                                        class="text-xs">R</span></label>
+                                <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                        name="sc_servicio_estado" value="M" class="w-3.5 h-3.5 text-teal-500"
+                                        {{ old('sc_servicio_estado', $format_ii->sc_servicio_estado ?? '') == 'M' ? 'checked' : '' }}><span
+                                        class="text-xs">M</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Modo de uso -->
+                        <div class="flex-1 min-w-[150px]" id="sc_servicio_option_div"
+                            style="display: {{ old('sc_servicio', $format_ii->sc_servicio ?? '') == 'SI' ? 'block' : 'none' }};">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span
+                                    class="text-teal-500">*</span></label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="sc_servicio_option" value="C" class="w-3.5 h-3.5 text-teal-500"
+                                        {{ old('sc_servicio_option', $format_ii->sc_servicio_option ?? '') == 'C' ? 'checked' : '' }}><span
+                                        class="text-sm">CONTINUO</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="sc_servicio_option" value="T" class="w-3.5 h-3.5 text-teal-500"
+                                        {{ old('sc_servicio_option', $format_ii->sc_servicio_option ?? '') == 'T' ? 'checked' : '' }}><span
+                                        class="text-sm">TEMPORAL</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+
+
+    <!-- ============================================ -->
+    <!-- PERSONAL EXTERNO / PACIENTE -->
+    <!-- ============================================ -->
+    <div id="sec-personal-externo" class="form-section" x-data="sectionCounter('sec-personal-externo', 1)" x-init="init()">
+        <div class="section-header" @click="toggle()">
+            <div class="section-header-left">
+                <h2 class="section-title">
+                    <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-users text-blue-500 text-sm"></i>
+                    </div>
+                    12. Personal Externo / Paciente
+                    <span class="section-badge">Servicios colectivos</span>
+                    <i class="fas accordion-icon ml-auto" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </h2>
+                <p class="section-subtitle">Servicios higiénicos y vestidores para pacientes y público externo</p>
+            </div>
+            <div class="progress-counter" @click.stop>
+                <div class="counter-number"><span class="completed" x-text="filled"></span><span
+                        class="total">/<span x-text="total"></span></span></div>
+                <div class="counter-bar">
+                    <div class="counter-bar-fill"
+                        :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                        :style="{ width: percent + '%' }"></div>
+                </div>
+                <div class="counter-percent"
+                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                    x-text="percent + '%'"></div>
+            </div>
+        </div>
+        <div class="section-content" :class="open ? '' : 'hidden'">
+            <div class="p-3">
+                <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                    <div class="flex flex-wrap items-end gap-4">
+                        <div class="flex-1 min-w-[180px]">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicios
+                                higiénicos y vestidores? <span class="text-blue-500">*</span></label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="radio" name="sc_sshh" value="SI" id="sc_sshh_si"
+                                        class="w-3.5 h-3.5 text-blue-500"
+                                        {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'SI' ? 'checked' : '' }}>
+                                    <span class="text-sm">SI</span>
+                                </label>
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="radio" name="sc_sshh" value="NO" id="sc_sshh_no"
+                                        class="w-3.5 h-3.5 text-blue-500"
+                                        {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'NO' ? 'checked' : '' }}>
+                                    <span class="text-sm">NO</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="flex-1 min-w-[150px]" id="sc_sshh_operativo_div"
+                            style="display: {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'SI' ? 'block' : 'none' }};">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo?
+                                <span class="text-blue-500">*</span></label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="sc_sshh_operativo" value="SI" class="w-3.5 h-3.5 text-blue-500"
+                                        {{ old('sc_sshh_operativo', $format_ii->sc_sshh_operativo ?? '') == 'SI' ? 'checked' : '' }}><span
+                                        class="text-sm">SI</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="sc_sshh_operativo" value="NO" class="w-3.5 h-3.5 text-blue-500"
+                                        {{ old('sc_sshh_operativo', $format_ii->sc_sshh_operativo ?? '') == 'NO' ? 'checked' : '' }}><span
+                                        class="text-sm">NO</span></label>
+                            </div>
+                        </div>
+
+                        <div class="flex-1 min-w-[160px]" id="sc_sshh_estado_div"
+                            style="display: {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'SI' ? 'block' : 'none' }};">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span
+                                    class="text-blue-500">*</span></label>
+                            <div class="flex gap-3">
+                                <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                        name="sc_sshh_estado" value="B" class="w-3.5 h-3.5 text-blue-500"
+                                        {{ old('sc_sshh_estado', $format_ii->sc_sshh_estado ?? '') == 'B' ? 'checked' : '' }}><span
+                                        class="text-xs">B</span></label>
+                                <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                        name="sc_sshh_estado" value="R" class="w-3.5 h-3.5 text-blue-500"
+                                        {{ old('sc_sshh_estado', $format_ii->sc_sshh_estado ?? '') == 'R' ? 'checked' : '' }}><span
+                                        class="text-xs">R</span></label>
+                                <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                        name="sc_sshh_estado" value="M" class="w-3.5 h-3.5 text-blue-500"
+                                        {{ old('sc_sshh_estado', $format_ii->sc_sshh_estado ?? '') == 'M' ? 'checked' : '' }}><span
+                                        class="text-xs">M</span></label>
+                            </div>
+                        </div>
+
+                        <div class="flex-1 min-w-[150px]" id="sc_sshh_option_div"
+                            style="display: {{ old('sc_sshh', $format_ii->sc_sshh ?? '') == 'SI' ? 'block' : 'none' }};">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span
+                                    class="text-blue-500">*</span></label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="sc_sshh_option" value="C" class="w-3.5 h-3.5 text-blue-500"
+                                        {{ old('sc_sshh_option', $format_ii->sc_sshh_option ?? '') == 'C' ? 'checked' : '' }}><span
+                                        class="text-sm">CONTINUO</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="sc_sshh_option" value="T" class="w-3.5 h-3.5 text-blue-500"
+                                        {{ old('sc_sshh_option', $format_ii->sc_sshh_option ?? '') == 'T' ? 'checked' : '' }}><span
+                                        class="text-sm">TEMPORAL</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ============================================ -->
+    <!-- PERSONAL DISCAPACITADO -->
+    <!-- ============================================ -->
+    <div id="sec-personal-discapacitado" class="form-section" x-data="sectionCounter('sec-personal-discapacitado')" x-init="init()">
+        <div class="section-header" @click="toggle()">
+            <div class="section-header-left">
+                <h2 class="section-title">
+                    <div class="w-7 h-7 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-wheelchair text-purple-500 text-sm"></i>
+                    </div>
+                    13. Personal Discapacitado
+                    <span class="section-badge">Servicios colectivos</span>
+                    <i class="fas accordion-icon ml-auto" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </h2>
+                <p class="section-subtitle">Servicios higiénicos y vestidores accesibles para personas con
+                    discapacidad</p>
+            </div>
+            <div class="progress-counter" @click.stop>
+                <div class="counter-number"><span class="completed" x-text="filled"></span><span
+                        class="total">/<span x-text="total"></span></span></div>
+                <div class="counter-bar">
+                    <div class="counter-bar-fill"
+                        :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                        :style="{ width: percent + '%' }"></div>
+                </div>
+                <div class="counter-percent"
+                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
+                    x-text="percent + '%'"></div>
+            </div>
+        </div>
+        <div class="section-content" :class="open ? '' : 'hidden'">
+            <div class="p-3">
+                <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                    <div class="flex flex-wrap items-end gap-4">
+                        <!-- ¿Cuenta con servicios? -->
+                        <div class="flex-1 min-w-[180px]">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">¿Cuenta con servicios
+                                higiénicos y vestidores? <span class="text-purple-500">*</span></label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="radio" name="sc_personal" value="SI" id="sc_personal_si"
+                                        class="w-3.5 h-3.5 text-purple-500"
+                                        {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'SI' ? 'checked' : '' }}>
+                                    <span class="text-sm">SI</span>
+                                </label>
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="radio" name="sc_personal" value="NO" id="sc_personal_no"
+                                        class="w-3.5 h-3.5 text-purple-500"
+                                        {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'NO' ? 'checked' : '' }}>
+                                    <span class="text-sm">NO</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ¿Se encuentra operativo? -->
+                        <div class="flex-1 min-w-[150px]" id="sc_personal_operativo_div"
+                            style="display: {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'SI' ? 'block' : 'none' }};">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">¿Se encuentra operativo?
+                                <span class="text-purple-500">*</span></label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="sc_personal_operativo" value="SI"
+                                        class="w-3.5 h-3.5 text-purple-500"
+                                        {{ old('sc_personal_operativo', $format_ii->sc_personal_operativo ?? '') == 'SI' ? 'checked' : '' }}><span
+                                        class="text-sm">SI</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="sc_personal_operativo" value="NO"
+                                        class="w-3.5 h-3.5 text-purple-500"
+                                        {{ old('sc_personal_operativo', $format_ii->sc_personal_operativo ?? '') == 'NO' ? 'checked' : '' }}><span
+                                        class="text-sm">NO</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Estado conservación -->
+                        <div class="flex-1 min-w-[160px]" id="sc_personal_estado_div"
+                            style="display: {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'SI' ? 'block' : 'none' }};">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Estado conservación <span
+                                    class="text-purple-500">*</span></label>
+                            <div class="flex gap-3">
+                                <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                        name="sc_personal_estado" value="B"
+                                        class="w-3.5 h-3.5 text-purple-500"
+                                        {{ old('sc_personal_estado', $format_ii->sc_personal_estado ?? '') == 'B' ? 'checked' : '' }}><span
+                                        class="text-xs">B</span></label>
+                                <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                        name="sc_personal_estado" value="R"
+                                        class="w-3.5 h-3.5 text-purple-500"
+                                        {{ old('sc_personal_estado', $format_ii->sc_personal_estado ?? '') == 'R' ? 'checked' : '' }}><span
+                                        class="text-xs">R</span></label>
+                                <label class="flex items-center gap-1 cursor-pointer"><input type="radio"
+                                        name="sc_personal_estado" value="M"
+                                        class="w-3.5 h-3.5 text-purple-500"
+                                        {{ old('sc_personal_estado', $format_ii->sc_personal_estado ?? '') == 'M' ? 'checked' : '' }}><span
+                                        class="text-xs">M</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Modo de uso -->
+                        <div class="flex-1 min-w-[150px]" id="sc_personal_option_div"
+                            style="display: {{ old('sc_personal', $format_ii->sc_personal ?? '') == 'SI' ? 'block' : 'none' }};">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Modo de uso <span
+                                    class="text-purple-500">*</span></label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="sc_personal_option" value="C"
+                                        class="w-3.5 h-3.5 text-purple-500"
+                                        {{ old('sc_personal_option', $format_ii->sc_personal_option ?? '') == 'C' ? 'checked' : '' }}><span
+                                        class="text-sm">CONTINUO</span></label>
+                                <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio"
+                                        name="sc_personal_option" value="T"
+                                        class="w-3.5 h-3.5 text-purple-500"
+                                        {{ old('sc_personal_option', $format_ii->sc_personal_option ?? '') == 'T' ? 'checked' : '' }}><span
+                                        class="text-sm">TEMPORAL</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 
@@ -1923,17 +2289,18 @@
 
 
     // ============================================
-    // PERSONAL DE SALUD
+    // PERSONAL DE SALUD (con sc_servicio)
     // ============================================
-    function togglePersonalFields() {
-        if ($('#sc_personal_si').is(':checked')) {
-            $('#sc_personal_operativo_div, #sc_personal_estado_div, #sc_personal_option_div').slideDown(200);
+    function toggleServicioFields() {
+        if ($('#sc_servicio_si').is(':checked')) {
+            $('#sc_servicio_operativo_div, #sc_servicio_estado_div, #sc_servicio_option_div').slideDown(200);
         } else {
-            $('#sc_personal_operativo_div, #sc_personal_estado_div, #sc_personal_option_div').slideUp(200);
-            $('input[name="sc_personal_operativo"], input[name="sc_personal_estado"], input[name="sc_personal_option"]')
+            $('#sc_servicio_operativo_div, #sc_servicio_estado_div, #sc_servicio_option_div').slideUp(200);
+            $('input[name="sc_servicio_operativo"], input[name="sc_servicio_estado"], input[name="sc_servicio_option"]')
                 .prop('checked', false);
         }
     }
+
 
     // ============================================
     // PERSONAL EXTERNO / PACIENTE
@@ -1949,25 +2316,25 @@
     }
 
     // ============================================
-    // PERSONAL DISCAPACITADO
+    // PERSONAL DISCAPACITADO (con sc_personal)
     // ============================================
-    function toggleVestidoresFields() {
-        if ($('#sc_vestidores_si').is(':checked')) {
-            $('#sc_vestidores_operativo_div, #sc_vestidores_estado_div, #sc_vestidores_option_div').slideDown(200);
+    function togglePersonalDiscapacitadoFields() {
+        if ($('#sc_personal_si').is(':checked')) {
+            $('#sc_personal_operativo_div, #sc_personal_estado_div, #sc_personal_option_div').slideDown(200);
         } else {
-            $('#sc_vestidores_operativo_div, #sc_vestidores_estado_div, #sc_vestidores_option_div').slideUp(200);
-            $('input[name="sc_vestidores_operativo"], input[name="sc_vestidores_estado"], input[name="sc_vestidores_option"]')
+            $('#sc_personal_operativo_div, #sc_personal_estado_div, #sc_personal_option_div').slideUp(200);
+            $('input[name="sc_personal_operativo"], input[name="sc_personal_estado"], input[name="sc_personal_option"]')
                 .prop('checked', false);
         }
     }
 
     // Eventos
-    $('#sc_personal_si, #sc_personal_no').on('change', togglePersonalFields);
+    $('#sc_servicio_si, #sc_servicio_no').on('change', toggleServicioFields);
     $('#sc_sshh_si, #sc_sshh_no').on('change', toggleSshhFields);
-    $('#sc_vestidores_si, #sc_vestidores_no').on('change', toggleVestidoresFields);
+    $('#sc_personal_si, #sc_personal_no').on('change', togglePersonalDiscapacitadoFields);
 
     // Inicializar
-    togglePersonalFields();
+    toggleServicioFields();
     toggleSshhFields();
-    toggleVestidoresFields();
+    togglePersonalDiscapacitadoFields();
 </script>

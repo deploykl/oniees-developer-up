@@ -646,71 +646,66 @@
 </div>
 
 <!-- ============================================ -->
-<!-- SECCIÓN 5: SEGURIDAD HOSPITALARIA -->
+<!-- SECCIÓN: SEGURIDAD HOSPITALARIA -->
 <!-- ============================================ -->
 <div id="sec-seguridad" class="form-section" x-data="seguridadHospitalaria()" x-init="init()">
     <div class="section-header" @click="toggle()">
         <div class="section-header-left">
             <h2 class="section-title">
-                <i class="fas fa-shield-virus"></i> Índice de Seguridad Hospitalaria
+                <div class="w-7 h-7 bg-red-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-shield-virus text-red-500 text-sm"></i>
+                </div>
+                Índice de Seguridad Hospitalaria
                 <span class="section-badge">Evaluación</span>
-                <i class="fas accordion-icon" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                <i class="fas accordion-icon ml-auto" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
             </h2>
         </div>
         <div class="progress-counter" @click.stop>
-            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span
-                        x-text="total"></span></span></div>
+            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span x-text="total"></span></span></div>
             <div class="counter-bar">
-                <div class="counter-bar-fill"
-                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
-                    :style="{ width: percent + '%' }"></div>
+                <div class="counter-bar-fill" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" :style="{ width: percent + '%' }"></div>
             </div>
-            <div class="counter-percent"
-                :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
-                x-text="percent + '%'"></div>
+            <div class="counter-percent" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" x-text="percent + '%'"></div>
         </div>
     </div>
     <div class="section-content" :class="open ? '' : 'hidden'">
-        <div class="form-grid">
-            <div class="form-field">
-                <label class="form-label">¿CUENTA CON EL DOCUMENTO?</label>
-                <div class="radio-group">
-                    <label class="radio-option">
-                        <input type="radio" name="tiene_documento_seguridad" value="1"
-                            x-model="tieneDocumento"
-                            {{ ($format->seguridad_hospitalaria ?? '') == 'SI' ? 'checked' : '' }}>
-                        <span>SÍ</span>
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="tiene_documento_seguridad" value="0"
-                            x-model="tieneDocumento"
-                            {{ ($format->seguridad_hospitalaria ?? '') == 'NO' ? 'checked' : '' }}>
-                        <span>NO</span>
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div id="resultado_seguridad_div" x-show="tieneDocumento == '1'" style="padding: 0 1.5rem 1.5rem;">
-            <div class="form-grid">
-                <div class="form-field">
-                    <label class="form-label">RESULTADO</label>
-                    <select name="resultado_seguridad" class="form-select" x-model="resultado">
-                        <option value="">Seleccione</option>
-                        <option value="CATEGORIA A"
-                            {{ ($format->seguridad_resultado ?? '') == 'CATEGORIA A' ? 'selected' : '' }}>CATEGORIA A
-                        </option>
-                        <option value="CATEGORIA B"
-                            {{ ($format->seguridad_resultado ?? '') == 'CATEGORIA B' ? 'selected' : '' }}>CATEGORIA B
-                        </option>
-                        <option value="CATEGORIA C"
-                            {{ ($format->seguridad_resultado ?? '') == 'CATEGORIA C' ? 'selected' : '' }}>CATEGORIA C
-                        </option>
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label class="form-label">FECHA DE EVALUACIÓN</label>
-                    <input type="date" name="anio_seguridad" class="form-input" x-model="fecha"
-                        value="{{ $format->seguridad_fecha ?? '' }}">
+        <div class="p-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                <div class="flex flex-wrap items-end gap-4">
+                    <!-- ¿CUENTA CON EL DOCUMENTO? -->
+                    <div class="flex-1 min-w-[180px]">
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">¿CUENTA CON EL DOCUMENTO? <span class="text-red-500">*</span></label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="tiene_documento_seguridad" value="1" x-model="tieneDocumento" class="w-4 h-4 text-red-500 focus:ring-red-400 border-gray-300" {{ ($format->seguridad_hospitalaria ?? '') == 'SI' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">SÍ</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="tiene_documento_seguridad" value="0" x-model="tieneDocumento" class="w-4 h-4 text-red-500 focus:ring-red-400 border-gray-300" {{ ($format->seguridad_hospitalaria ?? '') == 'NO' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">NO</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Campos condicionales (solo si tiene documento = SI) -->
+                    <div id="resultado_seguridad_div" x-show="tieneDocumento == '1'" class="flex flex-wrap items-end gap-4 flex-1">
+                        <!-- RESULTADO -->
+                        <div class="flex-1 min-w-[160px]">
+                            <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">RESULTADO</label>
+                            <select name="resultado_seguridad" x-model="resultado" class="w-full rounded-lg border-gray-200 bg-white focus:border-red-400 focus:ring-red-400 text-sm py-2">
+                                <option value="">Seleccione</option>
+                                <option value="CATEGORIA A" {{ ($format->seguridad_resultado ?? '') == 'CATEGORIA A' ? 'selected' : '' }}>CATEGORIA A</option>
+                                <option value="CATEGORIA B" {{ ($format->seguridad_resultado ?? '') == 'CATEGORIA B' ? 'selected' : '' }}>CATEGORIA B</option>
+                                <option value="CATEGORIA C" {{ ($format->seguridad_resultado ?? '') == 'CATEGORIA C' ? 'selected' : '' }}>CATEGORIA C</option>
+                            </select>
+                        </div>
+
+                        <!-- FECHA DE EVALUACIÓN -->
+                        <div class="flex-1 min-w-[160px]">
+                            <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">FECHA DE EVALUACIÓN</label>
+                            <input type="date" name="anio_seguridad" x-model="fecha" value="{{ $format->seguridad_fecha ?? '' }}" class="w-full rounded-lg border-gray-200 bg-white focus:border-red-400 focus:ring-red-400 text-sm py-2">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -721,64 +716,67 @@
 
 
 <!-- ============================================ -->
-<!-- SECCIÓN 6: PATRIMONIO CULTURAL -->
+<!-- SECCIÓN: PATRIMONIO CULTURAL -->
 <!-- ============================================ -->
 <div id="sec-patrimonio" class="form-section" x-data="patrimonioCultural()" x-init="init()">
     <div class="section-header" @click="toggle()">
         <div class="section-header-left">
             <h2 class="section-title">
-                <i class="fas fa-landmark"></i> Patrimonio Cultural
+                <div class="w-7 h-7 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-landmark text-purple-500 text-sm"></i>
+                </div>
+                Patrimonio Cultural
                 <span class="section-badge">Declaratoria</span>
-                <i class="fas accordion-icon" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                <i class="fas accordion-icon ml-auto" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
             </h2>
         </div>
         <div class="progress-counter" @click.stop>
-            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span
-                        x-text="total"></span></span></div>
+            <div class="counter-number"><span class="completed" x-text="filled"></span><span class="total">/<span x-text="total"></span></span></div>
             <div class="counter-bar">
-                <div class="counter-bar-fill"
-                    :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
-                    :style="{ width: percent + '%' }"></div>
+                <div class="counter-bar-fill" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" :style="{ width: percent + '%' }"></div>
             </div>
-            <div class="counter-percent"
-                :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')"
-                x-text="percent + '%'"></div>
+            <div class="counter-percent" :class="percent === 100 ? 'complete' : (percent > 0 ? 'partial' : 'incomplete')" x-text="percent + '%'"></div>
         </div>
     </div>
     <div class="section-content" :class="open ? '' : 'hidden'">
-        <div class="form-grid">
-            <div class="form-field">
-                <label class="form-label">¿ES PATRIMONIO CULTURAL?</label>
-                <div class="radio-group">
-                    <label class="radio-option">
-                        <input type="radio" name="patrimonio_cultural" value="1" x-model="esPatrimonio"
-                            {{ ($format->patrimonio_cultural ?? '') == 'SI' ? 'checked' : '' }}>
-                        <span>SÍ</span>
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="patrimonio_cultural" value="0" x-model="esPatrimonio"
-                            {{ ($format->patrimonio_cultural ?? '') == 'NO' ? 'checked' : '' }}>
-                        <span>NO</span>
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div id="patrimonio_data" x-show="esPatrimonio == '1'" style="padding: 0 1.5rem 1.5rem;">
-            <div class="form-grid">
-                <div class="form-field">
-                    <label class="form-label">FECHA DE RECONOCIMIENTO</label>
-                    <input type="date" name="fecha_patrimonio" class="form-input" x-model="fecha"
-                        value="{{ $format->fecha_emision ?? '' }}">
-                </div>
-                <div class="form-field">
-                    <label class="form-label">NÚMERO DE RESOLUCIÓN</label>
-                    <input type="text" name="num_resolucion_patrimonio" class="form-input" x-model="resolucion"
-                        value="{{ $format->numero_documento ?? '' }}" placeholder="Ej: 045-2024">
+        <div class="p-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                <div class="flex flex-wrap items-end gap-4">
+                    <!-- ¿ES PATRIMONIO CULTURAL? -->
+                    <div class="flex-1 min-w-[180px]">
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">¿ES PATRIMONIO CULTURAL? <span class="text-purple-500">*</span></label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="patrimonio_cultural" value="1" x-model="esPatrimonio" class="w-4 h-4 text-purple-500 focus:ring-purple-400 border-gray-300" {{ ($format->patrimonio_cultural ?? '') == 'SI' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">SÍ</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="patrimonio_cultural" value="0" x-model="esPatrimonio" class="w-4 h-4 text-purple-500 focus:ring-purple-400 border-gray-300" {{ ($format->patrimonio_cultural ?? '') == 'NO' ? 'checked' : '' }}>
+                                <span class="text-sm text-gray-700">NO</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Campos condicionales (solo si es patrimonio = SI) -->
+                    <div id="patrimonio_data" x-show="esPatrimonio == '1'" class="flex flex-wrap items-end gap-4 flex-1">
+                        <!-- FECHA DE RECONOCIMIENTO -->
+                        <div class="flex-1 min-w-[160px]">
+                            <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">FECHA DE RECONOCIMIENTO</label>
+                            <input type="date" name="fecha_patrimonio" x-model="fecha" value="{{ $format->fecha_emision ?? '' }}" class="w-full rounded-lg border-gray-200 bg-white focus:border-purple-400 focus:ring-purple-400 text-sm py-2">
+                        </div>
+
+                        <!-- NÚMERO DE RESOLUCIÓN -->
+                        <div class="flex-1 min-w-[160px]">
+                            <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">NÚMERO DE RESOLUCIÓN</label>
+                            <input type="text" name="num_resolucion_patrimonio" x-model="resolucion" value="{{ $format->numero_documento ?? '' }}" class="w-full rounded-lg border-gray-200 bg-white focus:border-purple-400 focus:ring-purple-400 text-sm py-2" placeholder="Ej: 045-2024">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <!-- ============================================ -->
 <!-- SECCIÓN 7: DIRECTOR / ADMINISTRADOR -->
 <!-- ============================================ -->
@@ -996,572 +994,544 @@
         };
     }
 
-    function sectionCounter(sectionId, total) {
-        return {
-            sectionId: sectionId,
-            total: total,
-            filled: 0,
-            percent: 0,
-            open: localStorage.getItem('accordion_' + sectionId) !== 'false',
+function sectionCounter(sectionId, total) {
+    return {
+        sectionId: sectionId,
+        total: total,
+        filled: 0,
+        percent: 0,
+        open: localStorage.getItem('accordion_' + sectionId) !== 'false',
 
-            toggle() {
-                this.open = !this.open;
-                localStorage.setItem('accordion_' + this.sectionId, this.open);
-            },
+        toggle() {
+            this.open = !this.open;
+            localStorage.setItem('accordion_' + this.sectionId, this.open);
+        },
 
-            init() {
-                const section = document.getElementById(this.sectionId);
-                if (section) {
-                    const inputs = section.querySelectorAll('input, select, textarea');
-                    inputs.forEach(input => {
-                        input.addEventListener('change', () => this.update());
-                        input.addEventListener('input', () => this.update());
-                    });
+        init() {
+            const section = document.getElementById(this.sectionId);
+            if (section) {
+                const inputs = section.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    input.addEventListener('change', () => this.update());
+                    input.addEventListener('input', () => this.update());
+                });
 
-                    // Para detectar cambios en tablas dinámicas (edificaciones, fotos, archivos)
-                    if (this.sectionId === 'sec-edificaciones' ||
-                        this.sectionId === 'sec-fotos' ||
-                        this.sectionId === 'sec-archivos') {
-                        const observer = new MutationObserver(() => this.update());
-                        observer.observe(section, {
-                            childList: true,
-                            subtree: true
-                        });
-                    }
+                if (this.sectionId === 'sec-edificaciones' ||
+                    this.sectionId === 'sec-fotos' ||
+                    this.sectionId === 'sec-archivos') {
+                    const observer = new MutationObserver(() => this.update());
+                    observer.observe(section, { childList: true, subtree: true });
                 }
-                setTimeout(() => this.update(), 100);
-            },
+            }
+            setTimeout(() => this.update(), 100);
+        },
 
-            update() {
-                const section = document.getElementById(this.sectionId);
-                if (!section) return;
+        update() {
+            const section = document.getElementById(this.sectionId);
+            if (!section) return;
 
-                // ============================================
-                // MANEJO ESPECIAL PARA SECCIÓN AGUA
-                // ============================================
-                if (this.sectionId === 'sec-agua') {
-                    let count = 0;
-                    let totalCampos = 0;
+            // ============================================
+            // MANEJO ESPECIAL PARA SECCIÓN AGUA
+            // ============================================
+            if (this.sectionId === 'sec-agua') {
+                let count = 0;
+                let totalCampos = 0;
 
-                    // 1. Origen del agua (select) - SIEMPRE cuenta si está seleccionado
-                    const se_agua = section.querySelector('select[name="se_agua"]');
-                    const se_agua_select_value = se_agua ? se_agua.value : '';
-                    const esOtro = (se_agua_select_value === 'O');
+                const se_agua = section.querySelector('select[name="se_agua"]');
+                const se_agua_select_value = se_agua ? se_agua.value : '';
+                const esOtro = (se_agua_select_value === 'O');
 
-                    // Este campo SIEMPRE es parte del total
+                totalCampos++;
+                if (se_agua && se_agua_select_value !== '') count++;
+
+                const se_agua_otro = section.querySelector('input[name="se_agua_otro"]');
+                if (esOtro) {
                     totalCampos++;
-                    if (se_agua && se_agua_select_value !== '') count++;
-
-                    // 2. Origen del agua - Otro (SOLO si seleccionó "O")
-                    const se_agua_otro = section.querySelector('input[name="se_agua_otro"]');
-                    if (esOtro) {
-                        // Si seleccionó "Otro", este input es parte del total
-                        totalCampos++;
-                        if (se_agua_otro && se_agua_otro.value && se_agua_otro.value.trim() !== '') {
-                            count++;
-                        }
-                    }
-
-                    // 3. Operativo (radio) - SIEMPRE
-                    totalCampos++;
-                    const se_agua_operativo = section.querySelector('input[name="se_agua_operativo"]:checked');
-                    if (se_agua_operativo && se_agua_operativo.value !== '') count++;
-
-                    // 4. Estado conservación (radio) - SIEMPRE
-                    totalCampos++;
-                    const se_agua_estado = section.querySelector('input[name="se_agua_estado"]:checked');
-                    if (se_agua_estado && se_agua_estado.value !== '') count++;
-
-                    // 5. Servicio todos los días (radio) - SIEMPRE
-                    totalCampos++;
-                    const se_sevicio_semana = section.querySelector('input[name="se_sevicio_semana"]:checked');
-                    if (se_sevicio_semana && se_sevicio_semana.value !== '') count++;
-
-                    // 6. Horas al día (input) - SIEMPRE
-                    totalCampos++;
-                    const se_horas_dia = section.querySelector('input[name="se_horas_dia"]');
-                    if (se_horas_dia && se_horas_dia.value && se_horas_dia.value !== '') count++;
-
-                    // 7. Horas a la semana (input readonly) - SIEMPRE
-                    totalCampos++;
-                    const se_semana_calculo = section.querySelector('input[name="se_sevicio_semana_calculo"]');
-                    if (se_semana_calculo && se_semana_calculo.value && se_semana_calculo.value !== '') count++;
-
-                    // 8. Pagan por servicio (radio) - SIEMPRE
-                    totalCampos++;
-                    const se_servicio_agua = section.querySelector('input[name="se_servicio_agua"]:checked');
-                    if (se_servicio_agua && se_servicio_agua.value !== '') count++;
-
-                    // 9. Empresa/Entidad (SOLO si pagan por servicio = SI)
-                    const paga_si = section.querySelector('input[name="se_servicio_agua"][value="SI"]:checked');
-                    const se_empresa_agua = section.querySelector('select[name="se_empresa_agua"]');
-                    if (paga_si) {
-                        totalCampos++;
-                        if (se_empresa_agua && se_empresa_agua.value && se_empresa_agua.value !== '') {
-                            count++;
-                        }
-                    }
-
-                    // Actualizar el total dinámicamente
-                    this.total = totalCampos;
-                    this.filled = count;
-                    this.percent = totalCampos > 0 ? Math.min(Math.round((count / totalCampos) * 100), 100) : 0;
-                    this.dispatchEvent();
-                    return;
-                }
-                // ============================================
-                // MANEJO ESPECIAL PARA SECCIÓN DESAGÜE
-                // ============================================
-                if (this.sectionId === 'sec-desague') {
-                    let count = 0;
-                    let totalCampos = 0;
-
-                    // 1. Tipo de servicio (select)
-                    const se_desague = section.querySelector('select[name="se_desague"]');
-                    const se_desague_value = se_desague ? se_desague.value : '';
-                    const esOtro = (se_desague_value === 'OTR');
-
-                    totalCampos++;
-                    if (se_desague && se_desague_value !== '') count++;
-
-                    // 2. Especifique otro tipo de servicio (SOLO si seleccionó "OTR")
-                    const se_desague_otro = section.querySelector('input[name="se_desague_otro"]');
-                    if (esOtro) {
-                        totalCampos++;
-                        if (se_desague_otro && se_desague_otro.value && se_desague_otro.value.trim() !== '') {
-                            count++;
-                        }
-                    }
-
-                    // 3. ¿Se encuentra operativo? (radio)
-                    totalCampos++;
-                    const se_desague_operativo = section.querySelector('input[name="se_desague_operativo"]:checked');
-                    if (se_desague_operativo && se_desague_operativo.value !== '') count++;
-
-                    // 4. Estado de conservación (radio)
-                    totalCampos++;
-                    const se_desague_estado = section.querySelector('input[name="se_desague_estado"]:checked');
-                    if (se_desague_estado && se_desague_estado.value !== '') count++;
-
-                    this.total = totalCampos;
-                    this.filled = count;
-                    this.percent = totalCampos > 0 ? Math.min(Math.round((count / totalCampos) * 100), 100) : 0;
-                    this.dispatchEvent();
-                    return;
-                }
-                // ============================================
-                // MANEJO ESPECIAL PARA EDIFICACIONES
-                // ============================================
-                if (this.sectionId === 'sec-edificaciones') {
-                    const tabla = section.querySelector('#tabla-edificaciones');
-                    if (tabla) {
-                        const filas = tabla.querySelectorAll('tr');
-                        let tieneRegistros = false;
-                        for (const fila of filas) {
-                            if (fila.id !== 'no-registros' &&
-                                !fila.innerHTML.includes('No hay edificaciones registradas') &&
-                                fila.querySelector('td')) {
-                                tieneRegistros = true;
-                                break;
-                            }
-                        }
-                        this.filled = tieneRegistros ? 1 : 0;
-                        this.percent = this.total > 0 ? Math.min(Math.round((this.filled / this.total) * 100), 100) : 0;
-                        this.dispatchEvent();
-                        return;
-                    }
+                    if (se_agua_otro && se_agua_otro.value && se_agua_otro.value.trim() !== '') count++;
                 }
 
-                // ============================================
-                // MANEJO ESPECIAL PARA FOTOS
-                // ============================================
-                if (this.sectionId === 'sec-fotos') {
-                    const tabla = section.querySelector('#tabla-fotos');
-                    if (tabla) {
-                        const filas = tabla.querySelectorAll('tr');
-                        let tieneRegistros = false;
-                        for (const fila of filas) {
-                            if (fila.id !== 'no-fotos' &&
-                                !fila.innerHTML.includes('No hay fotos registradas') &&
-                                fila.querySelector('td')) {
-                                tieneRegistros = true;
-                                break;
-                            }
-                        }
-                        this.filled = tieneRegistros ? 1 : 0;
-                        this.percent = this.total > 0 ? Math.min(Math.round((this.filled / this.total) * 100), 100) : 0;
-                        this.dispatchEvent();
-                        return;
-                    }
+                totalCampos++;
+                const se_agua_operativo = section.querySelector('input[name="se_agua_operativo"]:checked');
+                if (se_agua_operativo && se_agua_operativo.value !== '') count++;
+
+                totalCampos++;
+                const se_agua_estado = section.querySelector('input[name="se_agua_estado"]:checked');
+                if (se_agua_estado && se_agua_estado.value !== '') count++;
+
+                totalCampos++;
+                const se_sevicio_semana = section.querySelector('input[name="se_sevicio_semana"]:checked');
+                if (se_sevicio_semana && se_sevicio_semana.value !== '') count++;
+
+                totalCampos++;
+                const se_horas_dia = section.querySelector('input[name="se_horas_dia"]');
+                if (se_horas_dia && se_horas_dia.value && se_horas_dia.value !== '') count++;
+
+                totalCampos++;
+                const se_semana_calculo = section.querySelector('input[name="se_sevicio_semana_calculo"]');
+                if (se_semana_calculo && se_semana_calculo.value && se_semana_calculo.value !== '') count++;
+
+                totalCampos++;
+                const se_servicio_agua = section.querySelector('input[name="se_servicio_agua"]:checked');
+                if (se_servicio_agua && se_servicio_agua.value !== '') count++;
+
+                const paga_si = section.querySelector('input[name="se_servicio_agua"][value="SI"]:checked');
+                const se_empresa_agua = section.querySelector('select[name="se_empresa_agua"]');
+                if (paga_si) {
+                    totalCampos++;
+                    if (se_empresa_agua && se_empresa_agua.value && se_empresa_agua.value !== '') count++;
                 }
 
-                // ============================================
-                // MANEJO ESPECIAL PARA ARCHIVOS
-                // ============================================
-                if (this.sectionId === 'sec-archivos') {
-                    const tabla = section.querySelector('#tabla-archivos');
-                    if (tabla) {
-                        const filas = tabla.querySelectorAll('tr');
-                        let tieneRegistros = false;
-                        for (const fila of filas) {
-                            if (fila.id !== 'no-archivos' &&
-                                !fila.innerHTML.includes('No hay archivos registrados') &&
-                                fila.querySelector('td')) {
-                                tieneRegistros = true;
-                                break;
-                            }
-                        }
-                        this.filled = tieneRegistros ? 1 : 0;
-                        this.percent = this.total > 0 ? Math.min(Math.round((this.filled / this.total) * 100), 100) : 0;
-                        this.dispatchEvent();
-                        return;
-                    }
+                this.total = totalCampos;
+                this.filled = count;
+                this.percent = totalCampos > 0 ? Math.min(Math.round((count / totalCampos) * 100), 100) : 0;
+                this.dispatchEvent();
+                return;
+            }
+
+            // ============================================
+            // MANEJO ESPECIAL PARA SECCIÓN DESAGÜE
+            // ============================================
+            if (this.sectionId === 'sec-desague') {
+                let count = 0;
+                let totalCampos = 0;
+
+                const se_desague = section.querySelector('select[name="se_desague"]');
+                const se_desague_value = se_desague ? se_desague.value : '';
+                const esOtro = (se_desague_value === 'OTR');
+
+                totalCampos++;
+                if (se_desague && se_desague_value !== '') count++;
+
+                const se_desague_otro = section.querySelector('input[name="se_desague_otro"]');
+                if (esOtro) {
+                    totalCampos++;
+                    if (se_desague_otro && se_desague_otro.value && se_desague_otro.value.trim() !== '') count++;
                 }
 
-                // ============================================
-                // MANEJO ESPECIAL PARA ANÁLISIS DE INFRAESTRUCTURA
-                // ============================================
-                if (this.sectionId === 'sec-analisis-infra') {
-                    const grupos = this.getGruposAnalisisInfra(section);
-                    this.filled = grupos.filled;
+                totalCampos++;
+                const se_desague_operativo = section.querySelector('input[name="se_desague_operativo"]:checked');
+                if (se_desague_operativo && se_desague_operativo.value !== '') count++;
+
+                totalCampos++;
+                const se_desague_estado = section.querySelector('input[name="se_desague_estado"]:checked');
+                if (se_desague_estado && se_desague_estado.value !== '') count++;
+
+                this.total = totalCampos;
+                this.filled = count;
+                this.percent = totalCampos > 0 ? Math.min(Math.round((count / totalCampos) * 100), 100) : 0;
+                this.dispatchEvent();
+                return;
+            }
+
+            // ============================================
+            // MANEJO ESPECIAL PARA EDIFICACIONES
+            // ============================================
+            if (this.sectionId === 'sec-edificaciones') {
+                const tabla = section.querySelector('#tabla-edificaciones');
+                if (tabla) {
+                    const filas = tabla.querySelectorAll('tr');
+                    let tieneRegistros = false;
+                    for (const fila of filas) {
+                        if (fila.id !== 'no-registros' &&
+                            !fila.innerHTML.includes('No hay edificaciones registradas') &&
+                            fila.querySelector('td')) {
+                            tieneRegistros = true;
+                            break;
+                        }
+                    }
+                    this.filled = tieneRegistros ? 1 : 0;
                     this.percent = this.total > 0 ? Math.min(Math.round((this.filled / this.total) * 100), 100) : 0;
                     this.dispatchEvent();
                     return;
                 }
+            }
 
-                // ============================================
-                // MANEJO NORMAL PARA OTRAS SECCIONES
-                // ============================================
-                let count = 0;
-                let processedRadios = new Set();
-
-                const allInputs = section.querySelectorAll('input, select, textarea');
-
-                allInputs.forEach(input => {
-                    if (input.type === 'hidden') return;
-
-                    let isVisible = true;
-                    let parent = input.parentElement;
-                    while (parent && parent !== section) {
-                        if (parent.style.display === 'none') {
-                            isVisible = false;
+            // ============================================
+            // MANEJO ESPECIAL PARA FOTOS
+            // ============================================
+            if (this.sectionId === 'sec-fotos') {
+                const tabla = section.querySelector('#tabla-fotos');
+                if (tabla) {
+                    const filas = tabla.querySelectorAll('tr');
+                    let tieneRegistros = false;
+                    for (const fila of filas) {
+                        if (fila.id !== 'no-fotos' &&
+                            !fila.innerHTML.includes('No hay fotos registradas') &&
+                            fila.querySelector('td')) {
+                            tieneRegistros = true;
                             break;
                         }
-                        parent = parent.parentElement;
                     }
-                    if (!isVisible) return;
+                    this.filled = tieneRegistros ? 1 : 0;
+                    this.percent = this.total > 0 ? Math.min(Math.round((this.filled / this.total) * 100), 100) : 0;
+                    this.dispatchEvent();
+                    return;
+                }
+            }
 
-                    if (input.name && input.name.endsWith('_nombre')) {
-                        return;
+            // ============================================
+            // MANEJO ESPECIAL PARA ARCHIVOS
+            // ============================================
+            if (this.sectionId === 'sec-archivos') {
+                const tabla = section.querySelector('#tabla-archivos');
+                if (tabla) {
+                    const filas = tabla.querySelectorAll('tr');
+                    let tieneRegistros = false;
+                    for (const fila of filas) {
+                        if (fila.id !== 'no-archivos' &&
+                            !fila.innerHTML.includes('No hay archivos registrados') &&
+                            fila.querySelector('td')) {
+                            tieneRegistros = true;
+                            break;
+                        }
                     }
+                    this.filled = tieneRegistros ? 1 : 0;
+                    this.percent = this.total > 0 ? Math.min(Math.round((this.filled / this.total) * 100), 100) : 0;
+                    this.dispatchEvent();
+                    return;
+                }
+            }
 
-                    if (input.type === 'radio') {
-                        if (!processedRadios.has(input.name)) {
-                            processedRadios.add(input.name);
-                            const selectedRadio = document.querySelector(`input[name="${input.name}"]:checked`);
-                            if (selectedRadio && selectedRadio.value !== '') {
-                                if (selectedRadio.value === 'OTR' || selectedRadio.value === '7' ||
-                                    selectedRadio.value === 'OT') {
-                                    const textInput = document.querySelector(
-                                        `input[name="${input.name}_nombre"]`);
-                                    if (textInput && textInput.value && textInput.value.trim() !== '') {
-                                        count++;
-                                    }
-                                } else {
+            // ============================================
+            // MANEJO ESPECIAL PARA SERVICIOS COLECTIVOS
+            // ============================================
+            if (this.sectionId === 'sec-personal-salud' || 
+                this.sectionId === 'sec-personal-externo' || 
+                this.sectionId === 'sec-personal-discapacitado') {
+                
+                let count = 0;
+                let totalCampos = 0;
+                
+                let radioName = '';
+                if (this.sectionId === 'sec-personal-salud') radioName = 'sc_servicio';
+                if (this.sectionId === 'sec-personal-externo') radioName = 'sc_sshh';
+                if (this.sectionId === 'sec-personal-discapacitado') radioName = 'sc_personal';
+                
+                totalCampos++;
+                const radioPrincipal = section.querySelector(`input[name="${radioName}"]:checked`);
+                if (radioPrincipal && radioPrincipal.value !== '') count++;
+                
+                if (radioPrincipal && radioPrincipal.value === 'SI') {
+                    totalCampos++;
+                    const operativo = section.querySelector(`input[name="${radioName}_operativo"]:checked`);
+                    if (operativo && operativo.value !== '') count++;
+                    
+                    totalCampos++;
+                    const estado = section.querySelector(`input[name="${radioName}_estado"]:checked`);
+                    if (estado && estado.value !== '') count++;
+                    
+                    totalCampos++;
+                    const option = section.querySelector(`input[name="${radioName}_option"]:checked`);
+                    if (option && option.value !== '') count++;
+                }
+                
+                this.total = totalCampos;
+                this.filled = count;
+                this.percent = totalCampos > 0 ? Math.min(Math.round((count / totalCampos) * 100), 100) : 0;
+                this.dispatchEvent();
+                return;
+            }
+
+            // ============================================
+            // MANEJO ESPECIAL PARA ANÁLISIS DE INFRAESTRUCTURA
+            // ============================================
+            if (this.sectionId === 'sec-analisis-infra') {
+                const grupos = this.getGruposAnalisisInfra(section);
+                this.filled = grupos.filled;
+                this.percent = this.total > 0 ? Math.min(Math.round((this.filled / this.total) * 100), 100) : 0;
+                this.dispatchEvent();
+                return;
+            }
+
+            // ============================================
+            // MANEJO NORMAL PARA OTRAS SECCIONES
+            // ============================================
+            let count = 0;
+            let processedRadios = new Set();
+
+            const allInputs = section.querySelectorAll('input, select, textarea');
+
+            allInputs.forEach(input => {
+                if (input.type === 'hidden') return;
+
+                let isVisible = true;
+                let parent = input.parentElement;
+                while (parent && parent !== section) {
+                    if (parent.style.display === 'none') {
+                        isVisible = false;
+                        break;
+                    }
+                    parent = parent.parentElement;
+                }
+                if (!isVisible) return;
+
+                if (input.name && input.name.endsWith('_nombre')) {
+                    return;
+                }
+
+                if (input.type === 'radio') {
+                    if (!processedRadios.has(input.name)) {
+                        processedRadios.add(input.name);
+                        const selectedRadio = document.querySelector(`input[name="${input.name}"]:checked`);
+                        if (selectedRadio && selectedRadio.value !== '') {
+                            if (selectedRadio.value === 'OTR' || selectedRadio.value === '7' ||
+                                selectedRadio.value === 'OT') {
+                                const textInput = document.querySelector(`input[name="${input.name}_nombre"]`);
+                                if (textInput && textInput.value && textInput.value.trim() !== '') {
                                     count++;
                                 }
+                            } else {
+                                count++;
                             }
                         }
-                        return;
                     }
+                    return;
+                }
 
-                    if (input.tagName === 'SELECT') {
-                        if (input.value && input.value !== '') {
-                            count++;
-                        }
-                        return;
-                    }
-
-                    if (input.type === 'checkbox') {
-                        if (input.checked) count++;
-                        return;
-                    }
-
-                    if (input.value && input.value.trim() !== '' && input.value !== 'null') {
+                if (input.tagName === 'SELECT') {
+                    if (input.value && input.value !== '') {
                         count++;
                     }
-                });
-
-
-                this.filled = count;
-                this.percent = this.total > 0 ? Math.min(Math.round((count / this.total) * 100), 100) : 0;
-                this.dispatchEvent();
-            },
-
-            getGruposAnalisisInfra(section) {
-                let filled = 0;
-
-                // 1. Número de Sótanos
-                const sonatos = section.querySelector('input[name="sonatos"]');
-                if (sonatos && sonatos.value && sonatos.value !== '') filled++;
-
-                // 2. Número de Pisos Superiores
-                const pisos = section.querySelector('input[name="pisos"]');
-                if (pisos && pisos.value && pisos.value !== '') filled++;
-
-                // 3. Área Aproximada
-                const area = section.querySelector('input[name="area"]');
-                if (area && area.value && area.value !== '') filled++;
-
-                // 4. Ubicación del EE.SS.
-                const ubicacion = section.querySelector('input[name="ubicacion"]:checked');
-                if (ubicacion && ubicacion.value !== '') filled++;
-
-                // 5. Tipo de Material de la Edificación
-                const material = section.querySelector('input[name="material"]:checked');
-                if (material && material.value !== '') {
-                    if (material.value === '7') {
-                        const materialNombre = section.querySelector('input[name="material_nombre"]');
-                        if (materialNombre && materialNombre.value && materialNombre.value.trim() !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+                    return;
                 }
 
-                // 6. Daños Inundación
-                const dañoA = section.querySelector('input[name="infraestructura_option_a"]:checked');
-                if (dañoA && dañoA.value !== '') {
-                    if (dañoA.value === '1') {
-                        const descA = section.querySelector('textarea[name="infraestructura_descripcion_a"]');
-                        const valorA = section.querySelector('select[name="infraestructura_valor_a"]');
-                        if (descA && descA.value && descA.value.trim() !== '' && valorA && valorA.value && valorA
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+                if (input.type === 'checkbox') {
+                    if (input.checked) count++;
+                    return;
                 }
 
-                // 7. Daños Movimiento en masa
-                const dañoB = section.querySelector('input[name="infraestructura_option_b"]:checked');
-                if (dañoB && dañoB.value !== '') {
-                    if (dañoB.value === '1') {
-                        const descB = section.querySelector('textarea[name="infraestructura_descripcion_b"]');
-                        const valorB = section.querySelector('select[name="infraestructura_valor_b"]');
-                        if (descB && descB.value && descB.value.trim() !== '' && valorB && valorB.value && valorB
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+                if (input.value && input.value.trim() !== '' && input.value !== 'null') {
+                    count++;
                 }
+            });
 
-                // 8. Daños Vigas
-                const dañoC = section.querySelector('input[name="infraestructura_option_c"]:checked');
-                if (dañoC && dañoC.value !== '') {
-                    if (dañoC.value === '1') {
-                        const descC = section.querySelector('textarea[name="infraestructura_descripcion_c"]');
-                        const valorC = section.querySelector('select[name="infraestructura_valor_c"]');
-                        if (descC && descC.value && descC.value.trim() !== '' && valorC && valorC.value && valorC
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+            this.filled = count;
+            this.percent = this.total > 0 ? Math.min(Math.round((count / this.total) * 100), 100) : 0;
+            this.dispatchEvent();
+        },
+
+        getGruposAnalisisInfra(section) {
+            let filled = 0;
+
+            const sonatos = section.querySelector('input[name="sonatos"]');
+            if (sonatos && sonatos.value && sonatos.value !== '') filled++;
+
+            const pisos = section.querySelector('input[name="pisos"]');
+            if (pisos && pisos.value && pisos.value !== '') filled++;
+
+            const area = section.querySelector('input[name="area"]');
+            if (area && area.value && area.value !== '') filled++;
+
+            const ubicacion = section.querySelector('input[name="ubicacion"]:checked');
+            if (ubicacion && ubicacion.value !== '') filled++;
+
+            const material = section.querySelector('input[name="material"]:checked');
+            if (material && material.value !== '') {
+                if (material.value === '7') {
+                    const materialNombre = section.querySelector('input[name="material_nombre"]');
+                    if (materialNombre && materialNombre.value && materialNombre.value.trim() !== '') filled++;
+                } else {
+                    filled++;
                 }
+            }
 
-                // 9. Daños Columnas
-                const dañoD = section.querySelector('input[name="infraestructura_option_d"]:checked');
-                if (dañoD && dañoD.value !== '') {
-                    if (dañoD.value === '1') {
-                        const descD = section.querySelector('textarea[name="infraestructura_descripcion_d"]');
-                        const valorD = section.querySelector('select[name="infraestructura_valor_d"]');
-                        if (descD && descD.value && descD.value.trim() !== '' && valorD && valorD.value && valorD
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+            const dañoA = section.querySelector('input[name="infraestructura_option_a"]:checked');
+            if (dañoA && dañoA.value !== '') {
+                if (dañoA.value === '1') {
+                    const descA = section.querySelector('textarea[name="infraestructura_descripcion_a"]');
+                    const valorA = section.querySelector('select[name="infraestructura_valor_a"]');
+                    if (descA && descA.value && descA.value.trim() !== '' && valorA && valorA.value && valorA.value !== '') filled++;
+                } else {
+                    filled++;
                 }
+            }
 
-                // 10. Daños Techos
-                const dañoE = section.querySelector('input[name="infraestructura_option_e"]:checked');
-                if (dañoE && dañoE.value !== '') {
-                    if (dañoE.value === '1') {
-                        const descE = section.querySelector('textarea[name="infraestructura_descripcion_e"]');
-                        const valorE = section.querySelector('select[name="infraestructura_valor_e"]');
-                        if (descE && descE.value && descE.value.trim() !== '' && valorE && valorE.value && valorE
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+            const dañoB = section.querySelector('input[name="infraestructura_option_b"]:checked');
+            if (dañoB && dañoB.value !== '') {
+                if (dañoB.value === '1') {
+                    const descB = section.querySelector('textarea[name="infraestructura_descripcion_b"]');
+                    const valorB = section.querySelector('select[name="infraestructura_valor_b"]');
+                    if (descB && descB.value && descB.value.trim() !== '' && valorB && valorB.value && valorB.value !== '') filled++;
+                } else {
+                    filled++;
                 }
+            }
 
-                // 11. Daños Muros
-                const dañoF = section.querySelector('input[name="infraestructura_option_f"]:checked');
-                if (dañoF && dañoF.value !== '') {
-                    if (dañoF.value === '1') {
-                        const descF = section.querySelector('textarea[name="infraestructura_descripcion_f"]');
-                        const valorF = section.querySelector('select[name="infraestructura_valor_f"]');
-                        if (descF && descF.value && descF.value.trim() !== '' && valorF && valorF.value && valorF
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+            const dañoC = section.querySelector('input[name="infraestructura_option_c"]:checked');
+            if (dañoC && dañoC.value !== '') {
+                if (dañoC.value === '1') {
+                    const descC = section.querySelector('textarea[name="infraestructura_descripcion_c"]');
+                    const valorC = section.querySelector('select[name="infraestructura_valor_c"]');
+                    if (descC && descC.value && descC.value.trim() !== '' && valorC && valorC.value && valorC.value !== '') filled++;
+                } else {
+                    filled++;
                 }
+            }
 
-                // 12. Daños Pisos
-                const dañoG = section.querySelector('input[name="infraestructura_option_g"]:checked');
-                if (dañoG && dañoG.value !== '') {
-                    if (dañoG.value === '1') {
-                        const descG = section.querySelector('textarea[name="infraestructura_descripcion_g"]');
-                        const valorG = section.querySelector('select[name="infraestructura_valor_g"]');
-                        if (descG && descG.value && descG.value.trim() !== '' && valorG && valorG.value && valorG
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+            const dañoD = section.querySelector('input[name="infraestructura_option_d"]:checked');
+            if (dañoD && dañoD.value !== '') {
+                if (dañoD.value === '1') {
+                    const descD = section.querySelector('textarea[name="infraestructura_descripcion_d"]');
+                    const valorD = section.querySelector('select[name="infraestructura_valor_d"]');
+                    if (descD && descD.value && descD.value.trim() !== '' && valorD && valorD.value && valorD.value !== '') filled++;
+                } else {
+                    filled++;
                 }
+            }
 
-                // 13. Daños Drenaje pluvial
-                const dañoH = section.querySelector('input[name="infraestructura_option_h"]:checked');
-                if (dañoH && dañoH.value !== '') {
-                    if (dañoH.value === '1') {
-                        const descH = section.querySelector('textarea[name="infraestructura_descripcion_h"]');
-                        const valorH = section.querySelector('select[name="infraestructura_valor_h"]');
-                        if (descH && descH.value && descH.value.trim() !== '' && valorH && valorH.value && valorH
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+            const dañoE = section.querySelector('input[name="infraestructura_option_e"]:checked');
+            if (dañoE && dañoE.value !== '') {
+                if (dañoE.value === '1') {
+                    const descE = section.querySelector('textarea[name="infraestructura_descripcion_e"]');
+                    const valorE = section.querySelector('select[name="infraestructura_valor_e"]');
+                    if (descE && descE.value && descE.value.trim() !== '' && valorE && valorE.value && valorE.value !== '') filled++;
+                } else {
+                    filled++;
                 }
+            }
 
-                // 14. Daños Puertas y ventanas
-                const dañoI = section.querySelector('input[name="infraestructura_option_i"]:checked');
-                if (dañoI && dañoI.value !== '') {
-                    if (dañoI.value === '1') {
-                        const descI = section.querySelector('textarea[name="infraestructura_descripcion_i"]');
-                        const valorI = section.querySelector('select[name="infraestructura_valor_i"]');
-                        if (descI && descI.value && descI.value.trim() !== '' && valorI && valorI.value && valorI
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+            const dañoF = section.querySelector('input[name="infraestructura_option_f"]:checked');
+            if (dañoF && dañoF.value !== '') {
+                if (dañoF.value === '1') {
+                    const descF = section.querySelector('textarea[name="infraestructura_descripcion_f"]');
+                    const valorF = section.querySelector('select[name="infraestructura_valor_f"]');
+                    if (descF && descF.value && descF.value.trim() !== '' && valorF && valorF.value && valorF.value !== '') filled++;
+                } else {
+                    filled++;
                 }
+            }
 
-                // 15. Daños Equipos
-                const dañoJ = section.querySelector('input[name="infraestructura_option_j"]:checked');
-                if (dañoJ && dañoJ.value !== '') {
-                    if (dañoJ.value === '1') {
-                        const descJ = section.querySelector('textarea[name="infraestructura_descripcion_j"]');
-                        const valorJ = section.querySelector('select[name="infraestructura_valor_j"]');
-                        if (descJ && descJ.value && descJ.value.trim() !== '' && valorJ && valorJ.value && valorJ
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+            const dañoG = section.querySelector('input[name="infraestructura_option_g"]:checked');
+            if (dañoG && dañoG.value !== '') {
+                if (dañoG.value === '1') {
+                    const descG = section.querySelector('textarea[name="infraestructura_descripcion_g"]');
+                    const valorG = section.querySelector('select[name="infraestructura_valor_g"]');
+                    if (descG && descG.value && descG.value.trim() !== '' && valorG && valorG.value && valorG.value !== '') filled++;
+                } else {
+                    filled++;
                 }
+            }
 
-                // 16. Daños Red de agua
-                const dañoK = section.querySelector('input[name="infraestructura_option_k"]:checked');
-                if (dañoK && dañoK.value !== '') {
-                    if (dañoK.value === '1') {
-                        const descK = section.querySelector('textarea[name="infraestructura_descripcion_k"]');
-                        const valorK = section.querySelector('select[name="infraestructura_valor_k"]');
-                        if (descK && descK.value && descK.value.trim() !== '' && valorK && valorK.value && valorK
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+            const dañoH = section.querySelector('input[name="infraestructura_option_h"]:checked');
+            if (dañoH && dañoH.value !== '') {
+                if (dañoH.value === '1') {
+                    const descH = section.querySelector('textarea[name="infraestructura_descripcion_h"]');
+                    const valorH = section.querySelector('select[name="infraestructura_valor_h"]');
+                    if (descH && descH.value && descH.value.trim() !== '' && valorH && valorH.value && valorH.value !== '') filled++;
+                } else {
+                    filled++;
                 }
+            }
 
-                // 17. Daños Red de desagüe
-                const dañoL = section.querySelector('input[name="infraestructura_option_l"]:checked');
-                if (dañoL && dañoL.value !== '') {
-                    if (dañoL.value === '1') {
-                        const descL = section.querySelector('textarea[name="infraestructura_descripcion_l"]');
-                        const valorL = section.querySelector('select[name="infraestructura_valor_l"]');
-                        if (descL && descL.value && descL.value.trim() !== '' && valorL && valorL.value && valorL
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+            const dañoI = section.querySelector('input[name="infraestructura_option_i"]:checked');
+            if (dañoI && dañoI.value !== '') {
+                if (dañoI.value === '1') {
+                    const descI = section.querySelector('textarea[name="infraestructura_descripcion_i"]');
+                    const valorI = section.querySelector('select[name="infraestructura_valor_i"]');
+                    if (descI && descI.value && descI.value.trim() !== '' && valorI && valorI.value && valorI.value !== '') filled++;
+                } else {
+                    filled++;
                 }
+            }
 
-                // 18. Daños Red agua contra incendio
-                const dañoM = section.querySelector('input[name="infraestructura_option_m"]:checked');
-                if (dañoM && dañoM.value !== '') {
-                    if (dañoM.value === '1') {
-                        const descM = section.querySelector('textarea[name="infraestructura_descripcion_m"]');
-                        const valorM = section.querySelector('select[name="infraestructura_valor_m"]');
-                        if (descM && descM.value && descM.value.trim() !== '' && valorM && valorM.value && valorM
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+            const dañoJ = section.querySelector('input[name="infraestructura_option_j"]:checked');
+            if (dañoJ && dañoJ.value !== '') {
+                if (dañoJ.value === '1') {
+                    const descJ = section.querySelector('textarea[name="infraestructura_descripcion_j"]');
+                    const valorJ = section.querySelector('select[name="infraestructura_valor_j"]');
+                    if (descJ && descJ.value && descJ.value.trim() !== '' && valorJ && valorJ.value && valorJ.value !== '') filled++;
+                } else {
+                    filled++;
                 }
+            }
 
-                // 19. Daños Instalaciones eléctricas
-                const dañoN = section.querySelector('input[name="infraestructura_option_n"]:checked');
-                if (dañoN && dañoN.value !== '') {
-                    if (dañoN.value === '1') {
-                        const descN = section.querySelector('textarea[name="infraestructura_descripcion_n"]');
-                        const valorN = section.querySelector('select[name="infraestructura_valor_n"]');
-                        if (descN && descN.value && descN.value.trim() !== '' && valorN && valorN.value && valorN
-                            .value !== '') filled++;
-                    } else {
-                        filled++;
-                    }
+            const dañoK = section.querySelector('input[name="infraestructura_option_k"]:checked');
+            if (dañoK && dañoK.value !== '') {
+                if (dañoK.value === '1') {
+                    const descK = section.querySelector('textarea[name="infraestructura_descripcion_k"]');
+                    const valorK = section.querySelector('select[name="infraestructura_valor_k"]');
+                    if (descK && descK.value && descK.value.trim() !== '' && valorK && valorK.value && valorK.value !== '') filled++;
+                } else {
+                    filled++;
                 }
+            }
 
-                // 20. Otros daños
-                const otrosDaños = section.querySelector('textarea[name="infraestructura_descripcion_1"]');
-                if (otrosDaños && otrosDaños.value && otrosDaños.value.trim() !== '') filled++;
+            const dañoL = section.querySelector('input[name="infraestructura_option_l"]:checked');
+            if (dañoL && dañoL.value !== '') {
+                if (dañoL.value === '1') {
+                    const descL = section.querySelector('textarea[name="infraestructura_descripcion_l"]');
+                    const valorL = section.querySelector('select[name="infraestructura_valor_l"]');
+                    if (descL && descL.value && descL.value.trim() !== '' && valorL && valorL.value && valorL.value !== '') filled++;
+                } else {
+                    filled++;
+                }
+            }
 
-                // 21. Estado muro contención
-                const estadoContencion = section.querySelector('input[name="estado_contencion"]:checked');
-                if (estadoContencion && estadoContencion.value !== '') filled++;
+            const dañoM = section.querySelector('input[name="infraestructura_option_m"]:checked');
+            if (dañoM && dañoM.value !== '') {
+                if (dañoM.value === '1') {
+                    const descM = section.querySelector('textarea[name="infraestructura_descripcion_m"]');
+                    const valorM = section.querySelector('select[name="infraestructura_valor_m"]');
+                    if (descM && descM.value && descM.value.trim() !== '' && valorM && valorM.value && valorM.value !== '') filled++;
+                } else {
+                    filled++;
+                }
+            }
 
-                // 22. Estado taludes
-                const estadoTaludes = section.querySelector('input[name="estado_taludes"]:checked');
-                if (estadoTaludes && estadoTaludes.value !== '') filled++;
+            const dañoN = section.querySelector('input[name="infraestructura_option_n"]:checked');
+            if (dañoN && dañoN.value !== '') {
+                if (dañoN.value === '1') {
+                    const descN = section.querySelector('textarea[name="infraestructura_descripcion_n"]');
+                    const valorN = section.querySelector('select[name="infraestructura_valor_n"]');
+                    if (descN && descN.value && descN.value.trim() !== '' && valorN && valorN.value && valorN.value !== '') filled++;
+                } else {
+                    filled++;
+                }
+            }
 
-                // 23. Cerco perimetral (CORREGIDO)
-                const tieneCerco = section.querySelector('input[name="cp_erco_perim"]:checked');
-                if (tieneCerco && tieneCerco.value !== '') {
-                    if (tieneCerco.value === 'SI') {
-                        // Si tiene cerco, necesita material Y estado
-                        const materialCerco = section.querySelector('input[name="cp_material"]:checked');
-                        const estadoCerco = section.querySelector('input[name="cp_estado"]:checked');
-                        if (materialCerco && materialCerco.value !== '' && estadoCerco && estadoCerco.value !== '') {
-                            // Si material es OT, necesita el nombre
-                            if (materialCerco.value === 'OT') {
-                                const materialCercoNombre = section.querySelector('input[name="cp_material_nombre"]');
-                                if (materialCercoNombre && materialCercoNombre.value && materialCercoNombre.value
-                                    .trim() !== '') {
-                                    filled++;
-                                }
-                            } else {
+            const otrosDaños = section.querySelector('textarea[name="infraestructura_descripcion_1"]');
+            if (otrosDaños && otrosDaños.value && otrosDaños.value.trim() !== '') filled++;
+
+            const estadoContencion = section.querySelector('input[name="estado_contencion"]:checked');
+            if (estadoContencion && estadoContencion.value !== '') filled++;
+
+            const estadoTaludes = section.querySelector('input[name="estado_taludes"]:checked');
+            if (estadoTaludes && estadoTaludes.value !== '') filled++;
+
+            const tieneCerco = section.querySelector('input[name="cp_erco_perim"]:checked');
+            if (tieneCerco && tieneCerco.value !== '') {
+                if (tieneCerco.value === 'SI') {
+                    const materialCerco = section.querySelector('input[name="cp_material"]:checked');
+                    const estadoCerco = section.querySelector('input[name="cp_estado"]:checked');
+                    if (materialCerco && materialCerco.value !== '' && estadoCerco && estadoCerco.value !== '') {
+                        if (materialCerco.value === 'OT') {
+                            const materialCercoNombre = section.querySelector('input[name="cp_material_nombre"]');
+                            if (materialCercoNombre && materialCercoNombre.value && materialCercoNombre.value.trim() !== '') {
                                 filled++;
                             }
+                        } else {
+                            filled++;
                         }
-                    } else {
-                        // Si NO tiene cerco, cuenta como completado
-                        filled++;
                     }
+                } else {
+                    filled++;
                 }
-
-                return {
-                    filled: filled
-                };
-            },
-
-            dispatchEvent() {
-                window.dispatchEvent(new CustomEvent('sectionProgress', {
-                    detail: {
-                        section: this.sectionId,
-                        filled: this.filled,
-                        total: this.total,
-                        percent: this.percent
-                    }
-                }));
             }
-        };
-    }
+
+            return { filled: filled };
+        },
+
+        dispatchEvent() {
+            window.dispatchEvent(new CustomEvent('sectionProgress', {
+                detail: {
+                    section: this.sectionId,
+                    filled: this.filled,
+                    total: this.total,
+                    percent: this.percent
+                }
+            }));
+        }
+    };
+}
+
 </script>
