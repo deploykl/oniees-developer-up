@@ -1113,55 +1113,55 @@
                     // DESAGÜE
                     'sec-desague': {
                         completed: 0,
-                        total: 5, // Campos: se_desague, se_desague_otro, se_desague_operativo, se_desague_estado
+                        total: 3, // Campos: se_desague, se_desague_otro, se_desague_operativo, se_desague_estado
                         percent: 0
                     },
                     // ELECTRICIDAD
                     'sec-electricidad': {
                         completed: 0,
-                        total: 8, // Campos: se_electricidad, se_electricidad_operativo, se_electricidad_estado, se_electricidad_option, se_electricidad_fuente, se_electricidad_proveedor_ruc
+                        total: 6, // Campos: se_electricidad, se_electricidad_operativo, se_electricidad_estado, se_electricidad_option, se_electricidad_fuente, se_electricidad_proveedor_ruc
                         percent: 0
                     },
                     // TELEFONÍA
                     'sec-telefonia': {
                         completed: 0,
-                        total: 7, // Campos: se_telefonia, se_telefonia_operativo, se_telefonia_estado, se_telefonia_option, se_telefonia_proveedor, se_telefonia_proveedor_ruc
+                        total: 6, // Campos: se_telefonia, se_telefonia_operativo, se_telefonia_estado, se_telefonia_option, se_telefonia_proveedor, se_telefonia_proveedor_ruc
                         percent: 0
                     },
                     // INTERNET
                     'sec-internet': {
                         completed: 0,
-                        total: 15, // Campos: se_internet, se_internet_operativo, se_internet_estado, se_internet_option, se_internet_proveedor, se_internet_proveedor_ruc, internet_conexion, internet_operador, internet_continuidad, internet_red, internet_porcentaje, internet_transmision, internet_option2, internet_servicio
+                        total: 14, // Campos: se_internet, se_internet_operativo, se_internet_estado, se_internet_option, se_internet_proveedor, se_internet_proveedor_ruc, internet_conexion, internet_operador, internet_continuidad, internet_red, internet_porcentaje, internet_transmision, internet_option2, internet_servicio
                         percent: 0
                     },
                     // TELEVISIÓN
                     'sec-television': {
                         completed: 0,
-                        total: 8, // Campos: televicion, televicion_operador, televicion_option1, televicion_espera, televicion_porcentaje, televicion_antena, televicion_equipo
+                        total: 7, // Campos: televicion, televicion_operador, televicion_option1, televicion_espera, televicion_porcentaje, televicion_antena, televicion_equipo
                         percent: 0
                     },
                     // RED MÓVIL
                     'sec-red-movil': {
                         completed: 0,
-                        total: 8, // Campos: se_red, se_red_operativo, se_red_estado, se_red_option, se_red_proveedor, se_red_proveedor_ruc
+                        total: 6, // Campos: se_red, se_red_operativo, se_red_estado, se_red_option, se_red_proveedor, se_red_proveedor_ruc
                         percent: 0
                     },
                     // GAS
                     'sec-gas': {
                         completed: 0,
-                        total: 8, // Campos: se_gas, se_gas_operativo, se_gas_estado, se_gas_option, se_gas_proveedor, se_gas_proveedor_ruc
+                        total: 6, // Campos: se_gas, se_gas_operativo, se_gas_estado, se_gas_option, se_gas_proveedor, se_gas_proveedor_ruc
                         percent: 0
                     },
                     // RESIDUOS SÓLIDOS
                     'sec-residuos-solidos': {
                         completed: 0,
-                        total: 8, // Campos: se_residuos, se_residuos_operativo, se_residuos_estado, se_residuos_option, se_residuos_proveedor, se_residuos_proveedor_ruc
+                        total: 6, // Campos: se_residuos, se_residuos_operativo, se_residuos_estado, se_residuos_option, se_residuos_proveedor, se_residuos_proveedor_ruc
                         percent: 0
                     },
                     // RESIDUOS HOSPITALARIOS
                     'sec-residuos-hospitalarios': {
                         completed: 0,
-                        total: 8, // Campos: se_residuos_h, se_residuos_h_operativo, se_residuos_h_estado, se_residuos_h_option, se_residuos_h_proveedor, se_residuos_h_proveedor_ruc
+                        total: 6, // Campos: se_residuos_h, se_residuos_h_operativo, se_residuos_h_estado, se_residuos_h_option, se_residuos_h_proveedor, se_residuos_h_proveedor_ruc
                         percent: 0
                     },
 

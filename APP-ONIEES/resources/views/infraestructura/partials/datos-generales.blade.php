@@ -1036,80 +1036,119 @@
                 const section = document.getElementById(this.sectionId);
                 if (!section) return;
 
-               // ============================================
-// MANEJO ESPECIAL PARA SECCIÓN AGUA
-// ============================================
-if (this.sectionId === 'sec-agua') {
-    let count = 0;
-    let totalCampos = 0;
-    
-    // 1. Origen del agua (select) - SIEMPRE cuenta si está seleccionado
-    const se_agua = section.querySelector('select[name="se_agua"]');
-    const se_agua_select_value = se_agua ? se_agua.value : '';
-    const esOtro = (se_agua_select_value === 'O');
-    
-    // Este campo SIEMPRE es parte del total
-    totalCampos++;
-    if (se_agua && se_agua_select_value !== '') count++;
-    
-    // 2. Origen del agua - Otro (SOLO si seleccionó "O")
-    const se_agua_otro = section.querySelector('input[name="se_agua_otro"]');
-    if (esOtro) {
-        // Si seleccionó "Otro", este input es parte del total
-        totalCampos++;
-        if (se_agua_otro && se_agua_otro.value && se_agua_otro.value.trim() !== '') {
-            count++;
-        }
-    }
-    
-    // 3. Operativo (radio) - SIEMPRE
-    totalCampos++;
-    const se_agua_operativo = section.querySelector('input[name="se_agua_operativo"]:checked');
-    if (se_agua_operativo && se_agua_operativo.value !== '') count++;
-    
-    // 4. Estado conservación (radio) - SIEMPRE
-    totalCampos++;
-    const se_agua_estado = section.querySelector('input[name="se_agua_estado"]:checked');
-    if (se_agua_estado && se_agua_estado.value !== '') count++;
-    
-    // 5. Servicio todos los días (radio) - SIEMPRE
-    totalCampos++;
-    const se_sevicio_semana = section.querySelector('input[name="se_sevicio_semana"]:checked');
-    if (se_sevicio_semana && se_sevicio_semana.value !== '') count++;
-    
-    // 6. Horas al día (input) - SIEMPRE
-    totalCampos++;
-    const se_horas_dia = section.querySelector('input[name="se_horas_dia"]');
-    if (se_horas_dia && se_horas_dia.value && se_horas_dia.value !== '') count++;
-    
-    // 7. Horas a la semana (input readonly) - SIEMPRE
-    totalCampos++;
-    const se_semana_calculo = section.querySelector('input[name="se_sevicio_semana_calculo"]');
-    if (se_semana_calculo && se_semana_calculo.value && se_semana_calculo.value !== '') count++;
-    
-    // 8. Pagan por servicio (radio) - SIEMPRE
-    totalCampos++;
-    const se_servicio_agua = section.querySelector('input[name="se_servicio_agua"]:checked');
-    if (se_servicio_agua && se_servicio_agua.value !== '') count++;
-    
-    // 9. Empresa/Entidad (SOLO si pagan por servicio = SI)
-    const paga_si = section.querySelector('input[name="se_servicio_agua"][value="SI"]:checked');
-    const se_empresa_agua = section.querySelector('select[name="se_empresa_agua"]');
-    if (paga_si) {
-        totalCampos++;
-        if (se_empresa_agua && se_empresa_agua.value && se_empresa_agua.value !== '') {
-            count++;
-        }
-    }
-    
-    // Actualizar el total dinámicamente
-    this.total = totalCampos;
-    this.filled = count;
-    this.percent = totalCampos > 0 ? Math.min(Math.round((count / totalCampos) * 100), 100) : 0;
-    this.dispatchEvent();
-    return;
-}
+                // ============================================
+                // MANEJO ESPECIAL PARA SECCIÓN AGUA
+                // ============================================
+                if (this.sectionId === 'sec-agua') {
+                    let count = 0;
+                    let totalCampos = 0;
 
+                    // 1. Origen del agua (select) - SIEMPRE cuenta si está seleccionado
+                    const se_agua = section.querySelector('select[name="se_agua"]');
+                    const se_agua_select_value = se_agua ? se_agua.value : '';
+                    const esOtro = (se_agua_select_value === 'O');
+
+                    // Este campo SIEMPRE es parte del total
+                    totalCampos++;
+                    if (se_agua && se_agua_select_value !== '') count++;
+
+                    // 2. Origen del agua - Otro (SOLO si seleccionó "O")
+                    const se_agua_otro = section.querySelector('input[name="se_agua_otro"]');
+                    if (esOtro) {
+                        // Si seleccionó "Otro", este input es parte del total
+                        totalCampos++;
+                        if (se_agua_otro && se_agua_otro.value && se_agua_otro.value.trim() !== '') {
+                            count++;
+                        }
+                    }
+
+                    // 3. Operativo (radio) - SIEMPRE
+                    totalCampos++;
+                    const se_agua_operativo = section.querySelector('input[name="se_agua_operativo"]:checked');
+                    if (se_agua_operativo && se_agua_operativo.value !== '') count++;
+
+                    // 4. Estado conservación (radio) - SIEMPRE
+                    totalCampos++;
+                    const se_agua_estado = section.querySelector('input[name="se_agua_estado"]:checked');
+                    if (se_agua_estado && se_agua_estado.value !== '') count++;
+
+                    // 5. Servicio todos los días (radio) - SIEMPRE
+                    totalCampos++;
+                    const se_sevicio_semana = section.querySelector('input[name="se_sevicio_semana"]:checked');
+                    if (se_sevicio_semana && se_sevicio_semana.value !== '') count++;
+
+                    // 6. Horas al día (input) - SIEMPRE
+                    totalCampos++;
+                    const se_horas_dia = section.querySelector('input[name="se_horas_dia"]');
+                    if (se_horas_dia && se_horas_dia.value && se_horas_dia.value !== '') count++;
+
+                    // 7. Horas a la semana (input readonly) - SIEMPRE
+                    totalCampos++;
+                    const se_semana_calculo = section.querySelector('input[name="se_sevicio_semana_calculo"]');
+                    if (se_semana_calculo && se_semana_calculo.value && se_semana_calculo.value !== '') count++;
+
+                    // 8. Pagan por servicio (radio) - SIEMPRE
+                    totalCampos++;
+                    const se_servicio_agua = section.querySelector('input[name="se_servicio_agua"]:checked');
+                    if (se_servicio_agua && se_servicio_agua.value !== '') count++;
+
+                    // 9. Empresa/Entidad (SOLO si pagan por servicio = SI)
+                    const paga_si = section.querySelector('input[name="se_servicio_agua"][value="SI"]:checked');
+                    const se_empresa_agua = section.querySelector('select[name="se_empresa_agua"]');
+                    if (paga_si) {
+                        totalCampos++;
+                        if (se_empresa_agua && se_empresa_agua.value && se_empresa_agua.value !== '') {
+                            count++;
+                        }
+                    }
+
+                    // Actualizar el total dinámicamente
+                    this.total = totalCampos;
+                    this.filled = count;
+                    this.percent = totalCampos > 0 ? Math.min(Math.round((count / totalCampos) * 100), 100) : 0;
+                    this.dispatchEvent();
+                    return;
+                }
+                // ============================================
+                // MANEJO ESPECIAL PARA SECCIÓN DESAGÜE
+                // ============================================
+                if (this.sectionId === 'sec-desague') {
+                    let count = 0;
+                    let totalCampos = 0;
+
+                    // 1. Tipo de servicio (select)
+                    const se_desague = section.querySelector('select[name="se_desague"]');
+                    const se_desague_value = se_desague ? se_desague.value : '';
+                    const esOtro = (se_desague_value === 'OTR');
+
+                    totalCampos++;
+                    if (se_desague && se_desague_value !== '') count++;
+
+                    // 2. Especifique otro tipo de servicio (SOLO si seleccionó "OTR")
+                    const se_desague_otro = section.querySelector('input[name="se_desague_otro"]');
+                    if (esOtro) {
+                        totalCampos++;
+                        if (se_desague_otro && se_desague_otro.value && se_desague_otro.value.trim() !== '') {
+                            count++;
+                        }
+                    }
+
+                    // 3. ¿Se encuentra operativo? (radio)
+                    totalCampos++;
+                    const se_desague_operativo = section.querySelector('input[name="se_desague_operativo"]:checked');
+                    if (se_desague_operativo && se_desague_operativo.value !== '') count++;
+
+                    // 4. Estado de conservación (radio)
+                    totalCampos++;
+                    const se_desague_estado = section.querySelector('input[name="se_desague_estado"]:checked');
+                    if (se_desague_estado && se_desague_estado.value !== '') count++;
+
+                    this.total = totalCampos;
+                    this.filled = count;
+                    this.percent = totalCampos > 0 ? Math.min(Math.round((count / totalCampos) * 100), 100) : 0;
+                    this.dispatchEvent();
+                    return;
+                }
                 // ============================================
                 // MANEJO ESPECIAL PARA EDIFICACIONES
                 // ============================================
@@ -1495,7 +1534,7 @@ if (this.sectionId === 'sec-agua') {
                             if (materialCerco.value === 'OT') {
                                 const materialCercoNombre = section.querySelector('input[name="cp_material_nombre"]');
                                 if (materialCercoNombre && materialCercoNombre.value && materialCercoNombre.value
-                                .trim() !== '') {
+                                    .trim() !== '') {
                                     filled++;
                                 }
                             } else {
