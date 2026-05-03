@@ -62,6 +62,7 @@
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Usuario</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dispositivo</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Rol</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Última actividad</th>
                                 </tr>
@@ -80,6 +81,59 @@
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" x-text="user.email"></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <div class="flex items-center gap-2">
+                                                <!-- Íconos de dispositivo -->
+                                                <template x-if="user.device_type === 'mobile'">
+                                                    <i class="fas fa-mobile-alt text-gray-500 text-lg" title="Móvil"></i>
+                                                </template>
+                                                <template x-if="user.device_type === 'tablet'">
+                                                    <i class="fas fa-tablet-alt text-gray-500 text-lg" title="Tablet"></i>
+                                                </template>
+                                                <template x-if="!user.device_type || user.device_type === 'desktop'">
+                                                    <i class="fas fa-desktop text-gray-500 text-lg" title="Escritorio"></i>
+                                                </template>
+                                                
+                                                <!-- Íconos de navegador -->
+                                                <template x-if="user.browser === 'Chrome'">
+                                                    <i class="fab fa-chrome text-green-600" title="Chrome"></i>
+                                                </template>
+                                                <template x-if="user.browser === 'Firefox'">
+                                                    <i class="fab fa-firefox text-orange-600" title="Firefox"></i>
+                                                </template>
+                                                <template x-if="user.browser === 'Safari'">
+                                                    <i class="fab fa-safari text-blue-600" title="Safari"></i>
+                                                </template>
+                                                <template x-if="user.browser === 'Edge'">
+                                                    <i class="fab fa-edge text-blue-600" title="Edge"></i>
+                                                </template>
+                                                <template x-if="user.browser === 'Opera'">
+                                                    <i class="fab fa-opera text-red-600" title="Opera"></i>
+                                                </template>
+                                                
+                                                <!-- Íconos de SO -->
+                                                <template x-if="user.os === 'Windows'">
+                                                    <i class="fab fa-windows text-blue-500" title="Windows"></i>
+                                                </template>
+                                                <template x-if="user.os === 'macOS'">
+                                                    <i class="fab fa-apple text-gray-600" title="macOS"></i>
+                                                </template>
+                                                <template x-if="user.os === 'Android'">
+                                                    <i class="fab fa-android text-green-500" title="Android"></i>
+                                                </template>
+                                                <template x-if="user.os === 'iOS'">
+                                                    <i class="fab fa-apple text-gray-600" title="iOS"></i>
+                                                </template>
+                                                <template x-if="user.os === 'Linux'">
+                                                    <i class="fab fa-linux text-yellow-600" title="Linux"></i>
+                                                </template>
+                                            </div>
+                                            <div class="text-xs text-gray-400 mt-1">
+                                                <span x-text="user.device_type || 'desktop'"></span> · 
+                                                <span x-text="user.browser || 'desconocido'"></span> · 
+                                                <span x-text="user.os || 'desconocido'"></span>
+                                            </div>
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                                             <span class="px-2 py-1 text-xs rounded-full bg-teal-100 text-teal-700" x-text="user.role || 'Usuario'"></span>
                                         </td>
