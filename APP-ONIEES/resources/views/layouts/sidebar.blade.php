@@ -46,9 +46,9 @@
             class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group"
             :class="window.location.pathname === '/dashboard' ? 'bg-blue-50 text-blue-600' :
                 'text-gray-600 hover:bg-blue-50/50 hover:text-blue-500'">
-            <i class="fas fa-chart-line w-5 text-lg"></i>
-            <span x-show="sidebarOpen" class="text-sm font-medium">Dashboard</span>
-            <span x-show="!sidebarOpen" class="hidden">Dashboard</span>
+            <i class="fas fa-house w-5 text-lg"></i>
+            <span x-show="sidebarOpen" class="text-sm font-medium">Home</span>
+            <span x-show="!sidebarOpen" class="hidden">Home</span>
         </a>
 
         <!-- Infraestructura -->
