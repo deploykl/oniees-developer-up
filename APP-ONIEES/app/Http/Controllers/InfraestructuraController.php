@@ -823,23 +823,23 @@ class InfraestructuraController extends Controller
             }
 
 
-            if ($request->has('sc_personal')) {
-                $format_ii->sc_personal = $request->sc_personal;
+            if ($request->has('sc_vestidores')) {
+                $format_ii->sc_vestidores = $request->sc_vestidores;
             }
-            if ($request->has('sc_personal_estado')) {
-                $format_ii->sc_personal_estado = $request->sc_personal_estado;
+            if ($request->has('sc_vestidores_estado')) {
+                $format_ii->sc_vestidores_estado = $request->sc_vestidores_estado;
             }
-            if ($request->has('sc_personal_option')) {
-                $format_ii->sc_personal_option = $request->sc_personal_option;
+            if ($request->has('sc_vestidores_option')) {
+                $format_ii->sc_vestidores_option = $request->sc_vestidores_option;
             }
-            if ($request->has('sc_personal_fuente')) {
-                $format_ii->sc_personal_fuente = $request->sc_personal_fuente;
+            if ($request->has('sc_vestidores_fuente')) {
+                $format_ii->sc_vestidores_fuente = $request->sc_vestidores_fuente;
             }
-            if ($request->has('sc_personal_proveedor_ruc')) {
-                $format_ii->sc_personal_proveedor_ruc = $request->sc_personal_proveedor_ruc;
+            if ($request->has('sc_vestidores_proveedor_ruc')) {
+                $format_ii->sc_vestidores_proveedor_ruc = $request->sc_vestidores_proveedor_ruc;
             }
-            if ($request->has('sc_personal_proveedor')) {
-                $format_ii->sc_personal_proveedor = $request->sc_personal_proveedor;
+            if ($request->has('sc_vestidores_proveedor')) {
+                $format_ii->sc_vestidores_proveedor = $request->sc_vestidores_proveedor;
             }
 
             $format_ii->save();
