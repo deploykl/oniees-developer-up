@@ -21,6 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
             '*',  // Para desarrollo (opcional)
         ]);
     })
+    ->withProviders([
+    App\Providers\EventServiceProvider::class,
+])
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

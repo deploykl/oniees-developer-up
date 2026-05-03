@@ -309,7 +309,42 @@
 
     <!-- Footer Sidebar -->
     <div class="border-t border-blue-100/30 bg-white/50 flex-shrink-0">
-        <!-- Información del usuario -->
+
+        <!-- 👇 AQUÍ VA EL BLOQUE DE USUARIOS CONECTADOS -->
+        <!-- Usuarios Conectados -->
+        <div class="p-3 border-b border-blue-100/30" x-data="sidebarUsuarios()" x-init="init()">
+            <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span class="text-xs font-semibold text-gray-600">En línea</span>
+                </div>
+                <span class="text-xs font-bold text-green-600" x-text="onlineCount"></span>
+            </div>
+
+            <div class="space-y-2 max-h-32 overflow-y-auto">
+                <template x-for="user in onlineUsers.slice(0, 4)" :key="user.id">
+                    <div class="flex items-center gap-2 text-xs">
+                        <div class="w-6 h-6 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-user text-teal-600 text-[10px]"></i>
+                        </div>
+                        <span class="text-gray-700 truncate flex-1" x-text="user.name"></span>
+                        <span class="text-green-500 text-[10px]">●</span>
+                    </div>
+                </template>
+
+                <div x-show="onlineUsers.length === 0" class="text-center py-2">
+                    <i class="fas fa-user-friends text-gray-300 text-sm"></i>
+                    <p class="text-xs text-gray-400 mt-1">No hay usuarios conectados</p>
+                </div>
+            </div>
+
+            <a href="{{ route('usuarios.conectados') }}"
+                class="block text-center text-xs text-teal-600 hover:text-teal-700 mt-2 pt-2 border-t border-gray-100">
+                Ver todos <i class="fas fa-arrow-right ml-1 text-[10px]"></i>
+            </a>
+        </div>
+
+        <!-- Información del usuario (ya existe) -->
         <div class="p-4">
             <div class="flex items-center gap-3">
                 <div
@@ -338,7 +373,7 @@
                 </div>
             </div>
 
-            <!-- Botón de Cerrar Sesión -->
+            <!-- Botón de Cerrar Sesión (ya existe) -->
             <div class="p-3 pt-0 pb-4">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -351,6 +386,34 @@
                 </form>
             </div>
         </div>
+        <script>
+function sidebarUsuarios() {
+    return {
+        onlineUsers: [],
+        onlineCount: 0,
+        intervalo: null,
+        
+        init() {
+            this.cargarUsuarios();
+            this.intervalo = setInterval(() => this.cargarUsuarios(), 15000);
+        },
+        
+        cargarUsuarios() {
+            fetch('/api/usuarios/conectados')
+                .then(res => res.json())
+                .then(data => {
+                    this.onlineUsers = data.online || [];
+                    this.onlineCount = data.total_online || 0;
+                })
+                .catch(err => console.error('Error:', err));
+        },
+        
+        destroy() {
+            if (this.intervalo) clearInterval(this.intervalo);
+        }
+    }
+}
+</script>
     </div>
 
     <style>

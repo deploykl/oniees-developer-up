@@ -1,15 +1,21 @@
 <?php
 
-
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\UsuariosConectadosController;
+use App\Http\Controllers\Api\UsuariosConectadosController as ApiUsuariosConectadosController;
 use Illuminate\Support\Facades\Route;
-
-
 
 // ============================================
 // RUTAS PROTEGIDAS (REQUIEREN AUTENTICACIÓN)
 // ============================================
-//prefix para la ruta 
+
+// Rutas API (fuera del grupo admin)
+Route::middleware(['auth'])->prefix('api')->group(function () {
+    Route::get('/usuarios/conectados', [ApiUsuariosConectadosController::class, 'index'])
+        ->name('api.usuarios.conectados');
+});
+
+// Rutas del panel administrativo
 Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     /* USUARIOS */
@@ -39,7 +45,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     Route::post('/users/delete', [UsersController::class, 'delete'])
         ->name('users-delete')
-        ->middleware('can:Usuarios - Eliminar');
+        ->middleware('can:Usuarios - Eliminator');
 
     Route::post('/users/reset-password', [UsersController::class, 'resetPassword'])
         ->name('users-reset-password')
@@ -59,23 +65,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/users/listado-establecimiento', [UsersController::class, 'listado_establecimiento'])->name('users-listado-establecimiento');
     Route::post('/usuarios/{id}/deshabilitar-2fa', [UsersController::class, 'deshabilitar2FA'])->name('usuarios.deshabilitar2fa');
 
-    //Route::get('/debug-permissions', function () {
-    //    $user = auth()->user();
-    //    if (!$user) {
-    //        return 'No hay usuario autenticado';
-    //    }
-//
-    //    return [
-    //        'user_id' => $user->id,
-    //        'user_email' => $user->email,
-    //        'tipo_rol' => $user->tipo_rol,
-    //        'has_role_admin' => $user->hasRole('admin'),
-    //        'direct_permissions' => $user->getDirectPermissions()->pluck('name'),
-    //        'all_permissions' => $user->getAllPermissions()->pluck('name'),
-    //        'can_users_index' => $user->can('Usuarios - Inicio'),
-    //        'can_view_users' => $user->can('Usuarios - Inicio'),
-    //    ];
-    //})->middleware(['auth']);
-//
-   //
+    // Ruta para la vista de usuarios conectados
+    Route::get('/usuarios/conectados', [UsuariosConectadosController::class, 'index'])
+        ->name('usuarios.conectados');
 });
