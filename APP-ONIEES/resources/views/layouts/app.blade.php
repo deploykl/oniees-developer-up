@@ -111,7 +111,7 @@
 <body>
    {{-- Pantalla de carga Matrix --}}
     @if(request()->query('loading') == 1)
-        <x-loading-screen :show="true" duration="6000" theme="dark" />
+        <x-loading-screen :show="true" duration="5000" theme="dark" />
         
         {{-- Eliminar el parámetro loading de la URL después de mostrar --}}
         <script>

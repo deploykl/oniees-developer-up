@@ -1,4 +1,4 @@
-@props(['show' => false, 'duration' => 6000, 'theme' => 'dark', 'user' => null])
+@props(['show' => false, 'duration' => 5000, 'theme' => 'dark', 'user' => null])
 
 @php
     // Si no se pasa un usuario explícito, intentar obtener del auth global
