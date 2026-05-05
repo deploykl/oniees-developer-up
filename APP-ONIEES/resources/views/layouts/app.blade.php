@@ -29,8 +29,7 @@
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Styles -->
     @livewireStyles
@@ -53,26 +52,29 @@
             overflow-x: hidden;
         }
 
-        /* 🟢 ESTILO CRÍTICO PARA PREVENIR FLASH */
+        /* 🟢 ESTILO PARA PANTALLA DE CARGA - CORREGIDO */
         body.loading-active {
             overflow: hidden;
         }
         
-        /* Ocultar todo el contenido principal mientras carga la pantalla */
-        body.loading-active > :not(.loading-screen-container) {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-        }
-        
-        /* Asegurar que la pantalla de carga sea visible */
+        /* Contenedor de carga - ahora con mayor z-index y sin bloquear eventos no deseados */
         .loading-screen-container {
             position: fixed;
             inset: 0;
-            z-index: 9999;
+            z-index: 99999;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        
+        /* Ocultar contenido principal pero permitir que la pantalla de carga sea interactiva */
+        body.loading-active > :not(.loading-screen-container) {
+            display: none !important;
+        }
+        
+        /* Asegurar que la pantalla de carga reciba eventos correctamente */
+        .loading-screen-container * {
+            pointer-events: auto;
         }
 
         .sidebar-transition {
@@ -117,7 +119,6 @@
             min-height: 100vh;
         }
 
-        /* Breadcrumb styles */
         .breadcrumb-item {
             display: inline-flex;
             align-items: center;
@@ -131,22 +132,37 @@
 
 <body class="{{ request()->query('loading') == 1 ? 'loading-active' : '' }}">
     
-    {{-- 🟢 PANTALLA DE CARGA MEJORADA - SIN FLASH --}}
+    {{-- PANTALLA DE CARGA CON EFECTO COMPLETO --}}
     @if(request()->query('loading') == 1)
-        <div class="loading-screen-container">
-            <x-loading-screen :show="true" duration="5000" theme="dark" />
+        <div class="loading-screen-container" id="loadingScreenContainer">
+            <x-loading-screen :show="true" duration="4500" theme="dark" />
         </div>
         
         <script>
-            // Eliminar la clase loading-active después de que termine la animación
-            setTimeout(() => {
-                document.body.classList.remove('loading-active');
-                
-                // Eliminar ?loading=1 de la URL sin recargar
-                const url = new URL(window.location.href);
-                url.searchParams.delete('loading');
-                window.history.replaceState({}, document.title, url.toString());
-            }, 5000); // Mismo tiempo que duration
+            // Escuchar cuando termine la animación de carga
+            window.addEventListener('loading-complete', function() {
+                // Esperar a que termine la animación de salida (600ms)
+                setTimeout(function() {
+                    // Remover la clase que oculta el contenido
+                    document.body.classList.remove('loading-active');
+                    
+                    // Eliminar el contenedor de carga del DOM
+                    var container = document.getElementById('loadingScreenContainer');
+                    if (container) {
+                        container.remove();
+                    }
+                    
+                    // Limpiar la URL
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('loading');
+                    window.history.replaceState({}, document.title, url.toString());
+                    
+                    // Forzar un pequeño reflow para asegurar que todo sea interactivo
+                    setTimeout(function() {
+                        document.body.style.overflow = '';
+                    }, 50);
+                }, 650); // 600ms de animación + 50ms de seguridad
+            });
         </script>
     @endif
     
@@ -314,6 +330,15 @@
             window.addEventListener('resize', () => {
                 Alpine.store('sidebar').checkMobile();
             });
+        });
+        
+        // Recargar scripts de Alpine después de que termine la carga
+        window.addEventListener('loading-complete', function() {
+            setTimeout(function() {
+                if (typeof Alpine !== 'undefined') {
+                    Alpine.start();
+                }
+            }, 100);
         });
     </script>
 </body>

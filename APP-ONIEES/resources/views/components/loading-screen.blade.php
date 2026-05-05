@@ -65,7 +65,7 @@
             this.interval = null;
         }
         
-        // 🟢 EVENTO PERSONALIZADO PARA INDICAR QUE TERMINÓ
+        // ðŸŸ¢ EVENTO PERSONALIZADO PARA INDICAR QUE TERMINÃ“
         window.dispatchEvent(new CustomEvent('loading-complete'));
         
         setTimeout(() => {
@@ -89,7 +89,7 @@
             </style>
         </div>
 
-        <!-- Círculos decorativos -->
+        <!-- CÃ­rculos decorativos -->
         <div class="absolute inset-0 pointer-events-none">
             <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
             <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slower"></div>
@@ -111,7 +111,7 @@
                 <!-- Anillo exterior -->
                 <div class="absolute inset-0 rounded-full border-2 border-blue-500/30 animate-ping-slow"></div>
                 
-                <!-- Círculo central con gradiente -->
+                <!-- CÃ­rculo central con gradiente -->
                 <div class="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-blue-500/25 animate-spin-slow">
                     <div class="absolute inset-1 rounded-full bg-slate-900 flex items-center justify-center">
                         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -159,7 +159,7 @@
             <div class="mt-6 text-left font-mono text-xs space-y-1.5 p-4 rounded-lg border"
                  :class="theme === 'dark' ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'">
                 <div class="flex items-center gap-2 animate-slide-down">
-                    <span class="text-green-500">➜</span>
+                    <span class="text-green-500">âžœ</span>
                     <span class="text-slate-400">_</span>
                     <span class="text-blue-400">Hola {{ $firstName }}, estamos preparando todo...</span>
                     <div class="flex gap-0.5">
@@ -170,44 +170,44 @@
                 </div>
                 <div class="flex items-center gap-2 transition-opacity duration-300"
                      :class="progress > 20 ? 'opacity-100' : 'opacity-0'">
-                    <span class="text-green-500">✓</span>
-                    <span class="text-slate-400">Sesión iniciada como <span class="text-blue-400">{{ $fullName }}</span></span>
+                    <span class="text-green-500">âœ“</span>
+                    <span class="text-slate-400">SesiÃ³n iniciada como <span class="text-blue-400">{{ $fullName }}</span></span>
                 </div>
                 <div class="flex items-center gap-2 transition-opacity duration-300"
                      :class="progress > 40 ? 'opacity-100' : 'opacity-0'">
-                    <span class="text-green-500">✓</span>
+                    <span class="text-green-500">âœ“</span>
                     <span class="text-slate-400">Cargando tu perfil y preferencias</span>
                 </div>
                 <div class="flex items-center gap-2 transition-opacity duration-300"
                      :class="progress > 60 ? 'opacity-100' : 'opacity-0'">
-                    <span class="text-green-500">✓</span>
-                    <span class="text-slate-400">Conexión segura establecida</span>
+                    <span class="text-green-500">âœ“</span>
+                    <span class="text-slate-400">ConexiÃ³n segura establecida</span>
                 </div>
                 <div class="flex items-center gap-2 transition-opacity duration-300"
                      :class="progress > 80 ? 'opacity-100' : 'opacity-0'">
-                    <span class="text-green-500">✓</span>
+                    <span class="text-green-500">âœ“</span>
                     <span class="text-slate-400">Redirigiendo al panel principal...</span>
                 </div>
             </div>
 
-            <!-- Footer con información del usuario -->
+            <!-- Footer con informaciÃ³n del usuario -->
             <div class="pt-4 text-[10px] font-mono space-y-1"
                  :class="theme === 'dark' ? 'text-slate-600' : 'text-slate-300'">
                 <div class="flex justify-center gap-2">
-                    <span>──</span>
+                    <span>â”€â”€</span>
                     <span>Bienvenido a tu Dashboard</span>
-                    <span>──</span>
+                    <span>â”€â”€</span>
                 </div>
                 <div class="tracking-wider flex justify-center gap-2">
-                    <span>👤</span>
-                    <span>ID: {{ $user->id ?? '—' }}</span>
-                    <span>✦</span>
+                    <span>ðŸ‘¤</span>
+                    <span>ID: {{ $user->id ?? 'â€”' }}</span>
+                    <span>âœ¦</span>
                     <span>{{ $user->email ?? '' }}</span>
                 </div>
             </div>
         </div>
 
-        <!-- Línea de escaneo final -->
+        <!-- LÃ­nea de escaneo final -->
         <div x-show="showScanLine" 
              x-cloak
              class="absolute inset-0 z-30 pointer-events-none overflow-hidden">
