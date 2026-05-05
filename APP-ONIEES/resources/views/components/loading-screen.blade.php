@@ -1,7 +1,6 @@
 @props(['show' => false, 'duration' => 5000, 'theme' => 'dark', 'user' => null])
 
 @php
-    // Si no se pasa un usuario explícito, intentar obtener del auth global
     if (!$user && function_exists('auth') && auth()->check()) {
         $user = auth()->user();
     }
@@ -11,7 +10,6 @@
     $fullName = trim($userName . ' ' . $userLastname);
     $firstName = explode(' ', $userName)[0] ?? $userName;
     
-    // Si no hay nombre, usar un saludo genérico
     if (empty($fullName)) {
         $fullName = 'Visitante';
         $firstName = 'Usuario';
@@ -67,15 +65,11 @@
             this.interval = null;
         }
         
+        // 🟢 EVENTO PERSONALIZADO PARA INDICAR QUE TERMINÓ
+        window.dispatchEvent(new CustomEvent('loading-complete'));
+        
         setTimeout(() => {
             this.show = false;
-            this.$el.remove();
-            
-            const url = new URL(window.location.href);
-            if (url.searchParams.has('loading')) {
-                url.searchParams.delete('loading');
-                window.history.replaceState({}, document.title, url.toString());
-            }
         }, 600);
     }
 }" x-init="init()" x-show="show" x-cloak>

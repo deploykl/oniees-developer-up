@@ -13,7 +13,6 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <!-- Fonts - Importar fuentes locales -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
     <!-- Favicon -->
@@ -50,8 +49,30 @@
         }
 
         body {
-        font-family: 'Aptos', 'Open Sans', sans-serif;
+            font-family: 'Aptos', 'Open Sans', sans-serif;
             overflow-x: hidden;
+        }
+
+        /* 🟢 ESTILO CRÍTICO PARA PREVENIR FLASH */
+        body.loading-active {
+            overflow: hidden;
+        }
+        
+        /* Ocultar todo el contenido principal mientras carga la pantalla */
+        body.loading-active > :not(.loading-screen-container) {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+        
+        /* Asegurar que la pantalla de carga sea visible */
+        .loading-screen-container {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .sidebar-transition {
@@ -108,29 +129,34 @@
     </style>
 </head>
 
-<body>
-   {{-- Pantalla de carga Matrix --}}
+<body class="{{ request()->query('loading') == 1 ? 'loading-active' : '' }}">
+    
+    {{-- 🟢 PANTALLA DE CARGA MEJORADA - SIN FLASH --}}
     @if(request()->query('loading') == 1)
-        <x-loading-screen :show="true" duration="5000" theme="dark" />
+        <div class="loading-screen-container">
+            <x-loading-screen :show="true" duration="5000" theme="dark" />
+        </div>
         
-        {{-- Eliminar el parámetro loading de la URL después de mostrar --}}
         <script>
-            // Eliminar ?loading=1 de la URL sin recargar la página
-            const url = new URL(window.location.href);
-            url.searchParams.delete('loading');
-            window.history.replaceState({}, document.title, url.toString());
+            // Eliminar la clase loading-active después de que termine la animación
+            setTimeout(() => {
+                document.body.classList.remove('loading-active');
+                
+                // Eliminar ?loading=1 de la URL sin recargar
+                const url = new URL(window.location.href);
+                url.searchParams.delete('loading');
+                window.history.replaceState({}, document.title, url.toString());
+            }, 5000); // Mismo tiempo que duration
         </script>
     @endif
+    
     @auth
         @php
             $rutasSinSidebar = ['login', 'home', 'register', 'password.request', 'password.reset'];
             $mostrarSidebar = !in_array(request()->route()?->getName(), $rutasSinSidebar) && !request()->is('/');
             
-            // SOLO LOS ADMIN VEN EL SIDEBAR COMPLETO
             $esAdmin = Auth::user()->hasRole('Admin');
             $mostrarSidebarCompleto = $mostrarSidebar && $esAdmin;
-            
-            // Usuarios normales NO ven el sidebar izquierdo
             $mostrarSidebarLateral = $mostrarSidebarCompleto;
         @endphp
 
@@ -177,7 +203,6 @@
                                     <div>
                                         {{ $header }}
                                     </div>
-                                    <!-- Breadcrumbs -->
                                     @include('layouts.breadcrumbs')
                                 </div>
                             </div>
@@ -194,7 +219,7 @@
                 </div>
             </div>
         @else
-            <!-- Layout sin sidebar para usuarios normales (Registrador, Supervisor, Ipress) -->
+            <!-- Layout sin sidebar para usuarios normales -->
             <div class="min-h-screen flex flex-col">
                 @include('layouts.header')
 
@@ -205,7 +230,6 @@
                                 <div>
                                     {{ $header }}
                                 </div>
-                                <!-- Breadcrumbs para usuarios normales -->
                                 @include('layouts.breadcrumbs')
                             </div>
                         </div>
