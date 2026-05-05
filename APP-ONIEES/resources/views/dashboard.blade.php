@@ -1,4 +1,5 @@
 <x-app-layout>
+      {{-- Pantalla de carga Matrix --}}
     <x-slot name="title">Inicio | ONIEES</x-slot>
 <style>
     /* Reset y base */

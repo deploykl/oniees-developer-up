@@ -54,7 +54,8 @@ class TwoFactorChallengeController extends Controller
                 Auth::login($user, $request->session()->get('remember', false));
                 $request->session()->forget(['login.id', '2fa:user:id', 'remember']);
                 
-                return redirect()->intended('/dashboard');
+                // ✅ CAMBIO 1: agregar ?loading=1
+                return redirect()->to('/dashboard?loading=1');
             }
             
             return back()->withErrors(['recovery_code' => 'Código de recuperación inválido.']);
@@ -79,7 +80,8 @@ class TwoFactorChallengeController extends Controller
                 Auth::login($user, $request->session()->get('remember', false));
                 $request->session()->forget(['login.id', '2fa:user:id', 'remember']);
                 
-                return redirect()->intended('/dashboard');
+                // ✅ CAMBIO 2: agregar ?loading=1
+                return redirect()->to('/dashboard?loading=1');
             }
             
             return back()->withErrors(['code' => 'El código de verificación es inválido.']);

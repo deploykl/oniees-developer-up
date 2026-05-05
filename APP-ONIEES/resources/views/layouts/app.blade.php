@@ -109,6 +109,18 @@
 </head>
 
 <body>
+   {{-- Pantalla de carga Matrix --}}
+    @if(request()->query('loading') == 1)
+        <x-loading-screen :show="true" duration="6000" theme="dark" />
+        
+        {{-- Eliminar el parámetro loading de la URL después de mostrar --}}
+        <script>
+            // Eliminar ?loading=1 de la URL sin recargar la página
+            const url = new URL(window.location.href);
+            url.searchParams.delete('loading');
+            window.history.replaceState({}, document.title, url.toString());
+        </script>
+    @endif
     @auth
         @php
             $rutasSinSidebar = ['login', 'home', 'register', 'password.request', 'password.reset'];
