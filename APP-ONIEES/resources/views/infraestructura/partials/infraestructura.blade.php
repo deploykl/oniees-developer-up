@@ -3569,36 +3569,52 @@
         }
     }
 
-    function initEvaluacionInfraestructura() {
-        const letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'];
+  function initEvaluacionInfraestructura() {
+    const letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'];
 
-        letras.forEach(letra => {
-            const radioSi = document.querySelector(`input[name="infraestructura_option_${letra}"][value="1"]`);
-            const radioNo = document.querySelector(`input[name="infraestructura_option_${letra}"][value="0"]`);
-            const camposDiv = document.getElementById(`campos-${letra}`);
+    letras.forEach(letra => {
+        const radioSi = document.querySelector(`input[name="infraestructura_option_${letra}"][value="1"]`);
+        const radioNo = document.querySelector(`input[name="infraestructura_option_${letra}"][value="0"]`);
+        
+        // CORREGIDO: Buscar los elementos por sus IDs correctos
+        const valoracionDiv = document.getElementById(`valoracion-${letra}`);
+        const descripcionDiv = document.getElementById(`descripcion-${letra}`);
 
-            if (radioSi && radioNo && camposDiv) {
-                const toggleCampos = () => {
-                    if (radioSi.checked) {
-                        camposDiv.style.display = 'grid';
-                    } else if (radioNo.checked) {
-                        camposDiv.style.display = 'none';
-                        // Limpiar campos cuando se selecciona NO
-                        const selects = camposDiv.querySelectorAll('select');
-                        const textareas = camposDiv.querySelectorAll('textarea');
-                        selects.forEach(select => select.value = '');
-                        textareas.forEach(textarea => textarea.value = '');
-                    }
-                };
+        if (radioSi && radioNo && valoracionDiv && descripcionDiv) {
+            const toggleCampos = () => {
+                if (radioSi.checked) {
+                    // Mostrar ambos campos
+                    valoracionDiv.style.display = 'block';
+                    descripcionDiv.style.display = 'block';
+                } else if (radioNo.checked) {
+                    // Ocultar ambos campos
+                    valoracionDiv.style.display = 'none';
+                    descripcionDiv.style.display = 'none';
+                    
+                    // Limpiar los campos cuando se selecciona NO
+                    const selectValor = document.querySelector(`select[name="infraestructura_valor_${letra}"]`);
+                    const textareaDesc = document.querySelector(`textarea[name="infraestructura_descripcion_${letra}"]`);
+                    
+                    if (selectValor) selectValor.value = '';
+                    if (textareaDesc) textareaDesc.value = '';
+                }
+            };
 
-                radioSi.addEventListener('change', toggleCampos);
-                radioNo.addEventListener('change', toggleCampos);
+            radioSi.addEventListener('change', toggleCampos);
+            radioNo.addEventListener('change', toggleCampos);
 
-                // Estado inicial
-                toggleCampos();
-            }
-        });
-    }
+            // Estado inicial
+            toggleCampos();
+        } else {
+            console.log(`No se encontraron elementos para la letra ${letra}:`, {
+                radioSi: !!radioSi,
+                radioNo: !!radioNo,
+                valoracionDiv: !!valoracionDiv,
+                descripcionDiv: !!descripcionDiv
+            });
+        }
+    });
+}
 
     document.addEventListener('DOMContentLoaded', function() {
         initEvaluacionInfraestructura();
@@ -3721,25 +3737,25 @@
     }
 
     // Función para actualizar la sección 3.5 (Tipo de Intervención)
-    function actualizarSeccion35() {
-        const puntajeTotal = calcularPuntajeTotalInfraestructura();
-        const puntajeInput = document.getElementById('puntaje_obtenido');
-        const intervaloInput = document.getElementById('puntaje_intervalo');
-        const tipoInput = document.getElementById('tipo_intervencion_resultante');
+   function actualizarSeccion35() {
+    const puntajeTotal = calcularPuntajeTotalInfraestructura();
+    const puntajeInput = document.getElementById('puntaje_obtenido');
+    const intervaloInput = document.getElementById('puntaje_intervalo');
+    const tipoInput = document.getElementById('tipo_intervencion_resultante');
 
-        if (puntajeInput) puntajeInput.value = puntajeTotal;
+    if (puntajeInput) puntajeInput.value = puntajeTotal;
 
-        if (puntajeTotal >= 0 && puntajeTotal <= 65) {
-            if (intervaloInput) intervaloInput.value = '0 - 65';
-            if (tipoInput) tipoInput.value = 'SERVICIO y/o MANTENIMIENTO';
-        } else if (puntajeTotal > 65) {
-            if (intervaloInput) intervaloInput.value = 'Mayor a 65';
-            if (tipoInput) tipoInput.value = 'IOARR y/o PIP';
-        } else {
-            if (intervaloInput) intervaloInput.value = '';
-            if (tipoInput) tipoInput.value = '';
-        }
+    if (puntajeTotal >= 0 && puntajeTotal <= 65) {
+        if (intervaloInput) intervaloInput.value = '0 - 65';
+        if (tipoInput) tipoInput.value = 'SERVICIO y/o MANTENIMIENTO';
+    } else if (puntajeTotal > 65) {
+        if (intervaloInput) intervaloInput.value = 'Mayor a 65';
+        if (tipoInput) tipoInput.value = 'IOARR y/o PIP';
+    } else {
+        if (intervaloInput) intervaloInput.value = '';
+        if (tipoInput) tipoInput.value = '';
     }
+}
 
     // Función para actualizar la sección 3.6 (Operatividad)
     // Función para actualizar la tabla de operatividad

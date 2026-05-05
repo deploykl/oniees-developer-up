@@ -35,6 +35,7 @@
                     <a href="#"><i class="fas fa-database"></i> Infraestructura</a>
                     <a href="#"><i class="fas fa-file-alt"></i> Equipamiento</a>
                     <a href="#"><i class="fas fa-headset"></i> Mantenimiento</a>
+                    <a href="https://dbdiagram.io/d/69f6479dc6a36f9c1be49ee4"><i class="fas fa-database"></i> BD</a>
                 </div>
             </div>
             
