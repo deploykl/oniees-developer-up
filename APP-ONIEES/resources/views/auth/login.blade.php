@@ -1,145 +1,145 @@
 <x-guest-layout>
-    <div class="min-h-screen flex items-center justify-center p-4">
-        <!-- Card personalizado sin fondo blanco -->
-        <div class="max-w-md w-full bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-8 border border-white/20">
-            <div class="flex justify-center mb-4">
-                <div class="relative">
-                    <div class="absolute inset-0 rounded-full bg-blue-100 blur-xl opacity-70"></div>
-                    <img src="{{ asset('img/favicon.png') }}" class="relative w-16 h-16 mx-auto rounded-full shadow-lg ring-4 ring-white" alt="Logo">
-                </div>
-            </div>
+    <x-slot name="title">
+        Iniciar Sesión | ONIEES
+    </x-slot>
 
-            <div class="space-y-8">
-                <!-- Título -->
-                <div class="text-center space-y-2">
-                    <h2 class="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-                        ¡Bienvenido!
-                    </h2>
-                    <p class="text-sm text-gray-600">
-                        Accede a tu cuenta con tus credenciales
-                    </p>
-                </div>
+    <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-50 to-slate-100">
+        <!-- Elementos decorativos -->
+        <div class="fixed inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-[#0E7C9E]/5 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-[#0E7C9E]/5 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#0E7C9E]/5 rounded-full blur-3xl"></div>
+        </div>
 
-                <!-- Mensaje de estado -->
-                @session('status')
-                    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-xl shadow-sm">
-                        <div class="flex items-center gap-3">
-                            <i class="fas fa-check-circle text-green-500 text-lg"></i>
-                            <span class="text-sm text-green-700">{{ $value }}</span>
+        <!-- Card principal -->
+        <div class="relative w-full max-w-md">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-[#0E7C9E] to-[#0B6A88] px-8 pt-10 pb-12 text-center relative">
+                    <div class="relative z-10">
+                        <div class="w-20 h-20 mx-auto bg-white rounded-xl shadow-lg flex items-center justify-center mb-5 transform transition-transform hover:scale-105 duration-300">
+                            <img src="{{ asset('img/favicon.png') }}" alt="ONIEES" class="h-12 w-auto">
                         </div>
+                        <h1 class="text-xl font-bold text-white">Observatorio Nacional</h1>
+                        <p class="text-[#9DC8D6] text-xs mt-1">Infraestructura y Equipamiento de Salud</p>
                     </div>
-                @endsession
-
-                <!-- Errores de validación -->
-                <x-validation-errors class="mb-4" />
+                </div>
 
                 <!-- Formulario -->
-                <form method="POST" action="{{ route('login') }}" class="space-y-6">
-                    @csrf
+                <div class="px-6 py-6">
+                    <!-- Mensajes -->
+                    @if($errors->any())
+                        <div class="mb-4 p-3 bg-red-50 border-l-4 border-red-500 rounded-lg">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-exclamation-circle text-red-500 text-sm"></i>
+                                <p class="text-red-700 text-xs">{{ $errors->first() }}</p>
+                            </div>
+                        </div>
+                    @endif
 
-                    <!-- Campo Email -->
-                    <div class="group">
-                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
-                            <i class="fas fa-envelope text-gray-400 mr-2"></i> Correo Electrónico
-                        </label>
-                        <div class="relative">
-                            <input id="email" 
-                                type="email" 
-                                name="email" 
-                                value="{{ old('email') }}"
-                                required 
-                                autofocus 
-                                autocomplete="username"
-                                placeholder="ejemplo@email.com"
-                                class="w-full pl-4 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none bg-white/50 hover:bg-white">
+                    @session('status')
+                        <div class="mb-4 p-3 bg-emerald-50 border-l-4 border-emerald-500 rounded-lg">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-check-circle text-emerald-500 text-sm"></i>
+                                <p class="text-emerald-700 text-xs">{{ $value }}</p>
+                            </div>
+                        </div>
+                    @endsession
+
+                    <form method="POST" action="{{ route('login') }}" class="space-y-4">
+                        @csrf
+
+                        <!-- Email -->
+                        <div>
+                            <label class="block text-gray-600 text-xs font-medium mb-1">
+                                <i class="fas fa-envelope text-[#0E7C9E] mr-1 text-xs"></i>
+                                Correo electrónico
+                            </label>
+                            <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus
+                                class="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#0E7C9E] focus:ring-2 focus:ring-[#0E7C9E]/20 transition-all text-sm"
+                                placeholder="usuario@oniees.gob.pe">
+                        </div>
+
+                        <!-- Password -->
+                        <div>
+                            <label class="block text-gray-600 text-xs font-medium mb-1">
+                                <i class="fas fa-lock text-[#0E7C9E] mr-1 text-xs"></i>
+                                Contraseña
+                            </label>
+                            <div class="relative">
+                                <input type="password" name="password" id="password" required
+                                    class="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#0E7C9E] focus:ring-2 focus:ring-[#0E7C9E]/20 transition-all text-sm pr-10"
+                                    placeholder="••••••••">
+                                <button type="button" id="togglePassword" 
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#0E7C9E] transition">
+                                    <i class="fas fa-eye-slash text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Recordarme y Olvidé contraseña -->
+                        <div class="flex items-center justify-between text-xs">
+                            <label class="flex items-center gap-1.5 cursor-pointer">
+                                <input type="checkbox" name="remember" id="remember_me" value="1" {{ old('remember') ? 'checked' : '' }}
+                                    class="w-3.5 h-3.5 rounded border-gray-300 text-[#0E7C9E] focus:ring-[#0E7C9E]">
+                                <span class="text-gray-500">Recordarme</span>
+                            </label>
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}" class="text-[#0E7C9E] hover:text-[#0B6A88] transition">
+                                    ¿Olvidaste tu contraseña?
+                                </a>
+                            @endif
+                        </div>
+
+                        <!-- Botón -->
+                        <button type="submit"
+                            class="w-full bg-[#0E7C9E] hover:bg-[#0B6A88] text-white font-medium py-2.5 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md text-sm">
+                            <i class="fas fa-arrow-right-to-bracket text-xs"></i>
+                            Iniciar sesión
+                        </button>
+                    </form>
+
+                    <!-- Separador -->
+                    <div class="relative my-5">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-100"></div>
+                        </div>
+                        <div class="relative flex justify-center">
+                            <span class="bg-white px-2 text-gray-400 text-[10px]">Acceso seguro</span>
                         </div>
                     </div>
 
-                    <!-- Campo Contraseña -->
-                    <div class="group">
-                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
-                            <i class="fas fa-lock text-gray-400 mr-2"></i> Contraseña
-                        </label>
-                        <div class="relative">
-                            <input id="password" 
-                                type="password" 
-                                name="password" 
-                                required 
-                                autocomplete="current-password"
-                                placeholder="••••••••"
-                                class="w-full pl-4 pr-12 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none bg-white/50 hover:bg-white">
-                            <button type="button" 
-                                id="togglePassword"
-                                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition">
-                                <i class="fas fa-eye-slash text-sm" id="toggleIcon"></i>
-                            </button>
-                        </div>
+                    <!-- Badges seguridad -->
+                    <div class="flex items-center justify-center gap-3 text-[10px] text-gray-400">
+                        <span class="flex items-center gap-1"><i class="fas fa-shield-alt text-[#0E7C9E] text-[9px]"></i> Datos encriptados</span>
+                        <span class="flex items-center gap-1"><i class="fas fa-lock text-[#0E7C9E] text-[9px]"></i> Conexión segura</span>
+                        <span class="flex items-center gap-1"><i class="fas fa-clock text-[#0E7C9E] text-[9px]"></i> Sesión protegida</span>
                     </div>
+                </div>
 
-                    <!-- Recordarme -->
-                    <div class="flex items-center justify-between">
-                        <label class="flex items-center cursor-pointer group">
-                            <input type="checkbox" 
-                                name="remember" 
-                                id="remember_me" 
-                                value="1"
-                                {{ old('remember') ? 'checked' : '' }}
-                                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 transition duration-150">
-                            <span class="ml-2 text-sm text-gray-700 group-hover:text-gray-900 transition">
-                                Recordarme
-                            </span>
-                        </label>
-                    </div>
-
-                    <!-- Botón Iniciar Sesión -->
-                    <button type="submit" 
-                        class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg shadow-blue-500/25">
-                        <i class="fas fa-sign-in-alt mr-2"></i>
-                        Iniciar Sesión
-                    </button>
-                </form>
+                <!-- Footer -->
+                <div class="bg-gray-50 px-6 py-3 text-center border-t border-gray-100">
+                    <a href="{{ route('home') }}" class="text-[#0E7C9E] hover:text-[#0B6A88] transition text-xs flex items-center justify-center gap-1">
+                        <i class="fas fa-arrow-left text-[9px]"></i>
+                        Volver al inicio
+                    </a>
+                </div>
             </div>
+
+            <!-- Copyright -->
+            <p class="text-center text-gray-400 text-[10px] mt-4">
+                © {{ date('Y') }} Observatorio Nacional de Infraestructura y Equipamiento de Establecimientos de Salud
+            </p>
         </div>
     </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const togglePassword = document.getElementById('togglePassword');
-        const passwordInput = document.getElementById('password');
-        const toggleIcon = document.getElementById('toggleIcon');
-        
-        if (togglePassword && passwordInput) {
-            togglePassword.addEventListener('click', function() {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                
-                if (type === 'text') {
-                    toggleIcon.classList.remove('fa-eye-slash');
-                    toggleIcon.classList.add('fa-eye');
-                } else {
-                    toggleIcon.classList.remove('fa-eye');
-                    toggleIcon.classList.add('fa-eye-slash');
-                }
-            });
-        }
-        
-        // Mostrar toast si hay error de login
-        @if($errors->any())
-            setTimeout(() => {
-                if (window.toast) {
-                    window.toast.error('{{ $errors->first() }}');
-                }
-            }, 500);
-        @endif
-        
-        // Mostrar toast si hay sesión expirada, etc.
-        @if(session('error'))
-            setTimeout(() => {
-                if (window.toast) {
-                    window.toast.error('{{ session('error') }}');
-                }
-            }, 500);
-        @endif
-    });
-</script>
+    <script>
+        document.getElementById('togglePassword')?.addEventListener('click', function() {
+            const password = document.getElementById('password');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('fa-eye');
+            this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+    </script>
 </x-guest-layout>

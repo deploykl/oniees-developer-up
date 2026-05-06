@@ -23,7 +23,6 @@ class CustomAuthenticatedSessionController extends Controller
 
             // Verificar si tiene 2FA habilitado Y confirmado
             if ($user->two_factor_secret && $user->two_factor_confirmed_at) {
-                // Guardar ID en sesión y cerrar sesión para pedir 2FA
                 session(['login.id' => $user->id]);
                 session(['remember' => $remember]);
                 Auth::logout();
@@ -31,10 +30,10 @@ class CustomAuthenticatedSessionController extends Controller
                 return redirect()->route('two-factor.challenge');
             }
 
-            // ✅ AGREGAR TOAST DE BIENVENIDA AQUÍ
             $userName = $user->name . ' ' . ($user->lastname ?? '');
             
-            return redirect()->intended('/dashboard')
+            // ✅ SOLO CAMBIA ESTO - redirige a /dashboard con parámetro loading
+            return redirect()->to('/dashboard?loading=1')
                 ->with('toast_message', "¡Bienvenido {$userName}!")
                 ->with('toast_type', 'success');
         }

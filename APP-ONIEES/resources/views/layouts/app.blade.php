@@ -13,7 +13,6 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <!-- Fonts - Importar fuentes locales -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
     <!-- Favicon -->
@@ -30,8 +29,7 @@
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Styles -->
     @livewireStyles
@@ -50,8 +48,33 @@
         }
 
         body {
-        font-family: 'Aptos', 'Open Sans', sans-serif;
+            font-family: 'Aptos', 'Open Sans', sans-serif;
             overflow-x: hidden;
+        }
+
+        /* 🟢 ESTILO PARA PANTALLA DE CARGA - CORREGIDO */
+        body.loading-active {
+            overflow: hidden;
+        }
+        
+        /* Contenedor de carga - ahora con mayor z-index y sin bloquear eventos no deseados */
+        .loading-screen-container {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Ocultar contenido principal pero permitir que la pantalla de carga sea interactiva */
+        body.loading-active > :not(.loading-screen-container) {
+            display: none !important;
+        }
+        
+        /* Asegurar que la pantalla de carga reciba eventos correctamente */
+        .loading-screen-container * {
+            pointer-events: auto;
         }
 
         .sidebar-transition {
@@ -96,7 +119,6 @@
             min-height: 100vh;
         }
 
-        /* Breadcrumb styles */
         .breadcrumb-item {
             display: inline-flex;
             align-items: center;
@@ -108,17 +130,49 @@
     </style>
 </head>
 
-<body>
+<body class="{{ request()->query('loading') == 1 ? 'loading-active' : '' }}">
+    
+    {{-- PANTALLA DE CARGA CON EFECTO COMPLETO --}}
+    @if(request()->query('loading') == 1)
+        <div class="loading-screen-container" id="loadingScreenContainer">
+            <x-loading-screen :show="true" duration="4500" theme="dark" />
+        </div>
+        
+        <script>
+            // Escuchar cuando termine la animación de carga
+            window.addEventListener('loading-complete', function() {
+                // Esperar a que termine la animación de salida (600ms)
+                setTimeout(function() {
+                    // Remover la clase que oculta el contenido
+                    document.body.classList.remove('loading-active');
+                    
+                    // Eliminar el contenedor de carga del DOM
+                    var container = document.getElementById('loadingScreenContainer');
+                    if (container) {
+                        container.remove();
+                    }
+                    
+                    // Limpiar la URL
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('loading');
+                    window.history.replaceState({}, document.title, url.toString());
+                    
+                    // Forzar un pequeño reflow para asegurar que todo sea interactivo
+                    setTimeout(function() {
+                        document.body.style.overflow = '';
+                    }, 50);
+                }, 650); // 600ms de animación + 50ms de seguridad
+            });
+        </script>
+    @endif
+    
     @auth
         @php
             $rutasSinSidebar = ['login', 'home', 'register', 'password.request', 'password.reset'];
             $mostrarSidebar = !in_array(request()->route()?->getName(), $rutasSinSidebar) && !request()->is('/');
             
-            // SOLO LOS ADMIN VEN EL SIDEBAR COMPLETO
             $esAdmin = Auth::user()->hasRole('Admin');
             $mostrarSidebarCompleto = $mostrarSidebar && $esAdmin;
-            
-            // Usuarios normales NO ven el sidebar izquierdo
             $mostrarSidebarLateral = $mostrarSidebarCompleto;
         @endphp
 
@@ -165,7 +219,6 @@
                                     <div>
                                         {{ $header }}
                                     </div>
-                                    <!-- Breadcrumbs -->
                                     @include('layouts.breadcrumbs')
                                 </div>
                             </div>
@@ -182,7 +235,7 @@
                 </div>
             </div>
         @else
-            <!-- Layout sin sidebar para usuarios normales (Registrador, Supervisor, Ipress) -->
+            <!-- Layout sin sidebar para usuarios normales -->
             <div class="min-h-screen flex flex-col">
                 @include('layouts.header')
 
@@ -193,7 +246,6 @@
                                 <div>
                                     {{ $header }}
                                 </div>
-                                <!-- Breadcrumbs para usuarios normales -->
                                 @include('layouts.breadcrumbs')
                             </div>
                         </div>
@@ -278,6 +330,15 @@
             window.addEventListener('resize', () => {
                 Alpine.store('sidebar').checkMobile();
             });
+        });
+        
+        // Recargar scripts de Alpine después de que termine la carga
+        window.addEventListener('loading-complete', function() {
+            setTimeout(function() {
+                if (typeof Alpine !== 'undefined') {
+                    Alpine.start();
+                }
+            }, 100);
         });
     </script>
 </body>
